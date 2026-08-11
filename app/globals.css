@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --t3-obsidian: #080808;
+  --t3-graphite: #151515;
+  --t3-warm-black: #0d0c0b;
+  --t3-champagne: #c5a35a;
+  --t3-soft-gold: #d4b86a;
+  --t3-ivory: #f4f0e7;
+  --t3-white: #ffffff;
+  --t3-muted-grey: #8b8b8b;
+
+  --t3-wine-burgundy: #4a1c1c;
+  --t3-bordeaux: #2d0f0f;
+  --t3-amber: #b8860b;
+  --t3-cognac: #9c5e00;
+  --t3-bottle-green: #1a2e1a;
+  --t3-dark-olive: #0f1f0f;
+  --t3-warm-stone: #3d3530;
+  --t3-dark-walnut: #2a1f1a;
+  --t3-gold: #d4af37;
+
+  --background: var(--t3-obsidian);
+  --foreground: var(--t3-ivory);
 }
 
 @theme inline {
+  --color-obsidian: var(--t3-obsidian);
+  --color-graphite: var(--t3-graphite);
+  --color-warm-black: var(--t3-warm-black);
+  --color-champagne: var(--t3-champagne);
+  --color-soft-gold: var(--t3-soft-gold);
+  --color-ivory: var(--t3-ivory);
+  --color-t3-white: var(--t3-white);
+  --color-muted-grey: var(--t3-muted-grey);
+
+  --color-wine-burgundy: var(--t3-wine-burgundy);
+  --color-bordeaux: var(--t3-bordeaux);
+  --color-amber: var(--t3-amber);
+  --color-cognac: var(--t3-cognac);
+  --color-bottle-green: var(--t3-bottle-green);
+  --color-dark-olive: var(--t3-dark-olive);
+  --color-warm-stone: var(--t3-warm-stone);
+  --color-dark-walnut: var(--t3-dark-walnut);
+  --color-gold: var(--t3-gold);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-serif: var(--font-editorial-serif);
+  --font-sans: var(--font-editorial-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--t3-champagne);
+  color: var(--t3-obsidian);
+}
+
+:focus-visible {
+  outline: 2px solid var(--t3-champagne);
+  outline-offset: 2px;
 }
