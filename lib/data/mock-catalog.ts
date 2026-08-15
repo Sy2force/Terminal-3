@@ -676,8 +676,24 @@ const spiritDefs: SpiritDef[] = [
   },
 ];
 
+const SPIRIT_IMAGES = [
+  "/images/terminal-3/spirits/whisky/chivas-regal-12.png",
+  "/images/terminal-3/spirits/whisky/glenfiddich-12.png",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-01.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-02.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-03.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-04.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-05.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-06.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-07.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-08.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-09.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-10.webp",
+  "/images/terminal-3/spirits/whisky/spirit-whisky-11.webp",
+];
+
 function buildMockSpirits(): ProductWithMedia[] {
-  return spiritDefs.map((def) => ({
+  return spiritDefs.map((def, index) => ({
     id: def.id,
     slug: def.slug,
     category_id: spiritsCategoryId,
@@ -769,7 +785,7 @@ function buildMockSpirits(): ProductWithMedia[] {
         id: `${def.id}-m1`,
         product_id: def.id,
         variant_id: null,
-        url: "/images/products/alcohol/placeholder.jpg",
+        url: SPIRIT_IMAGES[index % SPIRIT_IMAGES.length],
         alt: `Bouteille de ${def.name_fr}`,
         kind: "COVER",
         display_order: 0,
