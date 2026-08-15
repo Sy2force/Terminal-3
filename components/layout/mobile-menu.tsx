@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
+import Link from "next/link";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { WhatsAppButton, CallButton } from "@/components/commerce/contact-actions";
 import { NavLink } from "@/components/layout/nav-link";
@@ -11,10 +12,12 @@ import type { SiteSettings } from "@/lib/settings";
 export function MobileMenu({
   settings,
   user,
+  isAdmin,
   links,
 }: {
   settings: SiteSettings;
   user: SupabaseUser | null;
+  isAdmin: boolean;
   links: { href: string; label: string }[];
 }) {
   const [open, setOpen] = useState(false);
@@ -81,6 +84,16 @@ export function MobileMenu({
             ))}
 
             <MobileAuthNav user={user} onClose={() => setOpen(false)} />
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setOpen(false)}
+                className="mx-6 mt-2 flex items-center justify-center gap-2 rounded-[10px] border border-or-principal/80 bg-transparent px-4 py-3 text-sm font-semibold text-texte-clair transition-colors hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal"
+              >
+                <Shield className="h-4 w-4" />
+                Administration
+              </Link>
+            )}
           </nav>
 
           <div className="flex gap-3 border-t border-or-principal/10 px-6 py-4">

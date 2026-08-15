@@ -43,15 +43,9 @@ export function AuthNav({ user }: AuthNavProps) {
       <div className="hidden items-center gap-2 lg:flex">
         <Link
           href="/login"
-          className="auth-button inline-flex items-center justify-center h-[42px] px-[18px] rounded-[10px] border border-or-principal/80 bg-transparent text-[13px] font-semibold tracking-[0.02em] text-texte-clair whitespace-nowrap transition-all hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-or-principal"
-        >
-          Se connecter
-        </Link>
-        <Link
-          href="/inscription"
           className="auth-button inline-flex items-center justify-center h-[42px] px-[18px] rounded-[10px] border border-or-principal bg-or-principal text-[13px] font-semibold tracking-[0.02em] text-noir-profond whitespace-nowrap transition-all hover:translate-y-[-1px] hover:bg-gold-3 hover:shadow-[0_4px_12px_rgba(198,161,91,0.25)] focus:outline-none focus:ring-2 focus:ring-or-principal"
         >
-          S&apos;inscrire
+          Connexion / Inscription
         </Link>
       </div>
     );
@@ -132,16 +126,9 @@ export function MobileAuthNav({ user, onClose }: { user: SupabaseUser | null; on
         <Link
           href="/login"
           onClick={onClose}
-          className="auth-button flex h-[42px] w-full items-center justify-center rounded-[10px] border border-or-principal/80 bg-transparent text-[13px] font-semibold tracking-[0.02em] text-texte-clair transition-all hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal"
-        >
-          Se connecter
-        </Link>
-        <Link
-          href="/inscription"
-          onClick={onClose}
           className="auth-button flex h-[42px] w-full items-center justify-center rounded-[10px] border border-or-principal bg-or-principal text-[13px] font-semibold tracking-[0.02em] text-noir-profond transition-all hover:bg-gold-3"
         >
-          S&apos;inscrire
+          Connexion / Inscription
         </Link>
       </div>
     );
