@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-function LoginFormInner() {
+export function LoginPanel({ redirectTo }: { redirectTo: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/account";
 
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
@@ -52,10 +50,8 @@ function LoginFormInner() {
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-6 py-16">
-      <span className="text-xs uppercase tracking-[0.3em] text-champagne">
-        Mon compte
-      </span>
+    <div>
+      <span className="text-xs uppercase tracking-[0.3em] text-champagne">Mon compte</span>
       <h1 className="mt-2 font-serif text-3xl text-ivory">
         {step === "email" ? "Connexion" : "Vérification"}
       </h1>
@@ -121,13 +117,5 @@ function LoginFormInner() {
         </form>
       )}
     </div>
-  );
-}
-
-export function LoginForm() {
-  return (
-    <Suspense fallback={null}>
-      <LoginFormInner />
-    </Suspense>
   );
 }

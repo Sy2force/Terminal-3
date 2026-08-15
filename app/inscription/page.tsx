@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
-import { SignupForm } from "@/components/auth/signup-form";
+import { AuthCarousel } from "@/components/auth/auth-carousel";
 
 export default async function InscriptionPage({
   searchParams,
@@ -14,5 +14,5 @@ export default async function InscriptionPage({
     redirect(typeof redirectTo === "string" ? redirectTo : "/account");
   }
 
-  return <SignupForm />;
+  return <AuthCarousel initialMode="signup" />;
 }

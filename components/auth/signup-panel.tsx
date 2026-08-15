@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { completeRegistration } from "@/app/inscription/actions";
 import { IdentityDocUpload } from "@/components/auth/identity-doc-upload";
@@ -12,10 +12,8 @@ function inputClass() {
   return "rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne";
 }
 
-function SignupFormInner() {
+export function SignupPanel({ redirectTo }: { redirectTo: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/account/verification";
 
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -69,9 +67,11 @@ function SignupFormInner() {
     setLoading(false);
 
     if (signUpError) {
-      setError(signUpError.message === "User already registered"
-        ? "Un compte existe déjà avec cet email."
-        : "Impossible de créer le compte. Vérifiez vos informations.");
+      setError(
+        signUpError.message === "User already registered"
+          ? "Un compte existe déjà avec cet email."
+          : "Impossible de créer le compte. Vérifiez vos informations.",
+      );
       return;
     }
 
@@ -129,12 +129,12 @@ function SignupFormInner() {
   }
 
   function finish() {
-    router.push(redirectTo);
+    router.push(redirectTo === "/account" ? "/account/verification" : redirectTo);
     router.refresh();
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col justify-center px-6 py-16">
+    <div>
       <span className="text-xs uppercase tracking-[0.3em] text-champagne">Nouveau client</span>
       <h1 className="mt-2 font-serif text-3xl text-ivory">Créer mon compte</h1>
 
@@ -185,10 +185,6 @@ function SignupFormInner() {
           <button type="submit" disabled={loading} className="mt-2 rounded-full bg-champagne px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50">
             {loading ? "Création..." : "Continuer"}
           </button>
-          <p className="text-center text-xs text-muted-grey">
-            Vous avez déjà un compte ?{" "}
-            <a href="/login" className="text-champagne hover:underline">Se connecter</a>
-          </p>
         </form>
       )}
 
@@ -284,13 +280,5 @@ function SignupFormInner() {
         </div>
       )}
     </div>
-  );
-}
-
-export function SignupForm() {
-  return (
-    <Suspense fallback={null}>
-      <SignupFormInner />
-    </Suspense>
   );
 }
