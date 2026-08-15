@@ -10,32 +10,43 @@ import { MobileMenu } from "@/components/layout/mobile-menu";
 import { NavLink } from "@/components/layout/nav-link";
 import { AuthNav } from "@/components/auth/auth-nav";
 import type { SiteSettings } from "@/lib/settings";
+import type { NavMenu } from "@/lib/data/navigation";
 
-const PRIMARY_LINKS = [
+const FALLBACK_PRIMARY = [
   { href: "/", label: "Accueil" },
   { href: "/vins", label: "Vins" },
   { href: "/spiritueux", label: "Spiritueux" },
   { href: "/charcuterie", label: "Charcuterie" },
   { href: "/poissons", label: "Poissons" },
-  { href: "/plateaux", label: "Plateaux" },
+  { href: "/plateaux", label: "Plateux" },
   { href: "/evenements", label: "Mariages & Fêtes" },
   { href: "/nouveautes", label: "Nouveautés" },
   { href: "/promotions", label: "Promotions" },
 ];
 
-const MORE_LINKS = [
+const FALLBACK_MORE = [
   { href: "/inspirations", label: "Inspirations" },
   { href: "/club", label: "Club" },
 ];
+
+function toNavLinks(menu: NavMenu | null) {
+  return (menu?.items ?? []).map((i) => ({
+    href: i.href,
+    label: i.label_fr,
+    target: i.target ?? "_self",
+  }));
+}
 
 export function Navbar({
   settings,
   user,
   isAdmin,
+  mainMenu,
 }: {
   settings: SiteSettings;
   user: SupabaseUser | null;
   isAdmin: boolean;
+  mainMenu: NavMenu | null;
 }) {
   const [scrolled, setScrolled] = useState(
     () => typeof window !== "undefined" && window.scrollY > 24,
@@ -65,8 +76,13 @@ export function Navbar({
           aria-label="Navigation principale"
           className="hidden items-center justify-center gap-0.5 lg:flex pl-6"
         >
-          {PRIMARY_LINKS.map((link) => (
-            <NavLink key={link.href} href={link.href} label={link.label} />
+          {toNavLinks(mainMenu).slice(0, 9).map((link) => (
+            <NavLink
+              key={link.href + link.label}
+              href={link.href}
+              label={link.label}
+              target={link.target}
+            />
           ))}
 
           <div className="relative">
@@ -91,16 +107,28 @@ export function Navbar({
                 role="menu"
                 className="absolute right-0 top-full mt-1 w-44 rounded-sm border border-or-principal/15 bg-noir-chaud/95 p-1 shadow-xl backdrop-blur-xl"
               >
-                {MORE_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMoreOpen(false)}
-                    className="block whitespace-nowrap px-4 py-2.5 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors hover:bg-or-principal/5 hover:text-or-principal"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {toNavLinks(mainMenu).slice(9).length > 0
+                  ? toNavLinks(mainMenu).slice(9).map((link) => (
+                      <Link
+                        key={link.href + link.label}
+                        href={link.href}
+                        target={link.target}
+                        onClick={() => setMoreOpen(false)}
+                        className="block whitespace-nowrap px-4 py-2.5 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors hover:bg-or-principal/5 hover:text-or-principal"
+                      >
+                        {link.label}
+                      </Link>
+                    ))
+                  : FALLBACK_MORE.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMoreOpen(false)}
+                        className="block whitespace-nowrap px-4 py-2.5 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors hover:bg-or-principal/5 hover:text-or-principal"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
               </div>
             )}
           </div>
@@ -132,7 +160,7 @@ export function Navbar({
             </Link>
           )}
           <AuthNav user={user} />
-          <MobileMenu settings={settings} user={user} links={[...PRIMARY_LINKS, ...MORE_LINKS]} />
+          <MobileMenu settings={settings} user={user} links={toNavLinks(mainMenu).length > 0 ? toNavLinks(mainMenu) : [...FALLBACK_PRIMARY, ...FALLBACK_MORE]} />
         </div>
       </div>
     </header>

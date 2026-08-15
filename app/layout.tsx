@@ -7,6 +7,8 @@ import { Footer } from "@/components/layout/footer";
 import { getSiteSettings } from "@/lib/settings";
 import { getCurrentUser } from "@/lib/auth";
 import { getAdminSession } from "@/lib/admin/auth";
+import { getPublishedTheme, themeToCssVars } from "@/lib/data/theme";
+import { getPublishedMenu } from "@/lib/data/navigation";
 import { CartProvider } from "@/lib/cart/cart-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
@@ -47,24 +49,35 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [settings, user, adminSession] = await Promise.all([
+  const [settings, user, adminSession, theme, mainMenu, footerMenu] = await Promise.all([
     getSiteSettings(),
     getCurrentUser(),
     getAdminSession(),
+    getPublishedTheme(),
+    getPublishedMenu("main"),
+    getPublishedMenu("footer"),
   ]);
+
+  const cssVars = themeToCssVars(theme);
 
   return (
     <html
       lang="fr"
       dir="ltr"
       className={`${editorialSerif.variable} ${editorialSans.variable} h-full antialiased`}
+      style={cssVars}
     >
       <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
         <CartProvider>
           <AnnouncementBar />
-          <Navbar settings={settings} user={user} isAdmin={!!adminSession} />
+          <Navbar
+            settings={settings}
+            user={user}
+            isAdmin={!!adminSession}
+            mainMenu={mainMenu}
+          />
           <main className="flex-1">{children}</main>
-          <Footer settings={settings} />
+          <Footer settings={settings} footerMenu={footerMenu} />
           <ScrollToTop />
         </CartProvider>
       </body>

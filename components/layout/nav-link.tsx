@@ -7,12 +7,13 @@ import { cn } from "@/lib/utils";
 interface NavLinkProps {
   href: string;
   label: string;
+  target?: string;
   onClick?: () => void;
   className?: string;
   mobile?: boolean;
 }
 
-export function NavLink({ href, label, onClick, className, mobile = false }: NavLinkProps) {
+export function NavLink({ href, label, target, onClick, className, mobile = false }: NavLinkProps) {
   const pathname = usePathname();
   const active = href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
@@ -20,6 +21,7 @@ export function NavLink({ href, label, onClick, className, mobile = false }: Nav
     return (
       <Link
         href={href}
+        target={target}
         onClick={onClick}
         aria-current={active ? "page" : undefined}
         className={cn(
@@ -36,6 +38,7 @@ export function NavLink({ href, label, onClick, className, mobile = false }: Nav
   return (
     <Link
       href={href}
+      target={target}
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={cn(

@@ -3,6 +3,7 @@ import { Logo } from "@/components/brand/logo";
 import { InstagramIcon, FacebookIcon } from "@/components/brand/social-icons";
 import type { SiteSettings } from "@/lib/settings";
 import type { OpeningHoursEntry } from "@/lib/config";
+import type { NavMenu } from "@/lib/data/navigation";
 
 const DAY_LABELS: Record<OpeningHoursEntry["day"], string> = {
   sunday: "Dimanche",
@@ -14,7 +15,28 @@ const DAY_LABELS: Record<OpeningHoursEntry["day"], string> = {
   saturday: "Samedi",
 };
 
-export function Footer({ settings }: { settings: SiteSettings }) {
+function footerGroups(menu: NavMenu | null) {
+  if (!menu || menu.items.length === 0) return null;
+  const groups: Record<string, typeof menu.items> = {};
+  let currentKey = "default";
+  for (const item of menu.items) {
+    if (item.href.startsWith("__group:")) {
+      currentKey = item.href.replace("__group:", "").trim() || "default";
+      continue;
+    }
+    if (!groups[currentKey]) groups[currentKey] = [];
+    groups[currentKey].push(item);
+  }
+  return groups;
+}
+
+export function Footer({
+  settings,
+  footerMenu,
+}: {
+  settings: SiteSettings;
+  footerMenu: NavMenu | null;
+}) {
   const hasHours = settings.OPENING_HOURS.some((h) => h.open && h.close);
 
   return (
@@ -56,32 +78,51 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           </div>
         </div>
 
-        <div>
-          <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">
-            Catégories
-          </h3>
-          <ul className="space-y-3 text-sm text-texte-clair/70">
-            <li><Link href="/vins" className="hover:text-or-principal transition-colors">Vins</Link></li>
-            <li><Link href="/spiritueux" className="hover:text-or-principal transition-colors">Spiritueux</Link></li>
-            <li><Link href="/charcuterie" className="hover:text-or-principal transition-colors">Charcuterie</Link></li>
-            <li><Link href="/poissons" className="hover:text-or-principal transition-colors">Poissons fumés</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">
-            Découvrir
-          </h3>
-          <ul className="space-y-3 text-sm text-texte-clair/70">
-            <li><Link href="/nouveautes" className="hover:text-or-principal transition-colors">Nouveautés</Link></li>
-            <li><Link href="/promotions" className="hover:text-or-principal transition-colors">Promotions</Link></li>
-            <li><Link href="/inspirations" className="hover:text-or-principal transition-colors">Inspirations</Link></li>
-            <li><Link href="/club" className="hover:text-or-principal transition-colors">Club</Link></li>
-            <li><Link href="/a-propos" className="hover:text-or-principal transition-colors">À propos</Link></li>
-            <li><Link href="/contact" className="hover:text-or-principal transition-colors">Contact</Link></li>
-            <li><Link href="/admin" className="hover:text-or-principal transition-colors">Accès admin</Link></li>
-          </ul>
-        </div>
+        {footerGroups(footerMenu)
+          ? Object.entries(footerGroups(footerMenu)!).slice(0, 2).map(([title, items]) => (
+              <div key={title}>
+                <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">
+                  {title === "default" ? "Liens" : title}
+                </h3>
+                <ul className="space-y-3 text-sm text-texte-clair/70">
+                  {items.map((link) => (
+                    <li key={link.id}>
+                      <Link
+                        href={link.href}
+                        target={link.target ?? undefined}
+                        className="hover:text-or-principal transition-colors"
+                      >
+                        {link.label_fr}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          : (
+            <>
+              <div>
+                <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">Catégories</h3>
+                <ul className="space-y-3 text-sm text-texte-clair/70">
+                  <li><Link href="/vins" className="hover:text-or-principal transition-colors">Vins</Link></li>
+                  <li><Link href="/spiritueux" className="hover:text-or-principal transition-colors">Spiritueux</Link></li>
+                  <li><Link href="/charcuterie" className="hover:text-or-principal transition-colors">Charcuterie</Link></li>
+                  <li><Link href="/poissons" className="hover:text-or-principal transition-colors">Poissons fumés</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">Découvrir</h3>
+                <ul className="space-y-3 text-sm text-texte-clair/70">
+                  <li><Link href="/nouveautes" className="hover:text-or-principal transition-colors">Nouveautés</Link></li>
+                  <li><Link href="/promotions" className="hover:text-or-principal transition-colors">Promotions</Link></li>
+                  <li><Link href="/inspirations" className="hover:text-or-principal transition-colors">Inspirations</Link></li>
+                  <li><Link href="/club" className="hover:text-or-principal transition-colors">Club</Link></li>
+                  <li><Link href="/a-propos" className="hover:text-or-principal transition-colors">À propos</Link></li>
+                  <li><Link href="/contact" className="hover:text-or-principal transition-colors">Contact</Link></li>
+                </ul>
+              </div>
+            </>
+          )}
 
         <div>
           <h3 className="text-xs uppercase tracking-[0.3em] text-or-principal mb-6">
