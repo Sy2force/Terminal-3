@@ -502,13 +502,15 @@ export default function CheckoutPage() {
 
           {error && <p className="text-sm text-bordeaux-principal">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="rounded-sm bg-bordeaux-principal px-8 py-3.5 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {submitting ? "Envoi..." : "Confirmer la commande"}
-          </button>
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brun-cave/15 bg-fond-papier p-4 shadow-lg sm:static sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="h-12 w-full rounded-sm bg-bordeaux-principal px-8 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce disabled:cursor-not-allowed disabled:opacity-50 sm:h-auto sm:w-auto sm:py-3.5"
+            >
+              {submitting ? "Envoi..." : "Confirmer la commande"}
+            </button>
+          </div>
         </div>
       </form>
     </div>

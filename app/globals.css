@@ -141,3 +141,26 @@ body {
   outline: 2px solid var(--t3-or-principal);
   outline-offset: 2px;
 }
+
+/* Responsive baseline */
+html, body {
+  min-height: 100dvh;
+}
+
+/* Minimum touch target */
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent horizontal overflow on narrow screens */
+body {
+  overflow-x: hidden;
+}
+
+/* Respect user zoom (never lock) */
+@supports not (touch-action: manipulation) {
+  html {
+    touch-action: manipulation;
+  }
+}

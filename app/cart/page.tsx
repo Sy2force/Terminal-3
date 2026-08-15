@@ -51,7 +51,7 @@ export default function CartPage() {
           <>
             <div className="flex flex-col divide-y divide-brun-cave/10 border-y border-brun-cave/15">
               {lines.map((line) => (
-                <div key={line.variantId} className="flex items-center gap-4 py-5">
+                <div key={line.variantId} className="flex flex-wrap items-center gap-4 py-5 sm:flex-nowrap">
                   <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-sm border border-brun-cave/10 bg-[#F1EADC]">
                     {line.imageUrl && (
                       <Image
@@ -165,19 +165,6 @@ export default function CartPage() {
                   -{discount.percent}% automatique sur votre première commande
                 </div>
               )}
-              <div className="flex w-full flex-col gap-1 border-t border-brun-cave/15 pt-4 text-right">
-                <div className="flex items-baseline justify-end gap-3">
-                  <span className="text-sm text-gris-chaud">Sous-total</span>
-                  <span className="font-serif text-2xl text-bordeaux-principal">
-                    {formatAgorot(subtotalAgorot)}
-                  </span>
-                </div>
-                {discount.eligible && (
-                  <p className="text-xs text-or-principal">
-                    Économie estimée : -{formatAgorot(discountAgorot)}
-                  </p>
-                )}
-              </div>
               {hasAgeRestrictedItem && (
                 <p className="max-w-sm text-right text-xs text-gris-chaud">
                   Ce panier contient un produit réservé aux personnes de 18 ans et plus. Une pièce
@@ -187,10 +174,24 @@ export default function CartPage() {
               <p className="text-xs text-gris-chaud">
                 Paiement en espèces au retrait ou à la livraison — aucun paiement en ligne.
               </p>
+            </div>
+
+            <div className="fixed inset-x-0 bottom-16 z-40 border-t border-brun-cave/15 bg-fond-papier p-4 shadow-lg sm:static sm:bottom-0 sm:mt-8 sm:flex sm:flex-col sm:items-end sm:gap-4 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none md:bottom-0">
+              <div className="flex w-full items-center justify-between sm:w-auto sm:flex-col sm:gap-1 sm:text-right">
+                <span className="text-sm text-gris-chaud">Sous-total</span>
+                <span className="font-serif text-2xl text-bordeaux-principal">
+                  {formatAgorot(subtotalAgorot)}
+                </span>
+              </div>
+              {discount.eligible && (
+                <p className="hidden text-xs text-or-principal sm:block">
+                  Économie estimée : -{formatAgorot(discountAgorot)}
+                </p>
+              )}
               <Link
                 href="/checkout"
                 data-analytics-event="begin_checkout"
-                className="rounded-sm bg-bordeaux-principal px-8 py-3.5 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce"
+                className="flex h-12 w-full items-center justify-center rounded-sm bg-bordeaux-principal px-8 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce sm:h-auto sm:w-auto sm:py-3.5"
               >
                 Passer la commande
               </Link>
