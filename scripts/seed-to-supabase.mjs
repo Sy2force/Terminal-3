@@ -161,7 +161,7 @@ function buildProducts(count, offset = 0) {
     });
 
     variants.push({
-      id: `7${(i + 0xa0000000).toString(16).padStart(7, "0").slice(-7)}-0000-0000-0000-${(i).toString(16).padStart(12, "0").slice(-12)}`,
+      id: `7${(index + 0xa0000000).toString(16).padStart(7, "0").slice(-7)}-0000-0000-0000-${(index).toString(16).padStart(12, "0").slice(-12)}`,
       product_id: id, sku: null, label: `${volumeMl}ml`, weight_g: null,
       volume_ml: volumeMl, abv, vintage: null, regular_price_agorot: priceAgorot, is_default: true,
       limited_stock: false, availability_status: "IN_STOCK", display_order: 0, status: "published",
@@ -169,7 +169,7 @@ function buildProducts(count, offset = 0) {
     });
 
     media.push({
-      id: `7${(i + 0xb0000000).toString(16).padStart(7, "0").slice(-7)}-0000-0000-0000-${(i).toString(16).padStart(12, "0").slice(-12)}`,
+      id: `7${(index + 0xb0000000).toString(16).padStart(7, "0").slice(-7)}-0000-0000-0000-${(index).toString(16).padStart(12, "0").slice(-12)}`,
       product_id: id, variant_id: null, url: imageUrl, alt: `Bouteille de ${nameFr}`,
       kind: "COVER", display_order: 0, created_at: now,
     });

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { ArrowRight, Star, Truck, MessageCircle, BadgeCheck } from "lucide-react";
 import { motion } from "framer-motion";
-import { HeroBottleCarousel } from "@/components/home/hero-bottle-carousel";
 import { GlassButton } from "@/components/ui/glass-button";
 import { FridayTagline } from "@/components/home/friday-tagline";
 import type { SiteSettings } from "@/lib/settings";
@@ -146,9 +145,17 @@ export function LuxuryHeroSection({
             <p className="mt-4 text-xs text-texte-clair/40">Livraison {city}</p>
           </motion.div>
 
-          {/* 3D bottle stage */}
+          {/* 2D bottle stage */}
           <div className="order-1 flex min-h-[55svh] items-center justify-center lg:order-2 lg:min-h-[70svh]">
-            <HeroBottleCarousel bottles={bottles} />
+            <Image
+              src="/images/terminal-3/wines/castel/petit-castel-2020.png"
+              alt="Bouteille Petit Castel"
+              width={400}
+              height={800}
+              unoptimized
+              priority
+              className="h-auto w-[55vw] max-w-[320px] object-contain drop-shadow-2xl lg:max-w-[420px]"
+            />
           </div>
         </div>
       </div>
