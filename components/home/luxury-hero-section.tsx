@@ -10,7 +10,7 @@ import type { ProductWithMedia } from "@/lib/data/catalog";
 
 interface LuxuryHeroSectionProps {
   settings: SiteSettings;
-  bottles: ProductWithMedia[];
+  bottles?: ProductWithMedia[];
   title?: string;
   subtitle?: string;
   backgroundImage?: string | null;
@@ -25,7 +25,6 @@ const TRUST_PROOFS = [
 
 export function LuxuryHeroSection({
   settings,
-  bottles,
   title,
   subtitle,
   backgroundImage,
