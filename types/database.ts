@@ -102,6 +102,18 @@ export type DeliveryStatus =
   | "DELIVERED"
   | "FAILED";
 
+export type CartStatus = "active" | "converted" | "abandoned" | "expired";
+export type InventoryMovementType =
+  | "purchase"
+  | "sale"
+  | "reservation"
+  | "reservation_release"
+  | "return"
+  | "adjustment"
+  | "loss"
+  | "damaged";
+export type StockReservationStatus = "active" | "converted" | "expired" | "cancelled";
+
 export type BranchRow = {
   id: string;
   name: string;
@@ -741,6 +753,67 @@ export type NotificationRow = {
   created_at: string;
 };
 
+export type CartRow = {
+  id: string;
+  user_id: string | null;
+  status: CartStatus;
+  currency: string;
+  expires_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CartItemRow = {
+  id: string;
+  cart_id: string;
+  product_id: string;
+  variant_id: string | null;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type InventoryMovementRow = {
+  id: string;
+  variant_id: string;
+  branch_id: string | null;
+  movement_type: InventoryMovementType;
+  quantity: number;
+  quantity_before: number;
+  quantity_after: number;
+  reason: string | null;
+  order_id: string | null;
+  reservation_id: string | null;
+  created_by: string | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+};
+
+export type StockReservationRow = {
+  id: string;
+  variant_id: string;
+  branch_id: string | null;
+  quantity: number;
+  status: StockReservationStatus;
+  order_id: string | null;
+  cart_id: string | null;
+  expires_at: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type StockAlertRow = {
+  id: string;
+  variant_id: string;
+  branch_id: string | null;
+  threshold: number;
+  is_triggered: boolean;
+  triggered_at: string | null;
+  resolved_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export interface Database {
   public: {
     Views: Record<string, never>;
@@ -821,6 +894,11 @@ export interface Database {
       wolt_product_mappings: TableDef<WoltProductMappingRow, "product_id">;
       wolt_sync_logs: TableDef<WoltSyncLogRow, "sync_type" | "status" | "started_at">;
       notifications: TableDef<NotificationRow, "type" | "is_read" | "created_at">;
+      carts: TableDef<CartRow, "user_id" | "status">;
+      cart_items: TableDef<CartItemRow, "cart_id" | "product_id" | "variant_id">;
+      inventory_movements: TableDef<InventoryMovementRow, "variant_id" | "movement_type">;
+      stock_reservations: TableDef<StockReservationRow, "variant_id" | "status" | "expires_at">;
+      stock_alerts: TableDef<StockAlertRow, "variant_id" | "is_triggered">;
     };
   };
 }
