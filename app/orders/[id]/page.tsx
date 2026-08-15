@@ -112,7 +112,7 @@ export default async function OrderDetailPage({
           Suivre ma commande
         </Link>
         <Link
-          href="/account/orders"
+          href="/compte/commandes"
           className="rounded-full border border-white/10 px-6 py-3 text-sm text-ivory/80 transition-colors hover:border-champagne hover:text-champagne"
         >
           Mes commandes

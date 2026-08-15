@@ -42,7 +42,7 @@ export default function EvenementsPage() {
           <GlassButton href="#configurateur" variant="gold">
             Préparer ma commande
           </GlassButton>
-          <GlassButton href="#contact" variant="dark">
+          <GlassButton href="#configurateur" variant="dark">
             Demander conseil
           </GlassButton>
         </div>

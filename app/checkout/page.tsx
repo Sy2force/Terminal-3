@@ -48,6 +48,11 @@ export default function CheckoutPage() {
   const [captchaA] = useState(() => Math.floor(Math.random() * 5) + 2);
   const [captchaB] = useState(() => Math.floor(Math.random() * 5) + 2);
   const [captchaInput, setCaptchaInput] = useState("");
+  const [idempotencyKey] = useState(() =>
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+  );
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -196,6 +201,7 @@ export default function CheckoutPage() {
       ageSelfDeclared,
       termsAccepted,
       lines: lines.map((l) => ({ variantId: l.variantId, quantity: l.quantity })),
+      idempotencyKey,
     });
 
     if (!result.success || !result.orderId) {

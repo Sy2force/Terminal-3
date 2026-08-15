@@ -31,6 +31,7 @@ const checkoutInputSchema = z.object({
   ageSelfDeclared: z.boolean(),
   termsAccepted: z.boolean(),
   lines: z.array(cartLineSchema).min(1),
+  idempotencyKey: z.string().trim().min(1).max(200).optional(),
 });
 
 export type CheckoutInput = z.infer<typeof checkoutInputSchema>;
@@ -172,6 +173,17 @@ export async function submitOrder(
     return { success: false, error: "Aucune boutique active trouvée." };
   }
 
+  if (input.idempotencyKey) {
+    const { data: existing } = await supabase
+      .from("orders")
+      .select("id")
+      .eq("idempotency_key", input.idempotencyKey)
+      .maybeSingle();
+    if (existing) {
+      return { success: false, error: "Cette commande a déjà été envoyée." };
+    }
+  }
+
   const variantIds = input.lines.map((l) => l.variantId);
   const { data: variantsData, error: variantsError } = await supabase
     .from("product_variants")
@@ -299,11 +311,8 @@ export async function submitOrder(
     .from("orders")
     .insert({
       user_id: user.id,
-      ...({
-        estimated_ready_at: estimatedReadyAt.toISOString(),
-        estimated_delivery_at: estimatedDeliveryAt?.toISOString() ?? null,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- estimate columns added in 0022, not yet in generated Database type
-      } as any),
+      estimated_ready_at: estimatedReadyAt.toISOString(),
+      estimated_delivery_at: estimatedDeliveryAt?.toISOString() ?? null,
       branch_id: branch.id,
       channel: "web",
       status: "submitted",
@@ -324,6 +333,7 @@ export async function submitOrder(
       total_agorot: totalAgorot,
       discount_agorot: discountAgorot,
       discount_label: discountLabel,
+      idempotency_key: input.idempotencyKey || null,
     })
     .select("id")
     .single();

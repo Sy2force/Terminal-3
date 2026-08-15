@@ -55,7 +55,7 @@ export function LeadsBoard({ initialLeads }: { initialLeads: LeadRow[] }) {
   async function handleConvert(leadId: string) {
     const result = await convertLead(leadId);
     if (!result.success) {
-      alert(result.error);
+      setError(result.error ?? "Erreur.");
       return;
     }
     setLeads((prev) => prev.map((l) => (l.id === leadId ? { ...l, status: "converted" } : l)));

@@ -48,7 +48,7 @@ export function RolesManager({
       if (result.success) {
         setUsers((prev) => prev.filter((u) => u.userId !== userId));
       } else {
-        alert(result.error);
+        setError(result.error ?? "Erreur.");
       }
     });
   }

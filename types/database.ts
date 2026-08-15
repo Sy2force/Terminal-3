@@ -332,6 +332,10 @@ export type OrderRow = {
   delivery_instructions: string | null;
   desired_date: string | null;
   time_slot: string | null;
+  estimated_ready_at: string | null;
+  estimated_delivery_at: string | null;
+  delivered_at: string | null;
+  idempotency_key: string | null;
 }
 
 export type OrderFulfillmentGroupRow = {
