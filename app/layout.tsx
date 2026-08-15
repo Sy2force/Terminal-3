@@ -4,6 +4,7 @@ import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { BottomNav } from "@/components/layout/bottom-nav";
 import { getSiteSettings } from "@/lib/settings";
 import { getCurrentUser } from "@/lib/auth";
 import { getAdminSession } from "@/lib/admin/auth";
@@ -29,6 +30,7 @@ const editorialSans = Manrope({
 // value applied only under `[dir="rtl"]`, rather than faking RTL with CSS.
 
 export const metadata: Metadata = {
+  manifest: "/site.webmanifest",
   title: "Terminal 3 | Cave à vin et épicerie fine à Jérusalem",
   description:
     "Terminal 3 — cave à vin, whisky et épicerie fine à Jérusalem. Vins, whiskies, saumon fumé, charcuterie et sélections exclusives.",
@@ -76,9 +78,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             isAdmin={!!adminSession}
             mainMenu={mainMenu}
           />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-16 md:pb-0">{children}</main>
           <Footer settings={settings} footerMenu={footerMenu} />
           <ScrollToTop />
+          <BottomNav isAdmin={!!adminSession} />
         </CartProvider>
       </body>
     </html>

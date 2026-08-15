@@ -1,0 +1,26 @@
+{
+  "name": "Terminal 3",
+  "short_name": "Terminal 3",
+  "description": "Cave à vin, spiritueux et épicerie fine casher à Jérusalem.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#B97832",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/images/terminal-3/brand/favicon/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/terminal-3/brand/favicon/apple-touch-icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
