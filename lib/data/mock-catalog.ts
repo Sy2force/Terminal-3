@@ -3,6 +3,8 @@ import type { ProductWithMedia } from "@/lib/data/catalog";
 import { mockExtraWines } from "@/lib/data/mock-extra-wines";
 import { mockExtraWhiskies } from "@/lib/data/mock-extra-whiskies";
 import { mockExtraProducts } from "@/lib/data/mock-extra-products";
+import fs from "node:fs";
+import path from "node:path";
 
 /**
  * Development fallback catalog used when Supabase env vars are missing.
@@ -676,21 +678,40 @@ const spiritDefs: SpiritDef[] = [
   },
 ];
 
-const SPIRIT_IMAGES = [
+const SPIRIT_TYPES = ["arak", "cognac", "gin", "liqueurs", "other", "rum", "tequila", "vodka", "whisky"];
+const SPIRIT_IMAGES_FALLBACK = [
   "/images/terminal-3/spirits/whisky/chivas-regal-12.png",
   "/images/terminal-3/spirits/whisky/glenfiddich-12.png",
   "/images/terminal-3/spirits/whisky/spirit-whisky-01.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-02.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-03.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-04.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-05.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-06.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-07.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-08.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-09.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-10.webp",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-11.webp",
 ];
+
+function scanSpiritImages(): string[] {
+  const base = path.join(process.cwd(), "public", "images", "terminal-3", "spirits");
+  const out: string[] = [];
+  try {
+    for (const type of SPIRIT_TYPES) {
+      const dir = path.join(base, type);
+      if (!fs.existsSync(dir)) continue;
+      for (const name of fs.readdirSync(dir)) {
+        if (/\.(png|webp|jpg|jpeg)$/i.test(name) && !name.startsWith(".")) {
+          out.push(`/images/terminal-3/spirits/${type}/${name}`);
+        }
+      }
+    }
+  } catch {
+    // filesystem unavailable (browser or restricted env)
+  }
+  return out.length ? out : SPIRIT_IMAGES_FALLBACK;
+}
+
+/**
+ * Option C : mappe chaque slug produit vers son image exacte.
+ * Pour l'utiliser, renomme l'image avec le slug du produit et place-la dans
+ * le sous-dossier correspondant à sa catégorie (whisky, tequila, vodka…).
+ * Exemple : /images/terminal-3/spirits/whisky/jack-daniels-old-no-7.png
+ */
+const SPIRIT_IMAGE_OVERRIDES: Record<string, string> = {};
+const ALL_SPIRIT_IMAGES = scanSpiritImages();
 
 function buildMockSpirits(): ProductWithMedia[] {
   return spiritDefs.map((def, index) => ({
@@ -785,7 +806,7 @@ function buildMockSpirits(): ProductWithMedia[] {
         id: `${def.id}-m1`,
         product_id: def.id,
         variant_id: null,
-        url: SPIRIT_IMAGES[index % SPIRIT_IMAGES.length],
+        url: SPIRIT_IMAGE_OVERRIDES[def.slug] ?? ALL_SPIRIT_IMAGES[index % ALL_SPIRIT_IMAGES.length],
         alt: `Bouteille de ${def.name_fr}`,
         kind: "COVER",
         display_order: 0,
