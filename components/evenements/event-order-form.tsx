@@ -72,7 +72,7 @@ export function EventOrderForm() {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-ivory">Type d'événement</label>
+          <label className="mb-1.5 block text-sm font-medium text-ivory">Type d&apos;événement</label>
           <select
             name="event_type"
             value={formData.event_type}
@@ -131,7 +131,7 @@ export function EventOrderForm() {
         </div>
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-ivory">Nombre d'invités</label>
+          <label className="mb-1.5 block text-sm font-medium text-ivory">Nombre d&apos;invités</label>
           <input
             type="number"
             name="guests_count"

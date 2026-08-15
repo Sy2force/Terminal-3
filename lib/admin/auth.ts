@@ -14,6 +14,7 @@ export type AdminPermission =
   | "sales.orders"
   | "sales.age_verification"
   | "customers.view"
+  | "customers.verify"
   | "staff.manage"
   | "admin.users";
 
@@ -28,6 +29,7 @@ const ROLE_PERMISSIONS: Record<AdminRoleType, AdminPermission[]> = {
     "sales.orders",
     "sales.age_verification",
     "customers.view",
+    "customers.verify",
     "staff.manage",
     "admin.users",
   ],
@@ -41,13 +43,14 @@ const ROLE_PERMISSIONS: Record<AdminRoleType, AdminPermission[]> = {
     "sales.orders",
     "sales.age_verification",
     "customers.view",
+    "customers.verify",
   ],
   CONTENT_EDITOR: [
     "catalog.media",
     "marketing.content",
     "catalog.products",
   ],
-  STAFF: ["sales.orders", "sales.age_verification", "customers.view"],
+  STAFF: ["sales.orders", "sales.age_verification", "customers.view", "customers.verify"],
   COURIER: ["sales.orders", "sales.age_verification"],
 };
 

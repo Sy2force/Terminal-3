@@ -15,7 +15,8 @@ export type AuditEntity =
   | "delivery"
   | "membership"
   | "media"
-  | "payment";
+  | "payment"
+  | "identity_verification";
 
 export type AuditAction =
   | "created"
@@ -38,7 +39,10 @@ export type AuditAction =
   | "homepage_section_toggled"
   | "delivery_assigned"
   | "scheduled"
-  | "restored";
+  | "restored"
+  | "identity_verified"
+  | "identity_rejected"
+  | "identity_resubmission_requested";
 
 export interface AuditPayload {
   actor: string;
@@ -46,6 +50,8 @@ export interface AuditPayload {
   entityType: AuditEntity;
   entityId?: string;
   metadata?: Record<string, unknown>;
+  targetUserId?: string;
+  reason?: string;
 }
 
 /**
@@ -61,6 +67,8 @@ export async function logAudit(payload: AuditPayload): Promise<void> {
       entity_type: payload.entityType,
       entity_id: payload.entityId ?? null,
       metadata: payload.metadata ?? {},
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- target_user_id/reason added in 0021, not yet in generated Database type
+      ...({ target_user_id: payload.targetUserId ?? null, reason: payload.reason ?? null } as any),
     });
   } catch {
     // Audit logging must never break user-facing operations.

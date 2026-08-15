@@ -96,7 +96,15 @@ export default async function OrderDetailPage({
         </div>
       </div>
 
-      <div className="mt-8 flex justify-center gap-4">
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <a
+          href={`/api/orders/${order.id}/recap`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full border border-champagne/40 px-6 py-3 text-sm font-medium text-champagne transition-colors hover:bg-champagne/10"
+        >
+          Télécharger le récapitulatif
+        </a>
         <Link
           href={`/orders/${order.id}/tracking`}
           className="rounded-full border border-champagne/40 px-6 py-3 text-sm font-medium text-champagne transition-colors hover:bg-champagne/10"

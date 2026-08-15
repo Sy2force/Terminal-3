@@ -18,7 +18,7 @@ export default async function AdminEvenementsPage() {
 
       <div className="rounded-sm border border-[#EAE5DA] bg-white shadow-sm">
         {orders.length === 0 ? (
-          <p className="p-6 text-[#71695F]">Aucune demande pour l'instant.</p>
+          <p className="p-6 text-[#71695F]">Aucune demande pour l&apos;instant.</p>
         ) : (
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#EAE5DA] bg-[#FBF8F1]">

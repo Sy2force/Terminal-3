@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { getDefaultBranch } from "@/lib/data/branches";
 import { getSiteSettings } from "@/lib/settings";
+import { getMyVerificationProfile } from "@/lib/data/verification";
 import type { ProductRow, ProductVariantRow } from "@/types/database";
 
 type VariantWithProduct = ProductVariantRow & { product: ProductRow | null };
@@ -35,6 +36,9 @@ export type CheckoutInput = z.infer<typeof checkoutInputSchema>;
 export interface CheckoutResult {
   success: boolean;
   orderId?: string;
+  totalAgorot?: number;
+  discountAgorot?: number;
+  deliveryFeeAgorot?: number;
   error?: string;
 }
 
@@ -46,6 +50,20 @@ export interface CheckoutResult {
 export async function getDeliveryFee(): Promise<number> {
   const settings = await getSiteSettings();
   return settings.DELIVERY_FEE_AGOROT;
+}
+
+/**
+ * Tells the checkout UI whether the current user is allowed to place an
+ * order. This is a convenience for the frontend only — `submitOrder` always
+ * re-checks the same condition server-side before creating anything.
+ */
+export async function getMyCheckoutEligibility(): Promise<{
+  authenticated: boolean;
+  status: "pending_verification" | "verified" | "rejected" | "suspended" | null;
+}> {
+  const profile = await getMyVerificationProfile();
+  if (!profile) return { authenticated: false, status: null };
+  return { authenticated: true, status: profile.verificationStatus };
 }
 
 /**
@@ -121,6 +139,18 @@ export async function submitOrder(
 
   if (!user) {
     return { success: false, error: "Vous devez être connecté pour commander." };
+  }
+
+  // Only accounts whose identity has been verified by an administrator can
+  // place an order — checked here, server-side, regardless of what the
+  // checkout UI shows the user (the frontend gate is only a convenience).
+  const verificationProfile = await getMyVerificationProfile();
+  if (!verificationProfile || verificationProfile.verificationStatus !== "verified") {
+    return {
+      success: false,
+      error:
+        "Votre compte doit être vérifié avant de pouvoir commander. Consultez le statut de votre vérification dans votre espace client.",
+    };
   }
 
   const { data: storeOnlineRow } = await supabase
@@ -251,10 +281,27 @@ export async function submitOrder(
     input.fulfillmentType === "delivery" ? settings.DELIVERY_FEE_AGOROT : 0;
   totalAgorot += deliveryFeeAgorot;
 
+  // Simple, transparent estimate: a prep-time baseline plus a per-item
+  // increment, and — for delivery — an additional transit allowance. This
+  // is intentionally not a routing/traffic engine; it gives the customer a
+  // realistic ballpark without pretending to track a real courier.
+  const itemCount = nonRestrictedItems.length + restrictedItems.length;
+  const prepMinutes = 15 + itemCount * 3;
+  const estimatedReadyAt = new Date(Date.now() + prepMinutes * 60_000);
+  const estimatedDeliveryAt =
+    input.fulfillmentType === "delivery"
+      ? new Date(estimatedReadyAt.getTime() + 30 * 60_000)
+      : null;
+
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
       user_id: user.id,
+      ...({
+        estimated_ready_at: estimatedReadyAt.toISOString(),
+        estimated_delivery_at: estimatedDeliveryAt?.toISOString() ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- estimate columns added in 0022, not yet in generated Database type
+      } as any),
       branch_id: branch.id,
       channel: "web",
       status: "submitted",
@@ -283,6 +330,18 @@ export async function submitOrder(
     return { success: false, error: "Impossible de créer la commande." };
   }
   const orderId = order.id;
+
+  // order_status_history is admin-only under RLS by design (customers can
+  // read their own order's history but not write it) — this system-issued
+  // "submitted" entry goes through the service-role client.
+  await createServiceRoleClient()
+    .from("order_status_history")
+    .insert({
+      order_id: orderId,
+      old_status: null,
+      new_status: "submitted",
+      comment: "Commande créée par le client via le site.",
+    });
 
   async function insertGroup(
     groupType: "NON_RESTRICTED" | "AGE_RESTRICTED",
@@ -403,5 +462,11 @@ export async function submitOrder(
     }
   }
 
-  return { success: true, orderId };
+  return {
+    success: true,
+    orderId,
+    totalAgorot,
+    discountAgorot,
+    deliveryFeeAgorot,
+  };
 }

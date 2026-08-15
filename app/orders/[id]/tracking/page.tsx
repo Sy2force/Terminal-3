@@ -34,6 +34,18 @@ export default async function OrderTrackingPage({
   const currentStepIndex = ORDER_TIMELINE.findIndex((s) => s.status === order.status);
   const isCancelled = order.status === "cancelled";
 
+  // estimated_ready_at / estimated_delivery_at were added in migration 0022
+  // and are not yet part of the generated Database type.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const orderWithEstimates = order as any;
+  const estimateIso =
+    order.fulfillment_type === "delivery"
+      ? orderWithEstimates.estimated_delivery_at
+      : orderWithEstimates.estimated_ready_at;
+  const estimatedTime = estimateIso
+    ? new Date(estimateIso).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+    : null;
+
   return (
     <div className="mx-auto max-w-2xl px-6 py-16 lg:px-8">
       <div className="text-center">
@@ -119,6 +131,14 @@ export default async function OrderTrackingPage({
           {order.delivery_address && (
             <p className="pl-6 text-ivory/60">{order.delivery_address}</p>
           )}
+          {!isCancelled && order.status !== "completed" && estimatedTime && (
+            <p className="flex items-center gap-2 text-champagne">
+              <Clock className="h-4 w-4" />
+              {order.fulfillment_type === "delivery"
+                ? `Livraison estimée vers ${estimatedTime}`
+                : `Prêt vers ${estimatedTime}`}
+            </p>
+          )}
           <p className="text-ivory/60">
             Paiement {order.fulfillment_type === "delivery" ? "auprès du livreur" : "sur place"}
           </p>
@@ -176,7 +196,15 @@ export default async function OrderTrackingPage({
         </div>
       </div>
 
-      <div className="mt-8 flex justify-center gap-4">
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <a
+          href={`/api/orders/${order.id}/recap`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full border border-champagne/40 px-6 py-3 text-sm font-medium text-champagne transition-colors hover:bg-champagne/10"
+        >
+          Télécharger le récapitulatif
+        </a>
         <Link
           href="/account/orders"
           className="rounded-full border border-white/10 px-6 py-3 text-sm text-ivory/80 transition-colors hover:border-champagne hover:text-champagne"

@@ -30,6 +30,13 @@ export default async function AccountPage() {
 
       <div className="mt-10 flex flex-col gap-3">
         <Link
+          href="/account/verification"
+          className="flex items-center justify-between rounded-sm border border-white/5 bg-graphite px-5 py-4 text-sm text-ivory transition-colors hover:border-champagne/30"
+        >
+          Vérification d&rsquo;identité
+          <span aria-hidden>→</span>
+        </Link>
+        <Link
           href="/account/orders"
           className="flex items-center justify-between rounded-sm border border-white/5 bg-graphite px-5 py-4 text-sm text-ivory transition-colors hover:border-champagne/30"
         >

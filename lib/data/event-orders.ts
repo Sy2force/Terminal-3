@@ -28,6 +28,7 @@ export async function submitEventOrder(input: EventOrderInput) {
   }
 
   const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- event_orders tables are not yet declared in the generated Database type
   const db = supabase as any;
 
   // Calculate totals
@@ -99,6 +100,7 @@ export async function getEventOrders(): Promise<
   }
 
   const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- event_orders tables are not yet declared in the generated Database type
   const db = supabase as any;
   const { data, error } = await db
     .from("event_orders")
@@ -122,6 +124,7 @@ export async function getEventOrderByToken(token: string): Promise<
   }
 
   const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- event_orders tables are not yet declared in the generated Database type
   const db = supabase as any;
   const { data, error } = await db
     .from("event_orders")

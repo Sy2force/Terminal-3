@@ -3,11 +3,16 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { AlertTriangle, Sparkles, ShoppingBag, CheckCircle } from "lucide-react";
+import { AlertTriangle, Sparkles, ShoppingBag, CheckCircle, ShieldAlert, Clock } from "lucide-react";
 import { useCart } from "@/lib/cart/cart-context";
 import { formatAgorot } from "@/lib/money";
 import { DEFAULT_BUSINESS_CONFIG } from "@/lib/config";
-import { getFirstPurchaseDiscountPreview, getDeliveryFee } from "@/app/checkout/actions";
+import {
+  getFirstPurchaseDiscountPreview,
+  getDeliveryFee,
+  getMyCheckoutEligibility,
+  submitOrder,
+} from "@/app/checkout/actions";
 
 const TIME_SLOTS = [
   "09:00 – 12:00",
@@ -17,7 +22,12 @@ const TIME_SLOTS = [
 ];
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { lines, subtotalAgorot, hasAgeRestrictedItem, clear } = useCart();
+  const [eligibility, setEligibility] = useState<{
+    authenticated: boolean;
+    status: "pending_verification" | "verified" | "rejected" | "suspended" | null;
+  } | null>(null);
 
   const [fulfillmentType, setFulfillmentType] = useState<"pickup" | "delivery">(
     "pickup",
@@ -49,6 +59,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     getFirstPurchaseDiscountPreview().then(setDiscount);
     getDeliveryFee().then(setDeliveryFeeAgorot);
+    getMyCheckoutEligibility().then(setEligibility);
   }, []);
 
   const discountAgorot = discount.eligible
@@ -96,7 +107,54 @@ export default function CheckoutPage() {
     );
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  if (eligibility && !eligibility.authenticated) {
+    return (
+      <div className="min-h-screen bg-fond-papier">
+        <div className="mx-auto flex max-w-lg flex-col items-center gap-6 px-6 py-24 text-center">
+          <ShieldAlert className="h-10 w-10 text-bordeaux-principal" aria-hidden />
+          <h1 className="font-serif text-2xl text-noir-profond">Connexion requise</h1>
+          <p className="text-noir-profond/70">
+            Créez un compte ou connectez-vous pour finaliser votre commande. Un compte vérifié est
+            nécessaire pour commander sur Terminal 3.
+          </p>
+          <div className="flex gap-3">
+            <Link href="/inscription?redirect=/checkout" className="rounded-sm bg-bordeaux-principal px-6 py-3 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce">
+              Créer un compte
+            </Link>
+            <Link href="/login?redirect=/checkout" className="rounded-sm border border-bordeaux-principal px-6 py-3 text-sm font-medium uppercase tracking-widest text-bordeaux-principal transition-colors hover:bg-bordeaux-principal/5">
+              Se connecter
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (eligibility && eligibility.authenticated && eligibility.status !== "verified") {
+    return (
+      <div className="min-h-screen bg-fond-papier">
+        <div className="mx-auto flex max-w-lg flex-col items-center gap-6 px-6 py-24 text-center">
+          <Clock className="h-10 w-10 text-bordeaux-principal" aria-hidden />
+          <h1 className="font-serif text-2xl text-noir-profond">
+            {eligibility.status === "rejected" ? "Vérification à refaire" : "Compte en cours de vérification"}
+          </h1>
+          <p className="text-noir-profond/70">
+            {eligibility.status === "rejected"
+              ? "Votre justificatif d'identité a été refusé. Merci d'en envoyer un nouveau pour pouvoir commander."
+              : "Votre compte doit être vérifié par notre équipe avant de pouvoir commander. Cela prend généralement moins de 24h ouvrées."}
+          </p>
+          <Link
+            href="/account/verification"
+            className="rounded-sm bg-bordeaux-principal px-6 py-3 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce"
+          >
+            Voir ma vérification
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
@@ -119,53 +177,65 @@ export default function CheckoutPage() {
 
     setSubmitting(true);
 
+    // The order is created and persisted in the database FIRST — the
+    // WhatsApp message is only opened afterwards, using the real order id
+    // and server-computed totals, so nothing is lost if the customer closes
+    // the WhatsApp window.
+    const result = await submitOrder({
+      fulfillmentType,
+      deliveryAddress: deliveryAddress || undefined,
+      city: city || undefined,
+      floor: floor || undefined,
+      entryCode: entryCode || undefined,
+      deliveryInstructions: deliveryInstructions || undefined,
+      desiredDate: desiredDate || undefined,
+      timeSlot: timeSlot || undefined,
+      customerName,
+      customerPhone,
+      customerNotes: customerNotes || undefined,
+      ageSelfDeclared,
+      termsAccepted,
+      lines: lines.map((l) => ({ variantId: l.variantId, quantity: l.quantity })),
+    });
+
+    if (!result.success || !result.orderId) {
+      setSubmitting(false);
+      setError(result.error ?? "Une erreur est survenue.");
+      return;
+    }
+
+    const orderRef = result.orderId.slice(0, 8).toUpperCase();
     const linesText = lines
       .map(
         (l) =>
-          `• ${l.productName}${l.variantLabel ? ` (${l.variantLabel})` : ""} — Qté ${l.quantity} = ${formatAgorot((l.displayPriceAgorot ?? 0) * l.quantity)}`
+          `• ${l.productName}${l.variantLabel ? ` (${l.variantLabel})` : ""} — Qté ${l.quantity}`
       )
       .join("\n");
 
     const message = [
       `Bonjour ${DEFAULT_BUSINESS_CONFIG.STORE_NAME},`,
+      `je souhaite confirmer la commande #${orderRef}.`,
       "",
-      "Nouvelle commande :",
-      `Nom : ${customerName}`,
-      `Téléphone : ${customerPhone}`,
-      `Mode : ${fulfillmentType === "pickup" ? "Retrait en magasin" : "Livraison"}`,
-      fulfillmentType === "delivery" ? `Adresse : ${deliveryAddress}${city ? `, ${city}` : ""}` : null,
-      fulfillmentType === "delivery" && floor ? `Étage : ${floor}` : null,
-      fulfillmentType === "delivery" && entryCode ? `Code entrée : ${entryCode}` : null,
-      fulfillmentType === "delivery" && deliveryInstructions ? `Instructions : ${deliveryInstructions}` : null,
-      desiredDate ? `Date souhaitée : ${desiredDate}` : null,
-      timeSlot ? `Créneau : ${timeSlot}` : null,
-      customerNotes ? `Commentaire : ${customerNotes}` : null,
-      "",
-      "Articles :",
       linesText,
       "",
-      `Sous-total : ${formatAgorot(subtotalAgorot)}`,
-      discount.eligible ? `Réduction -${discount.percent}% : -${formatAgorot(discountAgorot)}` : null,
-      deliveryAgorot > 0 ? `Livraison : ${formatAgorot(deliveryAgorot)}` : null,
-      `Total estimé : ${formatAgorot(grandTotal)}`,
+      `Total : ${formatAgorot(result.totalAgorot ?? grandTotal)}`,
+      `Mode : ${fulfillmentType === "pickup" ? "Retrait en magasin" : "Livraison"}`,
+      fulfillmentType === "delivery" ? `Adresse : ${deliveryAddress}${city ? `, ${city}` : ""}` : null,
+      timeSlot ? `Créneau demandé : ${timeSlot}` : null,
       "",
-      hasAgeRestrictedItem
-        ? "Je certifie être majeur (18+) et je présenterai ma pièce d'identité (Teudat Zehut/passeport) au retrait ou à la livraison."
-        : null,
-      "",
-      "À bientôt",
+      "Merci de confirmer la disponibilité et le délai.",
     ]
       .filter(Boolean)
       .join("\n");
 
     const phone = DEFAULT_BUSINESS_CONFIG.STORE_WHATSAPP.replace(/[^\d]/g, "");
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
     window.open(url, "_blank", "noopener,noreferrer");
 
     clear();
     setSubmitting(false);
     setSubmitted(true);
+    router.push(`/orders/${result.orderId}`);
   }
 
   return (

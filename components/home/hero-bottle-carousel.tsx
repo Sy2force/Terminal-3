@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Heart, ArrowRight } from "lucide-react";
 import type { ProductWithMedia } from "@/lib/data/catalog";
@@ -20,14 +19,6 @@ export function HeroBottleCarousel({ bottles }: HeroBottleCarouselProps) {
   const [direction, setDirection] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (bottles.length <= 1 || paused) return;
-    const id = setInterval(() => {
-      goNext();
-    }, AUTO_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, [bottles.length, paused, index]);
-
   const goTo = (i: number, dir = 0) => {
     const next = ((i % bottles.length) + bottles.length) % bottles.length;
     setDirection(dir || (next > index ? 1 : -1));
@@ -36,6 +27,15 @@ export function HeroBottleCarousel({ bottles }: HeroBottleCarouselProps) {
 
   const goNext = () => goTo(index + 1, 1);
   const goPrev = () => goTo(index - 1, -1);
+
+  useEffect(() => {
+    if (bottles.length <= 1 || paused) return;
+    const id = setInterval(() => {
+      goNext();
+    }, AUTO_INTERVAL_MS);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- goNext is redefined every render from `index`; re-running only when index/paused/length change is intentional
+  }, [bottles.length, paused, index]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
