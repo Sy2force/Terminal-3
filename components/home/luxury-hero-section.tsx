@@ -150,11 +150,11 @@ export function LuxuryHeroSection({
             <Image
               src="/images/terminal-3/wines/castel/petit-castel-2020.png"
               alt="Bouteille Petit Castel"
-              width={400}
-              height={800}
+              width={500}
+              height={900}
               unoptimized
               priority
-              className="h-auto w-[55vw] max-w-[320px] object-contain drop-shadow-2xl lg:max-w-[420px]"
+              className="h-auto w-[70vw] max-w-[420px] object-contain drop-shadow-2xl lg:max-w-[620px]"
             />
           </div>
         </div>
