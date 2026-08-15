@@ -36,17 +36,8 @@ export function LuxuryHeroSection({
 
   const mainTitle = title ?? (
     <>
-      <Image
-        src={settings.LOGO_URL}
-        alt="Terminal 3"
-        width={500}
-        height={200}
-        unoptimized
-        priority
-        className="h-16 w-auto object-contain sm:h-20 lg:h-24"
-      />
-      <br />
-      <span className="text-or-principal">Vins, spiritueux et épicerie fine</span>
+      <span className="block text-or-principal">Terminal 3</span>
+      <span className="text-or-principal/80 block text-2xl sm:text-3xl lg:text-4xl mt-2">Vins, spiritueux et épicerie fine</span>
     </>
   );
 
