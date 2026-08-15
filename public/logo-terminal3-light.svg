@@ -1,0 +1,23 @@
+<svg width="400" height="96" viewBox="0 0 400 96" xmlns="http://www.w3.org/2000/svg" aria-label="Terminal 3 — Cave & Épicerie Fine" role="img">
+  <defs>
+    <linearGradient id="bordeaux" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8E2537"/>
+      <stop offset="100%" stop-color="#6E1728"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="none" stroke="#151411" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="6" y1="12" x2="54" y2="12" stroke-width="3"/>
+    <path d="M30,14 L30,20" />
+    <path d="M30,20 C38,22 38,28 30,30 C22,32 22,38 30,40 C38,42 38,48 30,50 C22,52 22,58 30,60 C38,62 38,68 30,70" fill="none" />
+    <path d="M30,70 C32,72 32,74 30,76" stroke-width="1.8" />
+  </g>
+
+  <text x="70" y="52" font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif" font-size="40" font-weight="600" letter-spacing="0.5" fill="#151411" style="font-variant-ligatures: discretionary-ligatures;">
+    TERMINAL <tspan font-style="italic" font-weight="500" fill="url(#bordeaux)">3</tspan>
+  </text>
+
+  <text x="70" y="78" font-family="Manrope, Arial, sans-serif" font-size="10" font-weight="500" letter-spacing="3.5" fill="#6E1728" style="text-transform: uppercase;">
+    Cave &amp; Épicérie Fine
+  </text>
+</svg>

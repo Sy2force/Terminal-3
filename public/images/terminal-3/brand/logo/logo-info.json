@@ -1,0 +1,26 @@
+{
+  "logo": {
+    "file": "/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png",
+    "width": 1067,
+    "height": 426,
+    "original": "305485417_394924312801731_2933803282112707239_n(1).jpg",
+    "originalStored": "/images/terminal-3/brand/logo/source/brand-terminal-3-logo-source-01.jpg"
+  },
+  "favicons": [
+    {
+      "file": "/images/terminal-3/brand/favicon/favicon-32x32.png",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "file": "/images/terminal-3/brand/favicon/apple-touch-icon-180x180.png",
+      "width": 180,
+      "height": 180
+    },
+    {
+      "file": "/images/terminal-3/brand/favicon/icon-512x512.png",
+      "width": 512,
+      "height": 512
+    }
+  ]
+}

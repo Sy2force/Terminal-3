@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { requireAdminPermission } from "@/lib/admin/auth";
-import { getOrderDetailsForStaff } from "@/lib/data/orders-admin";
+import { getOrderDetailsForStaff, getOrderNotes, getOrderStatusHistory } from "@/lib/data/orders-admin";
+import { getOrderPaymentSummary } from "@/lib/data/payments";
 import { formatAgorot } from "@/lib/money";
 import { OrderStatusUpdater } from "@/components/admin/order-status-updater";
 import { FulfillmentStatusUpdater } from "@/components/admin/fulfillment-status-updater";
+import { OrderPaymentAndNotes } from "@/components/admin/order-payment-and-notes";
 
 export default async function AdminOrderDetailPage({
   params,
@@ -12,7 +14,12 @@ export default async function AdminOrderDetailPage({
 }) {
   await requireAdminPermission("sales.orders");
   const { id } = await params;
-  const order = await getOrderDetailsForStaff(id);
+  const [order, { summary, payments, history: paymentHistory }, notes, statusHistory] = await Promise.all([
+    getOrderDetailsForStaff(id),
+    getOrderPaymentSummary(id),
+    getOrderNotes(id),
+    getOrderStatusHistory(id),
+  ]);
   if (!order) notFound();
 
   return (
@@ -108,6 +115,15 @@ export default async function AdminOrderDetailPage({
           </div>
         ))}
       </div>
+
+      <OrderPaymentAndNotes
+        orderId={order.id}
+        summary={summary}
+        payments={payments}
+        paymentHistory={paymentHistory}
+        notes={notes}
+        statusHistory={statusHistory}
+      />
     </div>
   );
 }

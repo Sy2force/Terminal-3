@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
+import { isDemoMode } from "@/lib/demo-mode";
 import { LogoutButton } from "@/components/account/logout-button";
 import { ProfileForm } from "@/components/account/profile-form";
 
 export default async function AccountPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/account");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .maybeSingle();
+  // Unreachable in demo mode (getCurrentUser() always returns null there,
+  // so the redirect above already fired) — this only runs against a real
+  // Supabase project.
+  const supabase = await createClient();
+  const { data: profile } = isDemoMode()
+    ? { data: null }
+    : await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16 lg:px-8">
@@ -37,7 +37,7 @@ export default async function AccountPage() {
           <span aria-hidden>→</span>
         </Link>
         <Link
-          href="/account/favorites"
+          href="/favoris"
           className="flex items-center justify-between rounded-sm border border-white/5 bg-graphite px-5 py-4 text-sm text-ivory transition-colors hover:border-champagne/30"
         >
           Mes favoris

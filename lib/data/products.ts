@@ -43,6 +43,36 @@ export interface ProductInput {
   preparation_time_minutes?: number | null;
   published_at?: string | null;
   new_until?: string | null;
+  /** Wine-catalog fields — null for non-wine products. */
+  wine_type?: "ROUGE" | "BLANC" | "ROSE" | "EFFERVESCENT" | "DOUX" | null;
+  region?: string | null;
+  country?: string | null;
+  grape_varieties?: string[] | null;
+  rating?: number | null;
+  review_count?: number;
+  is_best_seller?: boolean;
+  badge?: string | null;
+  serving_temperature?: string | null;
+  aging_potential?: string | null;
+  vinification_method?: string | null;
+  /** Spirits-catalog fields — generic enough for future categories too. */
+  subcategory?: string | null;
+  age_years?: number | null;
+  nose_notes?: string | null;
+  palate_notes?: string | null;
+  finish_notes?: string | null;
+  cask_type?: string | null;
+  edition?: string | null;
+  production_method?: string | null;
+  /** Charcuterie-catalog fields — null for other categories. */
+  meat_type?: string | null;
+  is_available_for_platter?: boolean;
+  nutrition_info?: string | null;
+  expiration_info?: string | null;
+  /** Fish-catalog fields — null for other categories. */
+  fish_type?: string | null;
+  preparation_method?: string | null;
+  smoked?: boolean;
 }
 
 export interface ProductVariantInput {
@@ -59,6 +89,8 @@ export interface ProductVariantInput {
   availability_status?: ProductAvailabilityStatus;
   display_order?: number;
   status?: ProductStatus;
+  pricing_unit?: "FIXED" | "PACKAGE" | "PER_100G" | "PER_KG" | "FROM" | null;
+  packaging?: string | null;
 }
 
 export interface ProductMediaInput {
@@ -146,6 +178,8 @@ export async function createProduct(
           availability_status: v.availability_status ?? "IN_STOCK",
           display_order: v.display_order ?? index,
           status: v.status ?? "published",
+          pricing_unit: v.pricing_unit ?? null,
+          packaging: v.packaging ?? null,
           updated_at: now,
         })),
       );
@@ -218,6 +252,8 @@ export async function updateProduct(
             availability_status: v.availability_status ?? "IN_STOCK",
             display_order: v.display_order ?? index,
             status: v.status ?? "published",
+            pricing_unit: v.pricing_unit ?? null,
+            packaging: v.packaging ?? null,
             updated_at: now,
           })),
         );
@@ -259,6 +295,69 @@ export async function archiveProduct(id: string): Promise<void> {
     .eq("id", id);
 
   if (error) throw new Error(error.message ?? "archive_product_failed");
+}
+
+/**
+ * Duplicates a product (and its variants/media) as a new draft with a
+ * "-copie" slug suffix, so an admin can quickly create a variation of an
+ * existing bottle without retyping every field.
+ */
+export async function duplicateProduct(id: string): Promise<ProductRow> {
+  const original = await getProductById(id);
+  if (!original) throw new Error("product_not_found");
+
+  const supabase = await createClient();
+  let slug = `${original.slug}-copie`;
+  let suffix = 2;
+  while ((await supabase.from("products").select("id").eq("slug", slug).maybeSingle()).data) {
+    slug = `${original.slug}-copie-${suffix}`;
+    suffix += 1;
+  }
+
+  const { variants: originalVariants, media: originalMedia, ...productFields } = original;
+  // Only forward fields createProduct() actually accepts — never the
+  // original's id/timestamps/category relation, which must be regenerated.
+  const {
+    id: _omitId,
+    created_at: _omitCreatedAt,
+    updated_at: _omitUpdatedAt,
+    published_at: _omitPublishedAt,
+    category: _omitCategory,
+    ...rest
+  } = productFields;
+  void _omitId;
+  void _omitCreatedAt;
+  void _omitUpdatedAt;
+  void _omitPublishedAt;
+  void _omitCategory;
+
+  const created = await createProduct(
+    { ...rest, slug, status: "draft" },
+    originalVariants.map((v) => ({
+      label: v.label,
+      sku: v.sku,
+      weight_g: v.weight_g,
+      volume_ml: v.volume_ml,
+      abv: v.abv,
+      vintage: v.vintage,
+      regular_price_agorot: v.regular_price_agorot,
+      is_default: v.is_default,
+      limited_stock: v.limited_stock,
+      availability_status: v.availability_status,
+      display_order: v.display_order,
+      status: v.status,
+      pricing_unit: v.pricing_unit,
+      packaging: v.packaging,
+    })),
+    originalMedia.map((m) => ({
+      url: m.url,
+      alt: m.alt,
+      kind: m.kind,
+      display_order: m.display_order,
+    })),
+  );
+
+  return created;
 }
 
 export async function deleteProduct(id: string): Promise<void> {

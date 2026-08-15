@@ -1,5 +1,6 @@
+import type { LucideIcon } from "lucide-react";
 import { requireAdminPermission } from "@/lib/admin/auth";
-import { getOrdersForStaff } from "@/lib/data/orders-admin";
+import { getActiveOrdersWithDetailsForStaff, type OrderWithDetails } from "@/lib/data/orders-admin";
 import { formatAgorot } from "@/lib/money";
 import { orderStatusLabel } from "@/lib/order-status-labels";
 import { OrderStatusUpdater } from "@/components/admin/order-status-updater";
@@ -9,12 +10,8 @@ import { Clock, Package, AlertTriangle, CheckCircle } from "lucide-react";
 
 export default async function StaffQueuePage() {
   await requireAdminPermission("sales.orders");
-  
-  // Get active orders (submitted, confirmed, ready)
-  const activeOrders = await getOrdersForStaff("all");
-  const queueOrders = activeOrders.filter(
-    (o) => o.status === "submitted" || o.status === "confirmed" || o.status === "ready"
-  );
+
+  const queueOrders = await getActiveOrdersWithDetailsForStaff();
 
   return (
     <div className="space-y-6">
@@ -43,14 +40,14 @@ export default async function StaffQueuePage() {
   );
 }
 
-function OrderCard({ order }: { order: any }) {
+function OrderCard({ order }: { order: OrderWithDetails }) {
   const statusColors: Record<string, string> = {
     submitted: "border-ivory/30",
     confirmed: "border-champagne/50",
     ready: "border-soft-gold/50",
   };
 
-  const statusIcons: Record<string, any> = {
+  const statusIcons: Record<string, LucideIcon> = {
     submitted: Clock,
     confirmed: Package,
     ready: CheckCircle,
@@ -110,7 +107,7 @@ function OrderCard({ order }: { order: any }) {
       )}
 
       <div className="space-y-3">
-        {order.fulfillment_groups?.map((group: any) => (
+        {order.fulfillment_groups?.map((group) => (
           <div
             key={group.id}
             className={`rounded-sm border p-3 ${
@@ -145,7 +142,7 @@ function OrderCard({ order }: { order: any }) {
             </div>
 
             <ul className="space-y-1 text-sm">
-              {group.items?.map((item: any) => (
+              {group.items?.map((item) => (
                 <li key={item.id} className="flex justify-between text-ivory/80">
                   <span>
                     {item.quantity} × {item.product_name_snapshot}
@@ -163,7 +160,6 @@ function OrderCard({ order }: { order: any }) {
                 <AgeVerificationAction
                   verificationId={group.age_verification.id}
                   currentStatus={group.age_verification.status}
-                  orderId={order.id}
                 />
               </div>
             )}

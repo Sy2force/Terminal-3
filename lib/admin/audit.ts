@@ -13,7 +13,9 @@ export type AuditEntity =
   | "staff_role"
   | "homepage_section"
   | "delivery"
-  | "membership";
+  | "membership"
+  | "media"
+  | "payment";
 
 export type AuditAction =
   | "created"
@@ -34,7 +36,9 @@ export type AuditAction =
   | "homepage_section_edited"
   | "homepage_section_deleted"
   | "homepage_section_toggled"
-  | "delivery_assigned";
+  | "delivery_assigned"
+  | "scheduled"
+  | "restored";
 
 export interface AuditPayload {
   actor: string;

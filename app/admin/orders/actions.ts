@@ -21,7 +21,7 @@ export async function updateOrderStatusAction(
 ): Promise<OrderActionResult> {
   const session = await requireAdminPermission("sales.orders");
   try {
-    await updateOrderStatus(orderId, status);
+    await updateOrderStatus(orderId, status, session.userId, session.email ?? "Staff");
     await logAudit({
       actor: session.userId,
       action: "status_changed",

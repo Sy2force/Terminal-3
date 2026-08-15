@@ -7,13 +7,14 @@ import { CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 interface AgeVerificationActionProps {
   verificationId: string;
   currentStatus: string;
-  orderId: string;
+  // orderId is kept for future use (e.g. per-order re-fetch) but is not
+  // required by the current server action signature.
+  orderId?: string;
 }
 
 export function AgeVerificationAction({
   verificationId,
   currentStatus,
-  orderId,
 }: AgeVerificationActionProps) {
   const [status, setStatus] = useState(currentStatus);
   const [loading, setLoading] = useState(false);

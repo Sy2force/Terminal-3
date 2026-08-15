@@ -1,54 +1,96 @@
 @import "tailwindcss";
 
 :root {
-  --t3-obsidian: #080808;
-  --t3-graphite: #151515;
-  --t3-warm-black: #0d0c0b;
-  --t3-champagne: #c5a35a;
-  --t3-soft-gold: #d4b86a;
-  --t3-ivory: #f4f0e7;
-  --t3-white: #ffffff;
-  --t3-muted-grey: #8b8b8b;
+  --t3-noir-profond: #151411;
+  --t3-noir-chaud: #1B1814;
+  --t3-brun-cave: #2B211A;
+  --t3-brun-lumineux: #684734;
+  --t3-bordeaux-principal: #692031;
+  --t3-bordeaux-fonce: #551525;
+  --t3-bordeaux-clair: #7B3140;
+  --t3-or-principal: #C6A15B;
+  --t3-or-clair: #D7B16B;
+  --t3-creme: #F4EFE5;
+  --t3-fond-papier: #FBF8F1;
+  --t3-beige: #EEE7DB;
+  --t3-beige-fonce: #E7DECE;
+  --t3-gris-chaud: #71695F;
+  --t3-texte-clair: #F7F0E4;
+  /* Spiritueux — same identity, slightly more amber ambiance. */
+  --t3-brun-ambre: #7C5129;
+  --t3-cuivre: #986236;
+  --t3-cuivre-charcuterie: #8B4936;
+  --t3-brun-rouge: #743B2D;
+  --t3-noir-poisson: #101515;
+  --t3-noir-poisson-chaud: #151A1A;
+  --t3-bleu-cave: #1C2B2E;
+  --t3-bleu-gris: #3F4B4D;
+  --t3-bleu-mineral: #466268;
+  --t3-amber-700: #b45309;
+  --t3-amber-900: #78350f;
+  --t3-orange-700: #c2410c;
+  --t3-orange-900: #7c2d12;
+  --t3-slate-600: #475569;
+  --t3-slate-800: #1e293b;
 
-  --t3-wine-burgundy: #4a1c1c;
-  --t3-bordeaux: #2d0f0f;
-  --t3-amber: #b8860b;
-  --t3-cognac: #9c5e00;
-  --t3-bottle-green: #1a2e1a;
-  --t3-dark-olive: #0f1f0f;
-  --t3-warm-stone: #3d3530;
-  --t3-dark-walnut: #2a1f1a;
-  --t3-gold: #d4af37;
-
-  --background: var(--t3-obsidian);
-  --foreground: var(--t3-ivory);
+  --background: var(--t3-noir-profond);
+  --foreground: var(--t3-texte-clair);
 }
 
 @theme inline {
-  --color-obsidian: var(--t3-obsidian);
-  --color-graphite: var(--t3-graphite);
-  --color-warm-black: var(--t3-warm-black);
-  --color-champagne: var(--t3-champagne);
-  --color-soft-gold: var(--t3-soft-gold);
-  --color-ivory: var(--t3-ivory);
-  --color-t3-white: var(--t3-white);
-  --color-muted-grey: var(--t3-muted-grey);
+  --color-noir-profond: var(--t3-noir-profond);
+  --color-noir-chaud: var(--t3-noir-chaud);
+  --color-brun-cave: var(--t3-brun-cave);
+  --color-brun-lumineux: var(--t3-brun-lumineux);
+  --color-bordeaux-principal: var(--t3-bordeaux-principal);
+  --color-bordeaux-fonce: var(--t3-bordeaux-fonce);
+  --color-bordeaux-clair: var(--t3-bordeaux-clair);
+  --color-or-principal: var(--t3-or-principal);
+  --color-or-clair: var(--t3-or-clair);
+  --color-creme: var(--t3-creme);
+  --color-fond-papier: var(--t3-fond-papier);
+  --color-beige: var(--t3-beige);
+  --color-beige-fonce: var(--t3-beige-fonce);
+  --color-gris-chaud: var(--t3-gris-chaud);
+  --color-texte-clair: var(--t3-texte-clair);
+  --color-brun-ambre: var(--t3-brun-ambre);
+  --color-cuivre: var(--t3-cuivre);
+  --color-cuivre-charcuterie: var(--t3-cuivre-charcuterie);
+  --color-brun-rouge: var(--t3-brun-rouge);
+  --color-noir-poisson: var(--t3-noir-poisson);
+  --color-noir-poisson-chaud: var(--t3-noir-poisson-chaud);
+  --color-bleu-cave: var(--t3-bleu-cave);
+  --color-bleu-gris: var(--t3-bleu-gris);
+  --color-bleu-mineral: var(--t3-bleu-mineral);
+  --color-amber-700: var(--t3-amber-700);
+  --color-amber-900: var(--t3-amber-900);
+  --color-orange-700: var(--t3-orange-700);
+  --color-orange-900: var(--t3-orange-900);
+  --color-slate-600: var(--t3-slate-600);
+  --color-slate-800: var(--t3-slate-800);
 
-  --color-wine-burgundy: var(--t3-wine-burgundy);
-  --color-bordeaux: var(--t3-bordeaux);
-  --color-amber: var(--t3-amber);
-  --color-cognac: var(--t3-cognac);
-  --color-bottle-green: var(--t3-bottle-green);
-  --color-dark-olive: var(--t3-dark-olive);
-  --color-warm-stone: var(--t3-warm-stone);
-  --color-dark-walnut: var(--t3-dark-walnut);
-  --color-gold: var(--t3-gold);
+  /*
+   * Legacy palette aliases — several pages predating the luxury redesign
+   * (product detail, checkout, admin, orders, etc.) still reference these
+   * token names. Rather than touching dozens of unrelated files, they are
+   * mapped onto the new palette here so nothing renders unstyled.
+   */
+  --color-obsidian: var(--t3-noir-profond);
+  --color-warm-black: var(--t3-noir-chaud);
+  --color-graphite: var(--t3-brun-cave);
+  --color-champagne: var(--t3-or-principal);
+  --color-soft-gold: var(--t3-or-clair);
+  --color-ivory: var(--t3-texte-clair);
+  --color-muted-grey: var(--t3-gris-chaud);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   --font-serif: var(--font-editorial-serif);
   --font-sans: var(--font-editorial-sans);
+  
+  --spacing-22: 5.5rem;
+  --spacing-88: 22rem;
 }
 
 html {
@@ -91,11 +133,11 @@ body {
 }
 
 ::selection {
-  background: var(--t3-champagne);
-  color: var(--t3-obsidian);
+  background: var(--t3-or-principal);
+  color: var(--t3-noir-profond);
 }
 
 :focus-visible {
-  outline: 2px solid var(--t3-champagne);
+  outline: 2px solid var(--t3-or-principal);
   outline-offset: 2px;
 }

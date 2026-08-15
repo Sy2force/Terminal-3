@@ -75,6 +75,38 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       customizable: formData.get("customizable") === "on",
       preparation_time_minutes: parseOptionalInt(formData.get("preparation_time_minutes")),
       new_until: (formData.get("new_until") as string) || null,
+      wine_type:
+        (formData.get("wine_type") as ProductFormData["wine_type"]) || null,
+      region: String(formData.get("region") || "") || null,
+      country: String(formData.get("country") || "") || null,
+      grape_varieties: String(formData.get("grape_varieties") || "")
+        .split(",")
+        .map((g) => g.trim())
+        .filter(Boolean),
+      rating: parseOptionalFloat(formData.get("rating")),
+      review_count: Number(formData.get("review_count") || 0),
+      is_best_seller: formData.get("is_best_seller") === "on",
+      badge: String(formData.get("badge") || "") || null,
+      serving_temperature: String(formData.get("serving_temperature") || "") || null,
+      aging_potential: String(formData.get("aging_potential") || "") || null,
+      // Wine ("vinification_method") and spirits ("production_method") share
+      // one "Méthode de fabrication / vinification" input in the form.
+      vinification_method: String(formData.get("production_method") || "") || null,
+      subcategory: String(formData.get("subcategory") || "") || null,
+      age_years: parseOptionalInt(formData.get("age_years")),
+      nose_notes: String(formData.get("nose_notes") || "") || null,
+      palate_notes: String(formData.get("palate_notes") || "") || null,
+      finish_notes: String(formData.get("finish_notes") || "") || null,
+      cask_type: String(formData.get("cask_type") || "") || null,
+      edition: String(formData.get("edition") || "") || null,
+      production_method: String(formData.get("production_method") || "") || null,
+      meat_type: String(formData.get("meat_type") || "") || null,
+      is_available_for_platter: formData.get("is_available_for_platter") === "on",
+      nutrition_info: String(formData.get("nutrition_info") || "") || null,
+      expiration_info: String(formData.get("expiration_info") || "") || null,
+      fish_type: String(formData.get("fish_type") || "") || null,
+      preparation_method: String(formData.get("preparation_method") || "") || null,
+      smoked: formData.get("smoked") === "on",
     };
 
     const payload = {
@@ -92,6 +124,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         availability_status: v.availability_status ?? "IN_STOCK",
         display_order: v.display_order ?? index,
         status: v.status ?? "published",
+        pricing_unit: v.pricing_unit ?? null,
+        packaging: v.packaging ?? null,
       })),
       media: media.map((m, index) => ({
         url: m.url || "",
@@ -304,6 +338,107 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
               </label>
             </Section>
 
+            <Section title="Vins & Spiritueux">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Select
+                  name="wine_type"
+                  label="Type de vin"
+                  defaultValue={initial?.wine_type ?? ""}
+                  options={[
+                    { value: "", label: "Non applicable" },
+                    { value: "ROUGE", label: "Rouge" },
+                    { value: "BLANC", label: "Blanc" },
+                    { value: "ROSE", label: "Rosé" },
+                    { value: "EFFERVESCENT", label: "Effervescent" },
+                    { value: "DOUX", label: "Doux" },
+                  ]}
+                />
+                <Select
+                  name="subcategory"
+                  label="Sous-catégorie (spiritueux)"
+                  defaultValue={initial?.subcategory ?? ""}
+                  options={[
+                    { value: "", label: "Non applicable" },
+                    { value: "WHISKY", label: "Whisky" },
+                    { value: "ARAK", label: "Arak" },
+                    { value: "COGNAC", label: "Cognac" },
+                    { value: "VODKA", label: "Vodka" },
+                    { value: "GIN", label: "Gin" },
+                    { value: "RHUM", label: "Rhum" },
+                    { value: "TEQUILA", label: "Tequila" },
+                    { value: "LIQUEUR", label: "Liqueurs" },
+                    { value: "APERITIF", label: "Apéritifs" },
+                    { value: "PREMIUM", label: "Spiritueux premium" },
+                  ]}
+                />
+                <Field name="region" label="Région" defaultValue={initial?.region ?? ""} />
+                <Field name="country" label="Pays" defaultValue={initial?.country ?? ""} />
+                <Field
+                  name="grape_varieties"
+                  label="Cépages (séparés par des virgules)"
+                  defaultValue={(initial?.grape_varieties ?? []).join(", ")}
+                />
+                <Field name="age_years" label="Âge (ans)" type="number" defaultValue={initial?.age_years ?? ""} />
+                <Field name="rating" label="Note (0 à 5)" type="number" defaultValue={initial?.rating ?? ""} />
+                <Field name="review_count" label="Nombre d'avis" type="number" defaultValue={initial?.review_count ?? 0} />
+                <Field name="badge" label="Badge personnalisé" defaultValue={initial?.badge ?? ""} />
+                <Field name="cask_type" label="Type de fût" defaultValue={initial?.cask_type ?? ""} />
+                <Field name="edition" label="Édition" defaultValue={initial?.edition ?? ""} />
+                <Field
+                  name="serving_temperature"
+                  label="Température de service"
+                  defaultValue={initial?.serving_temperature ?? ""}
+                />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-ivory/80">
+                <input
+                  type="checkbox"
+                  name="is_best_seller"
+                  defaultChecked={initial?.is_best_seller ?? false}
+                  className="h-4 w-4 accent-champagne"
+                />
+                Best-seller
+              </label>
+              <TextArea name="nose_notes" label="Nez (arômes)" defaultValue={initial?.nose_notes ?? ""} />
+              <TextArea name="palate_notes" label="Bouche (saveurs)" defaultValue={initial?.palate_notes ?? ""} />
+              <TextArea name="finish_notes" label="Finale" defaultValue={initial?.finish_notes ?? ""} />
+              <TextArea name="production_method" label="Méthode de fabrication / vinification" defaultValue={initial?.production_method ?? initial?.vinification_method ?? ""} />
+              <TextArea name="aging_potential" label="Potentiel de garde (vins)" defaultValue={initial?.aging_potential ?? ""} />
+            </Section>
+
+            <Section title="Charcuterie">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field name="meat_type" label="Type de viande" defaultValue={initial?.meat_type ?? ""} />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-ivory/80">
+                <input
+                  type="checkbox"
+                  name="is_available_for_platter"
+                  defaultChecked={initial?.is_available_for_platter ?? false}
+                  className="h-4 w-4 accent-champagne"
+                />
+                Disponible en plateau
+              </label>
+              <TextArea name="nutrition_info" label="Informations nutritionnelles" defaultValue={initial?.nutrition_info ?? ""} />
+              <TextArea name="expiration_info" label="Conservation / date limite" defaultValue={initial?.expiration_info ?? ""} />
+            </Section>
+
+            <Section title="Poissons">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field name="fish_type" label="Type de poisson" defaultValue={initial?.fish_type ?? ""} />
+                <Field name="preparation_method" label="Méthode de préparation" defaultValue={initial?.preparation_method ?? ""} />
+              </div>
+              <label className="flex items-center gap-2 text-sm text-ivory/80">
+                <input
+                  type="checkbox"
+                  name="smoked"
+                  defaultChecked={initial?.smoked ?? false}
+                  className="h-4 w-4 accent-champagne"
+                />
+                Fumé
+              </label>
+            </Section>
+
             <Section title="SEO">
               <Field name="meta_title" label="Meta titre" defaultValue={initial?.meta_title ?? ""} />
               <TextArea name="meta_description" label="Meta description" defaultValue={initial?.meta_description ?? ""} />
@@ -416,10 +551,34 @@ function VariantEditor({
   return (
     <div className="flex flex-col gap-4">
       {variants.map((v, i) => (
-        <div key={i} className="grid gap-3 rounded-sm border border-white/5 p-3 sm:grid-cols-4">
-          <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
+        <div key={i} className="grid gap-3 rounded-sm border border-white/5 p-3 sm:grid-cols-7">
+          <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label (ex: 200g, Entier)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <input value={v.sku ?? ""} onChange={(e) => update(i, { sku: e.target.value })} placeholder="SKU" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
+          <input type="number" value={v.weight_g ?? ""} onChange={(e) => update(i, { weight_g: e.target.value ? Number(e.target.value) : null })} placeholder="Poids (g)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <input type="number" value={v.regular_price_agorot ?? ""} onChange={(e) => update(i, { regular_price_agorot: e.target.value ? Number(e.target.value) : null })} placeholder="Prix (agorot)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
+          <select
+            value={v.pricing_unit ?? "FIXED"}
+            onChange={(e) => update(i, { pricing_unit: e.target.value as ProductVariantRow["pricing_unit"] })}
+            className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory"
+          >
+            <option value="FIXED">Prix fixe</option>
+            <option value="PACKAGE">Le paquet</option>
+            <option value="PER_100G">Pour 100 g</option>
+            <option value="PER_KG">Au kg</option>
+            <option value="FROM">À partir de</option>
+          </select>
+          <select
+            value={v.packaging ?? ""}
+            onChange={(e) => update(i, { packaging: e.target.value || null })}
+            className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory"
+          >
+            <option value="">Conditionnement</option>
+            <option value="GLASS">Verre</option>
+            <option value="CAN">Conserve</option>
+            <option value="VACUUM">Sous vide</option>
+            <option value="BULK">Format professionnel</option>
+            <option value="PLASTIC">Plastique</option>
+          </select>
           <div className="flex items-center gap-2">
             <label className="flex items-center gap-1 text-xs text-ivory/70">
               <input type="checkbox" checked={!!v.is_default} onChange={(e) => update(i, { is_default: e.target.checked })} className="accent-champagne" />
@@ -488,6 +647,12 @@ function MediaEditor({
 }
 
 function parseOptionalInt(value: FormDataEntryValue | null): number | null {
+  if (!value) return null;
+  const n = Number(value);
+  return Number.isNaN(n) ? null : n;
+}
+
+function parseOptionalFloat(value: FormDataEntryValue | null): number | null {
   if (!value) return null;
   const n = Number(value);
   return Number.isNaN(n) ? null : n;

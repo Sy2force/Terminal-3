@@ -4,6 +4,7 @@ import { StoreToggle } from "@/components/admin/store-toggle";
 import { WeeklyMessageEditor } from "@/components/admin/weekly-message-editor";
 import { SalmonGalleryEditor } from "@/components/admin/salmon-gallery-editor";
 import { DeliveryFeeEditor } from "@/components/admin/delivery-fee-editor";
+import { LogoUploader } from "@/components/admin/logo-uploader";
 
 export default async function AdminStorePage() {
   await requireAdminPermission("store.settings");
@@ -28,6 +29,14 @@ export default async function AdminStorePage() {
         </p>
 
         <StoreToggle initialOnline={online} />
+      </div>
+
+      <div className="mt-16 flex flex-col gap-3 border-t border-white/5 pt-10">
+        <h2 className="font-serif text-xl text-ivory">Logo</h2>
+        <p className="text-sm text-muted-grey">
+          Utilisé dans l&apos;en-tête et le footer du site public.
+        </p>
+        <LogoUploader initialUrl={settings.LOGO_URL} />
       </div>
 
       <div className="mt-16 flex flex-col gap-3 border-t border-white/5 pt-10">

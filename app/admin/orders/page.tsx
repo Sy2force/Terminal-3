@@ -34,6 +34,9 @@ export default async function AdminOrdersPage({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="font-serif text-2xl text-ivory">Commandes</h1>
+        <Link href="/admin/orders/kanban" className="text-sm text-champagne hover:text-soft-gold">
+          Vue Kanban
+        </Link>
       </div>
 
       <div className="flex flex-wrap gap-2">

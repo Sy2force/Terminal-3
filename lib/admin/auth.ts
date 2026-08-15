@@ -1,6 +1,7 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import type { AdminRoleType } from "@/types/database";
 
 export type AdminPermission =
@@ -61,15 +62,17 @@ export interface AdminSession {
  * Redirects to login or home if not. Call from Server Components.
  */
 export async function requireAdmin(): Promise<AdminSession> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getCurrentUser() returns null in demo mode (no live Supabase project
+  // to authenticate against) — this redirects exactly like an
+  // unauthenticated visitor rather than crashing the whole /admin
+  // section with a raw "URL and Key are required" error.
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login?redirect=/admin");
   }
 
+  const supabase = await createClient();
   const { data: roleRow } = await supabase
     .from("admin_roles")
     .select("role")

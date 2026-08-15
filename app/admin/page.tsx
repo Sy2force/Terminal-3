@@ -1,21 +1,39 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { isDemoMode } from "@/lib/demo-mode";
 import { requireAdmin } from "@/lib/admin/auth";
-import {
-  Package,
-  ShoppingBag,
-  Tag,
-  Users,
-  AlertTriangle,
-  Camera,
-  Clock,
-} from "lucide-react";
+import { AdminDashboardClient } from "@/components/admin/dashboard-stats";
+
+function todayStart(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export default async function AdminDashboardPage() {
-  const session = await requireAdmin();
-  const supabase = await createClient();
+  await requireAdmin();
 
-  const todayStart = new Date().toISOString().slice(0, 10);
+  const supabase = isDemoMode() ? null : await createClient();
+
+  // In demo mode all values are 0. The admin UI is still fully navigable,
+  // but no real business data is fabricated.
+  if (!supabase) {
+    return <AdminDashboardClient stats={{
+      productsCount: 0,
+      ordersTodayCount: 0,
+      activePromotionsCount: 0,
+      clubMembersCount: 0,
+      preparingCount: 0,
+      readyCount: 0,
+      ageChecksPending: 0,
+      missingPhotosCount: 0,
+      toConfirmCount: 0,
+      toDeliverCount: 0,
+      paidTodayAgorot: 0,
+      unpaidTodayAgorot: 0,
+      lowStockCount: 0,
+      outOfStockCount: 0,
+    }} />;
+  }
+
+  const today = todayStart();
 
   const [
     { count: productsCount },
@@ -26,161 +44,50 @@ export default async function AdminDashboardPage() {
     { count: readyCount },
     { count: ageChecksPending },
     { count: missingPhotosCount },
+    { count: toConfirmCount },
+    { count: toDeliverCount },
+    { data: paidToday },
+    { data: unpaidToday },
+    { count: lowStockCount },
+    { count: outOfStockCount },
   ] = await Promise.all([
-    supabase
-      .from("products")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "published"),
-    supabase
-      .from("orders")
-      .select("*", { count: "exact", head: true })
-      .gte("created_at", todayStart),
-    supabase
-      .from("promotions")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "active"),
-    supabase
-      .from("club_memberships")
-      .select("*", { count: "exact", head: true }),
-    supabase
-      .from("orders")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "confirmed"),
-    supabase
-      .from("orders")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "ready"),
-    supabase
-      .from("age_verifications")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "PENDING"),
-    supabase
-      .from("products")
-      .select("id", { count: "exact", head: true })
-      .not("id", "in", `(select product_id from product_media where kind = 'COVER')`),
+    supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
+    supabase.from("orders").select("*", { count: "exact", head: true }).gte("created_at", today),
+    supabase.from("promotions").select("*", { count: "exact", head: true }).eq("status", "active"),
+    supabase.from("club_memberships").select("*", { count: "exact", head: true }),
+    supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "confirmed"),
+    supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "ready"),
+    supabase.from("age_verifications").select("*", { count: "exact", head: true }).eq("status", "PENDING"),
+    supabase.from("products").select("id", { count: "exact", head: true }).not("id", "in", `(select product_id from product_media where kind = 'COVER')`),
+    supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "submitted"),
+    supabase.from("deliveries").select("*", { count: "exact", head: true }).in("status", ["ASSIGNED", "ACCEPTED", "PICKED_UP", "IN_TRANSIT", "ARRIVED"]),
+    supabase.from("orders").select("total_agorot").gte("created_at", today).in("status", ["completed", "ready"]),
+    supabase.from("orders").select("total_agorot").gte("created_at", today).in("status", ["submitted", "confirmed"]),
+    supabase.from("inventory").select("*", { count: "exact", head: true }).gt("quantity", 0).lt("quantity", 10),
+    supabase.from("inventory").select("*", { count: "exact", head: true }).eq("quantity", 0),
   ]);
 
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="font-serif text-2xl text-ivory">Dashboard</h1>
-        <p className="mt-1 text-sm text-muted-grey">
-          Connecté en tant que {session.email ?? session.userId} · {session.role}
-        </p>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard
-          label="Produits publiés"
-          value={productsCount ?? 0}
-          href="/admin/products"
-          icon={Package}
-        />
-        <DashboardCard
-          label="Commandes aujourd'hui"
-          value={ordersTodayCount ?? 0}
-          href="/admin/orders"
-          icon={ShoppingBag}
-        />
-        <DashboardCard
-          label="Promotions actives"
-          value={activePromotionsCount ?? 0}
-          href="/admin/promotions"
-          icon={Tag}
-        />
-        <DashboardCard
-          label="Membres du club"
-          value={clubMembersCount ?? 0}
-          href="/admin/members"
-          icon={Users}
-        />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <DashboardCard
-          label="En préparation"
-          value={preparingCount ?? 0}
-          href="/admin/orders"
-          icon={Clock}
-          accent="champagne"
-        />
-        <DashboardCard
-          label="Prêtes"
-          value={readyCount ?? 0}
-          href="/admin/orders"
-          icon={Package}
-          accent="champagne"
-        />
-        <DashboardCard
-          label="Vérif. 18+ en attente"
-          value={ageChecksPending ?? 0}
-          href="/admin/age-verifications"
-          icon={AlertTriangle}
-          accent="amber"
-        />
-        <DashboardCard
-          label="Photos manquantes"
-          value={missingPhotosCount ?? 0}
-          href="/admin/products"
-          icon={Camera}
-          accent="amber"
-        />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <QuickLink href="/admin/products" label="Nouveau produit" />
-        <QuickLink href="/admin/categories" label="Nouvelle catégorie" />
-        <QuickLink href="/admin/promotions" label="Nouvelle promotion" />
-        <QuickLink href="/admin/homepage" label="Modifier l'accueil" />
-        <QuickLink href="/admin/content" label="Nouvel article" />
-        <QuickLink href="/admin/store" label="Paramètres boutique" />
-        <QuickLink href="/admin/members" label="Gérer les membres" />
-      </div>
-    </div>
-  );
-}
-
-function DashboardCard({
-  label,
-  value,
-  href,
-  icon: Icon,
-  accent = "default",
-}: {
-  label: string;
-  value: number;
-  href: string;
-  icon: typeof Package;
-  accent?: "default" | "champagne" | "amber";
-}) {
-  const accentClass =
-    accent === "amber"
-      ? "text-amber-400"
-      : accent === "champagne"
-        ? "text-champagne"
-        : "text-ivory";
+  const paidTodayAgorot = (paidToday ?? []).reduce((sum, row) => sum + (row.total_agorot ?? 0), 0);
+  const unpaidTodayAgorot = (unpaidToday ?? []).reduce((sum, row) => sum + (row.total_agorot ?? 0), 0);
 
   return (
-    <Link
-      href={href}
-      className="flex flex-col rounded-sm border border-white/5 bg-graphite p-5 transition-colors hover:border-champagne/30"
-    >
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-grey">{label}</span>
-        <Icon className={`h-4 w-4 ${accentClass}`} />
-      </div>
-      <span className={`mt-2 font-serif text-3xl ${accentClass}`}>{value}</span>
-    </Link>
-  );
-}
-
-function QuickLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="rounded-full border border-champagne/40 px-6 py-3 text-center text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
-    >
-      {label}
-    </Link>
+    <AdminDashboardClient
+      stats={{
+        productsCount: productsCount ?? 0,
+        ordersTodayCount: ordersTodayCount ?? 0,
+        activePromotionsCount: activePromotionsCount ?? 0,
+        clubMembersCount: clubMembersCount ?? 0,
+        preparingCount: preparingCount ?? 0,
+        readyCount: readyCount ?? 0,
+        ageChecksPending: ageChecksPending ?? 0,
+        missingPhotosCount: missingPhotosCount ?? 0,
+        toConfirmCount: toConfirmCount ?? 0,
+        toDeliverCount: toDeliverCount ?? 0,
+        paidTodayAgorot,
+        unpaidTodayAgorot,
+        lowStockCount: lowStockCount ?? 0,
+        outOfStockCount: outOfStockCount ?? 0,
+      }}
+    />
   );
 }

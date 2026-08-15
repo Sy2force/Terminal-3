@@ -8,7 +8,9 @@ import {
   archiveProduct,
   createProduct,
   deleteProduct,
+  duplicateProduct,
   updateProduct,
+  getProductById,
   type ProductInput,
 } from "@/lib/data/products";
 
@@ -53,6 +55,32 @@ const productSchema = z.object({
   customizable: z.boolean().default(false),
   preparation_time_minutes: z.number().int().min(0).nullable().optional(),
   new_until: z.string().datetime().nullable().optional(),
+  wine_type: z.enum(["ROUGE", "BLANC", "ROSE", "EFFERVESCENT", "DOUX"]).nullable().optional(),
+  region: z.string().max(200).nullable().optional(),
+  country: z.string().max(200).nullable().optional(),
+  grape_varieties: z.array(z.string()).nullable().optional(),
+  rating: z.number().min(0).max(5).nullable().optional(),
+  review_count: z.number().int().min(0).default(0),
+  is_best_seller: z.boolean().default(false),
+  badge: z.string().max(100).nullable().optional(),
+  serving_temperature: z.string().max(200).nullable().optional(),
+  aging_potential: z.string().max(500).nullable().optional(),
+  vinification_method: z.string().max(500).nullable().optional(),
+  subcategory: z.string().max(100).nullable().optional(),
+  age_years: z.number().int().min(0).nullable().optional(),
+  nose_notes: nullableString,
+  palate_notes: nullableString,
+  finish_notes: nullableString,
+  cask_type: z.string().max(200).nullable().optional(),
+  edition: z.string().max(200).nullable().optional(),
+  production_method: nullableString,
+  meat_type: z.string().max(200).nullable().optional(),
+  is_available_for_platter: z.boolean().default(false),
+  nutrition_info: nullableString,
+  expiration_info: nullableString,
+  fish_type: z.string().max(200).nullable().optional(),
+  preparation_method: z.string().max(200).nullable().optional(),
+  smoked: z.boolean().default(false),
 });
 
 const variantSchema = z.object({
@@ -71,6 +99,8 @@ const variantSchema = z.object({
     .default("IN_STOCK"),
   display_order: z.number().int().default(0),
   status: z.enum(["draft", "published", "archived"]).default("published"),
+  pricing_unit: z.enum(["FIXED", "PACKAGE", "PER_100G", "PER_KG", "FROM"]).nullable().optional(),
+  packaging: z.string().max(100).nullable().optional(),
 });
 
 const mediaSchema = z.object({
@@ -160,6 +190,28 @@ export async function updateProductAction(
   }
 }
 
+export async function duplicateProductAction(
+  id: string,
+): Promise<ProductActionResult> {
+  const session = await requireAdminPermission("catalog.products");
+
+  try {
+    const duplicated = await duplicateProduct(id);
+    await logAudit({
+      actor: session.userId,
+      action: "created",
+      entityType: "product",
+      entityId: duplicated.id,
+      metadata: { slug: duplicated.slug, duplicated_from: id },
+    });
+    revalidatePath("/admin/products");
+    return { success: true };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "duplicate_failed";
+    return { success: false, error: message };
+  }
+}
+
 export async function archiveProductAction(
   id: string,
 ): Promise<ProductActionResult> {
@@ -201,5 +253,110 @@ export async function deleteProductAction(
   } catch (err) {
     const message = err instanceof Error ? err.message : "delete_failed";
     return { success: false, error: message };
+  }
+}
+
+export interface BulkActionResult {
+  success: boolean;
+  updated: number;
+  error?: string;
+}
+
+const bulkIdsSchema = z.array(z.string().uuid()).min(1).max(500);
+
+/**
+ * Bulk status change (draft / published / archived) across selected
+ * products, one at a time through the existing single-product update
+ * path so validation and audit logging stay consistent.
+ */
+export async function bulkUpdateStatusAction(
+  ids: unknown,
+  status: "draft" | "published" | "archived",
+): Promise<BulkActionResult> {
+  const session = await requireAdminPermission("catalog.products");
+  try {
+    const parsedIds = bulkIdsSchema.parse(ids);
+    let updated = 0;
+    for (const id of parsedIds) {
+      await updateProduct(id, { status });
+      updated += 1;
+    }
+    await logAudit({
+      actor: session.userId,
+      action: "status_changed",
+      entityType: "product",
+      entityId: parsedIds[0],
+      metadata: { status, count: updated },
+    });
+    revalidatePath("/admin/products");
+    revalidatePath("/categories");
+    return { success: true, updated };
+  } catch (err) {
+    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_status_failed" };
+  }
+}
+
+/**
+ * Bulk category reassignment across selected products.
+ */
+export async function bulkUpdateCategoryAction(
+  ids: unknown,
+  categoryId: string | null,
+): Promise<BulkActionResult> {
+  const session = await requireAdminPermission("catalog.products");
+  try {
+    const parsedIds = bulkIdsSchema.parse(ids);
+    let updated = 0;
+    for (const id of parsedIds) {
+      await updateProduct(id, { category_id: categoryId });
+      updated += 1;
+    }
+    await logAudit({
+      actor: session.userId,
+      action: "updated",
+      entityType: "product",
+      entityId: parsedIds[0],
+      metadata: { category_id: categoryId, count: updated },
+    });
+    revalidatePath("/admin/products");
+    revalidatePath("/categories");
+    return { success: true, updated };
+  } catch (err) {
+    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_category_failed" };
+  }
+}
+
+/**
+ * Bulk price adjustment by percentage (e.g. -10 for a 10% discount, or
+ * +5 for a 5% increase) applied to `base_price_agorot`. Only affects
+ * products that have a base price set; variant pricing is untouched.
+ */
+export async function bulkAdjustPriceAction(
+  ids: unknown,
+  percent: number,
+): Promise<BulkActionResult> {
+  const session = await requireAdminPermission("catalog.products");
+  try {
+    const parsedIds = bulkIdsSchema.parse(ids);
+    const clampedPercent = Math.max(-90, Math.min(500, percent));
+    let updated = 0;
+    for (const id of parsedIds) {
+      const product = await getProductById(id);
+      if (!product?.base_price_agorot) continue;
+      const newPrice = Math.round(product.base_price_agorot * (1 + clampedPercent / 100));
+      await updateProduct(id, { base_price_agorot: Math.max(0, newPrice) });
+      updated += 1;
+    }
+    await logAudit({
+      actor: session.userId,
+      action: "price_changed",
+      entityType: "product",
+      entityId: parsedIds[0],
+      metadata: { percent: clampedPercent, count: updated },
+    });
+    revalidatePath("/admin/products");
+    return { success: true, updated };
+  } catch (err) {
+    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_price_failed" };
   }
 }

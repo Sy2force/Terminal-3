@@ -83,7 +83,7 @@ export function WineDescriptions() {
 
         {/* Wine Cards */}
         <div className="grid gap-8 lg:gap-12">
-          {WINE_DESCRIPTIONS.map((wine, index) => (
+          {WINE_DESCRIPTIONS.map((wine) => (
             <div
               key={wine.id}
               className="group relative bg-warm-black rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-champagne/30 hover:shadow-2xl hover:shadow-champagne/10"

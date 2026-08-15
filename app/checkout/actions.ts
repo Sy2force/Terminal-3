@@ -16,10 +16,17 @@ const cartLineSchema = z.object({
 const checkoutInputSchema = z.object({
   fulfillmentType: z.enum(["pickup", "delivery"]),
   deliveryAddress: z.string().trim().max(500).optional(),
+  city: z.string().trim().max(200).optional(),
+  floor: z.string().trim().max(50).optional(),
+  entryCode: z.string().trim().max(50).optional(),
+  deliveryInstructions: z.string().trim().max(500).optional(),
+  desiredDate: z.string().trim().max(20).optional(),
+  timeSlot: z.string().trim().max(100).optional(),
   customerName: z.string().trim().min(1).max(200),
   customerPhone: z.string().trim().min(1).max(50),
   customerNotes: z.string().trim().max(1000).optional(),
   ageSelfDeclared: z.boolean(),
+  termsAccepted: z.boolean(),
   lines: z.array(cartLineSchema).min(1),
 });
 
@@ -97,6 +104,13 @@ export async function submitOrder(
     return {
       success: false,
       error: "Une adresse est requise pour la livraison.",
+    };
+  }
+
+  if (!input.termsAccepted) {
+    return {
+      success: false,
+      error: "Merci d'accepter les conditions pour continuer.",
     };
   }
 
@@ -249,6 +263,13 @@ export async function submitOrder(
       fulfillment_type: input.fulfillmentType,
       delivery_address:
         input.fulfillmentType === "delivery" ? input.deliveryAddress : null,
+      city: input.fulfillmentType === "delivery" ? input.city || null : null,
+      floor: input.fulfillmentType === "delivery" ? input.floor || null : null,
+      entry_code: input.fulfillmentType === "delivery" ? input.entryCode || null : null,
+      delivery_instructions:
+        input.fulfillmentType === "delivery" ? input.deliveryInstructions || null : null,
+      desired_date: input.desiredDate || null,
+      time_slot: input.timeSlot || null,
       customer_notes: input.customerNotes || null,
       age_self_declared: input.ageSelfDeclared,
       total_agorot: totalAgorot,
@@ -364,10 +385,15 @@ export async function submitOrder(
 
       if (quantityUsed > 0) {
         // Atomic decrement using raw SQL to prevent race conditions
-        const { error: decrementError } = await supabase.rpc('decrement_promotion_quantity', {
+        // The Supabase `Database` type has `Functions: Record<string, never>`
+        // until the `decrement_promotion_quantity` SQL function is formally
+        // declared in the schema types. This `any` is strictly local and only
+        // escapes one RPC call payload into a known named Postgres function.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error: decrementError } = await (supabase as any).rpc('decrement_promotion_quantity', {
           promotion_id: promoId,
           decrement_by: quantityUsed
-        } as any);
+        });
 
         if (decrementError) {
           // Log error but don't fail the order - this is best-effort

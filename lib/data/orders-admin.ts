@@ -9,6 +9,8 @@ import type {
   OrderFulfillmentGroupRow,
   OrderItemRow,
   AgeVerificationRow,
+  OrderNoteRow,
+  OrderStatusHistoryRow,
 } from "@/types/database";
 
 export type StaffOrderStatusFilter = "all" | OrderStatus;
@@ -55,6 +57,43 @@ export async function getOrdersForStaff(
   });
 }
 
+/**
+ * Active orders (submitted/confirmed/ready) with their full fulfillment
+ * groups, items and age verification attached — powers the staff queue
+ * view, which needs to show line items and let staff update fulfillment
+ * status per group without an extra round trip per order card.
+ */
+export async function getActiveOrdersWithDetailsForStaff(): Promise<OrderWithDetails[]> {
+  const supabase = await createClient();
+
+  const { data: orders, error } = await supabase
+    .from("orders")
+    .select("*")
+    .in("status", ["submitted", "confirmed", "ready"])
+    .order("created_at", { ascending: false });
+
+  if (error || !orders || orders.length === 0) return [];
+
+  const orderIds = orders.map((o) => o.id);
+  const [{ data: groups }, { data: items }, { data: ageVerifications }] = await Promise.all([
+    supabase.from("order_fulfillment_groups").select("*").in("order_id", orderIds),
+    supabase.from("order_items").select("*").in("order_id", orderIds),
+    supabase.from("age_verifications").select("*").in("order_id", orderIds),
+  ]);
+
+  return orders.map((order) => ({
+    ...order,
+    fulfillment_groups: (groups ?? [])
+      .filter((group) => group.order_id === order.id)
+      .map((group) => ({
+        ...group,
+        items: (items ?? []).filter((item) => item.fulfillment_group_id === group.id),
+        age_verification:
+          (ageVerifications ?? []).find((av) => av.fulfillment_group_id === group.id) ?? null,
+      })),
+  }));
+}
+
 export async function getOrderDetailsForStaff(
   orderId: string,
 ): Promise<OrderWithDetails | null> {
@@ -90,14 +129,37 @@ export async function getOrderDetailsForStaff(
 export async function updateOrderStatus(
   orderId: string,
   status: OrderStatus,
+  changedBy: string,
+  changedByName?: string,
+  comment?: string,
 ): Promise<void> {
   const supabase = await createClient();
+
+  const { data: current, error: fetchError } = await supabase
+    .from("orders")
+    .select("status")
+    .eq("id", orderId)
+    .maybeSingle();
+
+  if (fetchError || !current) throw new Error(fetchError?.message ?? "order_not_found");
+
   const { error } = await supabase
     .from("orders")
     .update({ status, updated_at: new Date().toISOString() })
     .eq("id", orderId);
 
   if (error) throw new Error(error.message ?? "update_order_status_failed");
+
+  if (current.status !== status) {
+    await supabase.from("order_status_history").insert({
+      order_id: orderId,
+      old_status: current.status,
+      new_status: status,
+      changed_by: changedBy,
+      changed_by_name: changedByName,
+      comment,
+    });
+  }
 }
 
 export async function updateFulfillmentStatus(
@@ -161,4 +223,50 @@ export async function updateAgeVerificationStatus(
     .eq("id", verificationId);
 
   if (error) throw new Error(error.message ?? "update_age_verification_failed");
+}
+
+export async function getOrderNotes(orderId: string): Promise<OrderNoteRow[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("order_notes")
+    .select("*")
+    .eq("order_id", orderId)
+    .order("created_at", { ascending: false });
+
+  if (error || !data) return [];
+  return data as unknown as OrderNoteRow[];
+}
+
+export async function getOrderStatusHistory(orderId: string): Promise<OrderStatusHistoryRow[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("order_status_history")
+    .select("*")
+    .eq("order_id", orderId)
+    .order("created_at", { ascending: false });
+
+  if (error || !data) return [];
+  return data as unknown as OrderStatusHistoryRow[];
+}
+
+export async function addOrderNote(
+  orderId: string,
+  note: string,
+  authorId: string,
+  authorName: string,
+): Promise<OrderNoteRow> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("order_notes")
+    .insert({
+      order_id: orderId,
+      note,
+      author_id: authorId,
+      author_name: authorName,
+    })
+    .select()
+    .single();
+
+  if (error || !data) throw new Error(error.message ?? "add_note_failed");
+  return data as unknown as OrderNoteRow;
 }

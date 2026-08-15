@@ -7,6 +7,7 @@ import {
   mockGetNewArrivals,
   mockGetProductBySlug,
   mockGetPublishedProducts,
+  mockGetPlatterProducts,
 } from "@/lib/data/mock-catalog";
 
 export interface ProductWithMedia extends ProductRow {
@@ -87,6 +88,55 @@ export async function getNewArrivals(limit = 24): Promise<ProductWithMedia[]> {
 
   if (error || !data) return [];
   return data as unknown as ProductWithMedia[];
+}
+
+/**
+ * Every product flagged as a platter (`product_type = "PLATTER"`),
+ * across all categories — powers /plateaux. A charcuterie or fish
+ * platter still belongs to its own category for browsing there, but
+ * also surfaces here so "Plateaux" is one real, unified catalog rather
+ * than a duplicate product list.
+ */
+export async function getPlatterProducts(): Promise<ProductWithMedia[]> {
+  if (isDemoMode()) return mockGetPlatterProducts();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "*, category:categories(*), variants:product_variants(*), media:product_media(*)",
+    )
+    .eq("status", "published")
+    .eq("product_type", "PLATTER")
+    .order("published_at", { ascending: false });
+
+  if (error || !data) return [];
+  return data as unknown as ProductWithMedia[];
+}
+
+/**
+ * Fetch a specific ordered set of products by id (e.g. for the homepage
+ * hero bottle carousel picked manually in the admin). Missing/unpublished
+ * ids are silently dropped rather than crashing the homepage.
+ */
+export async function getProductsByIds(ids: string[]): Promise<ProductWithMedia[]> {
+  if (ids.length === 0) return [];
+  if (isDemoMode()) {
+    const all = mockGetPublishedProducts();
+    const byId = new Map(all.map((p) => [p.id, p]));
+    return ids.map((id) => byId.get(id)).filter((p): p is ProductWithMedia => Boolean(p));
+  }
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "*, category:categories(*), variants:product_variants(*), media:product_media(*)",
+    )
+    .in("id", ids)
+    .eq("status", "published");
+
+  if (error || !data) return [];
+  const byId = new Map((data as unknown as ProductWithMedia[]).map((p) => [p.id, p]));
+  return ids.map((id) => byId.get(id)).filter((p): p is ProductWithMedia => Boolean(p));
 }
 
 export async function getProductBySlug(

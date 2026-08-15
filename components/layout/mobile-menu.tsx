@@ -1,19 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, User, Heart } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { WhatsAppButton, CallButton } from "@/components/commerce/contact-actions";
+import { NavLink } from "@/components/layout/nav-link";
+import { MobileAuthNav } from "@/components/auth/auth-nav";
 import type { SiteSettings } from "@/lib/settings";
 
 export function MobileMenu({
   settings,
+  user,
   links,
 }: {
   settings: SiteSettings;
+  user: SupabaseUser | null;
   links: { href: string; label: string }[];
 }) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    if (open) window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [open]);
+
+
 
   return (
     <div className="md:hidden">
@@ -22,57 +48,43 @@ export function MobileMenu({
         aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="rounded-full p-2 text-ivory"
+        className="rounded-full p-2 text-texte-clair transition-colors hover:text-or-principal"
       >
-        {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {open ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
       </button>
 
       {open && (
-        <div className="fixed inset-0 top-16 z-40 flex flex-col bg-obsidian">
+        <div className="fixed inset-0 top-0 z-40 flex flex-col bg-noir-chaud" aria-label="Menu mobile" role="dialog" aria-modal="true">
+          <div className="flex items-center justify-between border-b border-or-principal/10 px-6 py-4">
+            <span className="font-serif text-xl text-texte-clair">Menu</span>
+            <button
+              type="button"
+              aria-label="Fermer le menu"
+              onClick={() => setOpen(false)}
+              className="rounded-full p-2 text-texte-clair/80 hover:text-or-principal"
+            >
+              <X className="h-6 w-6" aria-hidden />
+            </button>
+          </div>
+
           <nav
             aria-label="Navigation mobile"
-            className="flex flex-1 flex-col gap-1 px-6 py-8"
+            className="flex flex-1 flex-col gap-1 overflow-y-auto px-6 py-6"
           >
             {links.map((link) => (
-              <Link
+              <NavLink
                 key={link.href}
                 href={link.href}
+                label={link.label}
                 onClick={() => setOpen(false)}
-                className="border-b border-white/5 py-4 font-serif text-2xl text-ivory"
-              >
-                {link.label}
-              </Link>
+                mobile
+              />
             ))}
 
-            <div className="mt-6 flex gap-6">
-              <Link
-                href="/account"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 text-sm text-ivory/80"
-              >
-                <User className="h-5 w-5" aria-hidden />
-                Mon compte
-              </Link>
-              <Link
-                href="/account/favorites"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 text-sm text-ivory/80"
-              >
-                <Heart className="h-5 w-5" aria-hidden />
-                Favoris
-              </Link>
-            </div>
-
-            <Link
-              href="/club"
-              onClick={() => setOpen(false)}
-              className="mt-8 rounded-full bg-champagne px-5 py-3 text-center text-sm font-semibold tracking-wide text-obsidian"
-            >
-              Rejoindre le Club
-            </Link>
+            <MobileAuthNav user={user} onClose={() => setOpen(false)} />
           </nav>
 
-          <div className="flex gap-3 border-t border-white/10 px-6 py-4">
+          <div className="flex gap-3 border-t border-or-principal/10 px-6 py-4">
             <CallButton phone={settings.STORE_PHONE} className="flex-1" />
             <WhatsAppButton
               whatsapp={settings.STORE_WHATSAPP}

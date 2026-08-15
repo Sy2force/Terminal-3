@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { listOrdersForCurrentUser } from "@/lib/data/orders";
 import { formatAgorot } from "@/lib/money";
 import { ORDER_STATUS_LABELS } from "@/lib/order-status-labels";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function AccountOrdersPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/account/orders");
 
   const orders = await listOrdersForCurrentUser();

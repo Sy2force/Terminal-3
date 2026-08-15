@@ -31,7 +31,15 @@ remains for future phases.
    db/migrations/0002_rls.sql                       -- Row Level Security policies
    db/migrations/0003_checkout.sql                  -- checkout columns + auto profile-creation trigger
    db/migrations/0004_first_purchase_discount.sql   -- order discount columns + weekly promo/gallery settings
+   db/migrations/0005_categories_upgrade.sql        -- category CMS fields
+   db/migrations/0006_products_upgrade.sql          -- product/variant/media CMS fields
+   db/migrations/0007_storage_buckets.sql           -- Supabase Storage buckets
+   db/migrations/0008_platform_upgrade.sql          -- platform-wide upgrades
+   db/migrations/0009_promotion_quantity_decrement.sql
+   db/migrations/0010_promotion_auto_status.sql
+   db/migrations/0011_wine_catalog_fields.sql       -- wine_type/region/country/grapes/rating/badge for /vins
    db/seed/seed.sql                                 -- branch, categories, STORE_ONLINE flag, Sarfati + charcuterie seed data
+   db/seed/seed_wines.sql                           -- 8 realistic demo wines for the /vins catalog (run after 0011)
    ```
 
 3. In the Supabase Auth settings, enable **Email OTP** sign-in (the site uses

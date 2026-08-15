@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import { getActivePromotions } from "@/lib/data/promotions";
 import { PromotionCard } from "@/components/commerce/promotion-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CategoryCoverCta } from "@/components/catalog/category-cover-cta";
+import { getPublishedPageContent, buildPageMetadata } from "@/lib/data/page-contents";
 
 export const revalidate = 30;
 
-export const metadata: Metadata = {
-  title: "Les offres Terminal 3",
-  description:
-    "Découvrez les promotions actives chez Terminal 3 : vins, whiskies, spiritueux, saumon fumé et charcuterie.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata("promotions", {
+    title: "Les offres Terminal 3",
+    description:
+      "Découvrez les promotions actives chez Terminal 3 : vins, whiskies, spiritueux, saumon fumé et charcuterie.",
+    canonical: "/promotions",
+  });
+}
 
 const FILTERS = [
   { label: "Tout", value: undefined },
@@ -25,7 +30,10 @@ export default async function PromotionsPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { category } = await searchParams;
+  const [{ category }, pageContent] = await Promise.all([
+    searchParams,
+    getPublishedPageContent("promotions"),
+  ]);
   const categorySlug = typeof category === "string" ? category : undefined;
 
   const promotions = await getActivePromotions();
@@ -43,9 +51,13 @@ export default async function PromotionsPage({
           Conversion
         </span>
         <h1 className="mt-2 font-serif text-3xl text-ivory sm:text-4xl">
-          Les offres Terminal 3
+          {pageContent?.title ?? "Les offres Terminal 3"}
         </h1>
       </header>
+
+      <div className="text-center">
+        <CategoryCoverCta variant="bordeaux" label="Découvrir les offres" targetId="offres" />
+      </div>
 
       <nav
         aria-label="Filtrer les offres"
@@ -69,7 +81,7 @@ export default async function PromotionsPage({
       {filtered.length === 0 ? (
         <EmptyState message="Cette offre est terminée — découvrez les offres actuelles." />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div id="offres" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((promo) => (
             <PromotionCard key={promo.id} promotion={promo} />
           ))}

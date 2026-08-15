@@ -48,6 +48,10 @@ export type AdminRoleType = "OWNER" | "MANAGER" | "CONTENT_EDITOR" | "STAFF" | "
 export type OrderChannel = "web" | "phone" | "manual";
 export type OrderFulfillmentType = "pickup" | "delivery";
 export type CategoryTheme = "DEFAULT" | "CELLAR" | "PACKSHOT" | "GOURMET" | "PLATTER" | "EDITORIAL";
+/** Wine colour/style — only meaningful for products in the wine category. */
+export type WineType = "ROUGE" | "BLANC" | "ROSE" | "EFFERVESCENT" | "DOUX";
+/** How a variant's price should be read — lets the UI always show an unambiguous unit ("29 ₪ / 100 g", "89 ₪ / kg", "45 ₪ le paquet", "À partir de 149 ₪"). */
+export type PricingUnit = "FIXED" | "PACKAGE" | "PER_100G" | "PER_KG" | "FROM";
 
 export type HeroSlide = {
   id: string;
@@ -119,6 +123,12 @@ export type ClubMembershipRow = {
   source: string | null;
   joined_at: string;
   tier_id: string | null;
+  /** Signup details (0017_club_membership_details.sql). */
+  date_of_birth: string | null;
+  preferred_language: string | null;
+  preferences: string[];
+  marketing_consent: boolean;
+  privacy_accepted: boolean;
 }
 
 export type CategoryRow = {
@@ -148,6 +158,7 @@ export type ProductRow = {
   category_id: string | null;
   product_type: ProductType;
   brand: string | null;
+  brand_id: string | null;
   name_he: string;
   name_fr: string | null;
   name_en: string | null;
@@ -179,6 +190,37 @@ export type ProductRow = {
   new_until: string | null;
   created_at: string;
   updated_at: string;
+  /** Wine-catalog fields (0011_wine_catalog_fields.sql) — null for non-wine products. */
+  wine_type: WineType | null;
+  region: string | null;
+  country: string | null;
+  grape_varieties: string[] | null;
+  rating: number | null;
+  review_count: number;
+  is_best_seller: boolean;
+  /** Optional custom badge label overriding the automatic New/Promo/Best-seller badges. */
+  badge: string | null;
+  serving_temperature: string | null;
+  aging_potential: string | null;
+  vinification_method: string | null;
+  /** Spirits-catalog fields (0013_spirits_catalog_fields.sql) — generic enough to be reused by future categories too. */
+  subcategory: string | null;
+  age_years: number | null;
+  nose_notes: string | null;
+  palate_notes: string | null;
+  finish_notes: string | null;
+  cask_type: string | null;
+  edition: string | null;
+  production_method: string | null;
+  /** Charcuterie-catalog fields (0014_charcuterie_fields.sql) — null for other categories. */
+  meat_type: string | null;
+  is_available_for_platter: boolean;
+  nutrition_info: string | null;
+  expiration_info: string | null;
+  /** Fish-catalog fields (0015_fish_catalog_fields.sql) — null for other categories. */
+  fish_type: string | null;
+  preparation_method: string | null;
+  smoked: boolean;
 }
 
 export type ProductVariantRow = {
@@ -198,6 +240,10 @@ export type ProductVariantRow = {
   status: ProductStatus;
   created_at: string;
   updated_at: string;
+  /** How to read this variant's price — null/"FIXED" behaves exactly like before. */
+  pricing_unit: PricingUnit | null;
+  /** e.g. "GLASS", "CAN", "VACUUM", "BULK", "PLASTIC" — null for wine/spirits/charcuterie. */
+  packaging: string | null;
 }
 
 export type ProductMediaRow = {
@@ -271,6 +317,13 @@ export type OrderRow = {
   discount_label: string | null;
   created_at: string;
   updated_at: string;
+  /** Delivery/pickup scheduling details (0016_order_fulfillment_details.sql). */
+  city: string | null;
+  floor: string | null;
+  entry_code: string | null;
+  delivery_instructions: string | null;
+  desired_date: string | null;
+  time_slot: string | null;
 }
 
 export type OrderFulfillmentGroupRow = {
@@ -405,6 +458,7 @@ export type DeliveryRow = {
   id: string;
   order_id: string;
   courier_user_id: string | null;
+  delivery_driver_id: string | null;
   status: DeliveryStatus;
   assigned_at: string;
   accepted_at: string | null;
@@ -415,7 +469,10 @@ export type DeliveryRow = {
   failed_at: string | null;
   failure_reason: string | null;
   payment_collected: boolean;
+  payment_collected_amount_agorot: number;
+  payment_collected_method: string | null;
   payment_method: string | null;
+  customer_instructions: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -437,6 +494,238 @@ export type ProductRelationRow = {
   product_id: string;
   related_product_id: string;
   sort_order: number;
+  created_at: string;
+};
+
+export type ProductReviewRow = {
+  id: string;
+  product_id: string;
+  user_id: string | null;
+  author_name: string;
+  rating: number;
+  comment: string;
+  is_published: boolean;
+  created_at: string;
+};
+
+export type BrandRow = {
+  id: string;
+  slug: string;
+  name: string;
+  name_he: string | null;
+  name_en: string | null;
+  description: string | null;
+  logo_url: string | null;
+  cover_image_url: string | null;
+  primary_color: string | null;
+  secondary_color: string | null;
+  website_url: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PageContentStatus = "draft" | "scheduled" | "published" | "archived";
+
+export type PageContentRow = {
+  id: string;
+  slug: string;
+  page_type: string;
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  og_image_url: string | null;
+  blocks: unknown;
+  status: PageContentStatus;
+  draft_blocks: unknown | null;
+  scheduled_at: string | null;
+  published_at: string | null;
+  published_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ContentRevisionRow = {
+  id: string;
+  entity_type: string;
+  entity_id: string;
+  author_id: string | null;
+  action: string;
+  previous_value: unknown;
+  new_value: unknown;
+  is_published: boolean;
+  created_at: string;
+};
+
+export type MediaKind = "image" | "video" | "model3d" | "document";
+
+export type MediaRow = {
+  id: string;
+  filename: string;
+  original_url: string;
+  thumbnail_url: string | null;
+  alt: string | null;
+  kind: MediaKind;
+  mime_type: string | null;
+  file_size_bytes: number | null;
+  width: number | null;
+  height: number | null;
+  duration_seconds: number | null;
+  folder: string;
+  uploaded_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type MediaUsageRow = {
+  id: string;
+  media_id: string;
+  entity_type: string;
+  entity_id: string;
+  field_path: string;
+  created_at: string;
+};
+
+export type PaymentMethod =
+  | "cash_store"
+  | "cash_delivery"
+  | "card_store"
+  | "card_delivery"
+  | "wolt"
+  | "refund"
+  | "manual";
+
+export type PaymentStatus =
+  | "unpaid"
+  | "cash_store_expected"
+  | "card_store_expected"
+  | "cash_delivery_expected"
+  | "card_delivery_expected"
+  | "partially_paid"
+  | "paid"
+  | "refunded"
+  | "refused"
+  | "cancelled";
+
+export type PaymentRow = {
+  id: string;
+  order_id: string;
+  amount_agorot: number;
+  method: PaymentMethod | null;
+  status: PaymentStatus;
+  collected_by: string | null;
+  collected_at: string | null;
+  reference: string | null;
+  notes: string | null;
+  idempotency_key: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PaymentStatusHistoryRow = {
+  id: string;
+  payment_id: string;
+  order_id: string;
+  old_status: PaymentStatus | null;
+  new_status: PaymentStatus;
+  amount_agorot: number;
+  changed_by: string | null;
+  comment: string | null;
+  created_at: string;
+};
+
+export type OrderNoteRow = {
+  id: string;
+  order_id: string;
+  note: string;
+  author_id: string | null;
+  author_name: string | null;
+  created_at: string;
+};
+
+export type OrderStatusHistoryRow = {
+  id: string;
+  order_id: string;
+  old_status: string | null;
+  new_status: string;
+  changed_by: string | null;
+  changed_by_name: string | null;
+  comment: string | null;
+  created_at: string;
+};
+
+export type DriverStatus = "active" | "inactive" | "on_duty" | "off_duty";
+
+export type DeliveryDriverRow = {
+  id: string;
+  profile_id: string | null;
+  name: string;
+  phone: string;
+  email: string | null;
+  status: DriverStatus;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type WoltConnectionStatus = "not_configured" | "configured" | "syncing" | "error" | "disconnected";
+
+export type WoltConnectionRow = {
+  id: string;
+  merchant_id: string | null;
+  venue_id: string | null;
+  access_token_encrypted: string | null;
+  refresh_token_encrypted: string | null;
+  status: WoltConnectionStatus;
+  last_synced_at: string | null;
+  last_error: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type WoltProductMappingRow = {
+  id: string;
+  product_id: string;
+  wolt_item_id: string;
+  wolt_price_agorot: number | null;
+  sync_enabled: boolean;
+  last_synced_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type WoltSyncLogRow = {
+  id: string;
+  sync_type: string;
+  status: string;
+  items_count: number;
+  error_message: string | null;
+  started_at: string;
+  completed_at: string | null;
+};
+
+export type NotificationType =
+  | "new_order"
+  | "urgent_order"
+  | "payment_missing"
+  | "low_stock"
+  | "out_of_stock"
+  | "delivery_failed"
+  | "age_verification_issue"
+  | "wolt_error"
+  | "media_missing"
+  | "publish_failed";
+
+export type NotificationRow = {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string | null;
+  related_entity_type: string | null;
+  related_entity_id: string | null;
+  is_read: boolean;
   created_at: string;
 };
 
@@ -480,6 +769,8 @@ export interface Database {
         | "regular_price_agorot_snapshot"
         | "final_price_agorot_snapshot"
       >;
+      order_notes: TableDef<OrderNoteRow, "order_id">;
+      order_status_history: TableDef<OrderStatusHistoryRow, "order_id">;
       age_verifications: TableDef<
         AgeVerificationRow,
         "order_id" | "fulfillment_group_id"
@@ -502,6 +793,22 @@ export interface Database {
       deliveries: TableDef<DeliveryRow, "order_id">;
       membership_tiers: TableDef<MembershipTierRow, "slug" | "name">;
       product_relations: TableDef<ProductRelationRow, "product_id" | "related_product_id">;
+      product_reviews: TableDef<
+        ProductReviewRow,
+        "product_id" | "author_name" | "rating" | "comment"
+      >;
+      brands: TableDef<BrandRow, "slug" | "name">;
+      page_contents: TableDef<PageContentRow, "slug" | "status">;
+      content_revisions: TableDef<ContentRevisionRow, "entity_type" | "entity_id">;
+      media: TableDef<MediaRow, "filename" | "kind" | "folder">;
+      media_usage: TableDef<MediaUsageRow, "media_id" | "entity_type" | "entity_id">;
+      payments: TableDef<PaymentRow, "order_id" | "status">;
+      payment_status_history: TableDef<PaymentStatusHistoryRow, "payment_id">;
+      delivery_drivers: TableDef<DeliveryDriverRow, "phone" | "status">;
+      wolt_connections: TableDef<WoltConnectionRow, "status">;
+      wolt_product_mappings: TableDef<WoltProductMappingRow, "product_id">;
+      wolt_sync_logs: TableDef<WoltSyncLogRow, "sync_type" | "status" | "started_at">;
+      notifications: TableDef<NotificationRow, "type" | "is_read" | "created_at">;
     };
   };
 }

@@ -42,7 +42,7 @@ export async function toggleFavorite(
       .delete()
       .eq("id", existing.id);
     if (error) return { success: false, favorited: true, error: "Erreur." };
-    revalidatePath("/account/favorites");
+    revalidatePath("/favoris");
     return { success: true, favorited: false };
   }
 
@@ -50,6 +50,6 @@ export async function toggleFavorite(
     .from("favorites")
     .insert({ user_id: user.id, product_id: productId });
   if (error) return { success: false, favorited: false, error: "Erreur." };
-  revalidatePath("/account/favorites");
+  revalidatePath("/favoris");
   return { success: true, favorited: true };
 }

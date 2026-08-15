@@ -40,6 +40,41 @@ export async function getDeliveriesForCourier(
   });
 }
 
+/**
+ * All deliveries for the admin console, most recent first. Powers
+ * /admin/livraisons — unlike getPendingDeliveries (courier-facing,
+ * unassigned only) this includes every status so staff can see the
+ * full pipeline from assignment to delivery/failure.
+ */
+export async function getAllDeliveriesForAdmin(): Promise<DeliveryWithOrder[]> {
+  const supabase = await createClient();
+
+  const { data: deliveries, error } = await supabase
+    .from("deliveries")
+    .select("*")
+    .order("assigned_at", { ascending: false });
+
+  if (error || !deliveries || deliveries.length === 0) return [];
+
+  const orderIds = deliveries.map((d) => d.order_id);
+  const [{ data: orders }, { data: items }] = await Promise.all([
+    supabase.from("orders").select("*").in("id", orderIds),
+    supabase.from("order_items").select("*").in("order_id", orderIds),
+  ]);
+
+  return deliveries.map((delivery) => {
+    const order = (orders ?? []).find((o) => o.id === delivery.order_id);
+    const orderItems = (items ?? []).filter((i) => i.order_id === delivery.order_id);
+    return {
+      ...delivery,
+      order: {
+        ...(order as OrderRow),
+        items: orderItems,
+      },
+    } as DeliveryWithOrder;
+  });
+}
+
 export async function getPendingDeliveries(): Promise<DeliveryWithOrder[]> {
   const supabase = await createClient();
 

@@ -1,22 +1,23 @@
+import type { LucideIcon } from "lucide-react";
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { getAllProducts } from "@/lib/data/products";
 import { formatAgorot } from "@/lib/money";
-import { AlertTriangle, Package, TrendingUp, TrendingDown } from "lucide-react";
+import { AlertTriangle, Package, TrendingDown } from "lucide-react";
 
 export default async function InventoryPage() {
   await requireAdminPermission("catalog.products");
   const products = await getAllProducts();
 
-  const inStock = products.filter((p: any) => p.availability_status === "IN_STOCK").length;
-  const lowStock = products.filter((p: any) => p.availability_status === "LOW_STOCK").length;
-  const outOfStock = products.filter((p: any) => p.availability_status === "OUT_OF_STOCK").length;
+  const inStock = products.filter((p) => p.availability_status === "IN_STOCK").length;
+  const lowStock = products.filter((p) => p.availability_status === "LOW_STOCK").length;
+  const outOfStock = products.filter((p) => p.availability_status === "OUT_OF_STOCK").length;
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="font-serif text-2xl text-ivory">Gestion des stocks</h1>
         <p className="mt-1 text-sm text-muted-grey">
-          Suivi de l'inventaire et alertes de stock
+          Suivi de l&rsquo;inventaire et alertes de stock
         </p>
       </div>
 
@@ -105,7 +106,7 @@ export default async function InventoryPage() {
             <span className="font-medium">Alertes de stock faible</span>
           </div>
           <p className="mt-2 text-sm text-ivory/80">
-            {lowStock} produit{lowStock > 1 ? "s" : ""} en stock faible. Vérifiez l'inventaire.
+            {lowStock} produit{lowStock > 1 ? "s" : ""} en stock faible. Vérifiez l&rsquo;inventaire.
           </p>
         </div>
       )}
@@ -122,7 +123,7 @@ function InventoryCard({
 }: {
   label: string;
   value: number;
-  icon: any;
+  icon: LucideIcon;
   color: string;
   borderColor: string;
 }) {

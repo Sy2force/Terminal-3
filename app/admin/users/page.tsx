@@ -1,10 +1,22 @@
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { createClient } from "@/lib/supabase/server";
-import { Shield, UserPlus, Trash2 } from "lucide-react";
-import { formatAgorot } from "@/lib/money";
+import { Shield } from "lucide-react";
+import { AssignRoleControl, RevokeRoleButton } from "@/components/admin/user-role-controls";
+import type { ProfileRow, AdminRoleType } from "@/types/database";
+
+interface UserWithRoles extends ProfileRow {
+  admin_roles: { role: AdminRoleType }[] | null;
+}
+
+interface RoleWithProfile {
+  id: string;
+  role: AdminRoleType;
+  profiles: Pick<ProfileRow, "first_name" | "last_name" | "email"> | null;
+}
 
 export default async function AdminUsersPage() {
-  await requireAdminPermission("admin.users");
+  const session = await requireAdminPermission("admin.users");
+  const isOwner = session.role === "OWNER";
   const supabase = await createClient();
 
   const { data: users } = await supabase
@@ -44,8 +56,8 @@ export default async function AdminUsersPage() {
         <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
           <h2 className="font-serif text-lg text-champagne mb-4">Utilisateurs</h2>
           <div className="space-y-3">
-            {users?.map((user: any) => (
-              <UserRow key={user.id} user={user} />
+            {users?.map((user: UserWithRoles) => (
+              <UserRow key={user.id} user={user} isOwner={isOwner} />
             ))}
             {users?.length === 0 && (
               <p className="text-sm text-muted-grey">Aucun utilisateur.</p>
@@ -57,8 +69,8 @@ export default async function AdminUsersPage() {
         <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
           <h2 className="font-serif text-lg text-champagne mb-4">Rôles admin</h2>
           <div className="space-y-3">
-            {roles?.map((role: any) => (
-              <RoleRow key={role.id} role={role} />
+            {roles?.map((role: RoleWithProfile) => (
+              <RoleRow key={role.id} role={role} isOwner={isOwner} />
             ))}
             {roles?.length === 0 && (
               <p className="text-sm text-muted-grey">Aucun rôle assigné.</p>
@@ -70,7 +82,7 @@ export default async function AdminUsersPage() {
   );
 }
 
-function UserRow({ user }: { user: any }) {
+function UserRow({ user, isOwner }: { user: UserWithRoles; isOwner: boolean }) {
   const hasRole = user.admin_roles && user.admin_roles.length > 0;
   
   return (
@@ -83,20 +95,23 @@ function UserRow({ user }: { user: any }) {
         </div>
         <div className="text-xs text-muted-grey">{user.email || "—"}</div>
       </div>
-      {hasRole ? (
-        <span className="rounded-full border border-champagne/30 px-2 py-1 text-xs text-champagne">
-          {user.admin_roles[0].role}
-        </span>
-      ) : (
-        <span className="rounded-full border border-white/10 px-2 py-1 text-xs text-muted-grey">
-          Aucun rôle
-        </span>
-      )}
+      <div className="flex items-center gap-2">
+        {hasRole ? (
+          <span className="rounded-full border border-champagne/30 px-2 py-1 text-xs text-champagne">
+            {user.admin_roles?.[0].role}
+          </span>
+        ) : (
+          <span className="rounded-full border border-white/10 px-2 py-1 text-xs text-muted-grey">
+            Aucun rôle
+          </span>
+        )}
+        <AssignRoleControl userId={user.id} isOwner={isOwner} />
+      </div>
     </div>
   );
 }
 
-function RoleRow({ role }: { role: any }) {
+function RoleRow({ role, isOwner }: { role: RoleWithProfile; isOwner: boolean }) {
   const roleColors: Record<string, string> = {
     OWNER: "border-amber-400/30 text-amber-400 bg-amber-400/5",
     MANAGER: "border-champagne/30 text-champagne bg-champagne/5",
@@ -117,9 +132,12 @@ function RoleRow({ role }: { role: any }) {
           <div className="text-xs text-muted-grey">{role.profiles?.email || "—"}</div>
         </div>
       </div>
-      <span className={`rounded-full border px-2 py-1 text-xs ${roleColors[role.role] || "border-white/10 text-muted-grey"}`}>
-        {role.role}
-      </span>
+      <div className="flex items-center gap-2">
+        <span className={`rounded-full border px-2 py-1 text-xs ${roleColors[role.role] || "border-white/10 text-muted-grey"}`}>
+          {role.role}
+        </span>
+        <RevokeRoleButton roleId={role.id} isOwner={isOwner} />
+      </div>
     </div>
   );
 }

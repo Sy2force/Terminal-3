@@ -12,7 +12,8 @@ alter type admin_role_type add value if not exists 'COURIER';
 -- 2. CATEGORY THEMES
 -- ============================================================
 
-create type if not exists category_theme as enum (
+do $$ begin
+  create type category_theme as enum (
   'DEFAULT',
   'CELLAR',
   'PACKSHOT',
@@ -20,6 +21,8 @@ create type if not exists category_theme as enum (
   'PLATTER',
   'EDITORIAL'
 );
+exception when duplicate_object then null;
+end $$;
 
 alter table categories
   add column if not exists theme category_theme default 'DEFAULT';
@@ -28,7 +31,8 @@ alter table categories
 -- 3. HOMEPAGE SECTIONS (CMS-driven homepage builder)
 -- ============================================================
 
-create type if not exists homepage_section_type as enum (
+do $$ begin
+  create type homepage_section_type as enum (
   'HERO',
   'PROMOTIONS',
   'NEW_PRODUCTS',
@@ -41,6 +45,8 @@ create type if not exists homepage_section_type as enum (
   'STORE_INFORMATION',
   'GALLERY'
 );
+exception when duplicate_object then null;
+end $$;
 
 create table if not exists homepage_sections (
   id uuid primary key default gen_random_uuid(),
@@ -61,7 +67,8 @@ create index if not exists idx_homepage_sections_sort
 -- 4. DELIVERIES (courier assignment + tracking)
 -- ============================================================
 
-create type if not exists delivery_status as enum (
+do $$ begin
+  create type delivery_status as enum (
   'ASSIGNED',
   'ACCEPTED',
   'PICKED_UP',
@@ -70,6 +77,8 @@ create type if not exists delivery_status as enum (
   'DELIVERED',
   'FAILED'
 );
+exception when duplicate_object then null;
+end $$;
 
 create table if not exists deliveries (
   id uuid primary key default gen_random_uuid(),
@@ -147,11 +156,13 @@ alter table membership_tiers enable row level security;
 alter table product_relations enable row level security;
 
 -- Homepage sections: public read, admin write
-create policy if not exists "homepage_sections_public_read"
+drop policy if exists "homepage_sections_public_read" on homepage_sections;
+create policy "homepage_sections_public_read"
   on homepage_sections for select
   using (true);
 
-create policy if not exists "homepage_sections_admin_write"
+drop policy if exists "homepage_sections_admin_write" on homepage_sections;
+create policy "homepage_sections_admin_write"
   on homepage_sections for all
   using (
     exists (
@@ -169,7 +180,8 @@ create policy if not exists "homepage_sections_admin_write"
   );
 
 -- Deliveries: courier reads own, admin reads all
-create policy if not exists "deliveries_courier_read_own"
+drop policy if exists "deliveries_courier_read_own" on deliveries;
+create policy "deliveries_courier_read_own"
   on deliveries for select
   using (
     courier_user_id = auth.uid()
@@ -180,7 +192,8 @@ create policy if not exists "deliveries_courier_read_own"
     )
   );
 
-create policy if not exists "deliveries_admin_all"
+drop policy if exists "deliveries_admin_all" on deliveries;
+create policy "deliveries_admin_all"
   on deliveries for all
   using (
     exists (
@@ -198,11 +211,13 @@ create policy if not exists "deliveries_admin_all"
   );
 
 -- Membership tiers: public read, admin write
-create policy if not exists "membership_tiers_public_read"
+drop policy if exists "membership_tiers_public_read" on membership_tiers;
+create policy "membership_tiers_public_read"
   on membership_tiers for select
   using (true);
 
-create policy if not exists "membership_tiers_admin_write"
+drop policy if exists "membership_tiers_admin_write" on membership_tiers;
+create policy "membership_tiers_admin_write"
   on membership_tiers for all
   using (
     exists (
@@ -220,11 +235,13 @@ create policy if not exists "membership_tiers_admin_write"
   );
 
 -- Product relations: public read, admin write
-create policy if not exists "product_relations_public_read"
+drop policy if exists "product_relations_public_read" on product_relations;
+create policy "product_relations_public_read"
   on product_relations for select
   using (true);
 
-create policy if not exists "product_relations_admin_write"
+drop policy if exists "product_relations_admin_write" on product_relations;
+create policy "product_relations_admin_write"
   on product_relations for all
   using (
     exists (

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/settings";
 
@@ -28,8 +29,16 @@ export function ClubSection({ settings }: { settings: SiteSettings }) {
           <p className="text-xs uppercase tracking-[0.5em] text-champagne/60">
             Chapitre 06
           </p>
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-ivory">
-            Terminal 3 Club
+          <h2 className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4 font-serif text-4xl sm:text-5xl md:text-6xl text-ivory">
+            <Image
+              src={settings.LOGO_URL}
+              alt="Terminal 3"
+              width={400}
+              height={160}
+              unoptimized
+              className="h-14 w-auto object-contain sm:h-16 md:h-20"
+            />
+            <span className="text-champagne">Club</span>
           </h2>
           <p className="max-w-2xl text-base sm:text-lg text-ivory/60 leading-relaxed">
             Accédez aux sélections, offres et nouveautés réservées aux membres.

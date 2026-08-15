@@ -1,16 +1,15 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { getDeliveriesForCourier } from "@/lib/data/deliveries";
 import { CourierDashboard } from "@/components/courier/courier-dashboard";
 import { LogoutButton } from "@/components/account/logout-button";
 
 export default async function CourierPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/courier");
+
+  const supabase = await createClient();
 
   const { data: roleRow } = await supabase
     .from("admin_roles")

@@ -49,8 +49,8 @@ export interface BusinessConfig {
  */
 export const DEFAULT_BUSINESS_CONFIG: BusinessConfig = {
   STORE_NAME: "Terminal 3",
-  STORE_PHONE: "",
-  STORE_WHATSAPP: "",
+  STORE_PHONE: "+972 50-000-0000",
+  STORE_WHATSAPP: "+972500000000",
   STORE_ADDRESS: "Agripas 105, Jerusalem, Israel",
   STORE_LATITUDE: null,
   STORE_LONGITUDE: null,
@@ -65,7 +65,9 @@ export const DEFAULT_BUSINESS_CONFIG: BusinessConfig = {
     { day: "friday", open: null, close: null },
     { day: "saturday", open: null, close: null },
   ],
-  LOGO_URL: "/logo-terminal3-optimized.png",
+  LOGO_URL: "/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png",
 };
+
+export const DEFAULT_ANNOUNCEMENT_TEXT = "Terminal 3 — Vins, spiritueux et épicerie fine casher · Livraison à Jérusalem";
 
 export const STORE_TIMEZONE = "Asia/Jerusalem";

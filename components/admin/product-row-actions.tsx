@@ -2,9 +2,15 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { archiveProductAction, deleteProductAction } from "@/app/admin/products/actions";
+import { useRouter } from "next/navigation";
+import {
+  archiveProductAction,
+  deleteProductAction,
+  duplicateProductAction,
+} from "@/app/admin/products/actions";
 
 export function ProductRowActions({ productId, slug }: { productId: string; slug: string }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -13,6 +19,15 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
     startTransition(async () => {
       const result = await archiveProductAction(productId);
       if (!result.success) setError(result.error ?? "Échec");
+    });
+  }
+
+  function handleDuplicate() {
+    setError(null);
+    startTransition(async () => {
+      const result = await duplicateProductAction(productId);
+      if (!result.success) setError(result.error ?? "Échec");
+      else router.refresh();
     });
   }
 
@@ -34,6 +49,14 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
       <Link href={`/admin/products/${productId}`} className="text-xs text-champagne hover:text-soft-gold">
         Modifier
       </Link>
+      <button
+        type="button"
+        onClick={handleDuplicate}
+        disabled={isPending}
+        className="text-xs text-ivory/60 hover:text-ivory disabled:opacity-50"
+      >
+        Dupliquer
+      </button>
       <button
         type="button"
         onClick={handleArchive}

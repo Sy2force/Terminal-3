@@ -21,6 +21,33 @@ export function formatAgorot(
   }).format(agorotToILS(agorot));
 }
 
+/**
+ * Formats a variant price together with its unit so it's never ambiguous
+ * how the number should be read — "29 ₪ / 100 g", "89 ₪ / kg", "45 ₪ le
+ * paquet", "À partir de 149 ₪". `null`/`"FIXED"` (the default for every
+ * existing wine/spirit variant) renders exactly like `formatAgorot` did
+ * before this helper existed.
+ */
+export function formatUnitPrice(
+  agorot: number | null | undefined,
+  pricingUnit?: "FIXED" | "PACKAGE" | "PER_100G" | "PER_KG" | "FROM" | null,
+): string {
+  if (agorot === null || agorot === undefined) return "";
+  const price = formatAgorot(agorot);
+  switch (pricingUnit) {
+    case "PER_100G":
+      return `${price} / 100 g`;
+    case "PER_KG":
+      return `${price} / kg`;
+    case "PACKAGE":
+      return `${price} le paquet`;
+    case "FROM":
+      return `À partir de ${price}`;
+    default:
+      return price;
+  }
+}
+
 /** Integer-safe saving percentage, rounded down (never overstate a discount). */
 export function savingPercent(regularAgorot: number, promoAgorot: number): number {
   if (regularAgorot <= 0 || promoAgorot >= regularAgorot) return 0;

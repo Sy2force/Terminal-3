@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 interface MiniCardProps {
@@ -19,12 +18,6 @@ export function MiniCard({
   badge,
   color = "champagne",
 }: MiniCardProps) {
-  const colorClasses = {
-    champagne: "border-champagne/30 hover:border-champagne",
-    bordeaux: "border-bordeaux/30 hover:border-bordeaux",
-    gold: "border-gold/30 hover:border-gold",
-  };
-
   const badgeClasses = {
     champagne: "bg-champagne/10 text-champagne border-champagne/30",
     bordeaux: "bg-bordeaux/10 text-bordeaux border-bordeaux/30",

@@ -1,18 +1,27 @@
-import type { HomepageSectionRow } from "@/types/database";
+import Image from "next/image";
+import type { HomepageSectionRow, PageContentRow } from "@/types/database";
 import type { SiteSettings } from "@/lib/settings";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 import type { PromotionWithProduct } from "@/lib/data/promotions";
 import type { CategoryRow } from "@/types/database";
 import type { ContentPostRow } from "@/types/database";
-import { HeroSection } from "@/components/home/hero-section";
+import { LuxuryHeroSection } from "@/components/home/luxury-hero-section";
+import { NotreUniversSection } from "@/components/home/notre-univers-section";
+import { SelectionCavisteSection } from "@/components/home/selection-caviste-section";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { NewArrivalsCarousel } from "@/components/home/new-arrivals-carousel";
+import { BestSellersSection } from "@/components/home/best-sellers-section";
+import { PromotionsLuxurySection } from "@/components/home/promotions-luxury-section";
+import { PlattersSection } from "@/components/home/platters-section";
+import { StorePresentationSection } from "@/components/home/store-presentation-section";
+import { NewsletterSection } from "@/components/home/newsletter-section";
 import { CellarDescentSection } from "@/components/home/cellar-descent";
 import { TodaySection } from "@/components/home/today-section";
 import { FeaturedCategorySection } from "@/components/home/featured-category-section";
 import { SalmonGallerySection } from "@/components/home/salmon-gallery-section";
 import { InspirationSection } from "@/components/home/inspiration-section";
 import { ClubSection } from "@/components/home/club-section";
-import { TerminalCarousel } from "@/components/home/terminal-carousel";
-import { MarketingSection } from "@/components/home/marketing-section";
+import { PromoMarquee } from "@/components/promotions/promo-marquee";
 
 interface HomepageRendererProps {
   sections: HomepageSectionRow[];
@@ -23,6 +32,8 @@ interface HomepageRendererProps {
   categories: CategoryRow[];
   favoriteIds: Set<string>;
   categoryProducts: Record<string, ProductWithMedia[]>;
+  heroBottles: ProductWithMedia[];
+  pageContent?: PageContentRow | null;
 }
 
 function getConfigString(config: Record<string, unknown>, key: string): string | undefined {
@@ -44,15 +55,44 @@ export function HomepageRenderer({
   categories,
   favoriteIds,
   categoryProducts,
+  heroBottles,
+  pageContent,
 }: HomepageRendererProps) {
   const flagshipPromotion = promotions.find((p) => p.featured) ?? promotions[0];
   void flagshipPromotion;
 
   return (
-    <>
-      <HeroSection />
-      <TerminalCarousel />
-      <MarketingSection />
+    <div className="relative">
+      {/* Global landing page background image */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <Image
+          src="/images/terminal-3/couvertures/store.webp"
+          alt=""
+          fill
+          unoptimized
+          className="object-cover opacity-[0.12]"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-noir-profond/85" />
+      </div>
+
+      <LuxuryHeroSection
+        settings={settings}
+        bottles={heroBottles}
+        title={pageContent?.title ?? undefined}
+        subtitle={pageContent?.subtitle ?? undefined}
+        backgroundImage={pageContent?.og_image_url ?? undefined}
+      />
+      <PromoMarquee />
+      <NotreUniversSection categories={categories} />
+      <SelectionCavisteSection products={newArrivals} favoriteIds={favoriteIds} />
+      <NewArrivalsCarousel products={newArrivals} favoriteIds={favoriteIds} />
+      <BestSellersSection products={newArrivals} favoriteIds={favoriteIds} />
+      <PromotionsLuxurySection promotions={promotions} settings={settings} />
+      <PlattersSection settings={settings} />
+      <StorePresentationSection settings={settings} />
+      <TestimonialsSection />
+      <NewsletterSection />
       {sections.map((section) => {
         const config = section.config;
         switch (section.section_type) {
@@ -155,6 +195,6 @@ export function HomepageRenderer({
             return null;
         }
       })}
-    </>
+    </div>
   );
 }

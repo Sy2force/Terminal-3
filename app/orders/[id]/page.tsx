@@ -110,7 +110,7 @@ export default async function OrderDetailPage({
           Mes commandes
         </Link>
         <Link
-          href="/new"
+          href="/nouveautes"
           className="rounded-full bg-champagne px-6 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold"
         >
           Continuer mes achats

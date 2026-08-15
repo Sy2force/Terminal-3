@@ -42,6 +42,25 @@ export async function setWeeklyPromoMessage(message: string): Promise<void> {
   revalidatePath("/admin/store");
 }
 
+export async function setLogoUrl(url: string): Promise<void> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("unauthenticated");
+
+  const { error } = await supabase.from("site_settings").upsert({
+    key: "LOGO_URL",
+    value: url,
+    updated_by: user.id,
+  });
+
+  if (error) throw new Error("update_failed");
+
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/store");
+}
+
 export async function setSalmonGalleryImages(urls: string[]): Promise<void> {
   const supabase = await createClient();
   const {

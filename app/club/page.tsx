@@ -6,43 +6,56 @@ import {
   Star,
   PackageSearch,
   Heart,
+  Cake,
+  MessageCircle,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
+import { isDemoMode } from "@/lib/demo-mode";
 import { getSiteSettings } from "@/lib/settings";
-import { JoinClubButton } from "@/components/club/join-club-button";
+import { JoinClubForm } from "@/components/club/join-club-form";
 
 export const metadata: Metadata = {
   title: "Club Terminal 3",
   description:
-    "Rejoignez le Club Terminal 3 : réduction de bienvenue, promotions exclusives et avant-premières.",
+    "Rejoignez le Club Terminal 3 : accès prioritaire, promotions réservées, invitations aux dégustations et conseils personnalisés.",
 };
 
 const BENEFITS = [
   {
-    icon: Gift,
-    title: "Réduction de bienvenue",
-    description:
-      "Appliquée automatiquement sur votre première commande, aucun code à retenir.",
+    icon: Star,
+    title: "Accès prioritaire aux nouveautés",
+    description: "Découvrez les nouvelles arrivées avant tout le monde.",
   },
   {
     icon: Sparkles,
-    title: "Promotions exclusives",
-    description: "Des offres réservées aux membres, en avant des autres clients.",
+    title: "Promotions réservées",
+    description: "Des offres exclusives, réservées aux membres du Club.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Invitations aux dégustations",
+    description: "Participez aux événements et dégustations organisés en boutique.",
   },
   {
     icon: Bell,
-    title: "Message de la semaine",
-    description: "Les nouveautés et sélections du moment, chaque semaine.",
+    title: "Conseils personnalisés",
+    description: "Notre équipe vous accompagne selon vos goûts et vos habitudes.",
   },
   {
-    icon: Star,
-    title: "Sélections réservées",
-    description: "Accès prioritaire aux pièces en quantité limitée.",
+    icon: Cake,
+    title: "Avantage anniversaire",
+    description: "Une attention particulière le mois de votre anniversaire.",
   },
   {
     icon: PackageSearch,
-    title: "Alertes quantités limitées",
-    description: "Ne manquez plus les flash-sales sur vos produits préférés.",
+    title: "Recommandations adaptées",
+    description: "Des suggestions pensées pour vos préférences déclarées.",
+  },
+  {
+    icon: Gift,
+    title: "Offre de premier achat",
+    description: "Une réduction de bienvenue, appliquée automatiquement si active.",
   },
   {
     icon: Heart,
@@ -52,45 +65,43 @@ const BENEFITS = [
 ];
 
 export default async function ClubPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const [settings, membership] = await Promise.all([
     getSiteSettings(),
-    user
-      ? supabase
-          .from("club_memberships")
-          .select("joined_at")
-          .eq("user_id", user.id)
-          .maybeSingle()
-          .then((r) => r.data)
+    user && !isDemoMode()
+      ? createClient().then((supabase) =>
+          supabase
+            .from("club_memberships")
+            .select("joined_at")
+            .eq("user_id", user.id)
+            .maybeSingle()
+            .then((r) => r.data),
+        )
       : Promise.resolve(null),
   ]);
 
   return (
-    <div>
-      <section className="border-b border-champagne/20 bg-warm-black">
+    <div className="bg-noir-profond">
+      <section className="border-b border-or-principal/20 bg-noir-chaud">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 py-24 text-center lg:px-8">
-          <span className="text-xs uppercase tracking-[0.3em] text-champagne">
-            Membership
+          <span className="text-xs uppercase tracking-[0.3em] text-or-principal">
+            Le cercle Terminal 3
           </span>
-          <h1 className="font-serif text-4xl text-ivory sm:text-5xl">
-            Club Terminal 3
+          <h1 className="font-serif text-4xl text-texte-clair sm:text-5xl">
+            Plus qu&rsquo;un client, un invité.
           </h1>
-          <p className="font-serif text-2xl text-champagne">
-            -{settings.CLUB_WELCOME_DISCOUNT_PERCENT}% sur votre première
-            commande
+          <p className="font-serif text-2xl text-or-principal">
+            -{settings.CLUB_WELCOME_DISCOUNT_PERCENT}% sur votre première commande
           </p>
-          <p className="max-w-lg text-sm leading-relaxed text-ivory/70">
+          <p className="max-w-lg text-sm leading-relaxed text-texte-clair/70">
             Gratuit, sans engagement. La réduction de bienvenue est appliquée
-            automatiquement à la caisse dès votre premier achat en ligne —
-            aucun code promo à saisir.
+            automatiquement à la caisse dès votre premier achat en ligne — aucun code
+            promo à saisir.
           </p>
 
           {membership ? (
-            <p className="font-serif text-lg text-champagne">
+            <p className="font-serif text-lg text-or-principal">
               Vous êtes membre depuis le{" "}
               {new Date(membership.joined_at).toLocaleDateString("fr-FR", {
                 day: "numeric",
@@ -99,25 +110,23 @@ export default async function ClubPage() {
               })}
             </p>
           ) : (
-            <JoinClubButton isLoggedIn={Boolean(user)} />
+            <JoinClubForm isLoggedIn={Boolean(user)} defaultEmail={user?.email} />
           )}
         </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-20 lg:px-8">
-        <h2 className="text-center font-serif text-2xl text-ivory sm:text-3xl">
+        <h2 className="text-center font-serif text-2xl text-texte-clair sm:text-3xl">
           Les avantages membres
         </h2>
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex flex-col items-start gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-champagne/30 text-champagne">
+              <div className="flex h-11 w-11 items-center justify-center rounded-sm border border-or-principal/30 text-or-principal">
                 <Icon className="h-5 w-5" aria-hidden />
               </div>
-              <h3 className="font-serif text-lg text-ivory">{title}</h3>
-              <p className="text-sm leading-relaxed text-ivory/70">
-                {description}
-              </p>
+              <h3 className="font-serif text-lg text-texte-clair">{title}</h3>
+              <p className="text-sm leading-relaxed text-texte-clair/70">{description}</p>
             </div>
           ))}
         </div>

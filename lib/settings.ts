@@ -24,6 +24,7 @@ const SETTINGS_KEYS = [
   "FACEBOOK_URL",
   "OPENING_HOURS",
   "LOGO_URL",
+  "ANNOUNCEMENT_TEXT",
 ] as const;
 
 export interface SalmonGalleryImage {
@@ -39,6 +40,8 @@ export interface SiteSettings extends BusinessConfig {
   SALMON_GALLERY_IMAGES: SalmonGalleryImage[];
   /** Delivery fee in agorot (1000 = 10 ILS). */
   DELIVERY_FEE_AGOROT: number;
+  /** Announcement bar text at top of site */
+  ANNOUNCEMENT_TEXT: string | null;
 }
 
 let cache: { value: SiteSettings; expiresAt: number } | null = null;
@@ -52,6 +55,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       WEEKLY_PROMO_MESSAGE: null,
       SALMON_GALLERY_IMAGES: [],
       DELIVERY_FEE_AGOROT: 1000,
+      ANNOUNCEMENT_TEXT: null,
     };
   }
 
@@ -69,6 +73,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       "WEEKLY_PROMO_MESSAGE",
       "SALMON_GALLERY_IMAGES",
       "DELIVERY_FEE_AGOROT",
+      "ANNOUNCEMENT_TEXT",
     ]);
 
   const overrides: Record<string, unknown> = {};
@@ -93,6 +98,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       [],
     DELIVERY_FEE_AGOROT:
       (overrides.DELIVERY_FEE_AGOROT as number | undefined) ?? 1000,
+    ANNOUNCEMENT_TEXT:
+      (overrides.ANNOUNCEMENT_TEXT as string | undefined) ?? null,
   };
 
   cache = { value: merged, expiresAt: Date.now() + CACHE_TTL_MS };
