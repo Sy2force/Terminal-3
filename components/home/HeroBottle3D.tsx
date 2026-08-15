@@ -95,7 +95,7 @@ function createBackLabel(brand?: string | null) {
   ctx.fillStyle = "#151411";
   ctx.font = "bold 24px Georgia, serif";
   ctx.textAlign = "center";
-  ctx.fillText("Cave Terminal 3", 256, 220);
+  ctx.fillText(brand?.trim() ? brand : "Cave Terminal 3", 256, 220);
   ctx.font = "italic 20px Georgia, serif";
   ctx.fillText("Jérusalem", 256, 260);
 

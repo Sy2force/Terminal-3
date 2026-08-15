@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { WhatsAppButton, CallButton } from "@/components/commerce/contact-actions";

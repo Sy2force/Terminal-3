@@ -7,6 +7,10 @@ function todayStart(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+function sevenDaysAgoIso(): string {
+  return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+}
+
 export default async function AdminDashboardPage() {
   await requireAdmin();
 
@@ -30,10 +34,13 @@ export default async function AdminDashboardPage() {
       unpaidTodayAgorot: 0,
       lowStockCount: 0,
       outOfStockCount: 0,
+      newClientsCount: 0,
+      pendingVerificationsCount: 0,
     }} />;
   }
 
   const today = todayStart();
+  const sevenDaysAgo = sevenDaysAgoIso();
 
   const [
     { count: productsCount },
@@ -50,6 +57,8 @@ export default async function AdminDashboardPage() {
     { data: unpaidToday },
     { count: lowStockCount },
     { count: outOfStockCount },
+    { count: newClientsCount },
+    { count: pendingVerificationsCount },
   ] = await Promise.all([
     supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
     supabase.from("orders").select("*", { count: "exact", head: true }).gte("created_at", today),
@@ -65,6 +74,12 @@ export default async function AdminDashboardPage() {
     supabase.from("orders").select("total_agorot").gte("created_at", today).in("status", ["submitted", "confirmed"]),
     supabase.from("inventory").select("*", { count: "exact", head: true }).gt("quantity", 0).lt("quantity", 10),
     supabase.from("inventory").select("*", { count: "exact", head: true }).eq("quantity", 0),
+    supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", sevenDaysAgo),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- verification_status not yet in generated Database type
+    (supabase as any)
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("verification_status", "pending_verification"),
   ]);
 
   const paidTodayAgorot = (paidToday ?? []).reduce((sum, row) => sum + (row.total_agorot ?? 0), 0);
@@ -87,6 +102,8 @@ export default async function AdminDashboardPage() {
         unpaidTodayAgorot,
         lowStockCount: lowStockCount ?? 0,
         outOfStockCount: outOfStockCount ?? 0,
+        newClientsCount: newClientsCount ?? 0,
+        pendingVerificationsCount: pendingVerificationsCount ?? 0,
       }}
     />
   );

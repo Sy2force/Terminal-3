@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getOrderById } from "@/lib/data/orders";
 import { generateOrderRecapPdf } from "@/lib/pdf/order-recap";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 /**
  * Streams a "récapitulatif de commande" PDF for the given order. Access is
@@ -20,6 +21,28 @@ export async function GET(
   }
 
   const pdfBytes = await generateOrderRecapPdf(order, "order_summary");
+
+  // Records that this document exists (for /admin/invoices and /compte/factures
+  // to list) — this is only ever the pre-payment "order_summary" kind here.
+  // Best-effort: never block the download if this write fails.
+  try {
+    const service = createServiceRoleClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- invoices not yet in generated Database type
+    const db = service as any;
+    await db.from("invoices").upsert(
+      {
+        order_id: order.id,
+        kind: "order_summary",
+        number: order.id.slice(0, 8).toUpperCase(),
+        payment_status: "unpaid",
+        order_status: order.status,
+        totals: { total_agorot: order.total_agorot, discount_agorot: order.discount_agorot },
+      },
+      { onConflict: "order_id,kind" },
+    );
+  } catch {
+    // ignored — the PDF download itself already succeeded
+  }
 
   return new NextResponse(Buffer.from(pdfBytes), {
     headers: {

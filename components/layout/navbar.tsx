@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Heart, Search, ChevronDown } from "lucide-react";
+import { Heart, Search, ChevronDown, Shield } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Logo } from "@/components/brand/logo";
 import { CartBadge } from "@/components/commerce/cart-badge";
@@ -123,6 +122,15 @@ export function Navbar({
             <Heart className="h-5 w-5" aria-hidden />
           </Link>
           <CartBadge />
+          {isAdmin && (
+            <Link
+              href="/admin"
+              aria-label="Administration"
+              className="rounded-full p-2 text-or-principal transition-colors hover:bg-or-principal/10"
+            >
+              <Shield className="h-5 w-5" aria-hidden />
+            </Link>
+          )}
           <AuthNav user={user} />
           <MobileMenu settings={settings} user={user} links={[...PRIMARY_LINKS, ...MORE_LINKS]} />
         </div>

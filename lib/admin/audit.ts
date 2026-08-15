@@ -16,7 +16,10 @@ export type AuditEntity =
   | "membership"
   | "media"
   | "payment"
-  | "identity_verification";
+  | "identity_verification"
+  | "lead"
+  | "loyalty"
+  | "discount";
 
 export type AuditAction =
   | "created"
@@ -42,7 +45,12 @@ export type AuditAction =
   | "restored"
   | "identity_verified"
   | "identity_rejected"
-  | "identity_resubmission_requested";
+  | "identity_resubmission_requested"
+  | "points_adjusted"
+  | "reward_granted"
+  | "payment_confirmed"
+  | "payment_refunded"
+  | "export_generated";
 
 export interface AuditPayload {
   actor: string;

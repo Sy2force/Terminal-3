@@ -25,6 +25,10 @@ import {
   AlertCircle,
   CreditCard,
   CalendarHeart,
+  Receipt,
+  Sparkles,
+  Percent,
+  UserPlus,
 } from "lucide-react";
 import type { AdminSession } from "@/lib/admin/auth";
 
@@ -39,6 +43,8 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/admin", label: "Vue d'ensemble", icon: LayoutDashboard },
       { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
+      { href: "/admin/payments", label: "Paiements", icon: CreditCard },
+      { href: "/admin/invoices", label: "Factures", icon: Receipt },
       { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
       { href: "/admin/livraisons", label: "Livraisons", icon: Truck },
       { href: "/admin/wolt", label: "Wolt", icon: Store },
@@ -68,7 +74,10 @@ const NAV: NavGroup[] = [
     label: "Clients",
     items: [
       { href: "/admin/clients", label: "Clients", icon: Users },
+      { href: "/admin/leads", label: "Leads", icon: UserPlus },
       { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
+      { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
+      { href: "/admin/discounts", label: "Remises", icon: Percent },
       { href: "/admin/members", label: "Membres Club", icon: Crown },
       { href: "/admin/reviews", label: "Avis", icon: MessageSquare },
     ],
@@ -78,7 +87,8 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/admin/store", label: "Paramètres", icon: Settings },
       { href: "/admin/users", label: "Utilisateurs", icon: Shield },
-      { href: "/admin/historique", label: "Historique", icon: History },
+      { href: "/admin/roles", label: "Rôles & permissions", icon: Shield },
+      { href: "/admin/historique", label: "Historique / Audit", icon: History },
       { href: "/admin/age-verifications", label: "Vérif. 18+", icon: AlertCircle },
     ],
   },

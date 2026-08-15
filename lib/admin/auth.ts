@@ -14,10 +14,27 @@ export type AdminPermission =
   | "sales.orders"
   | "sales.age_verification"
   | "customers.view"
+  | "customers.edit"
+  | "customers.view_sensitive"
   | "customers.verify"
+  | "orders.view"
+  | "orders.edit"
+  | "payments.confirm"
+  | "invoices.manage"
+  | "deliveries.manage"
+  | "loyalty.manage"
+  | "discounts.manage"
+  | "data.export"
+  | "audit.view"
   | "staff.manage"
   | "admin.users";
 
+/**
+ * The full permission matrix, per role. This is the single source of truth
+ * for what each role can do — server-side checks (`requireAdminPermission`)
+ * and RLS policies both enforce it independently; hiding a button in the UI
+ * is never treated as sufficient protection on its own.
+ */
 const ROLE_PERMISSIONS: Record<AdminRoleType, AdminPermission[]> = {
   OWNER: [
     "store.settings",
@@ -29,7 +46,18 @@ const ROLE_PERMISSIONS: Record<AdminRoleType, AdminPermission[]> = {
     "sales.orders",
     "sales.age_verification",
     "customers.view",
+    "customers.edit",
+    "customers.view_sensitive",
     "customers.verify",
+    "orders.view",
+    "orders.edit",
+    "payments.confirm",
+    "invoices.manage",
+    "deliveries.manage",
+    "loyalty.manage",
+    "discounts.manage",
+    "data.export",
+    "audit.view",
     "staff.manage",
     "admin.users",
   ],
@@ -43,15 +71,55 @@ const ROLE_PERMISSIONS: Record<AdminRoleType, AdminPermission[]> = {
     "sales.orders",
     "sales.age_verification",
     "customers.view",
+    "customers.edit",
+    "customers.view_sensitive",
     "customers.verify",
+    "orders.view",
+    "orders.edit",
+    "payments.confirm",
+    "invoices.manage",
+    "deliveries.manage",
+    "loyalty.manage",
+    "discounts.manage",
+    "data.export",
+    "audit.view",
   ],
   CONTENT_EDITOR: [
     "catalog.media",
     "marketing.content",
     "catalog.products",
   ],
-  STAFF: ["sales.orders", "sales.age_verification", "customers.view", "customers.verify"],
-  COURIER: ["sales.orders", "sales.age_verification"],
+  STAFF: [
+    "sales.orders",
+    "sales.age_verification",
+    "customers.view",
+    "customers.verify",
+    "orders.view",
+    "orders.edit",
+  ],
+  COURIER: ["sales.orders", "sales.age_verification", "deliveries.manage"],
+  ORDER_MANAGER: [
+    "sales.orders",
+    "sales.age_verification",
+    "orders.view",
+    "orders.edit",
+    "payments.confirm",
+    "invoices.manage",
+    "customers.view",
+  ],
+  DELIVERY_MANAGER: [
+    "sales.orders",
+    "deliveries.manage",
+    "orders.view",
+    "customers.view",
+  ],
+  // Can help a customer (view non-sensitive info, orders) without ever
+  // needing to see their identity document or edit their coordinates.
+  CUSTOMER_SUPPORT: [
+    "customers.view",
+    "orders.view",
+    "sales.orders",
+  ],
 };
 
 export interface AdminSession {
@@ -98,6 +166,10 @@ export function hasPermission(
   permission: AdminPermission,
 ): boolean {
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
+}
+
+export function getRolePermissions(role: AdminRoleType): AdminPermission[] {
+  return ROLE_PERMISSIONS[role] ?? [];
 }
 
 /**

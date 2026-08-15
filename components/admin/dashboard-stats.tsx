@@ -31,6 +31,8 @@ export interface DashboardStats {
   unpaidTodayAgorot: number;
   lowStockCount: number;
   outOfStockCount: number;
+  newClientsCount: number;
+  pendingVerificationsCount: number;
 }
 
 export function AdminDashboardClient({ stats }: { stats: DashboardStats }) {
@@ -46,6 +48,11 @@ export function AdminDashboardClient({ stats }: { stats: DashboardStats }) {
   const finance = [
     { label: "Encaissé aujourd'hui", value: formatAgorot(stats.paidTodayAgorot), href: "/admin/orders", icon: CreditCard },
     { label: "Reste à encaisser", value: formatAgorot(stats.unpaidTodayAgorot), href: "/admin/orders", icon: CreditCard },
+  ] as const;
+
+  const customers = [
+    { label: "Nouveaux clients (7j)", value: stats.newClientsCount, href: "/admin/clients", icon: Users },
+    { label: "Comptes à vérifier", value: stats.pendingVerificationsCount, href: "/admin/verifications", icon: AlertTriangle },
   ] as const;
 
   const catalog = [
@@ -74,6 +81,15 @@ export function AdminDashboardClient({ stats }: { stats: DashboardStats }) {
         {finance.map((card) => (
           <StatCard key={card.label} {...card} variant="large" />
         ))}
+      </section>
+
+      <section>
+        <h2 className="mb-4 font-serif text-lg text-[#151411]">Clients</h2>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {customers.map((card) => (
+            <StatCard key={card.label} {...card} variant="large" />
+          ))}
+        </div>
       </section>
 
       <section>

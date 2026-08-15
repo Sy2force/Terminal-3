@@ -28,10 +28,15 @@ const ACTION_LABELS: Record<string, string> = {
   homepage_section_deleted: "Section accueil supprimée",
   homepage_section_toggled: "Section accueil activée/désactivée",
   delivery_assigned: "Livraison assignée",
+  identity_verified: "Identité validée",
+  identity_rejected: "Identité refusée",
+  identity_resubmission_requested: "Nouveau document demandé",
+  scheduled: "Planifié",
+  restored: "Restauré",
 };
 
 export default async function HistoriquePage() {
-  await requireAdminPermission("admin.users");
+  await requireAdminPermission("audit.view");
 
   const demoMode = isDemoMode();
   const logs: AuditLogWithActor[] = demoMode

@@ -44,7 +44,15 @@ export type AlcoholFulfillmentStatus =
 export type AgeVerificationStatus = "PENDING" | "VERIFIED" | "FAILED";
 export type EntitlementStatus = "ISSUED" | "REDEEMED" | "EXPIRED" | "REVOKED";
 export type ContentStatus = "draft" | "scheduled" | "published";
-export type AdminRoleType = "OWNER" | "MANAGER" | "CONTENT_EDITOR" | "STAFF" | "COURIER";
+export type AdminRoleType =
+  | "OWNER"
+  | "MANAGER"
+  | "CONTENT_EDITOR"
+  | "STAFF"
+  | "COURIER"
+  | "ORDER_MANAGER"
+  | "DELIVERY_MANAGER"
+  | "CUSTOMER_SUPPORT";
 export type OrderChannel = "web" | "phone" | "manual";
 export type OrderFulfillmentType = "pickup" | "delivery";
 export type CategoryTheme = "DEFAULT" | "CELLAR" | "PACKSHOT" | "GOURMET" | "PLATTER" | "EDITORIAL";
