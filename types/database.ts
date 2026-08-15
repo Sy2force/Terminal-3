@@ -113,6 +113,24 @@ export type InventoryMovementType =
   | "loss"
   | "damaged";
 export type StockReservationStatus = "active" | "converted" | "expired" | "cancelled";
+export type NavigationItemTarget = "_self" | "_blank";
+export type CarouselKind =
+  | "bottles"
+  | "promotions"
+  | "brands"
+  | "categories"
+  | "products"
+  | "covers"
+  | "events"
+  | "inspirations";
+export type BannerPosition =
+  | "homepage_top"
+  | "homepage_middle"
+  | "homepage_bottom"
+  | "category_top"
+  | "category_bottom"
+  | "site_wide"
+  | "checkout";
 
 export type BranchRow = {
   id: string;
@@ -753,6 +771,114 @@ export type NotificationRow = {
   created_at: string;
 };
 
+export type SectionTranslationRow = {
+  id: string;
+  key: string;
+  lang: string;
+  title: string | null;
+  subtitle: string | null;
+  body: string | null;
+  label: string | null;
+  button_text: string | null;
+  button_link: string | null;
+  button_target: NavigationItemTarget | null;
+  alt_text: string | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+  updated_by: string | null;
+};
+
+export type NavigationMenuRow = {
+  id: string;
+  key: string;
+  name_fr: string;
+  name_he: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type NavigationItemRow = {
+  id: string;
+  menu_id: string;
+  parent_id: string | null;
+  label_fr: string;
+  label_he: string | null;
+  href: string;
+  target: NavigationItemTarget | null;
+  icon_url: string | null;
+  display_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ThemeSettingRow = {
+  id: string;
+  key: string;
+  value: Record<string, unknown>;
+  updated_at: string;
+  updated_by: string | null;
+};
+
+export type CarouselRow = {
+  id: string;
+  key: string;
+  kind: CarouselKind;
+  name_fr: string;
+  name_he: string | null;
+  is_active: boolean;
+  autoplay: boolean;
+  loop: boolean;
+  pause_on_hover: boolean;
+  interval_seconds: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CarouselItemRow = {
+  id: string;
+  carousel_id: string;
+  image_url: string | null;
+  image_mobile_url: string | null;
+  title_fr: string | null;
+  title_he: string | null;
+  subtitle_fr: string | null;
+  subtitle_he: string | null;
+  button_text_fr: string | null;
+  button_text_he: string | null;
+  button_link: string | null;
+  display_order: number;
+  is_active: boolean;
+  start_at: string | null;
+  end_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PromotionalBannerRow = {
+  id: string;
+  key: string;
+  title_fr: string;
+  title_he: string | null;
+  description_fr: string | null;
+  description_he: string | null;
+  image_url: string | null;
+  image_mobile_url: string | null;
+  button_text_fr: string | null;
+  button_text_he: string | null;
+  button_link: string | null;
+  discount_percent: number | null;
+  position: BannerPosition;
+  priority: number;
+  is_active: boolean;
+  start_at: string | null;
+  end_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type CartRow = {
   id: string;
   user_id: string | null;
@@ -899,6 +1025,13 @@ export interface Database {
       inventory_movements: TableDef<InventoryMovementRow, "variant_id" | "movement_type">;
       stock_reservations: TableDef<StockReservationRow, "variant_id" | "status" | "expires_at">;
       stock_alerts: TableDef<StockAlertRow, "variant_id" | "is_triggered">;
+      section_translations: TableDef<SectionTranslationRow, "key" | "lang">;
+      navigation_menus: TableDef<NavigationMenuRow, "key" | "name_fr">;
+      navigation_items: TableDef<NavigationItemRow, "menu_id" | "href" | "label_fr">;
+      theme_settings: TableDef<ThemeSettingRow, "key" | "value">;
+      carousels: TableDef<CarouselRow, "key" | "kind">;
+      carousel_items: TableDef<CarouselItemRow, "carousel_id" | "display_order">;
+      promotional_banners: TableDef<PromotionalBannerRow, "key" | "position">;
     };
   };
 }
