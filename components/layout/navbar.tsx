@@ -13,20 +13,20 @@ import type { SiteSettings } from "@/lib/settings";
 import type { NavMenu } from "@/lib/data/navigation";
 
 const FALLBACK_PRIMARY = [
-  { href: "/", label: "Accueil" },
-  { href: "/vins", label: "Vins" },
-  { href: "/spiritueux", label: "Spiritueux" },
-  { href: "/charcuterie", label: "Charcuterie" },
-  { href: "/poissons", label: "Poissons" },
-  { href: "/plateaux", label: "Plateux" },
-  { href: "/evenements", label: "Mariages & Fêtes" },
-  { href: "/nouveautes", label: "Nouveautés" },
-  { href: "/promotions", label: "Promotions" },
+  { href: "/", label: "Accueil", target: "_self" as const },
+  { href: "/vins", label: "Vins", target: "_self" as const },
+  { href: "/spiritueux", label: "Spiritueux", target: "_self" as const },
+  { href: "/charcuterie", label: "Charcuterie", target: "_self" as const },
+  { href: "/poissons", label: "Poissons", target: "_self" as const },
+  { href: "/plateaux", label: "Plateux", target: "_self" as const },
+  { href: "/evenements", label: "Mariages & Fêtes", target: "_self" as const },
+  { href: "/nouveautes", label: "Nouveautés", target: "_self" as const },
+  { href: "/promotions", label: "Promotions", target: "_self" as const },
 ];
 
 const FALLBACK_MORE = [
-  { href: "/inspirations", label: "Inspirations" },
-  { href: "/club", label: "Club" },
+  { href: "/inspirations", label: "Inspirations", target: "_self" as const },
+  { href: "/club", label: "Club", target: "_self" as const },
 ];
 
 function toNavLinks(menu: NavMenu | null) {
@@ -76,7 +76,10 @@ export function Navbar({
           aria-label="Navigation principale"
           className="hidden items-center justify-center gap-0.5 lg:flex pl-6"
         >
-          {toNavLinks(mainMenu).slice(0, 9).map((link) => (
+          {(toNavLinks(mainMenu).slice(0, 9).length > 0
+            ? toNavLinks(mainMenu).slice(0, 9)
+            : FALLBACK_PRIMARY
+          ).map((link) => (
             <NavLink
               key={link.href + link.label}
               href={link.href}
@@ -85,30 +88,35 @@ export function Navbar({
             />
           ))}
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setMoreOpen((v) => !v)}
-              onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
-              aria-expanded={moreOpen}
-              aria-haspopup="menu"
-              className="flex items-center gap-1 whitespace-nowrap px-2.5 py-2 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors duration-200 hover:text-or-principal"
-            >
-              Découvrir
-              <ChevronDown
-                className={`h-4 w-4 transition-transform duration-200 ${
-                  moreOpen ? "rotate-180" : ""
-                }`}
-                aria-hidden
-              />
-            </button>
-            {moreOpen && (
-              <div
-                role="menu"
-                className="absolute right-0 top-full mt-1 w-44 rounded-sm border border-or-principal/15 bg-noir-chaud/95 p-1 shadow-xl backdrop-blur-xl"
-              >
-                {toNavLinks(mainMenu).slice(9).length > 0
-                  ? toNavLinks(mainMenu).slice(9).map((link) => (
+          {(() => {
+            const more = toNavLinks(mainMenu).slice(9).length > 0
+              ? toNavLinks(mainMenu).slice(9)
+              : FALLBACK_MORE;
+            if (more.length === 0) return null;
+            return (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
+                  aria-expanded={moreOpen}
+                  aria-haspopup="menu"
+                  className="flex items-center gap-1 whitespace-nowrap px-2.5 py-2 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors duration-200 hover:text-or-principal"
+                >
+                  Découvrir
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-200 ${
+                      moreOpen ? "rotate-180" : ""
+                    }`}
+                    aria-hidden
+                  />
+                </button>
+                {moreOpen && (
+                  <div
+                    role="menu"
+                    className="absolute right-0 top-full mt-1 w-44 rounded-sm border border-or-principal/15 bg-noir-chaud/95 p-1 shadow-xl backdrop-blur-xl"
+                  >
+                    {more.map((link) => (
                       <Link
                         key={link.href + link.label}
                         href={link.href}
@@ -118,20 +126,12 @@ export function Navbar({
                       >
                         {link.label}
                       </Link>
-                    ))
-                  : FALLBACK_MORE.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setMoreOpen(false)}
-                        className="block whitespace-nowrap px-4 py-2.5 font-sans text-[14px] font-medium uppercase tracking-[0.04em] text-texte-clair/80 transition-colors hover:bg-or-principal/5 hover:text-or-principal"
-                      >
-                        {link.label}
-                      </Link>
                     ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            );
+          })()}
         </nav>
 
         <div className="col-start-3 flex items-center justify-end gap-[clamp(8px,0.8vw,14px)]">
