@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { SiteSettings } from "@/lib/settings";
 
 interface PlattersSectionProps {
@@ -13,7 +14,7 @@ export function PlattersSection({ settings }: PlattersSectionProps) {
       people: "4-6 personnes",
       price: "à partir de 189 ₪",
       preparation: "Préparation : 24h",
-      image: "/images/platters/saumon.jpg",
+      image: "/images/salmon-plateaux/plateau-01.webp",
       whatsapp: settings.STORE_WHATSAPP,
     },
     {
@@ -23,7 +24,7 @@ export function PlattersSection({ settings }: PlattersSectionProps) {
       people: "4-6 personnes",
       price: "à partir de 159 ₪",
       preparation: "Préparation : 24h",
-      image: "/images/platters/charcuterie.jpg",
+      image: "/images/terminal-3/platters/charcuterie/platter-charcuterie-01.webp",
       whatsapp: settings.STORE_WHATSAPP,
     },
   ];
@@ -43,12 +44,14 @@ export function PlattersSection({ settings }: PlattersSectionProps) {
               className="group relative overflow-hidden rounded-sm border border-or-principal/20 bg-noir-profond transition-all duration-300 hover:border-or-principal/50 hover:shadow-xl hover:shadow-or-principal/10"
             >
               <div className="relative h-64 bg-gradient-to-b from-brun-cave to-noir-profond">
-                {/* Placeholder for platter image */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-texte-clair/30 font-serif text-center px-4">
-                    {platter.name}
-                  </span>
-                </div>
+                <Image
+                  src={platter.image}
+                  alt={platter.name}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-noir-profond via-transparent to-transparent" />
               </div>
 
