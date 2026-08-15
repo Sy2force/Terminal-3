@@ -79,7 +79,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             mainMenu={mainMenu}
           />
           <main className="flex-1 pb-16 md:pb-0">{children}</main>
-          <Footer settings={settings} footerMenu={footerMenu} />
+          <Footer settings={settings} footerMenu={footerMenu} isAdmin={!!adminSession} />
           <ScrollToTop />
           <BottomNav isAdmin={!!adminSession} />
         </CartProvider>
