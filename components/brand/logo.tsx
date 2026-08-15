@@ -15,7 +15,7 @@ export function Logo({
       className={`block transition-transform duration-300 ease-out hover:scale-[1.02] ${className ?? ""}`}
       aria-label={`${settings.STORE_NAME} — accueil`}
     >
-      <div className="relative h-[clamp(48px,3.6vw,58px)] w-[clamp(108px,7vw,138px)] flex items-center justify-center [filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.35))]">
+      <div className="relative z-10 h-[clamp(48px,3.6vw,58px)] w-[clamp(108px,7vw,138px)] shrink-0 flex items-center justify-center [filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.35))]">
         <Image
           src={settings.LOGO_URL}
           alt={settings.STORE_NAME}
