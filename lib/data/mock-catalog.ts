@@ -723,7 +723,7 @@ function scanBottleImages(): string[] {
  */
 const SPIRIT_IMAGE_OVERRIDES: Record<string, string> = {};
 const ALL_BOTTLE_IMAGES = scanBottleImages();
-const EXTRA_BOTTLES = generateBottles(ALL_BOTTLE_IMAGES, 400, 0);
+const EXTRA_BOTTLES = generateBottles(ALL_BOTTLE_IMAGES, Math.min(400, ALL_BOTTLE_IMAGES.length), 0);
 
 function buildMockSpirits(): ProductWithMedia[] {
   return spiritDefs.map((def, index) => ({
