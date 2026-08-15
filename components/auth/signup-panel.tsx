@@ -125,7 +125,7 @@ export function SignupPanel({ redirectTo }: { redirectTo: string }) {
       setError(result.error ?? "Une erreur est survenue.");
       return;
     }
-    setStep(2);
+    finish();
   }
 
   function finish() {
