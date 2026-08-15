@@ -3,6 +3,7 @@ import type { ProductWithMedia } from "@/lib/data/catalog";
 import { mockExtraWines } from "@/lib/data/mock-extra-wines";
 import { mockExtraWhiskies } from "@/lib/data/mock-extra-whiskies";
 import { mockExtraProducts } from "@/lib/data/mock-extra-products";
+import { generateBottles } from "@/lib/data/mock-bottle-generator";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -679,18 +680,19 @@ const spiritDefs: SpiritDef[] = [
 ];
 
 const SPIRIT_TYPES = ["arak", "cognac", "gin", "liqueurs", "other", "rum", "tequila", "vodka", "whisky"];
-const SPIRIT_IMAGES_FALLBACK = [
+const WINE_DIRS = ["castel", "carmel", "gamla", "golan", "yarden", "other-brands"];
+const BOTTLE_IMAGES_FALLBACK = [
   "/images/terminal-3/spirits/whisky/chivas-regal-12.png",
   "/images/terminal-3/spirits/whisky/glenfiddich-12.png",
-  "/images/terminal-3/spirits/whisky/spirit-whisky-01.webp",
+  "/images/terminal-3/wines/yarden/wine-yarden-02.webp",
 ];
 
-function scanSpiritImages(): string[] {
-  const base = path.join(process.cwd(), "public", "images", "terminal-3", "spirits");
+function scanBottleImages(): string[] {
+  const base = path.join(process.cwd(), "public", "images", "terminal-3");
   const out: string[] = [];
   try {
     for (const type of SPIRIT_TYPES) {
-      const dir = path.join(base, type);
+      const dir = path.join(base, "spirits", type);
       if (!fs.existsSync(dir)) continue;
       for (const name of fs.readdirSync(dir)) {
         if (/\.(png|webp|jpg|jpeg)$/i.test(name) && !name.startsWith(".")) {
@@ -698,10 +700,19 @@ function scanSpiritImages(): string[] {
         }
       }
     }
+    for (const w of WINE_DIRS) {
+      const dir = path.join(base, "wines", w);
+      if (!fs.existsSync(dir)) continue;
+      for (const name of fs.readdirSync(dir)) {
+        if (/\.(png|webp|jpg|jpeg)$/i.test(name) && !name.startsWith(".")) {
+          out.push(`/images/terminal-3/wines/${w}/${name}`);
+        }
+      }
+    }
   } catch {
     // filesystem unavailable (browser or restricted env)
   }
-  return out.length ? out : SPIRIT_IMAGES_FALLBACK;
+  return out.length ? out : BOTTLE_IMAGES_FALLBACK;
 }
 
 /**
@@ -711,7 +722,8 @@ function scanSpiritImages(): string[] {
  * Exemple : /images/terminal-3/spirits/whisky/jack-daniels-old-no-7.png
  */
 const SPIRIT_IMAGE_OVERRIDES: Record<string, string> = {};
-const ALL_SPIRIT_IMAGES = scanSpiritImages();
+const ALL_BOTTLE_IMAGES = scanBottleImages();
+const EXTRA_BOTTLES = generateBottles(ALL_BOTTLE_IMAGES, 400, 0);
 
 function buildMockSpirits(): ProductWithMedia[] {
   return spiritDefs.map((def, index) => ({
@@ -806,7 +818,7 @@ function buildMockSpirits(): ProductWithMedia[] {
         id: `${def.id}-m1`,
         product_id: def.id,
         variant_id: null,
-        url: SPIRIT_IMAGE_OVERRIDES[def.slug] ?? ALL_SPIRIT_IMAGES[index % ALL_SPIRIT_IMAGES.length],
+        url: SPIRIT_IMAGE_OVERRIDES[def.slug] ?? ALL_BOTTLE_IMAGES[index % ALL_BOTTLE_IMAGES.length],
         alt: `Bouteille de ${def.name_fr}`,
         kind: "COVER",
         display_order: 0,
@@ -1626,9 +1638,9 @@ export function mockGetPublishedProducts(categorySlug?: string): ProductWithMedi
   const extraFish = mockExtraProducts.filter((p) => p.category_id === salmonCategoryId);
   const extraCharcuterie = mockExtraProducts.filter((p) => p.category_id === charcuterieCategoryId);
   if (!categorySlug)
-    return [...mockWines, ...mockExtraWines, ...extraWines, ...mockSpirits, ...mockExtraWhiskies, ...extraCharcuterie, ...mockCharcuterie, ...mockProducts, ...extraFish, ...mockPlatters];
-  if (categorySlug === "vin" || categorySlug === "vins") return [...mockWines, ...mockExtraWines, ...extraWines];
-  if (categorySlug === "spiritueux") return [...mockSpirits, ...mockExtraWhiskies];
+    return [...mockWines, ...mockExtraWines, ...extraWines, ...mockSpirits, ...mockExtraWhiskies, ...extraCharcuterie, ...mockCharcuterie, ...mockProducts, ...extraFish, ...mockPlatters, ...EXTRA_BOTTLES];
+  if (categorySlug === "vin" || categorySlug === "vins") return [...mockWines, ...mockExtraWines, ...extraWines, ...EXTRA_BOTTLES.filter((p) => p.wine_type)];
+  if (categorySlug === "spiritueux") return [...mockSpirits, ...mockExtraWhiskies, ...EXTRA_BOTTLES.filter((p) => p.subcategory && p.subcategory !== "VIN")];
   if (categorySlug === "charcuterie") return [...extraCharcuterie, ...mockCharcuterie];
   if (categorySlug === "saumon-fume" || categorySlug === "poissons") return [...mockProducts, ...extraFish];
   if (categorySlug === "plateaux-saumon" || categorySlug === "plateaux") return mockPlatters;
