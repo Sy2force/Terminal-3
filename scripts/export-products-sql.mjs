@@ -70,7 +70,8 @@ function escapeSql(value) {
 }
 
 const availableImages = scanBottleImages();
-const PRODUCT_COUNT = availableImages.length; // 1 image = 1 produit, pas de doublon visuel
+const EXTRA_COUNT = Number(process.argv[2]) || 0;
+const PRODUCT_COUNT = availableImages.length + EXTRA_COUNT;
 let imageCursor = 0;
 const products = [];
 const variants = [];
