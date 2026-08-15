@@ -15,7 +15,7 @@ const PANELS: { key: Mode; label: string }[] = [
 
 function AuthCarouselInner({ initialMode }: { initialMode: Mode }) {
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/account";
+  const redirectTo = searchParams.get("redirect") || "/compte";
   const [mode, setMode] = useState<Mode>(initialMode);
   const [direction, setDirection] = useState(0);
 

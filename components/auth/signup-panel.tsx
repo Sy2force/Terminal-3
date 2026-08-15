@@ -129,7 +129,7 @@ export function SignupPanel({ redirectTo }: { redirectTo: string }) {
   }
 
   function finish() {
-    router.push(redirectTo === "/account" ? "/account/verification" : redirectTo);
+    router.push(redirectTo === "/compte" ? "/compte/verification" : redirectTo);
     router.refresh();
   }
 

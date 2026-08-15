@@ -5,6 +5,8 @@ import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { getDefaultBranch } from "@/lib/data/branches";
 import { getSiteSettings } from "@/lib/settings";
 import { getMyVerificationProfile } from "@/lib/data/verification";
+import { awardLoyaltyPointsForOrder } from "@/lib/data/loyalty";
+import { notifyCustomer } from "@/lib/data/customer-notifications";
 import type { ProductRow, ProductVariantRow } from "@/types/database";
 
 type VariantWithProduct = ProductVariantRow & { product: ProductRow | null };
@@ -460,6 +462,24 @@ export async function submitOrder(
         }
       }
     }
+  }
+
+  // Best-effort: loyalty points and the confirmation notification must
+  // never block or fail an already-successful order.
+  try {
+    await awardLoyaltyPointsForOrder(user.id, orderId, totalAgorot);
+  } catch {
+    // ignored — order already succeeded
+  }
+  try {
+    await notifyCustomer(
+      user.id,
+      "order_submitted",
+      "Commande reçue",
+      `Votre commande #${orderId.slice(0, 8).toUpperCase()} a bien été enregistrée.`,
+    );
+  } catch {
+    // ignored — order already succeeded
   }
 
   return {

@@ -9,6 +9,7 @@ export type VerificationStatus =
 
 export interface VerificationProfile {
   id: string;
+  clientNumber: string | null;
   firstName: string | null;
   lastName: string | null;
   phone: string | null;
@@ -33,7 +34,7 @@ export async function getMyVerificationProfile(): Promise<VerificationProfile | 
   const { data } = await supabase
     .from("profiles")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- verification columns are not yet declared in the generated Database type
-    .select("id, first_name, last_name, phone, email, verification_status, verification_reason, verification_decided_at" as any)
+    .select("id, client_number, first_name, last_name, phone, email, verification_status, verification_reason, verification_decided_at" as any)
     .eq("id", user.id)
     .maybeSingle();
 
@@ -43,6 +44,7 @@ export async function getMyVerificationProfile(): Promise<VerificationProfile | 
 
   return {
     id: row.id,
+    clientNumber: row.client_number,
     firstName: row.first_name,
     lastName: row.last_name,
     phone: row.phone,

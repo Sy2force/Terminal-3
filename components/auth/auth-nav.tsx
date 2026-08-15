@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { User, LogOut, Heart, Package, Settings, CalendarHeart } from "lucide-react";
+import { User, Heart, Package, Settings, Sparkles } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { LogoutButton } from "@/components/account/logout-button";
 
@@ -78,7 +78,7 @@ export function AuthNav({ user }: AuthNavProps) {
           className="absolute right-0 top-full mt-2 w-52 rounded-[10px] border border-or-principal/15 bg-noir-profond p-2 shadow-xl"
         >
           <Link
-            href="/account"
+            href="/compte"
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-texte-clair transition-colors hover:bg-or-principal/10 hover:text-or-principal"
@@ -86,7 +86,7 @@ export function AuthNav({ user }: AuthNavProps) {
             <User className="h-4 w-4" /> Mon compte
           </Link>
           <Link
-            href="/account/orders"
+            href="/compte/commandes"
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-texte-clair transition-colors hover:bg-or-principal/10 hover:text-or-principal"
@@ -94,7 +94,7 @@ export function AuthNav({ user }: AuthNavProps) {
             <Package className="h-4 w-4" /> Mes commandes
           </Link>
           <Link
-            href="/account/favorites"
+            href="/favoris"
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-texte-clair transition-colors hover:bg-or-principal/10 hover:text-or-principal"
@@ -102,15 +102,15 @@ export function AuthNav({ user }: AuthNavProps) {
             <Heart className="h-4 w-4" /> Favoris
           </Link>
           <Link
-            href="/account/evenements"
+            href="/compte/fidelite"
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-texte-clair transition-colors hover:bg-or-principal/10 hover:text-or-principal"
           >
-            <CalendarHeart className="h-4 w-4" /> Mes événements
+            <Sparkles className="h-4 w-4" /> Fidélité
           </Link>
           <Link
-            href="/account/settings"
+            href="/compte/parametres"
             role="menuitem"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-texte-clair transition-colors hover:bg-or-principal/10 hover:text-or-principal"
@@ -155,11 +155,11 @@ export function MobileAuthNav({ user, onClose }: { user: SupabaseUser | null; on
         <User className="h-4 w-4" />
         {firstName ?? "Mon compte"}
       </p>
-      <NavItem href="/account" onClick={onClose} icon={User}>Mon compte</NavItem>
-      <NavItem href="/account/orders" onClick={onClose} icon={Package}>Mes commandes</NavItem>
-      <NavItem href="/account/favorites" onClick={onClose} icon={Heart}>Favoris</NavItem>
-      <NavItem href="/account/evenements" onClick={onClose} icon={CalendarHeart}>Mes événements</NavItem>
-      <NavItem href="/account/settings" onClick={onClose} icon={Settings}>Paramètres</NavItem>
+      <NavItem href="/compte" onClick={onClose} icon={User}>Mon compte</NavItem>
+      <NavItem href="/compte/commandes" onClick={onClose} icon={Package}>Mes commandes</NavItem>
+      <NavItem href="/favoris" onClick={onClose} icon={Heart}>Favoris</NavItem>
+      <NavItem href="/compte/fidelite" onClick={onClose} icon={Sparkles}>Fidélité</NavItem>
+      <NavItem href="/compte/parametres" onClick={onClose} icon={Settings}>Paramètres</NavItem>
       <div className="mt-2">
         <LogoutButton />
       </div>

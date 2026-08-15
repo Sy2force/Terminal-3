@@ -11,7 +11,7 @@ export default async function LoginPage({
 
   if (user) {
     const { redirect: redirectTo } = await searchParams;
-    redirect(typeof redirectTo === "string" ? redirectTo : "/account");
+    redirect(typeof redirectTo === "string" ? redirectTo : "/compte");
   }
 
   return <AuthCarousel initialMode="login" />;

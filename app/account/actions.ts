@@ -41,6 +41,7 @@ export async function updateProfile(
 
   if (error) return { success: false, error: "Impossible d'enregistrer." };
 
-  revalidatePath("/account");
+  revalidatePath("/compte");
+  revalidatePath("/compte/profil");
   return { success: true };
 }

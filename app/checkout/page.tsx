@@ -144,7 +144,7 @@ export default function CheckoutPage() {
               : "Votre compte doit être vérifié par notre équipe avant de pouvoir commander. Cela prend généralement moins de 24h ouvrées."}
           </p>
           <Link
-            href="/account/verification"
+            href="/compte/verification"
             className="rounded-sm bg-bordeaux-principal px-6 py-3 text-sm font-medium uppercase tracking-widest text-texte-clair transition-colors hover:bg-bordeaux-fonce"
           >
             Voir ma vérification

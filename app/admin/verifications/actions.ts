@@ -5,6 +5,7 @@ import { requireAdminPermission } from "@/lib/admin/auth";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 import { logAudit } from "@/lib/admin/audit";
 import { getSignedIdentityDocUrl } from "@/lib/data/verification";
+import { notifyCustomer } from "@/lib/data/customer-notifications";
 
 export interface PendingVerificationRow {
   userId: string;
@@ -124,6 +125,13 @@ export async function approveVerification(userId: string): Promise<{ success: bo
     targetUserId: userId,
   });
 
+  await notifyCustomer(
+    userId,
+    "account_verified",
+    "Votre compte a été validé",
+    "Vous pouvez désormais passer commande librement sur Terminal 3.",
+  );
+
   revalidatePath("/admin/verifications");
   return { success: true };
 }
@@ -160,6 +168,13 @@ export async function rejectVerification(
     targetUserId: userId,
     reason: reason.trim(),
   });
+
+  await notifyCustomer(
+    userId,
+    "account_rejected",
+    "Votre document a été refusé",
+    reason.trim(),
+  );
 
   revalidatePath("/admin/verifications");
   return { success: true };
