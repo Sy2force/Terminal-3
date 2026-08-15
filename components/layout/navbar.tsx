@@ -74,7 +74,7 @@ export function Navbar({
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center justify-center gap-0.5 lg:flex pl-6"
+          className="hidden items-center justify-center gap-0.5 lg:flex pl-10"
         >
           {(toNavLinks(mainMenu).slice(0, 9).length > 0
             ? toNavLinks(mainMenu).slice(0, 9)
