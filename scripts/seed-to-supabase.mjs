@@ -94,7 +94,7 @@ function uuidFromIndex(index) {
   return `7${hex.slice(1, 4)}0000-0000-0000-0000-${hex.padStart(12, "0")}`;
 }
 
-function buildProducts(count) {
+function buildProducts(count, offset = 0) {
   const availableImages = scanBottleImages();
   const products = [];
   const variants = [];
@@ -103,9 +103,9 @@ function buildProducts(count) {
   const spiritCategory = CATEGORIES.find((c) => c.slug === "spiritueux") ?? CATEGORIES[1];
 
   for (let i = 0; i < count; i++) {
-    const isWine = i % 3 === 0;
+    const isWine = (i + offset) % 3 === 0;
     const category = isWine ? wineCategory : spiritCategory;
-    const index = i;
+    const index = i + offset;
     const id = uuidFromIndex(index);
 
     let nameFr, brand, subcategory = null, ageYears = null, abv, volumeMl = 700, priceAgorot;
@@ -193,6 +193,7 @@ async function upsertBatch(table, rows, onConflict) {
 
 async function main() {
   const extra = Number(process.argv[2]) || 0;
+  const offset = Number(process.argv[3]) || 0;
   const imageCount = scanBottleImages().length;
   const count = imageCount + extra;
 
@@ -221,8 +222,10 @@ async function main() {
     await loadCategories();
   }
 
-  console.log(`⏳ Génération de ${count} produits (${imageCount} images + ${extra} extra)…`);
-  const { products, variants, media } = buildProducts(count);
+  const genCount = offset > 0 ? extra : count;
+  const genOffset = offset;
+  console.log(`⏳ Génération de ${genCount} produits (offset ${genOffset})…`);
+  const { products, variants, media } = buildProducts(genCount, genOffset);
 
   await upsertBatch("products", products, "slug");
   await upsertBatch("product_variants", variants, "id");
