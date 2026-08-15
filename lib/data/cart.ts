@@ -285,7 +285,9 @@ export async function mergeGuestCart(
 /**
  * Convert the active cart after a successful order.
  */
-export async function convertCart(_orderId: string): Promise<void> {
+export async function convertCart(orderId: string): Promise<void> {
+  // orderId is reserved for future audit-log linkage; kept in signature for API stability.
+  void orderId;
   const supabase = await createClient();
   const {
     data: { user },
