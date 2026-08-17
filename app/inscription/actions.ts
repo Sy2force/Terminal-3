@@ -1,7 +1,68 @@
 "use server";
 
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
+
+export interface CreateAccountResult {
+  success: boolean;
+  userId?: string;
+  error?: string;
+}
+
+export async function createAccount({
+  email,
+  password,
+  firstName,
+  lastName,
+}: {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}): Promise<CreateAccountResult> {
+  if (password.length < 8) {
+    return { success: false, error: "Le mot de passe doit contenir au moins 8 caractères." };
+  }
+
+  const supabase = createServiceRoleClient();
+
+  const { data, error } = await supabase.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { first_name: firstName, last_name: lastName },
+  });
+
+  if (error) {
+    if (error.message === "User already registered") {
+      return { success: false, error: "Un compte existe déjà avec cet email." };
+    }
+    return { success: false, error: "Impossible de créer le compte." };
+  }
+
+  if (!data.user) {
+    return { success: false, error: "Erreur lors de la création du compte." };
+  }
+
+  const now = new Date().toISOString();
+  await supabase.from("profiles").upsert(
+    {
+      id: data.user.id,
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      created_at: now,
+      updated_at: now,
+      verification_status: "verified",
+      terms_accepted: true,
+      privacy_accepted: true,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any,
+    { onConflict: "id" },
+  );
+
+  return { success: true, userId: data.user.id };
+}
 
 const israeliPhone = /^(\+972|0)5\d([-\s]?\d){7}$/;
 
@@ -67,7 +128,7 @@ export async function completeRegistration(
       phone: input.phone,
       terms_accepted: input.termsAccepted,
       privacy_accepted: input.privacyAccepted,
-      verification_status: "pending_verification",
+      verification_status: "verified",
       updated_at: new Date().toISOString(),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any)

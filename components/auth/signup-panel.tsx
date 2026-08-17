@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { completeRegistration } from "@/app/inscription/actions";
+import { completeRegistration, createAccount } from "@/app/inscription/actions";
 import { IdentityDocUpload } from "@/components/auth/identity-doc-upload";
 
 const STEPS = ["Compte", "Coordonnées", "Justificatif"] as const;
@@ -58,27 +58,28 @@ export function SignupPanel({ redirectTo }: { redirectTo: string }) {
     }
 
     setLoading(true);
-    const supabase = createClient();
-    const { data, error: signUpError } = await supabase.auth.signUp({
+    const result = await createAccount({
       email: form.email,
       password: form.password,
-      options: { data: { first_name: form.firstName, last_name: form.lastName } },
+      firstName: form.firstName,
+      lastName: form.lastName,
     });
-    setLoading(false);
 
-    if (signUpError) {
-      setError(
-        signUpError.message === "User already registered"
-          ? "Un compte existe déjà avec cet email."
-          : "Impossible de créer le compte. Vérifiez vos informations.",
-      );
+    if (!result.success) {
+      setLoading(false);
+      setError(result.error ?? "Impossible de créer le compte.");
       return;
     }
 
-    if (!data.session || !data.user) {
-      setError(
-        "Compte créé. Vérifiez votre email pour confirmer votre adresse, puis connectez-vous pour continuer votre inscription.",
-      );
+    const supabase = createClient();
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+    setLoading(false);
+
+    if (signInError || !data.session || !data.user) {
+      setError("Compte créé. Veuillez vous connecter pour continuer.");
       return;
     }
 
