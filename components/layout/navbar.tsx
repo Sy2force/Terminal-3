@@ -150,15 +150,13 @@ export function Navbar({
             <Heart className="h-5 w-5" aria-hidden />
           </Link>
           <CartBadge />
-          {isAdmin && (
-            <Link
-              href="/admin"
-              className="hidden items-center gap-1.5 rounded-[10px] border border-or-principal/80 bg-transparent px-3 py-2 text-[13px] font-semibold text-texte-clair transition-all hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal lg:inline-flex"
-            >
-              <Shield className="h-4 w-4" aria-hidden />
-              <span>Admin</span>
-            </Link>
-          )}
+          <Link
+            href="/admin/login"
+            className="hidden items-center gap-1.5 rounded-[10px] border border-or-principal/80 bg-transparent px-3 py-2 text-[13px] font-semibold text-texte-clair transition-all hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal lg:inline-flex"
+          >
+            <Shield className="h-4 w-4" aria-hidden />
+            <span>Admin</span>
+          </Link>
           <AuthNav user={user} />
           <MobileMenu settings={settings} user={user} isAdmin={isAdmin} links={toNavLinks(mainMenu).length > 0 ? toNavLinks(mainMenu) : [...FALLBACK_PRIMARY, ...FALLBACK_MORE]} />
         </div>
