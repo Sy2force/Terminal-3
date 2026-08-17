@@ -121,9 +121,7 @@ export function Footer({
                   <li><Link href="/club" className="hover:text-or-principal transition-colors">Club</Link></li>
                   <li><Link href="/a-propos" className="hover:text-or-principal transition-colors">À propos</Link></li>
                   <li><Link href="/contact" className="hover:text-or-principal transition-colors">Contact</Link></li>
-                  {isAdmin && (
-                    <li><Link href="/admin" className="hover:text-or-principal transition-colors text-or-principal">Administration</Link></li>
-                  )}
+                  <li><Link href="/admin" className="hover:text-or-principal transition-colors text-or-principal">Administration</Link></li>
                 </ul>
               </div>
             </>
