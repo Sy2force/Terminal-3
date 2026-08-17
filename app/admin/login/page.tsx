@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
+const ADMIN_EMAIL = "shayacoca20@gmail.com";
+
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,12 +19,12 @@ export default function AdminLoginPage() {
     setError(null);
     const supabase = createClient();
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
+      email: ADMIN_EMAIL,
       password,
     });
     setLoading(false);
     if (signInError) {
-      setError("Email ou mot de passe incorrect.");
+      setError("Mot de passe incorrect.");
       return;
     }
     router.push("/admin");
@@ -61,25 +62,16 @@ export default function AdminLoginPage() {
             <p className="mt-2 text-center text-sm text-gris-chaud">
               Accédez au tableau de bord de Terminal 3
             </p>
+            <p className="mt-1 text-xs text-or-principal/80">{ADMIN_EMAIL}</p>
           </div>
 
           <form onSubmit={handleLogin} className="mt-8 flex flex-col gap-4">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Email
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
-                placeholder="admin@terminal3.co.il"
-              />
-            </label>
             <label className="flex flex-col gap-2 text-sm text-ivory/80">
               Mot de passe
               <input
                 type="password"
                 required
+                autoFocus
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
