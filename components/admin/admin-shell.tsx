@@ -29,6 +29,10 @@ import {
   Sparkles,
   Percent,
   UserPlus,
+  PlusCircle,
+  Upload,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import type { AdminSession } from "@/lib/admin/auth";
 
@@ -39,41 +43,29 @@ interface NavGroup {
 
 const NAV: NavGroup[] = [
   {
-    label: "Principal",
+    label: "Dashboard",
     items: [
-      { href: "/admin", label: "Vue d'ensemble", icon: LayoutDashboard },
-      { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
-      { href: "/admin/payments", label: "Paiements", icon: CreditCard },
-      { href: "/admin/invoices", label: "Factures", icon: Receipt },
-      { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
-      { href: "/admin/livraisons", label: "Livraisons", icon: Truck },
-      { href: "/admin/wolt", label: "Wolt", icon: Store },
+      { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
+      { href: "/admin/orders", label: "Nouvelles commandes", icon: ShoppingBag },
     ],
   },
   {
-    label: "Catalogue",
+    label: "Produits",
     items: [
-      { href: "/admin/products", label: "Produits", icon: Package },
+      { href: "/admin/products", label: "Tous les produits", icon: Package },
+      { href: "/admin/products/new", label: "Ajouter un produit", icon: PlusCircle },
       { href: "/admin/categories", label: "Catégories", icon: Grid3X3 },
       { href: "/admin/brands", label: "Marques", icon: Star },
       { href: "/admin/inventory", label: "Stocks", icon: Tag },
-      { href: "/admin/promotions", label: "Promotions", icon: CreditCard },
-    ],
-  },
-  {
-    label: "Contenu",
-    items: [
-      { href: "/admin/contenus", label: "Pages", icon: FileText },
-      { href: "/admin/couvertures", label: "Hero", icon: ImageIcon },
-      { href: "/admin/medias", label: "Médiathèque", icon: ImageIcon },
-      { href: "/admin/content", label: "Inspirations", icon: FileText },
-      { href: "/admin/homepage", label: "Accueil", icon: LayoutDashboard },
+      { href: "/admin/promotions", label: "Promotions", icon: Percent },
+      { href: "/admin/products/import", label: "Import CSV", icon: Upload },
+      { href: "/admin/products?tab=classification", label: "Règles de classement", icon: Tag },
     ],
   },
   {
     label: "Clients",
     items: [
-      { href: "/admin/clients", label: "Clients", icon: Users },
+      { href: "/admin/clients", label: "Clients inscrits", icon: Users },
       { href: "/admin/leads", label: "Leads", icon: UserPlus },
       { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
       { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
@@ -83,13 +75,41 @@ const NAV: NavGroup[] = [
     ],
   },
   {
-    label: "Configuration",
+    label: "Commandes",
+    items: [
+      { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
+      { href: "/admin/orders/kanban", label: "Vue Kanban", icon: LayoutGrid },
+      { href: "/admin/orders/queue", label: "File d'attente", icon: List },
+      { href: "/admin/payments", label: "Paiements", icon: CreditCard },
+      { href: "/admin/livraisons", label: "Livraisons", icon: Truck },
+      { href: "/admin/wolt", label: "Wolt", icon: Store },
+    ],
+  },
+  {
+    label: "Factures",
+    items: [
+      { href: "/admin/invoices", label: "Factures", icon: Receipt },
+    ],
+  },
+  {
+    label: "Contenu et médias",
+    items: [
+      { href: "/admin/contenus", label: "Pages", icon: FileText },
+      { href: "/admin/couvertures", label: "Hero", icon: ImageIcon },
+      { href: "/admin/medias", label: "Médiathèque", icon: ImageIcon },
+      { href: "/admin/content", label: "Inspirations", icon: FileText },
+      { href: "/admin/homepage", label: "Accueil", icon: LayoutDashboard },
+    ],
+  },
+  {
+    label: "Paramètres",
     items: [
       { href: "/admin/store", label: "Paramètres", icon: Settings },
       { href: "/admin/users", label: "Utilisateurs", icon: Shield },
       { href: "/admin/roles", label: "Rôles & permissions", icon: Shield },
       { href: "/admin/historique", label: "Historique / Audit", icon: History },
       { href: "/admin/age-verifications", label: "Vérif. 18+", icon: AlertCircle },
+      { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
     ],
   },
 ];

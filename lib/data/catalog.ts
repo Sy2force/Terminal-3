@@ -9,7 +9,7 @@ import {
   mockGetPublishedProducts,
   mockGetPlatterProducts,
 } from "@/lib/data/mock-catalog";
-import { normalize } from "@/lib/classification/parser";
+import { isProbablyDemoProduct } from "@/lib/data/demo-filter";
 
 export interface ProductWithMedia extends ProductRow {
   variants: ProductVariantRow[];
@@ -17,45 +17,8 @@ export interface ProductWithMedia extends ProductRow {
   category: CategoryRow | null;
 }
 
-/**
- * Heuristic filter to hide demonstrably fake / generated products from the
- * public catalog without deleting or archiving them. Reversible: simply
- * remove the filter when the products are cleaned.
- *
- * Flags as "demo":
- * - placeholder names like "Produit à identifier"
- * - names ending with a small index number (e.g. "... 0", "... 1")
- * - names containing an impossible vintage year (> current + 2)
- */
-export function isProbablyDemoProduct(name: string | null | undefined): boolean {
-  if (!name) return true;
-  const n = normalize(name);
-  if (n.includes("produit a identifier")) return true;
-
-  const trailingNumberMatch = name.match(/\s(\d+)\s*$/);
-  if (trailingNumberMatch) {
-    const trailingNumber = Number(trailingNumberMatch[1]);
-    if (trailingNumber >= 1900) {
-      const currentYear = new Date().getFullYear();
-      if (trailingNumber > currentYear + 2) return true;
-    } else {
-      // Sequential index like "Saumon fumé 0", "Saucisson 1"
-      return true;
-    }
-  }
-
-  const anyYear = name.match(/\b(19|20)\d{2}\b/);
-  if (anyYear) {
-    const year = Number(anyYear[0]);
-    const currentYear = new Date().getFullYear();
-    if (year > currentYear + 2) return true;
-  }
-
-  return false;
-}
-
 function filterVisibleProducts(products: ProductWithMedia[]): ProductWithMedia[] {
-  return products.filter((p) => !isProbablyDemoProduct(p.name_fr ?? p.name_he ?? p.name_en));
+  return products.filter((p) => !isProbablyDemoProduct(p));
 }
 
 export async function getCategories(): Promise<CategoryRow[]> {
@@ -198,7 +161,7 @@ export async function getProductBySlug(
 
   if (error || !data) return null;
   const product = data as unknown as ProductWithMedia;
-  if (isProbablyDemoProduct(product.name_fr ?? product.name_he ?? product.name_en)) return null;
+  if (isProbablyDemoProduct(product)) return null;
   return product;
 }
 
