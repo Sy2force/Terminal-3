@@ -14,6 +14,7 @@ import { ProductPurchasePanel } from "@/components/commerce/product-purchase-pan
 import { FavoriteButton } from "@/components/commerce/favorite-button";
 import { ProductCard } from "@/components/commerce/product-card";
 import { SalmonProductCard } from "@/components/commerce/salmon-product-card";
+import { ProductSpecs } from "@/components/commerce/product-specs";
 import { formatAgorot } from "@/lib/money";
 
 export const revalidate = 60;
@@ -204,6 +205,8 @@ export default async function ProductPage({
             variants={product.variants}
             storeOnline={storeOnline}
           />
+
+          <ProductSpecs product={product} />
 
           <div className="flex gap-3 pt-2">
             <CallButton phone={settings.STORE_PHONE} className="flex-1" />

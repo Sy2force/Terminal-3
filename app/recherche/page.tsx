@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { getPublishedProducts } from "@/lib/data/catalog";
+import { searchProducts } from "@/lib/data/catalog";
 import { SearchResults } from "@/components/search/search-results";
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Recherche | Terminal 3",
   description: "Recherchez un vin, un spiritueux, une charcuterie ou un poisson dans la sélection Terminal 3.",
 };
 
-export default async function SearchPage() {
-  const products = await getPublishedProducts();
+interface SearchPageProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function SearchPage({ searchParams }: SearchPageProps) {
+  const { q } = await searchParams;
+  const query = q?.trim() ?? "";
+  const initialResults = query ? await searchProducts(query) : [];
 
   return (
     <div className="min-h-screen bg-fond-papier">
@@ -24,7 +30,7 @@ export default async function SearchPage() {
       </div>
 
       <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-8">
-        <SearchResults products={products} />
+        <SearchResults initialQuery={query} initialResults={initialResults} />
       </div>
     </div>
   );

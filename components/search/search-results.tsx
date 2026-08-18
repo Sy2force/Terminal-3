@@ -1,31 +1,44 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState, useTransition, useRef } from "react";
 import { Search, X } from "lucide-react";
-import { FavoriteCard } from "@/components/favorites/favorite-card";
+import { searchProductsAction } from "@/app/recherche/actions";
+import { ProductCard } from "@/components/commerce/product-card";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 
-export function SearchResults({ products }: { products: ProductWithMedia[] }) {
-  const [query, setQuery] = useState("");
+interface SearchResultsProps {
+  initialQuery?: string;
+  initialResults?: ProductWithMedia[];
+}
 
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return products.filter((product) => {
-      const haystack = [
-        product.name_fr,
-        product.name_he,
-        product.name_en,
-        product.brand,
-        product.description_fr,
-        product.category?.name_fr,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(q);
+export function SearchResults({ initialQuery = "", initialResults = [] }: SearchResultsProps) {
+  const [query, setQuery] = useState(initialQuery);
+  const [results, setResults] = useState<ProductWithMedia[]>(initialResults);
+  const [isPending, startTransition] = useTransition();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const runSearch = (value: string) => {
+    if (!value.trim()) {
+      setResults([]);
+      return;
+    }
+    startTransition(async () => {
+      const products = await searchProductsAction(value);
+      setResults(products);
     });
-  }, [products, query]);
+  };
+
+  const handleChange = (value: string) => {
+    setQuery(value);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (!value.trim()) {
+      setResults([]);
+      return;
+    }
+    timeoutRef.current = setTimeout(() => {
+      runSearch(value);
+    }, 200);
+  };
 
   return (
     <div>
@@ -39,14 +52,18 @@ export function SearchResults({ products }: { products: ProductWithMedia[] }) {
           type="search"
           autoFocus
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Rechercher un vin, un whisky, une charcuterie, un poisson…"
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="glen, chiv, don jul, yard, saum, thon, rosette…"
           className="w-full rounded-sm border border-brun-cave/25 bg-white py-3.5 pl-11 pr-11 text-sm text-noir-profond placeholder:text-gris-chaud focus:border-bordeaux-principal focus:outline-none"
+          autoComplete="off"
         />
         {query && (
           <button
             type="button"
-            onClick={() => setQuery("")}
+            onClick={() => {
+              setQuery("");
+              setResults([]);
+            }}
             aria-label="Effacer la recherche"
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gris-chaud hover:text-bordeaux-principal"
           >
@@ -57,14 +74,19 @@ export function SearchResults({ products }: { products: ProductWithMedia[] }) {
 
       {query && (
         <p className="mt-4 text-sm text-gris-chaud" aria-live="polite">
-          {results.length} résultat{results.length !== 1 ? "s" : ""} pour « {query} »
+          {isPending
+            ? "Recherche en cours…"
+            : `${results.length} résultat${results.length !== 1 ? "s" : ""} pour « ${query} »`}
         </p>
       )}
 
-      {query && results.length === 0 && (
+      {query && results.length === 0 && !isPending && (
         <div className="mt-10 flex flex-col items-center gap-4 rounded-sm border border-brun-cave/15 bg-white/40 py-16 text-center">
           <p className="font-serif text-xl text-noir-profond">
             Aucun produit ne correspond à votre recherche.
+          </p>
+          <p className="text-sm text-gris-chaud">
+            Essayez un autre mot : whisky, vodka, saumon, rosette, Yarden…
           </p>
         </div>
       )}
@@ -72,7 +94,11 @@ export function SearchResults({ products }: { products: ProductWithMedia[] }) {
       {results.length > 0 && (
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {results.map((product) => (
-            <FavoriteCard key={product.id} product={product} showRemove={false} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              isFavorited={false}
+            />
           ))}
         </div>
       )}

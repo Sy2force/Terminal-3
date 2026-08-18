@@ -9,11 +9,53 @@ import {
   mockGetPublishedProducts,
   mockGetPlatterProducts,
 } from "@/lib/data/mock-catalog";
+import { normalize } from "@/lib/classification/parser";
 
 export interface ProductWithMedia extends ProductRow {
   variants: ProductVariantRow[];
   media: ProductMediaRow[];
   category: CategoryRow | null;
+}
+
+/**
+ * Heuristic filter to hide demonstrably fake / generated products from the
+ * public catalog without deleting or archiving them. Reversible: simply
+ * remove the filter when the products are cleaned.
+ *
+ * Flags as "demo":
+ * - placeholder names like "Produit à identifier"
+ * - names ending with a small index number (e.g. "... 0", "... 1")
+ * - names containing an impossible vintage year (> current + 2)
+ */
+export function isProbablyDemoProduct(name: string | null | undefined): boolean {
+  if (!name) return true;
+  const n = normalize(name);
+  if (n.includes("produit a identifier")) return true;
+
+  const trailingNumberMatch = name.match(/\s(\d+)\s*$/);
+  if (trailingNumberMatch) {
+    const trailingNumber = Number(trailingNumberMatch[1]);
+    if (trailingNumber >= 1900) {
+      const currentYear = new Date().getFullYear();
+      if (trailingNumber > currentYear + 2) return true;
+    } else {
+      // Sequential index like "Saumon fumé 0", "Saucisson 1"
+      return true;
+    }
+  }
+
+  const anyYear = name.match(/\b(19|20)\d{2}\b/);
+  if (anyYear) {
+    const year = Number(anyYear[0]);
+    const currentYear = new Date().getFullYear();
+    if (year > currentYear + 2) return true;
+  }
+
+  return false;
+}
+
+function filterVisibleProducts(products: ProductWithMedia[]): ProductWithMedia[] {
+  return products.filter((p) => !isProbablyDemoProduct(p.name_fr ?? p.name_he ?? p.name_en));
 }
 
 export async function getCategories(): Promise<CategoryRow[]> {
@@ -63,7 +105,7 @@ export async function getPublishedProducts(options?: {
 
   const { data, error } = await query;
   if (error || !data) return [];
-  return data as unknown as ProductWithMedia[];
+  return filterVisibleProducts(data as unknown as ProductWithMedia[]);
 }
 
 /**
@@ -87,7 +129,7 @@ export async function getNewArrivals(limit = 24): Promise<ProductWithMedia[]> {
     .limit(limit);
 
   if (error || !data) return [];
-  return data as unknown as ProductWithMedia[];
+  return filterVisibleProducts(data as unknown as ProductWithMedia[]);
 }
 
 /**
@@ -110,7 +152,7 @@ export async function getPlatterProducts(): Promise<ProductWithMedia[]> {
     .order("published_at", { ascending: false });
 
   if (error || !data) return [];
-  return data as unknown as ProductWithMedia[];
+  return filterVisibleProducts(data as unknown as ProductWithMedia[]);
 }
 
 /**
@@ -135,7 +177,8 @@ export async function getProductsByIds(ids: string[]): Promise<ProductWithMedia[
     .eq("status", "published");
 
   if (error || !data) return [];
-  const byId = new Map((data as unknown as ProductWithMedia[]).map((p) => [p.id, p]));
+  const visible = filterVisibleProducts(data as unknown as ProductWithMedia[]);
+  const byId = new Map(visible.map((p) => [p.id, p]));
   return ids.map((id) => byId.get(id)).filter((p): p is ProductWithMedia => Boolean(p));
 }
 
@@ -154,5 +197,61 @@ export async function getProductBySlug(
     .maybeSingle();
 
   if (error || !data) return null;
-  return data as unknown as ProductWithMedia;
+  const product = data as unknown as ProductWithMedia;
+  if (isProbablyDemoProduct(product.name_fr ?? product.name_he ?? product.name_en)) return null;
+  return product;
+}
+
+function buildIlikeClause(field: string, pattern: string): string {
+  return `${field}.ilike.${pattern}`;
+}
+
+export async function searchProducts(query: string): Promise<ProductWithMedia[]> {
+  if (!query.trim()) return [];
+  const supabase = await createClient();
+  const q = query.trim().toLowerCase();
+  const tokens = q.split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return [];
+
+  const joinedPattern = `%${tokens.join("%")}%`;
+
+  const conditions: string[] = [
+    buildIlikeClause("name_fr", joinedPattern),
+    buildIlikeClause("name_he", joinedPattern),
+    buildIlikeClause("name_en", joinedPattern),
+    buildIlikeClause("brand", joinedPattern),
+    buildIlikeClause("subcategory", joinedPattern),
+    buildIlikeClause("wine_type", joinedPattern),
+    buildIlikeClause("slug", joinedPattern),
+    buildIlikeClause("description_fr", joinedPattern),
+    buildIlikeClause("description_he", joinedPattern),
+  ];
+
+  for (const token of tokens) {
+    const tokenPattern = `%${token}%`;
+    conditions.push(buildIlikeClause("name_fr", tokenPattern));
+    conditions.push(buildIlikeClause("name_he", tokenPattern));
+    conditions.push(buildIlikeClause("name_en", tokenPattern));
+    conditions.push(buildIlikeClause("brand", tokenPattern));
+    conditions.push(buildIlikeClause("subcategory", tokenPattern));
+    conditions.push(buildIlikeClause("wine_type", tokenPattern));
+    conditions.push(buildIlikeClause("slug", tokenPattern));
+  }
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "*, category:categories(*), variants:product_variants(*), media:product_media(*)",
+    )
+    .eq("status", "published")
+    .or(conditions.join(","))
+    .order("published_at", { ascending: false })
+    .limit(50);
+
+  if (error || !data) {
+    console.error("searchProducts error:", error);
+    return [];
+  }
+
+  return filterVisibleProducts(data as unknown as ProductWithMedia[]);
 }
