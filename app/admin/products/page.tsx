@@ -33,6 +33,13 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
               >
                 Import CSV
               </Link>
+              <a
+                href="/api/admin/export/products"
+                download
+                className="rounded-full border border-champagne/40 px-5 py-2 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
+              >
+                Export CSV
+              </a>
               <Link
                 href="/admin/products/new"
                 className="rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold"
