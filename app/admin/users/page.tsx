@@ -1,7 +1,8 @@
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { createClient } from "@/lib/supabase/server";
-import { Shield, Clock } from "lucide-react";
+import { Shield, Clock, LogOut } from "lucide-react";
 import { AssignRoleControl, RevokeRoleButton } from "@/components/admin/user-role-controls";
+import { signOutAdmin } from "@/app/admin/logout/actions";
 import type { ProfileRow, AdminRoleType } from "@/types/database";
 
 interface UserWithRoles extends ProfileRow {
@@ -30,7 +31,7 @@ export default async function AdminUsersPage() {
   const isOwner = session.role === "OWNER";
   const supabase = await createClient();
 
-  const [{ data: users }, { data: roles }, { data: logins }] = await Promise.all([
+  const [{ data: users }, { data: roles }, { data: logins }, { data: { session: currentSession } }] = await Promise.all([
     supabase
       .from("profiles")
       .select(`
@@ -59,6 +60,7 @@ export default async function AdminUsersPage() {
       .eq("action", "login")
       .order("created_at", { ascending: false })
       .limit(1000),
+    supabase.auth.getSession(),
   ]);
 
   const lastLoginByUser = new Map<string, string>();
@@ -75,6 +77,36 @@ export default async function AdminUsersPage() {
           <h1 className="font-serif text-2xl text-ivory">Utilisateurs admin</h1>
           <p className="mt-1 text-sm text-muted-grey">Gestion des rôles, permissions et dernières connexions.</p>
         </div>
+      </div>
+
+      <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
+        <h2 className="mb-4 font-serif text-lg text-champagne">Session active</h2>
+        {currentSession ? (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-medium text-ivory">{currentSession.user.email}</p>
+              <p className="text-xs text-muted-grey">
+                Expire le {" "}
+                {formatDate(
+                  currentSession.expires_at
+                    ? new Date(currentSession.expires_at * 1000).toISOString()
+                    : null,
+                )}
+              </p>
+            </div>
+            <form action={signOutAdmin}>
+              <button
+                type="submit"
+                className="flex items-center gap-2 rounded-sm bg-[#9B3444]/10 px-4 py-2 text-sm font-medium text-[#9B3444] transition-colors hover:bg-[#9B3444]/20"
+              >
+                <LogOut className="h-4 w-4" />
+                Déconnecter toutes les sessions
+              </button>
+            </form>
+          </div>
+        ) : (
+          <p className="text-sm text-muted-grey">Aucune session active.</p>
+        )}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
