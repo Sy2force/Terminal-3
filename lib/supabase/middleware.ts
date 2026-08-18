@@ -45,8 +45,9 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  const isAdminLogin = pathname.startsWith("/admin/login");
 
-  if (isProtected && !user) {
+  if (isProtected && !isAdminLogin && !user) {
     const isAdmin = pathname.startsWith("/admin");
     const redirectUrl = new URL(isAdmin ? "/admin/login" : "/login", request.url);
     if (!isAdmin) {
