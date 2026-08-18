@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { logAdminLogin } from "@/app/admin/login/actions";
 import { Eye, EyeOff } from "lucide-react";
 
 const REMEMBER_EMAIL_KEY = "terminal3.admin.email";
@@ -50,6 +51,7 @@ export default function AdminLoginPage() {
         }
       }
 
+      await logAdminLogin();
       router.push("/admin");
       router.refresh();
     },

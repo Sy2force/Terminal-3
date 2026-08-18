@@ -50,7 +50,9 @@ export type AuditAction =
   | "reward_granted"
   | "payment_confirmed"
   | "payment_refunded"
-  | "export_generated";
+  | "export_generated"
+  | "login"
+  | "logout";
 
 export interface AuditPayload {
   actor: string;
