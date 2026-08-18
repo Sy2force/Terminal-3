@@ -41,6 +41,7 @@ export function CategoryCover({
                 alt={typeof title === "string" ? title : "Couverture"}
                 fill
                 priority
+                loading="eager"
                 className="object-cover"
                 sizes="100vw"
               />

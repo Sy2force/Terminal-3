@@ -54,29 +54,33 @@ export function SalmonGallerySection({
 
         <div className="relative -mx-6 flex-1 overflow-x-auto px-6 [scrollbar-width:none] lg:mx-0 lg:px-0 [&::-webkit-scrollbar]:hidden">
           <div className="flex snap-x snap-mandatory gap-5">
-            <div className="relative aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-sm bg-obsidian sm:w-[46vw] lg:w-[28rem] border border-white/5">
-              <Image
-                src={feature.url}
-                alt={feature.alt ?? "Plateau de saumon fumé Terminal 3"}
-                fill
-                sizes="(min-width: 1024px) 28rem, (min-width: 640px) 46vw, 78vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-            {rest.map((image, i) => (
-              <div
-                key={image.url}
-                className="relative aspect-[4/5] w-[60vw] shrink-0 snap-start overflow-hidden rounded-sm bg-obsidian sm:w-[32vw] lg:w-80 border border-white/5"
-              >
+            {feature.url ? (
+              <div className="relative aspect-[4/5] w-[78vw] shrink-0 snap-start overflow-hidden rounded-sm bg-obsidian sm:w-[46vw] lg:w-[28rem] border border-white/5">
                 <Image
-                  src={image.url}
-                  alt={image.alt ?? `Plateau de saumon fumé Terminal 3 ${i + 2}`}
+                  src={feature.url}
+                  alt={feature.alt ?? "Plateau de saumon fumé Terminal 3"}
                   fill
-                  sizes="(min-width: 1024px) 20rem, (min-width: 640px) 32vw, 60vw"
+                  sizes="(min-width: 1024px) 28rem, (min-width: 640px) 46vw, 78vw"
                   className="object-cover"
+                  priority
                 />
               </div>
+            ) : null}
+            {rest.map((image, i) => (
+              image.url ? (
+                <div
+                  key={`${image.url}-${i}`}
+                  className="relative aspect-[4/5] w-[60vw] shrink-0 snap-start overflow-hidden rounded-sm bg-obsidian sm:w-[32vw] lg:w-80 border border-white/5"
+                >
+                  <Image
+                    src={image.url}
+                    alt={image.alt ?? `Plateau de saumon fumé Terminal 3 ${i + 2}`}
+                    fill
+                    sizes="(min-width: 1024px) 20rem, (min-width: 640px) 32vw, 60vw"
+                    className="object-cover"
+                  />
+                </div>
+              ) : null
             ))}
           </div>
         </div>

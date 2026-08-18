@@ -59,6 +59,8 @@ export function EditableImage({
         src={value}
         alt={alt ?? "Image modifiable"}
         fill
+        priority
+        loading="eager"
         className={className}
         sizes={sizes}
       />
