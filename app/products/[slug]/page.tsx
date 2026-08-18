@@ -89,8 +89,41 @@ export default async function ProductPage({
   const imageFit = getMediaFit(cover?.kind, product.category?.slug ?? null);
   const hasCover = Boolean(cover?.url);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const productUrl = siteUrl ? `${siteUrl}/products/${slug}` : `/products/${slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    image: cover?.url ? (siteUrl ? `${siteUrl}${cover.url}` : cover.url) : undefined,
+    description: product.description_fr ?? product.description_he ?? undefined,
+    brand: {
+      "@type": "Brand",
+      name: product.brand ?? "Terminal 3",
+    },
+    category: product.category?.name_fr ?? product.category?.name_he ?? undefined,
+    offers: defaultVariant
+      ? {
+          "@type": "Offer",
+          url: productUrl,
+          priceCurrency: "ILS",
+          price: ((defaultVariant.regular_price_agorot ?? 0) / 100).toFixed(2),
+          availability:
+            defaultVariant.availability_status === "IN_STOCK" ||
+            defaultVariant.availability_status === "LOW_STOCK"
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+          itemCondition: "https://schema.org/NewCondition",
+        }
+      : undefined,
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="grid gap-12 lg:grid-cols-[58fr_42fr]">
         {/* LEFT: Image gallery */}
         <div className="space-y-4">

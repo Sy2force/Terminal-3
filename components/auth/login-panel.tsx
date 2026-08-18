@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginPanel({ redirectTo }: { redirectTo: string }) {
@@ -63,6 +64,12 @@ export function LoginPanel({ redirectTo }: { redirectTo: string }) {
           />
         </label>
         {error && <p className="text-sm text-amber-400">{error}</p>}
+        <Link
+          href="/mot-de-passe-oublie"
+          className="text-sm text-ivory/60 transition-colors hover:text-champagne"
+        >
+          Mot de passe oublié ?
+        </Link>
         <button
           type="submit"
           disabled={loading}
