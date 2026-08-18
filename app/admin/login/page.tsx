@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
-const ADMIN_EMAIL = "shayacoca20@gmail.com";
-
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,15 +18,17 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
     const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: ADMIN_EMAIL,
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email,
       password,
     });
     setLoading(false);
-    if (signInError) {
-      setError("Mot de passe incorrect.");
+
+    if (signInError || !data.user) {
+      setError("Email ou mot de passe incorrect.");
       return;
     }
+
     router.push("/admin");
     router.refresh();
   }
@@ -62,16 +64,26 @@ export default function AdminLoginPage() {
             <p className="mt-2 text-center text-sm text-gris-chaud">
               Accédez au tableau de bord de Terminal 3
             </p>
-            <p className="mt-1 text-xs text-or-principal/80">{ADMIN_EMAIL}</p>
           </div>
 
           <form onSubmit={handleLogin} className="mt-8 flex flex-col gap-4">
+            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+              Email
+              <input
+                type="email"
+                required
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
+                placeholder="vous@exemple.com"
+              />
+            </label>
             <label className="flex flex-col gap-2 text-sm text-ivory/80">
               Mot de passe
               <input
                 type="password"
                 required
-                autoFocus
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
@@ -88,12 +100,12 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <a
+          <Link
             href="/"
             className="mt-6 block text-center text-xs text-gris-chaud hover:text-or-principal"
           >
             Retour au site
-          </a>
+          </Link>
         </div>
       </div>
     </main>

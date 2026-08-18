@@ -1,0 +1,4601 @@
+[
+  {
+    "product_id": "70000000-0000-0000-0000-000070000009",
+    "name": "Rouge de Galilée 2027",
+    "slug": "shiloh-rouge-de-galilee-2027-9",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000022",
+    "name": "Dewar's",
+    "slug": "dewar-s-dewar-s-34",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000023",
+    "name": "Bushmills Blanco",
+    "slug": "bushmills-bushmills-blanco-35",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000025",
+    "name": "Ararat Floral",
+    "slug": "ararat-ararat-floral-37",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000026",
+    "name": "Khvanchkara Coffee",
+    "slug": "khvanchkara-khvanchkara-coffee-38",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000027",
+    "name": "Merlot 2037",
+    "slug": "shiloh-merlot-2037-39",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000028",
+    "name": "Cîroc Distiller's Edition",
+    "slug": "ciroc-ciroc-distiller-s-edition-40",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000029",
+    "name": "Beluga",
+    "slug": "beluga-beluga-41",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002a",
+    "name": "Syrah 2020",
+    "slug": "recanati-syrah-2020-42",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002b",
+    "name": "Smirnoff Extra Añejo",
+    "slug": "smirnoff-smirnoff-extra-anejo-43",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002c",
+    "name": "Baileys",
+    "slug": "baileys-baileys-44",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002d",
+    "name": "Rouge de Galilée 2023",
+    "slug": "domaine-du-castel-rouge-de-galilee-2023-45",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000031",
+    "name": "Campari V.S.O.P",
+    "slug": "campari-campari-v-s-o-p-49",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000049",
+    "name": "Grey Goose V.S.O.P",
+    "slug": "grey-goose-grey-goose-v-s-o-p-73",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004a",
+    "name": "Belvedere Épice",
+    "slug": "belvedere-belvedere-epice-74",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004b",
+    "name": "Merlot 2033",
+    "slug": "domaine-du-castel-merlot-2033-75",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004c",
+    "name": "Bombay Sapphire Citrus",
+    "slug": "bombay-sapphire-bombay-sapphire-citrus-76",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004d",
+    "name": "Tanqueray Floral",
+    "slug": "tanqueray-tanqueray-floral-77",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004e",
+    "name": "Syrah 2036",
+    "slug": "carmel-syrah-2036-78",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000050",
+    "name": "Talisker Reserve",
+    "slug": "talisker-talisker-reserve-80",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000051",
+    "name": "Rouge de Galilée 2019",
+    "slug": "galil-mountain-rouge-de-galilee-2019-81",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000052",
+    "name": "Laphroaig Black",
+    "slug": "laphroaig-laphroaig-black-82",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000053",
+    "name": "Ardbeg Extra Añejo",
+    "slug": "ardbeg-ardbeg-extra-anejo-83",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000055",
+    "name": "Hibiki London Dry",
+    "slug": "hibiki-hibiki-london-dry-85",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000056",
+    "name": "Nikka Cream",
+    "slug": "nikka-nikka-cream-86",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000057",
+    "name": "Viognier 2025",
+    "slug": "recanati-viognier-2025-87",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000058",
+    "name": "Canadian Club Double Wood",
+    "slug": "canadian-club-canadian-club-double-wood-88",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000059",
+    "name": "Ballantine's",
+    "slug": "ballantine-s-ballantine-s-89",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005a",
+    "name": "Petit Castel 2028",
+    "slug": "domaine-du-castel-petit-castel-2028-90",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005b",
+    "name": "Teacher's Reposado",
+    "slug": "teacher-s-teacher-s-reposado-91",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005c",
+    "name": "Dewar's Vanilla",
+    "slug": "dewar-s-dewar-s-vanilla-92",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005d",
+    "name": "Merlot 2031",
+    "slug": "carmel-merlot-2031-93",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005e",
+    "name": "Tullamore Dew",
+    "slug": "tullamore-dew-tullamore-dew-94",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000005f",
+    "name": "Ararat Elite",
+    "slug": "ararat-ararat-elite-95",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000060",
+    "name": "Syrah 2034",
+    "slug": "galil-mountain-syrah-2034-96",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000061",
+    "name": "Ketel One V.S.O.P",
+    "slug": "ketel-one-ketel-one-v-s-o-p-97",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000062",
+    "name": "Cîroc 7 ans",
+    "slug": "ciroc-ciroc-7-ans-98",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000063",
+    "name": "Rouge de Galilée 2037",
+    "slug": "shiloh-rouge-de-galilee-2037-99",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000067",
+    "name": "Kahlúa Anisé",
+    "slug": "kahlua-kahlua-anise-103",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003d",
+    "name": "Johnnie Walker Navy Strength",
+    "slug": "johnnie-walker-johnnie-walker-navy-strength-61",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003e",
+    "name": "Jack Daniel's Orange",
+    "slug": "jack-daniel-s-jack-daniel-s-orange-62",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003f",
+    "name": "Rouge de Galilée 2021",
+    "slug": "carmel-rouge-de-galilee-2021-63",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000040",
+    "name": "Hennessy 15 ans",
+    "slug": "hennessy-hennessy-15-ans-64",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000041",
+    "name": "Remy Martin",
+    "slug": "remy-martin-remy-martin-65",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000043",
+    "name": "Havana Club Añejo",
+    "slug": "havana-club-havana-club-anejo-67",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000044",
+    "name": "Bacardi Berry",
+    "slug": "bacardi-bacardi-berry-68",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000045",
+    "name": "Viognier 2027",
+    "slug": "shiloh-viognier-2027-69",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000046",
+    "name": "Don Julio Original",
+    "slug": "don-julio-don-julio-original-70",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ce",
+    "name": "Rosé 2018",
+    "slug": "recanati-rose-2018-462",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001cf",
+    "name": "Jägermeister Anisé",
+    "slug": "jagermeister-jagermeister-anise-463",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d0",
+    "name": "Chivas Regal 18 ans",
+    "slug": "chivas-regal-chivas-regal-18-ans-464",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d1",
+    "name": "Viognier 2021",
+    "slug": "domaine-du-castel-viognier-2021-465",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d2",
+    "name": "Glenlivet Épice",
+    "slug": "glenlivet-glenlivet-epice-466",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d3",
+    "name": "Johnnie Walker Añejo",
+    "slug": "johnnie-walker-johnnie-walker-anejo-467",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d4",
+    "name": "Petit Castel 2024",
+    "slug": "carmel-petit-castel-2024-468",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d5",
+    "name": "Jameson",
+    "slug": "jameson-jameson-469",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d6",
+    "name": "Hennessy Original",
+    "slug": "hennessy-hennessy-original-470",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d7",
+    "name": "Merlot 2027",
+    "slug": "galil-mountain-merlot-2027-471",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000000",
+    "name": "Petit Castel 2018",
+    "slug": "domaine-du-castel-petit-castel-2018-0",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000068",
+    "name": "Amarula",
+    "slug": "amarula-amarula-104",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000069",
+    "name": "Viognier 2023",
+    "slug": "domaine-du-castel-viognier-2023-105",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006a",
+    "name": "Grand Marnier 12 ans",
+    "slug": "grand-marnier-grand-marnier-12-ans-106",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006b",
+    "name": "Campari Añejo",
+    "slug": "campari-campari-anejo-107",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000077",
+    "name": "Johnnie Walker",
+    "slug": "johnnie-walker-johnnie-walker-119",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000078",
+    "name": "Rosé 2018",
+    "slug": "domaine-du-castel-rose-2018-120",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000079",
+    "name": "Jameson V.S.O.P",
+    "slug": "jameson-jameson-v-s-o-p-121",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007a",
+    "name": "Hennessy Blanc",
+    "slug": "hennessy-hennessy-blanc-122",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007b",
+    "name": "Viognier 2021",
+    "slug": "carmel-viognier-2021-123",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007c",
+    "name": "Courvoisier",
+    "slug": "courvoisier-courvoisier-124",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007d",
+    "name": "Havana Club London Dry",
+    "slug": "havana-club-havana-club-london-dry-125",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007e",
+    "name": "Petit Castel 2024",
+    "slug": "galil-mountain-petit-castel-2024-126",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000007f",
+    "name": "Mount Gay Gold",
+    "slug": "mount-gay-mount-gay-gold-127",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000080",
+    "name": "Don Julio 18 ans",
+    "slug": "don-julio-don-julio-18-ans-128",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000081",
+    "name": "Merlot 2027",
+    "slug": "shiloh-merlot-2027-129",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000082",
+    "name": "Jose Cuervo Épice",
+    "slug": "jose-cuervo-jose-cuervo-epice-130",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000083",
+    "name": "Grey Goose Reposado",
+    "slug": "grey-goose-grey-goose-reposado-131",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000084",
+    "name": "Syrah 2030",
+    "slug": "recanati-syrah-2030-132",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d8",
+    "name": "Courvoisier Reserve",
+    "slug": "courvoisier-courvoisier-reserve-472",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006e",
+    "name": "Pernod Original",
+    "slug": "pernod-pernod-original-110",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006f",
+    "name": "Merlot 2029",
+    "slug": "galil-mountain-merlot-2029-111",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000070",
+    "name": "Arak Elite 12 ans",
+    "slug": "arak-elite-arak-elite-12-ans-112",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000071",
+    "name": "Askalon",
+    "slug": "askalon-askalon-113",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000072",
+    "name": "Syrah 2032",
+    "slug": "shiloh-syrah-2032-114",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000073",
+    "name": "Jägermeister Blanco",
+    "slug": "jagermeister-jagermeister-blanco-115",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000074",
+    "name": "Chivas Regal Citrus",
+    "slug": "chivas-regal-chivas-regal-citrus-116",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000075",
+    "name": "Rouge de Galilée 2035",
+    "slug": "recanati-rouge-de-galilee-2035-117",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000076",
+    "name": "Glenlivet Coffee",
+    "slug": "glenlivet-glenlivet-coffee-118",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000085",
+    "name": "Absolut Mediterranean",
+    "slug": "absolut-absolut-mediterranean-133",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000086",
+    "name": "Bombay Sapphire",
+    "slug": "bombay-sapphire-bombay-sapphire-134",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001d9",
+    "name": "Havana Club",
+    "slug": "havana-club-havana-club-473",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001da",
+    "name": "Syrah 2030",
+    "slug": "shiloh-syrah-2030-474",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001db",
+    "name": "Mount Gay Blanco",
+    "slug": "mount-gay-mount-gay-blanco-475",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001dc",
+    "name": "Don Julio Citrus",
+    "slug": "don-julio-don-julio-citrus-476",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001dd",
+    "name": "Rouge de Galilée 2033",
+    "slug": "recanati-rouge-de-galilee-2033-477",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001de",
+    "name": "Jose Cuervo Coffee",
+    "slug": "jose-cuervo-jose-cuervo-coffee-478",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001df",
+    "name": "Grey Goose",
+    "slug": "grey-goose-grey-goose-479",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e0",
+    "name": "Rosé 2036",
+    "slug": "domaine-du-castel-rose-2036-480",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e1",
+    "name": "Absolut V.S.O.P",
+    "slug": "absolut-absolut-v-s-o-p-481",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000087",
+    "name": "Rouge de Galilée 2033",
+    "slug": "domaine-du-castel-rouge-de-galilee-2033-135",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000088",
+    "name": "Hendrick's Reserve",
+    "slug": "hendrick-s-hendrick-s-reserve-136",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000089",
+    "name": "Macallan",
+    "slug": "macallan-macallan-137",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008a",
+    "name": "Rosé 2036",
+    "slug": "carmel-rose-2036-138",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008b",
+    "name": "Lagavulin",
+    "slug": "lagavulin-lagavulin-139",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008c",
+    "name": "Laphroaig Original",
+    "slug": "laphroaig-laphroaig-original-140",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008d",
+    "name": "Viognier 2019",
+    "slug": "galil-mountain-viognier-2019-141",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008e",
+    "name": "Yamazaki Orange",
+    "slug": "yamazaki-yamazaki-orange-142",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000008f",
+    "name": "Hibiki Anisé",
+    "slug": "hibiki-hibiki-anise-143",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000090",
+    "name": "Petit Castel 2022",
+    "slug": "shiloh-petit-castel-2022-144",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000091",
+    "name": "Crown Royal V.S.O.P",
+    "slug": "crown-royal-crown-royal-v-s-o-p-145",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000092",
+    "name": "Canadian Club",
+    "slug": "canadian-club-canadian-club-146",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000093",
+    "name": "Merlot 2025",
+    "slug": "recanati-merlot-2025-147",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000094",
+    "name": "Famous Grouse Berry",
+    "slug": "famous-grouse-famous-grouse-berry-148",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000095",
+    "name": "Teacher's",
+    "slug": "teacher-s-teacher-s-149",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a4",
+    "name": "Grand Marnier",
+    "slug": "grand-marnier-grand-marnier-164",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a5",
+    "name": "Merlot 2023",
+    "slug": "domaine-du-castel-merlot-2023-165",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a6",
+    "name": "Aperol Cream",
+    "slug": "aperol-aperol-cream-166",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a7",
+    "name": "Ricard Gold",
+    "slug": "ricard-ricard-gold-167",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a8",
+    "name": "Syrah 2026",
+    "slug": "carmel-syrah-2026-168",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000097",
+    "name": "Bushmills Classic",
+    "slug": "bushmills-bushmills-classic-151",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000098",
+    "name": "Tullamore Dew Distiller's Edition",
+    "slug": "tullamore-dew-tullamore-dew-distiller-s-edition-152",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000099",
+    "name": "Rouge de Galilée 2031",
+    "slug": "carmel-rouge-de-galilee-2031-153",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009a",
+    "name": "Khvanchkara 7 ans",
+    "slug": "khvanchkara-khvanchkara-7-ans-154",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009b",
+    "name": "Ketel One Blanco",
+    "slug": "ketel-one-ketel-one-blanco-155",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009c",
+    "name": "Rosé 2034",
+    "slug": "galil-mountain-rose-2034-156",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009d",
+    "name": "Beluga Floral",
+    "slug": "beluga-beluga-floral-157",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009e",
+    "name": "Stolichnaya Coffee",
+    "slug": "stolichnaya-stolichnaya-coffee-158",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000009f",
+    "name": "Viognier 2037",
+    "slug": "shiloh-viognier-2037-159",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a9",
+    "name": "Ouzo V.S.O.P",
+    "slug": "ouzo-ouzo-v-s-o-p-169",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000aa",
+    "name": "Arak Elite 15 ans",
+    "slug": "arak-elite-arak-elite-15-ans-170",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e2",
+    "name": "Bombay Sapphire",
+    "slug": "bombay-sapphire-bombay-sapphire-482",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e3",
+    "name": "Viognier 2019",
+    "slug": "carmel-viognier-2019-483",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e4",
+    "name": "Hendrick's",
+    "slug": "hendrick-s-hendrick-s-484",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e5",
+    "name": "Macallan London Dry",
+    "slug": "macallan-macallan-london-dry-485",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e6",
+    "name": "Petit Castel 2022",
+    "slug": "galil-mountain-petit-castel-2022-486",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e7",
+    "name": "Lagavulin Gold",
+    "slug": "lagavulin-lagavulin-gold-487",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e8",
+    "name": "Laphroaig Distiller's Edition",
+    "slug": "laphroaig-laphroaig-distiller-s-edition-488",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001e9",
+    "name": "Merlot 2025",
+    "slug": "shiloh-merlot-2025-489",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ea",
+    "name": "Yamazaki 7 ans",
+    "slug": "yamazaki-yamazaki-7-ans-490",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000001",
+    "name": "Glenfiddich V.S.O.P",
+    "slug": "glenfiddich-glenfiddich-v-s-o-p-1",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001eb",
+    "name": "Hibiki Reposado",
+    "slug": "hibiki-hibiki-reposado-491",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ec",
+    "name": "Syrah 2028",
+    "slug": "recanati-syrah-2028-492",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000002",
+    "name": "Glenlivet 15 ans",
+    "slug": "glenlivet-glenlivet-15-ans-2",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000003",
+    "name": "Merlot 2021",
+    "slug": "carmel-merlot-2021-3",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000004",
+    "name": "Jack Daniel's",
+    "slug": "jack-daniel-s-jack-daniel-s-4",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000005",
+    "name": "Jameson London Dry",
+    "slug": "jameson-jameson-london-dry-5",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000006",
+    "name": "Syrah 2024",
+    "slug": "galil-mountain-syrah-2024-6",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000007",
+    "name": "Remy Martin Gold",
+    "slug": "remy-martin-remy-martin-gold-7",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000008",
+    "name": "Courvoisier 15 ans",
+    "slug": "courvoisier-courvoisier-15-ans-8",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a0",
+    "name": "Baileys",
+    "slug": "baileys-baileys-160",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a1",
+    "name": "Kahlúa",
+    "slug": "kahlua-kahlua-161",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ab",
+    "name": "Rouge de Galilée 2029",
+    "slug": "galil-mountain-rouge-de-galilee-2029-171",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ac",
+    "name": "Tubi 60 Vanilla",
+    "slug": "tubi-60-tubi-60-vanilla-172",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ad",
+    "name": "Jägermeister Mediterranean",
+    "slug": "jagermeister-jagermeister-mediterranean-173",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ae",
+    "name": "Rosé 2032",
+    "slug": "shiloh-rose-2032-174",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000af",
+    "name": "Glenfiddich Elite",
+    "slug": "glenfiddich-glenfiddich-elite-175",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b0",
+    "name": "Glenlivet 15 ans",
+    "slug": "glenlivet-glenlivet-15-ans-176",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b1",
+    "name": "Viognier 2035",
+    "slug": "recanati-viognier-2035-177",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b2",
+    "name": "Jack Daniel's Blanc",
+    "slug": "jack-daniel-s-jack-daniel-s-blanc-178",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b3",
+    "name": "Jameson",
+    "slug": "jameson-jameson-179",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b4",
+    "name": "Petit Castel 2018",
+    "slug": "domaine-du-castel-petit-castel-2018-180",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b5",
+    "name": "Remy Martin Navy Strength",
+    "slug": "remy-martin-remy-martin-navy-strength-181",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b6",
+    "name": "Courvoisier Orange",
+    "slug": "courvoisier-courvoisier-orange-182",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b7",
+    "name": "Merlot 2021",
+    "slug": "carmel-merlot-2021-183",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b9",
+    "name": "Mount Gay",
+    "slug": "mount-gay-mount-gay-185",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ba",
+    "name": "Syrah 2024",
+    "slug": "galil-mountain-syrah-2024-186",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000bb",
+    "name": "Patrón Añejo",
+    "slug": "patron-patron-anejo-187",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000bc",
+    "name": "Jose Cuervo Berry",
+    "slug": "jose-cuervo-jose-cuervo-berry-188",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000bd",
+    "name": "Rouge de Galilée 2027",
+    "slug": "shiloh-rouge-de-galilee-2027-189",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000be",
+    "name": "Belvedere Original",
+    "slug": "belvedere-belvedere-original-190",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000bf",
+    "name": "Absolut Classic",
+    "slug": "absolut-absolut-classic-191",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c0",
+    "name": "Rosé 2030",
+    "slug": "recanati-rose-2030-192",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c1",
+    "name": "Tanqueray V.S.O.P",
+    "slug": "tanqueray-tanqueray-v-s-o-p-193",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c2",
+    "name": "Hendrick's Black",
+    "slug": "hendrick-s-hendrick-s-black-194",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c3",
+    "name": "Viognier 2033",
+    "slug": "domaine-du-castel-viognier-2033-195",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c4",
+    "name": "Talisker Citrus",
+    "slug": "talisker-talisker-citrus-196",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c5",
+    "name": "Lagavulin Floral",
+    "slug": "lagavulin-lagavulin-floral-197",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c6",
+    "name": "Petit Castel 2036",
+    "slug": "carmel-petit-castel-2036-198",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c7",
+    "name": "Ardbeg",
+    "slug": "ardbeg-ardbeg-199",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ed",
+    "name": "Crown Royal Mediterranean",
+    "slug": "crown-royal-crown-royal-mediterranean-493",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000000a",
+    "name": "Bacardi Blanc",
+    "slug": "bacardi-bacardi-blanc-10",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000cb",
+    "name": "Crown Royal Extra Añejo",
+    "slug": "crown-royal-crown-royal-extra-anejo-203",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000cc",
+    "name": "Syrah 2022",
+    "slug": "shiloh-syrah-2022-204",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000cd",
+    "name": "Ballantine's London Dry",
+    "slug": "ballantine-s-ballantine-s-london-dry-205",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ce",
+    "name": "Famous Grouse Cream",
+    "slug": "famous-grouse-famous-grouse-cream-206",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000cf",
+    "name": "Rouge de Galilée 2025",
+    "slug": "recanati-rouge-de-galilee-2025-207",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d9",
+    "name": "Smirnoff V.S.O.P",
+    "slug": "smirnoff-smirnoff-v-s-o-p-217",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000da",
+    "name": "Baileys 12 ans",
+    "slug": "baileys-baileys-12-ans-218",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000db",
+    "name": "Merlot 2037",
+    "slug": "shiloh-merlot-2037-219",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000dc",
+    "name": "Amarula Original",
+    "slug": "amarula-amarula-original-220",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000dd",
+    "name": "Cointreau Navy Strength",
+    "slug": "cointreau-cointreau-navy-strength-221",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000de",
+    "name": "Syrah 2020",
+    "slug": "recanati-syrah-2020-222",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000df",
+    "name": "Campari Anisé",
+    "slug": "campari-campari-anise-223",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e0",
+    "name": "Aperol 12 ans",
+    "slug": "aperol-aperol-12-ans-224",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e1",
+    "name": "Rouge de Galilée 2023",
+    "slug": "domaine-du-castel-rouge-de-galilee-2023-225",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e2",
+    "name": "Pernod 15 ans",
+    "slug": "pernod-pernod-15-ans-226",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e3",
+    "name": "Ouzo Añejo",
+    "slug": "ouzo-ouzo-anejo-227",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e4",
+    "name": "Rosé 2026",
+    "slug": "carmel-rose-2026-228",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ee",
+    "name": "Canadian Club",
+    "slug": "canadian-club-canadian-club-494",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e5",
+    "name": "Askalon",
+    "slug": "askalon-askalon-229",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e6",
+    "name": "Tubi 60 Original",
+    "slug": "tubi-60-tubi-60-original-230",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e7",
+    "name": "Viognier 2029",
+    "slug": "galil-mountain-viognier-2029-231",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e8",
+    "name": "Chivas Regal 15 ans",
+    "slug": "chivas-regal-chivas-regal-15-ans-232",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000e9",
+    "name": "Glenfiddich",
+    "slug": "glenfiddich-glenfiddich-233",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ea",
+    "name": "Petit Castel 2032",
+    "slug": "shiloh-petit-castel-2032-234",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000eb",
+    "name": "Johnnie Walker Blanco",
+    "slug": "johnnie-walker-johnnie-walker-blanco-235",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ec",
+    "name": "Jack Daniel's Citrus",
+    "slug": "jack-daniel-s-jack-daniel-s-citrus-236",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ed",
+    "name": "Merlot 2035",
+    "slug": "recanati-merlot-2035-237",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ee",
+    "name": "Hennessy Coffee",
+    "slug": "hennessy-hennessy-coffee-238",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ef",
+    "name": "Remy Martin",
+    "slug": "remy-martin-remy-martin-239",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f0",
+    "name": "Syrah 2018",
+    "slug": "domaine-du-castel-syrah-2018-240",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f1",
+    "name": "Havana Club V.S.O.P",
+    "slug": "havana-club-havana-club-v-s-o-p-241",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f2",
+    "name": "Bacardi Épice",
+    "slug": "bacardi-bacardi-epice-242",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f3",
+    "name": "Rouge de Galilée 2021",
+    "slug": "carmel-rouge-de-galilee-2021-243",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f4",
+    "name": "Don Julio",
+    "slug": "don-julio-don-julio-244",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f5",
+    "name": "Patrón London Dry",
+    "slug": "patron-patron-london-dry-245",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f6",
+    "name": "Rosé 2024",
+    "slug": "galil-mountain-rose-2024-246",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f7",
+    "name": "Grey Goose Gold",
+    "slug": "grey-goose-grey-goose-gold-247",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f8",
+    "name": "Belvedere Reserve",
+    "slug": "belvedere-belvedere-reserve-248",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000f9",
+    "name": "Viognier 2027",
+    "slug": "shiloh-viognier-2027-249",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000105",
+    "name": "Rouge de Galilée 2019",
+    "slug": "galil-mountain-rouge-de-galilee-2019-261",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000106",
+    "name": "Canadian Club Orange",
+    "slug": "canadian-club-canadian-club-orange-262",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000107",
+    "name": "Ballantine's Anisé",
+    "slug": "ballantine-s-ballantine-s-anise-263",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000108",
+    "name": "Rosé 2022",
+    "slug": "shiloh-rose-2022-264",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000109",
+    "name": "Teacher's V.S.O.P",
+    "slug": "teacher-s-teacher-s-v-s-o-p-265",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010a",
+    "name": "Dewar's 7 ans",
+    "slug": "dewar-s-dewar-s-7-ans-266",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010b",
+    "name": "Viognier 2025",
+    "slug": "recanati-viognier-2025-267",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010c",
+    "name": "Tullamore Dew Berry",
+    "slug": "tullamore-dew-tullamore-dew-berry-268",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000112",
+    "name": "Stolichnaya 12 ans",
+    "slug": "stolichnaya-stolichnaya-12-ans-274",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000113",
+    "name": "Smirnoff Blanco",
+    "slug": "smirnoff-smirnoff-blanco-275",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000114",
+    "name": "Syrah 2034",
+    "slug": "galil-mountain-syrah-2034-276",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ef",
+    "name": "Rouge de Galilée 2031",
+    "slug": "domaine-du-castel-rouge-de-galilee-2031-495",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f0",
+    "name": "Famous Grouse",
+    "slug": "famous-grouse-famous-grouse-496",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f1",
+    "name": "Teacher's",
+    "slug": "teacher-s-teacher-s-497",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f2",
+    "name": "Rosé 2034",
+    "slug": "carmel-rose-2034-498",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f3",
+    "name": "Bushmills",
+    "slug": "bushmills-bushmills-499",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f4",
+    "name": "Tullamore Dew Original",
+    "slug": "tullamore-dew-tullamore-dew-original-500",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f5",
+    "name": "Viognier 2037",
+    "slug": "galil-mountain-viognier-2037-501",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f6",
+    "name": "Khvanchkara Orange",
+    "slug": "khvanchkara-khvanchkara-orange-502",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000000b",
+    "name": "Mount Gay Reposado",
+    "slug": "mount-gay-mount-gay-reposado-11",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f7",
+    "name": "Ketel One Anisé",
+    "slug": "ketel-one-ketel-one-anise-503",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f8",
+    "name": "Petit Castel 2020",
+    "slug": "shiloh-petit-castel-2020-504",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001f9",
+    "name": "Beluga V.S.O.P",
+    "slug": "beluga-beluga-v-s-o-p-505",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001fa",
+    "name": "Stolichnaya 15 ans",
+    "slug": "stolichnaya-stolichnaya-15-ans-506",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000000d",
+    "name": "Patrón Mediterranean",
+    "slug": "patron-patron-mediterranean-13",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000000e",
+    "name": "Jose Cuervo",
+    "slug": "jose-cuervo-jose-cuervo-14",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000000f",
+    "name": "Viognier 2033",
+    "slug": "domaine-du-castel-viognier-2033-15",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000010",
+    "name": "Belvedere 18 ans",
+    "slug": "belvedere-belvedere-18-ans-16",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000011",
+    "name": "Absolut",
+    "slug": "absolut-absolut-17",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010d",
+    "name": "Ararat",
+    "slug": "ararat-ararat-269",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010e",
+    "name": "Petit Castel 2028",
+    "slug": "domaine-du-castel-petit-castel-2028-270",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000010f",
+    "name": "Ketel One Classic",
+    "slug": "ketel-one-ketel-one-classic-271",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Castel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000110",
+    "name": "Cîroc",
+    "slug": "ciroc-ciroc-272",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000116",
+    "name": "Amarula Coffee",
+    "slug": "amarula-amarula-coffee-278",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000117",
+    "name": "Rouge de Galilée 2037",
+    "slug": "shiloh-rouge-de-galilee-2037-279",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000118",
+    "name": "Grand Marnier 12 ans",
+    "slug": "grand-marnier-grand-marnier-12-ans-280",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000119",
+    "name": "Campari",
+    "slug": "campari-campari-281",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001fb",
+    "name": "Merlot 2023",
+    "slug": "recanati-merlot-2023-507",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000013",
+    "name": "Tanqueray",
+    "slug": "tanqueray-tanqueray-19",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d6",
+    "name": "Cîroc",
+    "slug": "ciroc-ciroc-214",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000115",
+    "name": "Kahlúa Floral",
+    "slug": "kahlua-kahlua-floral-277",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000011b",
+    "name": "Ricard Extra Añejo",
+    "slug": "ricard-ricard-extra-anejo-283",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000011c",
+    "name": "Pernod",
+    "slug": "pernod-pernod-284",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000011d",
+    "name": "Viognier 2023",
+    "slug": "domaine-du-castel-viognier-2023-285",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000011e",
+    "name": "Arak Elite Cream",
+    "slug": "arak-elite-arak-elite-cream-286",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000011f",
+    "name": "Askalon Gold",
+    "slug": "askalon-askalon-gold-287",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000121",
+    "name": "Jägermeister V.S.O.P",
+    "slug": "jagermeister-jagermeister-v-s-o-p-289",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000122",
+    "name": "Chivas Regal Blanc",
+    "slug": "chivas-regal-chivas-regal-blanc-290",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000123",
+    "name": "Merlot 2029",
+    "slug": "galil-mountain-merlot-2029-291",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000124",
+    "name": "Glenlivet Vanilla",
+    "slug": "glenlivet-glenlivet-vanilla-292",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000125",
+    "name": "Johnnie Walker Mediterranean",
+    "slug": "johnnie-walker-johnnie-walker-mediterranean-293",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000126",
+    "name": "Syrah 2032",
+    "slug": "shiloh-syrah-2032-294",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000127",
+    "name": "Jameson Elite",
+    "slug": "jameson-jameson-elite-295",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001fc",
+    "name": "Baileys Berry",
+    "slug": "baileys-baileys-berry-508",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000128",
+    "name": "Hennessy 18 ans",
+    "slug": "hennessy-hennessy-18-ans-296",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001fd",
+    "name": "Kahlúa",
+    "slug": "kahlua-kahlua-509",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001fe",
+    "name": "Syrah 2026",
+    "slug": "domaine-du-castel-syrah-2026-510",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ff",
+    "name": "Cointreau Classic",
+    "slug": "cointreau-cointreau-classic-511",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000014",
+    "name": "Hendrick's Original",
+    "slug": "hendrick-s-hendrick-s-original-20",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000015",
+    "name": "Merlot 2019",
+    "slug": "galil-mountain-merlot-2019-21",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000129",
+    "name": "Rouge de Galilée 2035",
+    "slug": "recanati-rouge-de-galilee-2035-297",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000012a",
+    "name": "Courvoisier Épice",
+    "slug": "courvoisier-courvoisier-epice-298",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000012b",
+    "name": "Havana Club",
+    "slug": "havana-club-havana-club-299",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000130",
+    "name": "Jose Cuervo Reserve",
+    "slug": "jose-cuervo-jose-cuervo-reserve-304",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000131",
+    "name": "Grey Goose",
+    "slug": "grey-goose-grey-goose-305",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000133",
+    "name": "Absolut Añejo",
+    "slug": "absolut-absolut-anejo-307",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000200",
+    "name": "Grand Marnier 15 ans",
+    "slug": "grand-marnier-grand-marnier-15-ans-512",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000201",
+    "name": "Rouge de Galilée 2029",
+    "slug": "carmel-rouge-de-galilee-2029-513",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000202",
+    "name": "Aperol Blanc",
+    "slug": "aperol-aperol-blanc-514",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000203",
+    "name": "Ricard Blanco",
+    "slug": "ricard-ricard-blanco-515",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000204",
+    "name": "Rosé 2032",
+    "slug": "galil-mountain-rose-2032-516",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000137",
+    "name": "Macallan Classic",
+    "slug": "macallan-macallan-classic-311",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000138",
+    "name": "Syrah 2030",
+    "slug": "recanati-syrah-2030-312",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000205",
+    "name": "Ouzo Floral",
+    "slug": "ouzo-ouzo-floral-517",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000206",
+    "name": "Arak Elite Coffee",
+    "slug": "arak-elite-arak-elite-coffee-518",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000139",
+    "name": "Lagavulin V.S.O.P",
+    "slug": "lagavulin-lagavulin-v-s-o-p-313",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000013a",
+    "name": "Laphroaig",
+    "slug": "laphroaig-laphroaig-314",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000013b",
+    "name": "Rouge de Galilée 2033",
+    "slug": "domaine-du-castel-rouge-de-galilee-2033-315",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000013c",
+    "name": "Yamazaki Citrus",
+    "slug": "yamazaki-yamazaki-citrus-316",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000013d",
+    "name": "Hibiki Floral",
+    "slug": "hibiki-hibiki-floral-317",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000013f",
+    "name": "Crown Royal",
+    "slug": "crown-royal-crown-royal-319",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000140",
+    "name": "Canadian Club Distiller's Edition",
+    "slug": "canadian-club-canadian-club-distiller-s-edition-320",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000141",
+    "name": "Viognier 2019",
+    "slug": "galil-mountain-viognier-2019-321",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000142",
+    "name": "Famous Grouse 7 ans",
+    "slug": "famous-grouse-famous-grouse-7-ans-322",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000143",
+    "name": "Teacher's Extra Añejo",
+    "slug": "teacher-s-teacher-s-extra-anejo-323",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000149",
+    "name": "Ketel One",
+    "slug": "ketel-one-ketel-one-329",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014a",
+    "name": "Syrah 2028",
+    "slug": "domaine-du-castel-syrah-2028-330",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014b",
+    "name": "Beluga Reposado",
+    "slug": "beluga-beluga-reposado-331",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014c",
+    "name": "Stolichnaya Vanilla",
+    "slug": "stolichnaya-stolichnaya-vanilla-332",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014d",
+    "name": "Rouge de Galilée 2031",
+    "slug": "carmel-rouge-de-galilee-2031-333",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014e",
+    "name": "Baileys",
+    "slug": "baileys-baileys-334",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000014f",
+    "name": "Kahlúa Elite",
+    "slug": "kahlua-kahlua-elite-335",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000151",
+    "name": "Cointreau V.S.O.P",
+    "slug": "cointreau-cointreau-v-s-o-p-337",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000152",
+    "name": "Grand Marnier 15 ans",
+    "slug": "grand-marnier-grand-marnier-15-ans-338",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000153",
+    "name": "Viognier 2037",
+    "slug": "shiloh-viognier-2037-339",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000154",
+    "name": "Aperol Original",
+    "slug": "aperol-aperol-original-340",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000155",
+    "name": "Ricard Navy Strength",
+    "slug": "ricard-ricard-navy-strength-341",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000157",
+    "name": "Ouzo Anisé",
+    "slug": "ouzo-ouzo-anise-343",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000158",
+    "name": "Arak Elite 15 ans",
+    "slug": "arak-elite-arak-elite-15-ans-344",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000159",
+    "name": "Merlot 2023",
+    "slug": "domaine-du-castel-merlot-2023-345",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015a",
+    "name": "Tubi 60 Blanc",
+    "slug": "tubi-60-tubi-60-blanc-346",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015b",
+    "name": "Jägermeister Añejo",
+    "slug": "jagermeister-jagermeister-anejo-347",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015c",
+    "name": "Syrah 2026",
+    "slug": "carmel-syrah-2026-348",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000207",
+    "name": "Viognier 2035",
+    "slug": "shiloh-viognier-2035-519",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000208",
+    "name": "Tubi 60 18 ans",
+    "slug": "tubi-60-tubi-60-18-ans-520",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000209",
+    "name": "Jägermeister",
+    "slug": "jagermeister-jagermeister-521",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020a",
+    "name": "Petit Castel 2018",
+    "slug": "recanati-petit-castel-2018-522",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020b",
+    "name": "Glenfiddich Extra Añejo",
+    "slug": "glenfiddich-glenfiddich-extra-anejo-523",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020c",
+    "name": "Glenlivet",
+    "slug": "glenlivet-glenlivet-524",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020d",
+    "name": "Merlot 2021",
+    "slug": "domaine-du-castel-merlot-2021-525",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020e",
+    "name": "Jack Daniel's Cream",
+    "slug": "jack-daniel-s-jack-daniel-s-cream-526",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000016",
+    "name": "Talisker Orange",
+    "slug": "talisker-talisker-orange-22",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000020f",
+    "name": "Jameson Gold",
+    "slug": "jameson-jameson-gold-527",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000210",
+    "name": "Syrah 2024",
+    "slug": "carmel-syrah-2024-528",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000211",
+    "name": "Remy Martin V.S.O.P",
+    "slug": "remy-martin-remy-martin-v-s-o-p-529",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000212",
+    "name": "Courvoisier Black",
+    "slug": "courvoisier-courvoisier-black-530",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000017",
+    "name": "Lagavulin Anisé",
+    "slug": "lagavulin-lagavulin-anise-23",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000018",
+    "name": "Syrah 2022",
+    "slug": "shiloh-syrah-2022-24",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000019",
+    "name": "Ardbeg V.S.O.P",
+    "slug": "ardbeg-ardbeg-v-s-o-p-25",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000001a",
+    "name": "Yamazaki Black",
+    "slug": "yamazaki-yamazaki-black-26",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000001b",
+    "name": "Rouge de Galilée 2025",
+    "slug": "recanati-rouge-de-galilee-2025-27",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000001c",
+    "name": "Nikka Berry",
+    "slug": "nikka-nikka-berry-28",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000001d",
+    "name": "Crown Royal",
+    "slug": "crown-royal-crown-royal-29",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000164",
+    "name": "Courvoisier Citrus",
+    "slug": "courvoisier-courvoisier-citrus-356",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016c",
+    "name": "Belvedere",
+    "slug": "belvedere-belvedere-364",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016d",
+    "name": "Absolut London Dry",
+    "slug": "absolut-absolut-london-dry-365",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016e",
+    "name": "Syrah 2024",
+    "slug": "galil-mountain-syrah-2024-366",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016f",
+    "name": "Tanqueray Gold",
+    "slug": "tanqueray-tanqueray-gold-367",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000213",
+    "name": "Rouge de Galilée 2027",
+    "slug": "galil-mountain-rouge-de-galilee-2027-531",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000214",
+    "name": "Bacardi Vanilla",
+    "slug": "bacardi-bacardi-vanilla-532",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000215",
+    "name": "Mount Gay Mediterranean",
+    "slug": "mount-gay-mount-gay-mediterranean-533",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Castel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000001f",
+    "name": "Ballantine's Classic",
+    "slug": "ballantine-s-ballantine-s-classic-31",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000020",
+    "name": "Famous Grouse Double Wood",
+    "slug": "famous-grouse-famous-grouse-double-wood-32",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000021",
+    "name": "Viognier 2031",
+    "slug": "carmel-viognier-2031-33",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000217",
+    "name": "Patrón Elite",
+    "slug": "patron-patron-elite-535",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000218",
+    "name": "Jose Cuervo Double Wood",
+    "slug": "jose-cuervo-jose-cuervo-double-wood-536",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000219",
+    "name": "Viognier 2033",
+    "slug": "recanati-viognier-2033-537",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000021a",
+    "name": "Belvedere",
+    "slug": "belvedere-belvedere-538",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000021b",
+    "name": "Absolut",
+    "slug": "absolut-absolut-539",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000021d",
+    "name": "Tanqueray Navy Strength",
+    "slug": "tanqueray-tanqueray-navy-strength-541",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000021e",
+    "name": "Hendrick's Orange",
+    "slug": "hendrick-s-hendrick-s-orange-542",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000021f",
+    "name": "Merlot 2019",
+    "slug": "carmel-merlot-2019-543",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000220",
+    "name": "Talisker Distiller's Edition",
+    "slug": "talisker-talisker-distiller-s-edition-544",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000221",
+    "name": "Lagavulin",
+    "slug": "lagavulin-lagavulin-545",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=COGNAC image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000222",
+    "name": "Syrah 2022",
+    "slug": "galil-mountain-syrah-2022-546",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000223",
+    "name": "Ardbeg Añejo",
+    "slug": "ardbeg-ardbeg-anejo-547",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000224",
+    "name": "Yamazaki Berry",
+    "slug": "yamazaki-yamazaki-berry-548",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000225",
+    "name": "Rouge de Galilée 2025",
+    "slug": "shiloh-rouge-de-galilee-2025-549",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002e",
+    "name": "Amarula Cream",
+    "slug": "amarula-amarula-cream-46",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000002f",
+    "name": "Cointreau Gold",
+    "slug": "cointreau-cointreau-gold-47",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000226",
+    "name": "Nikka Original",
+    "slug": "nikka-nikka-original-550",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000227",
+    "name": "Crown Royal Classic",
+    "slug": "crown-royal-crown-royal-classic-551",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Yarden",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000032",
+    "name": "Aperol 12 ans",
+    "slug": "aperol-aperol-12-ans-50",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000047",
+    "name": "Patrón Classic",
+    "slug": "patron-patron-classic-71",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000004f",
+    "name": "Macallan",
+    "slug": "macallan-macallan-79",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000064",
+    "name": "Stolichnaya Original",
+    "slug": "stolichnaya-stolichnaya-original-100",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e10e10d5-9c80-40de-a913-b9cb93a595b2",
+    "name": "Terrine de campagne coup de cœur 0",
+    "slug": "terrine-de-campagne-coup-de-c-ur-0",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "aea7c41d-a27d-4ef0-b95b-8ba757010e41",
+    "name": "Rillettes tradition 1",
+    "slug": "rillettes-tradition-1",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d052fdae-8337-490b-ae43-7c9276daee19",
+    "name": "Pâté en croûte sélection 2",
+    "slug": "pate-en-croute-selection-2",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000065",
+    "name": "Smirnoff Navy Strength",
+    "slug": "smirnoff-smirnoff-navy-strength-101",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000066",
+    "name": "Rosé 2020",
+    "slug": "recanati-rose-2020-102",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000165",
+    "name": "Viognier 2035",
+    "slug": "recanati-viognier-2035-357",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000166",
+    "name": "Bacardi Coffee",
+    "slug": "bacardi-bacardi-coffee-358",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000167",
+    "name": "Mount Gay",
+    "slug": "mount-gay-mount-gay-359",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000168",
+    "name": "Petit Castel 2018",
+    "slug": "domaine-du-castel-petit-castel-2018-360",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000169",
+    "name": "Patrón V.S.O.P",
+    "slug": "patron-patron-v-s-o-p-361",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016a",
+    "name": "Jose Cuervo Black",
+    "slug": "jose-cuervo-jose-cuervo-black-362",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000016b",
+    "name": "Merlot 2021",
+    "slug": "carmel-merlot-2021-363",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000174",
+    "name": "Rosé 2030",
+    "slug": "recanati-rose-2030-372",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000175",
+    "name": "Ardbeg Mediterranean",
+    "slug": "ardbeg-ardbeg-mediterranean-373",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000176",
+    "name": "Yamazaki",
+    "slug": "yamazaki-yamazaki-374",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000177",
+    "name": "Viognier 2033",
+    "slug": "domaine-du-castel-viognier-2033-375",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000178",
+    "name": "Nikka Distiller's Edition",
+    "slug": "nikka-nikka-distiller-s-edition-376",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000179",
+    "name": "Crown Royal",
+    "slug": "crown-royal-crown-royal-377",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "9d228b99-ec21-485f-9dfe-963e2f0b03ac",
+    "name": "Mousse de foie artisanal 3",
+    "slug": "mousse-de-foie-artisanal-3",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "0dedc5d2-7998-40e8-a357-7c80711d8bb1",
+    "name": "Boudin fumé 4",
+    "slug": "boudin-fume-4",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "72f64139-6462-488d-8776-9382dbe97a18",
+    "name": "Saucisson sec premium 5",
+    "slug": "saucisson-sec-premium-5",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e565d4fc-d1b6-4728-983f-5e38af512397",
+    "name": "Rosette de Lyon maison 6",
+    "slug": "rosette-de-lyon-maison-6",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d850fd00-d523-4514-9870-bb95654580b7",
+    "name": "Chorizo doux coup de cœur 7",
+    "slug": "chorizo-doux-coup-de-c-ur-7",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "512d24ab-545d-4dac-8df6-609b748ff75f",
+    "name": "Chorizo fort tradition 8",
+    "slug": "chorizo-fort-tradition-8",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "2ef3c37c-e6e2-4c23-900a-86f8ed69a013",
+    "name": "Saucisse sèche sélection 9",
+    "slug": "saucisse-seche-selection-9",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d393ff51-fb27-48c0-8498-73d8af0c577c",
+    "name": "Jambon de Parme artisanal 10",
+    "slug": "jambon-de-parme-artisanal-10",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "84b7c23d-84cf-45aa-8551-c92845c66890",
+    "name": "Jambon Serrano fumé 11",
+    "slug": "jambon-serrano-fume-11",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "44cdf4c0-8b39-4b3c-a11c-3a55735fc2d3",
+    "name": "Jambon fumé premium 12",
+    "slug": "jambon-fume-premium-12",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "9ae485c5-d3e0-4400-a43a-2f54d3c3d0bf",
+    "name": "Jambon de dinde maison 13",
+    "slug": "jambon-de-dinde-maison-13",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "3ad359e3-ac0c-4a4b-9ede-fd5f13a06522",
+    "name": "Filet mignon coup de cœur 14",
+    "slug": "filet-mignon-coup-de-c-ur-14",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "44bf7457-4c2e-4592-b8c0-b4a34a6fced9",
+    "name": "Terrine de campagne tradition 15",
+    "slug": "terrine-de-campagne-tradition-15",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "4de4d919-ef0e-4375-aed3-72289c13d5bf",
+    "name": "Rillettes sélection 16",
+    "slug": "rillettes-selection-16",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "494cb12c-78c1-4c97-8b03-da19aabd1ae6",
+    "name": "Pâté en croûte artisanal 17",
+    "slug": "pate-en-croute-artisanal-17",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "df85c389-d286-4ad9-bc56-49c5e24ff317",
+    "name": "Mousse de foie fumé 18",
+    "slug": "mousse-de-foie-fume-18",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "233c93e5-9a5f-4801-983b-dd41680439fe",
+    "name": "Boudin premium 19",
+    "slug": "boudin-premium-19",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8d0d688b-701e-4659-bcc0-7736ab3f8fec",
+    "name": "Saucisson sec maison 20",
+    "slug": "saucisson-sec-maison-20",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "1793bfb6-c3a2-45f9-8d2e-46917a3e5b11",
+    "name": "Rosette de Lyon coup de cœur 21",
+    "slug": "rosette-de-lyon-coup-de-c-ur-21",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006d",
+    "name": "Ricard",
+    "slug": "ricard-ricard-109",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "57a5c1d9-24c0-48d3-8811-c47e6dbd0442",
+    "name": "Chorizo doux tradition 22",
+    "slug": "chorizo-doux-tradition-22",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "0d827e80-5a2f-4d5f-ae1a-c9aa801a3ca7",
+    "name": "Chorizo fort sélection 23",
+    "slug": "chorizo-fort-selection-23",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "0003d114-7598-423a-9adf-18764ce49ec9",
+    "name": "Saucisse sèche artisanal 24",
+    "slug": "saucisse-seche-artisanal-24",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "128180a0-1872-4e80-b2ad-6fc7dd68908f",
+    "name": "Jambon de Parme fumé 25",
+    "slug": "jambon-de-parme-fume-25",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "79ac70b4-7903-4e73-a71d-416fb0253d59",
+    "name": "Jambon Serrano premium 26",
+    "slug": "jambon-serrano-premium-26",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e9b20e01-1fc0-426e-a9c1-38ac257b769c",
+    "name": "Jambon fumé maison 27",
+    "slug": "jambon-fume-maison-27",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "b7717296-7285-4adf-a007-223b5f548d8f",
+    "name": "Jambon de dinde coup de cœur 28",
+    "slug": "jambon-de-dinde-coup-de-c-ur-28",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "6f058784-1a64-43a8-9bf5-57867f19edeb",
+    "name": "Filet mignon tradition 29",
+    "slug": "filet-mignon-tradition-29",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "c66bb260-402a-42a6-a411-673d291982b0",
+    "name": "Terrine de campagne sélection 30",
+    "slug": "terrine-de-campagne-selection-30",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "df279be3-67cc-43df-9bf5-655553728829",
+    "name": "Rillettes artisanal 31",
+    "slug": "rillettes-artisanal-31",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "4683c5bf-2d3f-4f6e-8464-c8d243139539",
+    "name": "Pâté en croûte fumé 32",
+    "slug": "pate-en-croute-fume-32",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "90d640c1-391f-460e-9721-3eb061ee5743",
+    "name": "Mousse de foie premium 33",
+    "slug": "mousse-de-foie-premium-33",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "20121649-89f0-4ac1-b10b-aa2a8ea085c8",
+    "name": "Boudin maison 34",
+    "slug": "boudin-maison-34",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "b2a01ce8-6783-4d22-93f0-dd4b12ec6619",
+    "name": "Saucisson sec coup de cœur 35",
+    "slug": "saucisson-sec-coup-de-c-ur-35",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e16c379a-182e-4e24-9561-fb96c81935d0",
+    "name": "Rosette de Lyon tradition 36",
+    "slug": "rosette-de-lyon-tradition-36",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "5c838929-f51e-43cf-bfc2-06c7d33c4b6a",
+    "name": "Chorizo doux sélection 37",
+    "slug": "chorizo-doux-selection-37",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "6dba5fdf-b8db-46c0-afd6-ccb54f6a7d57",
+    "name": "Chorizo fort artisanal 38",
+    "slug": "chorizo-fort-artisanal-38",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f876f164-0ccd-4431-8a25-b662c9f7dd45",
+    "name": "Saucisse sèche fumé 39",
+    "slug": "saucisse-seche-fume-39",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "9c62fded-4d78-4b40-953c-932e38c8e5cc",
+    "name": "Jambon de Parme premium 40",
+    "slug": "jambon-de-parme-premium-40",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8c3b0433-4236-4433-8a37-fd4a0fe3361a",
+    "name": "Jambon Serrano maison 41",
+    "slug": "jambon-serrano-maison-41",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000096",
+    "name": "Syrah 2028",
+    "slug": "domaine-du-castel-syrah-2028-150",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a2",
+    "name": "Petit Castel 2020",
+    "slug": "recanati-petit-castel-2020-162",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000a3",
+    "name": "Cointreau Extra Añejo",
+    "slug": "cointreau-cointreau-extra-anejo-163",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "af66da51-23f7-4b2a-ad9e-67ead35fdef8",
+    "name": "Jambon fumé coup de cœur 42",
+    "slug": "jambon-fume-coup-de-c-ur-42",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "5b435ffc-0c58-42cf-a158-3b670d01740f",
+    "name": "Jambon de dinde tradition 43",
+    "slug": "jambon-de-dinde-tradition-43",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "fc419431-e8a1-4729-812c-046e01ed3fcc",
+    "name": "Filet mignon sélection 44",
+    "slug": "filet-mignon-selection-44",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e7780734-884b-4530-b200-61fb061d01c5",
+    "name": "Terrine de campagne artisanal 45",
+    "slug": "terrine-de-campagne-artisanal-45",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "36a1c00c-6c7c-4c35-9093-83b9d39fa889",
+    "name": "Rillettes fumé 46",
+    "slug": "rillettes-fume-46",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "261e409e-6cb2-45bf-83cb-d20f78304f1b",
+    "name": "Pâté en croûte premium 47",
+    "slug": "pate-en-croute-premium-47",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "beb14e23-e0a0-4961-8852-b10f485a99f8",
+    "name": "Mousse de foie maison 48",
+    "slug": "mousse-de-foie-maison-48",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "15431e31-8f14-415a-b081-5954aba52299",
+    "name": "Boudin coup de cœur 49",
+    "slug": "boudin-coup-de-c-ur-49",
+    "issues": "nom séquentiel, image non charcuterie",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000033",
+    "name": "Viognier 2029",
+    "slug": "galil-mountain-viognier-2029-51",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000034",
+    "name": "Pernod Vanilla",
+    "slug": "pernod-pernod-vanilla-52",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000035",
+    "name": "Ouzo Mediterranean",
+    "slug": "ouzo-ouzo-mediterranean-53",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000037",
+    "name": "Askalon Elite",
+    "slug": "askalon-askalon-elite-55",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=ARAK image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000038",
+    "name": "Tubi 60 12 ans",
+    "slug": "tubi-60-tubi-60-12-ans-56",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000039",
+    "name": "Merlot 2035",
+    "slug": "recanati-merlot-2035-57",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003a",
+    "name": "Chivas Regal 15 ans",
+    "slug": "chivas-regal-chivas-regal-15-ans-58",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=RHUM image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003b",
+    "name": "Glenfiddich",
+    "slug": "glenfiddich-glenfiddich-59",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=TEQUILA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000003c",
+    "name": "Syrah 2018",
+    "slug": "domaine-du-castel-syrah-2018-60",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "661f2e26-92a2-44f1-8be1-ee41f36f5119",
+    "name": "Saumon fumé d'Écosse tradition 0",
+    "slug": "saumon-fume-d-ecosse-tradition-0",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "3af7773c-2778-4c4a-a48a-2a3321d70af9",
+    "name": "Saumon gravlax sélection 1",
+    "slug": "saumon-gravlax-selection-1",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "73d78be2-3752-4f1a-a674-46f4171869e6",
+    "name": "Saumon fumé norvégien artisanal 2",
+    "slug": "saumon-fume-norvegien-artisanal-2",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "caa2db9f-5513-4825-a044-c1fadc2a9d11",
+    "name": "Truite fumée fumé 3",
+    "slug": "truite-fumee-fume-3",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "08e77c6b-a5f5-4db6-a42a-d91d87e203bc",
+    "name": "Maquereau fumé premium 4",
+    "slug": "maquereau-fume-premium-4",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d04ce16f-cbf2-4f2c-892b-0bcb7933814a",
+    "name": "Hareng fumé maison 5",
+    "slug": "hareng-fume-maison-5",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "b37074e9-c03f-41f0-8467-faaaf3d691a0",
+    "name": "Sardine fumée coup de cœur 6",
+    "slug": "sardine-fumee-coup-de-c-ur-6",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "784dfeff-3c1f-4059-8b13-6e557480095a",
+    "name": "Filet de saumon tradition 7",
+    "slug": "filet-de-saumon-tradition-7",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e48f176d-6d41-46eb-bf64-8c8554e73d66",
+    "name": "Roses de saumon sélection 8",
+    "slug": "roses-de-saumon-selection-8",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d7a1ece6-fe0d-48e5-88cc-be1372ff70a1",
+    "name": "Toast de saumon artisanal 9",
+    "slug": "toast-de-saumon-artisanal-9",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "323871bd-c243-4d21-960a-58aa26214f93",
+    "name": "Saumon fumé d'Écosse fumé 10",
+    "slug": "saumon-fume-d-ecosse-fume-10",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "27abd248-1d6f-40b0-8cc5-d58dde418861",
+    "name": "Saumon gravlax premium 11",
+    "slug": "saumon-gravlax-premium-11",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f27afad9-6577-407c-980b-25639bf74feb",
+    "name": "Saumon fumé norvégien maison 12",
+    "slug": "saumon-fume-norvegien-maison-12",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d6745ee9-5a71-49d8-8e9c-3c1b2220a82e",
+    "name": "Truite fumée coup de cœur 13",
+    "slug": "truite-fumee-coup-de-c-ur-13",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "1e0ddcc0-3709-4efd-b1e4-88748bcb1ff7",
+    "name": "Maquereau fumé tradition 14",
+    "slug": "maquereau-fume-tradition-14",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "a3e66834-885b-46e1-8ad1-0c9447ce6aec",
+    "name": "Hareng fumé sélection 15",
+    "slug": "hareng-fume-selection-15",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8f388549-0bf5-4022-9713-b1b47a3a7d3e",
+    "name": "Sardine fumée artisanal 16",
+    "slug": "sardine-fumee-artisanal-16",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8f8b57d2-2165-4a6c-b688-b23592160007",
+    "name": "Filet de saumon fumé 17",
+    "slug": "filet-de-saumon-fume-17",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "699cd697-b86b-4386-b45f-002d76f8f71f",
+    "name": "Roses de saumon premium 18",
+    "slug": "roses-de-saumon-premium-18",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f51c7ffa-d73c-4470-a617-8a7dc05000c5",
+    "name": "Toast de saumon maison 19",
+    "slug": "toast-de-saumon-maison-19",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "fa6e934c-9105-4acd-84ed-68a3ab05b1f2",
+    "name": "Saumon fumé d'Écosse coup de cœur 20",
+    "slug": "saumon-fume-d-ecosse-coup-de-c-ur-20",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e89b0361-0a94-4e39-9cf4-9d9402d64e92",
+    "name": "Saumon gravlax tradition 21",
+    "slug": "saumon-gravlax-tradition-21",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000b8",
+    "name": "Bacardi 18 ans",
+    "slug": "bacardi-bacardi-18-ans-184",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e34ea8a5-7f01-4994-91e9-8a3468eda0f9",
+    "name": "Saumon fumé norvégien sélection 22",
+    "slug": "saumon-fume-norvegien-selection-22",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "633ba065-5a6d-4475-b001-a83cbd5c66b5",
+    "name": "Truite fumée artisanal 23",
+    "slug": "truite-fumee-artisanal-23",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "41d3acdd-eecd-43ab-8cee-9ee2275f8049",
+    "name": "Maquereau fumé fumé 24",
+    "slug": "maquereau-fume-fume-24",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000006c",
+    "name": "Petit Castel 2026",
+    "slug": "carmel-petit-castel-2026-108",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c8",
+    "name": "Yamazaki Double Wood",
+    "slug": "yamazaki-yamazaki-double-wood-200",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000c9",
+    "name": "Merlot 2019",
+    "slug": "galil-mountain-merlot-2019-201",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ca",
+    "name": "Nikka",
+    "slug": "nikka-nikka-202",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017a",
+    "name": "Petit Castel 2036",
+    "slug": "carmel-petit-castel-2036-378",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017b",
+    "name": "Ballantine's",
+    "slug": "ballantine-s-ballantine-s-379",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017c",
+    "name": "Famous Grouse Original",
+    "slug": "famous-grouse-famous-grouse-original-380",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017d",
+    "name": "Merlot 2019",
+    "slug": "galil-mountain-merlot-2019-381",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017e",
+    "name": "Dewar's Orange",
+    "slug": "dewar-s-dewar-s-orange-382",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000017f",
+    "name": "Bushmills Anisé",
+    "slug": "bushmills-bushmills-anise-383",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000180",
+    "name": "Syrah 2022",
+    "slug": "shiloh-syrah-2022-384",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000181",
+    "name": "Ararat V.S.O.P",
+    "slug": "ararat-ararat-v-s-o-p-385",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000182",
+    "name": "Khvanchkara 12 ans",
+    "slug": "khvanchkara-khvanchkara-12-ans-386",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000183",
+    "name": "Rouge de Galilée 2025",
+    "slug": "recanati-rouge-de-galilee-2025-387",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000184",
+    "name": "Cîroc Berry",
+    "slug": "ciroc-ciroc-berry-388",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000185",
+    "name": "Beluga",
+    "slug": "beluga-beluga-389",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "72c7708a-dcc1-4ea1-a519-d6e067ec1bd3",
+    "name": "Hareng fumé premium 25",
+    "slug": "hareng-fume-premium-25",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "33704906-234e-4e79-9921-9c16f0d5afbd",
+    "name": "Sardine fumée maison 26",
+    "slug": "sardine-fumee-maison-26",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "920f0186-dac1-44c1-be2b-c7d0c42731d9",
+    "name": "Filet de saumon coup de cœur 27",
+    "slug": "filet-de-saumon-coup-de-c-ur-27",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "7a66d353-58be-4f4b-a0fa-80ff7c2f96c9",
+    "name": "Roses de saumon tradition 28",
+    "slug": "roses-de-saumon-tradition-28",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "5dc5c175-fd6a-405a-8d7a-5f96f373543c",
+    "name": "Toast de saumon sélection 29",
+    "slug": "toast-de-saumon-selection-29",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "72e5ac72-0a90-4c89-86d0-64fe4163d965",
+    "name": "Saumon fumé d'Écosse artisanal 30",
+    "slug": "saumon-fume-d-ecosse-artisanal-30",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f7ac5545-8781-4649-9d7d-d7a5b01c2a6e",
+    "name": "Saumon gravlax fumé 31",
+    "slug": "saumon-gravlax-fume-31",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "c6e24b3c-b31b-4cdc-8e61-d4626fb27665",
+    "name": "Saumon fumé norvégien premium 32",
+    "slug": "saumon-fume-norvegien-premium-32",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8a36da60-7766-40e4-b729-595f8c06a828",
+    "name": "Truite fumée maison 33",
+    "slug": "truite-fumee-maison-33",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "3cdeae5b-a962-4267-b414-386f44a1c5b4",
+    "name": "Maquereau fumé coup de cœur 34",
+    "slug": "maquereau-fume-coup-de-c-ur-34",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "188faf37-5c45-4b6e-90be-1ead80a0fa08",
+    "name": "Hareng fumé tradition 35",
+    "slug": "hareng-fume-tradition-35",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "ef684ca6-d089-4f15-a7ba-56fcec2d54d5",
+    "name": "Sardine fumée sélection 36",
+    "slug": "sardine-fumee-selection-36",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "a03a5916-2aff-4f92-9874-2fe7878c2997",
+    "name": "Filet de saumon artisanal 37",
+    "slug": "filet-de-saumon-artisanal-37",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "08a5a292-60fd-4e5e-a3c6-7d7660a26471",
+    "name": "Roses de saumon fumé 38",
+    "slug": "roses-de-saumon-fume-38",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "4f5fa2d7-a7a8-4fe9-bd52-0e1a97c75f32",
+    "name": "Toast de saumon premium 39",
+    "slug": "toast-de-saumon-premium-39",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "1b5ec132-1e09-415d-bbae-1e63ada68f29",
+    "name": "Saumon fumé d'Écosse maison 40",
+    "slug": "saumon-fume-d-ecosse-maison-40",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "90d42ae9-a93f-499c-b27f-a6eaf04180b1",
+    "name": "Saumon gravlax coup de cœur 41",
+    "slug": "saumon-gravlax-coup-de-c-ur-41",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "2eff4f0e-5875-40e8-971d-c598c4a33388",
+    "name": "Saumon fumé norvégien tradition 42",
+    "slug": "saumon-fume-norvegien-tradition-42",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "ab406104-4629-4a45-8ec5-a78ba26dc625",
+    "name": "Truite fumée sélection 43",
+    "slug": "truite-fumee-selection-43",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "238870cb-8d78-453f-bba2-766f7f2f5c72",
+    "name": "Maquereau fumé artisanal 44",
+    "slug": "maquereau-fume-artisanal-44",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "aceff398-0a38-46a8-ab95-ffd1cfd7cc32",
+    "name": "Hareng fumé fumé 45",
+    "slug": "hareng-fume-fume-45",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "af288b16-e11c-4440-a328-ea6ebcc11227",
+    "name": "Sardine fumée premium 46",
+    "slug": "sardine-fumee-premium-46",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f67c7fc0-d165-492e-a65d-196a327292da",
+    "name": "Filet de saumon maison 47",
+    "slug": "filet-de-saumon-maison-47",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "8228a4fc-caa2-452a-92d3-52c74598298f",
+    "name": "Roses de saumon coup de cœur 48",
+    "slug": "roses-de-saumon-coup-de-c-ur-48",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "c3d7c21a-2e40-4025-b082-cabf6768444e",
+    "name": "Toast de saumon tradition 49",
+    "slug": "toast-de-saumon-tradition-49",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000fa",
+    "name": "Bombay Sapphire Black",
+    "slug": "bombay-sapphire-bombay-sapphire-black-250",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000fb",
+    "name": "Tanqueray Reposado",
+    "slug": "tanqueray-tanqueray-reposado-251",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000111",
+    "name": "Merlot 2031",
+    "slug": "carmel-merlot-2031-273",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "0c20db41-f00f-449a-800a-9fda23931b0e",
+    "name": "Plateau mixte saumon & charcuterie artisanal 22",
+    "slug": "plateau-mixte-saumon-charcuterie-artisanal-22",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "2c59564a-a9bf-468c-8246-87ec9b092c1e",
+    "name": "Plateau réception 12 personnes sélection 21",
+    "slug": "plateau-reception-12-personnes-selection-21",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "990fdb53-8812-4cd2-bc78-7c8c15ec7d43",
+    "name": "Plateau charcuterie tradition premium 24",
+    "slug": "plateau-charcuterie-tradition-premium-24",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "9ec6a2b9-8b7e-4a0c-9cb6-6e3b10d0a276",
+    "name": "Plateau saumon prestige fumé 23",
+    "slug": "plateau-saumon-prestige-fume-23",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000012d",
+    "name": "Mount Gay Navy Strength",
+    "slug": "mount-gay-mount-gay-navy-strength-301",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000012e",
+    "name": "Don Julio Orange",
+    "slug": "don-julio-don-julio-orange-302",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000012f",
+    "name": "Viognier 2021",
+    "slug": "carmel-viognier-2021-303",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000145",
+    "name": "Bushmills London Dry",
+    "slug": "bushmills-bushmills-london-dry-325",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000146",
+    "name": "Tullamore Dew Cream",
+    "slug": "tullamore-dew-tullamore-dew-cream-326",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000147",
+    "name": "Merlot 2025",
+    "slug": "recanati-merlot-2025-327",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000148",
+    "name": "Khvanchkara",
+    "slug": "khvanchkara-khvanchkara-328",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=WHISKY image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000186",
+    "name": "Rosé 2028",
+    "slug": "domaine-du-castel-rose-2028-390",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000187",
+    "name": "Smirnoff Classic",
+    "slug": "smirnoff-smirnoff-classic-391",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000188",
+    "name": "Baileys 12 ans",
+    "slug": "baileys-baileys-12-ans-392",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000189",
+    "name": "Viognier 2031",
+    "slug": "carmel-viognier-2031-393",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d0",
+    "name": "Dewar's Distiller's Edition",
+    "slug": "dewar-s-dewar-s-distiller-s-edition-208",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d1",
+    "name": "Bushmills",
+    "slug": "bushmills-bushmills-209",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d2",
+    "name": "Rosé 2028",
+    "slug": "domaine-du-castel-rose-2028-210",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d3",
+    "name": "Ararat Reposado",
+    "slug": "ararat-ararat-reposado-211",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d4",
+    "name": "Khvanchkara Vanilla",
+    "slug": "khvanchkara-khvanchkara-vanilla-212",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d5",
+    "name": "Viognier 2031",
+    "slug": "carmel-viognier-2031-213",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d7",
+    "name": "Beluga Elite",
+    "slug": "beluga-beluga-elite-215",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000d8",
+    "name": "Petit Castel 2034",
+    "slug": "galil-mountain-petit-castel-2034-216",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "05151d92-279b-41b7-90ad-3fb905278f4e",
+    "name": "Plateau mixte saumon & charcuterie maison 4",
+    "slug": "plateau-mixte-saumon-charcuterie-maison-4",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "12bf2a43-ed1f-49a8-bd62-c7f118858fb0",
+    "name": "Plateau charcuterie tradition sélection 0",
+    "slug": "plateau-charcuterie-tradition-selection-0",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "23c970fa-3cf4-480b-8e6b-4265c0196a3c",
+    "name": "Plateau mixte saumon & charcuterie fumé 16",
+    "slug": "plateau-mixte-saumon-charcuterie-fume-16",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "2d40fc2a-30ee-4b85-a622-faa218854972",
+    "name": "Plateau végétarien sélection 7",
+    "slug": "plateau-vegetarien-selection-7",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "3f36d093-dfc5-4660-b1bc-4acbe6d081cd",
+    "name": "Plateau charcuterie tradition coup de cœur 12",
+    "slug": "plateau-charcuterie-tradition-coup-de-c-ur-12",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "41e162f7-e26d-40df-adcf-aae0ca701da1",
+    "name": "Plateau végétarien coup de cœur 19",
+    "slug": "plateau-vegetarien-coup-de-c-ur-19",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "55a9954c-257c-456f-8b5a-694a962f79bc",
+    "name": "Plateau végétarien artisanal 1",
+    "slug": "plateau-vegetarien-artisanal-1",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "5739a0b7-424b-4f50-af75-17ff776dfbeb",
+    "name": "Plateau réception 12 personnes fumé 9",
+    "slug": "plateau-reception-12-personnes-fume-9",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "5c63100a-5d3b-427e-af61-fa9d07d1bf56",
+    "name": "Plateau réception 12 personnes premium 3",
+    "slug": "plateau-reception-12-personnes-premium-3",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "664248e3-f8b9-408f-bb36-d9af17829904",
+    "name": "Plateau réception 8 personnes tradition 20",
+    "slug": "plateau-reception-8-personnes-tradition-20",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "68237229-fbbf-4634-b910-ea3625fea5b2",
+    "name": "Plateau charcuterie tradition tradition 6",
+    "slug": "plateau-charcuterie-tradition-tradition-6",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "69afdcb7-b9dd-48a5-af94-0e607611c69c",
+    "name": "Plateau réception 8 personnes sélection 14",
+    "slug": "plateau-reception-8-personnes-selection-14",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "779b93d9-4022-41bc-9e37-900039a14d77",
+    "name": "Plateau réception 8 personnes artisanal 8",
+    "slug": "plateau-reception-8-personnes-artisanal-8",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "9b968153-7835-4dfe-a511-100d0ad586c6",
+    "name": "Plateau saumon prestige maison 11",
+    "slug": "plateau-saumon-prestige-maison-11",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "d03e62c2-458f-463b-bde4-d3e5bb722ec4",
+    "name": "Plateau végétarien tradition 13",
+    "slug": "plateau-vegetarien-tradition-13",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "dbcfe3a4-fde9-4933-acf0-25602f8ed67d",
+    "name": "Plateau saumon prestige coup de cœur 5",
+    "slug": "plateau-saumon-prestige-coup-de-c-ur-5",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e1e48a18-5a77-4618-8fce-223e2118d41b",
+    "name": "Plateau réception 12 personnes artisanal 15",
+    "slug": "plateau-reception-12-personnes-artisanal-15",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "e7bd404c-9fed-456f-84f0-81ade05bf951",
+    "name": "Plateau charcuterie tradition maison 18",
+    "slug": "plateau-charcuterie-tradition-maison-18",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "f2cdf686-8bb9-47de-86db-d4ea559edeb6",
+    "name": "Plateau mixte saumon & charcuterie premium 10",
+    "slug": "plateau-mixte-saumon-charcuterie-premium-10",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "ff016aa1-52a7-4fed-a432-43a75c20a2b8",
+    "name": "Plateau saumon prestige premium 17",
+    "slug": "plateau-saumon-prestige-premium-17",
+    "issues": "nom séquentiel",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015d",
+    "name": "Glenfiddich",
+    "slug": "glenfiddich-glenfiddich-349",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=GIN image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015e",
+    "name": "Glenlivet Original",
+    "slug": "glenlivet-glenlivet-original-350",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018a",
+    "name": "Amarula 15 ans",
+    "slug": "amarula-amarula-15-ans-394",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018b",
+    "name": "Cointreau Blanco",
+    "slug": "cointreau-cointreau-blanco-395",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018c",
+    "name": "Petit Castel 2034",
+    "slug": "galil-mountain-petit-castel-2034-396",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018d",
+    "name": "Campari Floral",
+    "slug": "campari-campari-floral-397",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018e",
+    "name": "Aperol Coffee",
+    "slug": "aperol-aperol-coffee-398",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000018f",
+    "name": "Merlot 2037",
+    "slug": "shiloh-merlot-2037-399",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000fc",
+    "name": "Petit Castel 2030",
+    "slug": "recanati-petit-castel-2030-252",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000fd",
+    "name": "Macallan Mediterranean",
+    "slug": "macallan-macallan-mediterranean-253",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000fe",
+    "name": "Talisker",
+    "slug": "talisker-talisker-254",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700000ff",
+    "name": "Merlot 2033",
+    "slug": "domaine-du-castel-merlot-2033-255",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000100",
+    "name": "Laphroaig Double Wood",
+    "slug": "laphroaig-laphroaig-double-wood-256",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000101",
+    "name": "Ardbeg",
+    "slug": "ardbeg-ardbeg-257",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000102",
+    "name": "Syrah 2036",
+    "slug": "carmel-syrah-2036-258",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000103",
+    "name": "Hibiki",
+    "slug": "hibiki-hibiki-259",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000104",
+    "name": "Nikka Original",
+    "slug": "nikka-nikka-original-260",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000190",
+    "name": "Pernod 15 ans",
+    "slug": "pernod-pernod-15-ans-400",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000191",
+    "name": "Ouzo",
+    "slug": "ouzo-ouzo-401",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000015f",
+    "name": "Rouge de Galilée 2029",
+    "slug": "galil-mountain-rouge-de-galilee-2029-351",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000161",
+    "name": "Jameson",
+    "slug": "jameson-jameson-353",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000170",
+    "name": "Hendrick's Double Wood",
+    "slug": "hendrick-s-hendrick-s-double-wood-368",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000171",
+    "name": "Rouge de Galilée 2027",
+    "slug": "shiloh-rouge-de-galilee-2027-369",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000172",
+    "name": "Talisker",
+    "slug": "talisker-talisker-370",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000173",
+    "name": "Lagavulin Reposado",
+    "slug": "lagavulin-lagavulin-reposado-371",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000192",
+    "name": "Syrah 2020",
+    "slug": "recanati-syrah-2020-402",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000193",
+    "name": "Askalon Extra Añejo",
+    "slug": "askalon-askalon-extra-anejo-403",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000194",
+    "name": "Tubi 60",
+    "slug": "tubi-60-tubi-60-404",
+    "issues": "nom séquentiel, sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000195",
+    "name": "Rouge de Galilée 2023",
+    "slug": "domaine-du-castel-rouge-de-galilee-2023-405",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000196",
+    "name": "Chivas Regal Cream",
+    "slug": "chivas-regal-chivas-regal-cream-406",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000197",
+    "name": "Glenfiddich Gold",
+    "slug": "glenfiddich-glenfiddich-gold-407",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000198",
+    "name": "Rosé 2026",
+    "slug": "carmel-rose-2026-408",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000199",
+    "name": "Johnnie Walker V.S.O.P",
+    "slug": "johnnie-walker-johnnie-walker-v-s-o-p-409",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000134",
+    "name": "Bombay Sapphire Berry",
+    "slug": "bombay-sapphire-bombay-sapphire-berry-308",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=VODKA image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000135",
+    "name": "Merlot 2027",
+    "slug": "shiloh-merlot-2027-309",
+    "issues": "marque non détectée",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000136",
+    "name": "Hendrick's Original",
+    "slug": "hendrick-s-hendrick-s-original-310",
+    "issues": "image non spiritueux, sous-catégorie incohérente: DB=LIQUEUR image=Autres vins",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019a",
+    "name": "Jack Daniel's Épice",
+    "slug": "jack-daniel-s-jack-daniel-s-epice-410",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019b",
+    "name": "Viognier 2029",
+    "slug": "galil-mountain-viognier-2029-411",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019c",
+    "name": "Hennessy Vanilla",
+    "slug": "hennessy-hennessy-vanilla-412",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019d",
+    "name": "Remy Martin Mediterranean",
+    "slug": "remy-martin-remy-martin-mediterranean-413",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019e",
+    "name": "Petit Castel 2032",
+    "slug": "shiloh-petit-castel-2032-414",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-00007000019f",
+    "name": "Havana Club Elite",
+    "slug": "havana-club-havana-club-elite-415",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a0",
+    "name": "Bacardi Reserve",
+    "slug": "bacardi-bacardi-reserve-416",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a1",
+    "name": "Merlot 2035",
+    "slug": "recanati-merlot-2035-417",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a2",
+    "name": "Don Julio Black",
+    "slug": "don-julio-don-julio-black-418",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a3",
+    "name": "Patrón",
+    "slug": "patron-patron-419",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a4",
+    "name": "Syrah 2018",
+    "slug": "domaine-du-castel-syrah-2018-420",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a5",
+    "name": "Grey Goose Navy Strength",
+    "slug": "grey-goose-grey-goose-navy-strength-421",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a6",
+    "name": "Belvedere Orange",
+    "slug": "belvedere-belvedere-orange-422",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a7",
+    "name": "Rouge de Galilée 2021",
+    "slug": "carmel-rouge-de-galilee-2021-423",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a8",
+    "name": "Bombay Sapphire Double Wood",
+    "slug": "bombay-sapphire-bombay-sapphire-double-wood-424",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001a9",
+    "name": "Tanqueray",
+    "slug": "tanqueray-tanqueray-425",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001aa",
+    "name": "Rosé 2024",
+    "slug": "galil-mountain-rose-2024-426",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ab",
+    "name": "Macallan Añejo",
+    "slug": "macallan-macallan-anejo-427",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ac",
+    "name": "Talisker Berry",
+    "slug": "talisker-talisker-berry-428",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ad",
+    "name": "Viognier 2027",
+    "slug": "shiloh-viognier-2027-429",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ae",
+    "name": "Laphroaig Original",
+    "slug": "laphroaig-laphroaig-original-430",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001af",
+    "name": "Ardbeg Classic",
+    "slug": "ardbeg-ardbeg-classic-431",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b0",
+    "name": "Petit Castel 2030",
+    "slug": "recanati-petit-castel-2030-432",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b1",
+    "name": "Hibiki V.S.O.P",
+    "slug": "hibiki-hibiki-v-s-o-p-433",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b2",
+    "name": "Nikka 7 ans",
+    "slug": "nikka-nikka-7-ans-434",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b3",
+    "name": "Merlot 2033",
+    "slug": "domaine-du-castel-merlot-2033-435",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b4",
+    "name": "Canadian Club Citrus",
+    "slug": "canadian-club-canadian-club-citrus-436",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b5",
+    "name": "Ballantine's Floral",
+    "slug": "ballantine-s-ballantine-s-floral-437",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b6",
+    "name": "Syrah 2036",
+    "slug": "carmel-syrah-2036-438",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b7",
+    "name": "Teacher's",
+    "slug": "teacher-s-teacher-s-439",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b8",
+    "name": "Dewar's",
+    "slug": "dewar-s-dewar-s-440",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001b9",
+    "name": "Rouge de Galilée 2019",
+    "slug": "galil-mountain-rouge-de-galilee-2019-441",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ba",
+    "name": "Tullamore Dew 12 ans",
+    "slug": "tullamore-dew-tullamore-dew-12-ans-442",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001bb",
+    "name": "Ararat Extra Añejo",
+    "slug": "ararat-ararat-extra-anejo-443",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000160",
+    "name": "Jack Daniel's 18 ans",
+    "slug": "jack-daniel-s-jack-daniel-s-18-ans-352",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001bc",
+    "name": "Rosé 2022",
+    "slug": "shiloh-rose-2022-444",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001bd",
+    "name": "Ketel One London Dry",
+    "slug": "ketel-one-ketel-one-london-dry-445",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001be",
+    "name": "Cîroc Cream",
+    "slug": "ciroc-ciroc-cream-446",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001bf",
+    "name": "Viognier 2025",
+    "slug": "recanati-viognier-2025-447",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c0",
+    "name": "Stolichnaya 12 ans",
+    "slug": "stolichnaya-stolichnaya-12-ans-448",
+    "issues": "sous-catégorie incohérente: DB=WHISKY image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c1",
+    "name": "Smirnoff",
+    "slug": "smirnoff-smirnoff-449",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c2",
+    "name": "Petit Castel 2028",
+    "slug": "domaine-du-castel-petit-castel-2028-450",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c3",
+    "name": "Kahlúa Reposado",
+    "slug": "kahlua-kahlua-reposado-451",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c4",
+    "name": "Amarula Vanilla",
+    "slug": "amarula-amarula-vanilla-452",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c5",
+    "name": "Merlot 2031",
+    "slug": "carmel-merlot-2031-453",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c6",
+    "name": "Grand Marnier",
+    "slug": "grand-marnier-grand-marnier-454",
+    "issues": "sous-catégorie incohérente: DB=LIQUEUR image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c7",
+    "name": "Campari Elite",
+    "slug": "campari-campari-elite-455",
+    "issues": "sous-catégorie incohérente: DB=ARAK image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c8",
+    "name": "Syrah 2034",
+    "slug": "galil-mountain-syrah-2034-456",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001c9",
+    "name": "Ricard V.S.O.P",
+    "slug": "ricard-ricard-v-s-o-p-457",
+    "issues": "sous-catégorie incohérente: DB=COGNAC image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001ca",
+    "name": "Pernod Blanc",
+    "slug": "pernod-pernod-blanc-458",
+    "issues": "sous-catégorie incohérente: DB=RHUM image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001cb",
+    "name": "Rouge de Galilée 2037",
+    "slug": "shiloh-rouge-de-galilee-2037-459",
+    "issues": "marque non détectée, image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001cc",
+    "name": "Arak Elite Original",
+    "slug": "arak-elite-arak-elite-original-460",
+    "issues": "sous-catégorie incohérente: DB=VODKA image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-0000700001cd",
+    "name": "Askalon Navy Strength",
+    "slug": "askalon-askalon-navy-strength-461",
+    "issues": "sous-catégorie incohérente: DB=GIN image=Whisky",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000162",
+    "name": "Rosé 2032",
+    "slug": "shiloh-rose-2032-354",
+    "issues": "image non vin",
+    "confidence": "Incertain"
+  },
+  {
+    "product_id": "70000000-0000-0000-0000-000070000163",
+    "name": "Remy Martin Blanco",
+    "slug": "remy-martin-remy-martin-blanco-355",
+    "issues": "sous-catégorie incohérente: DB=TEQUILA image=Whisky",
+    "confidence": "Incertain"
+  }
+]

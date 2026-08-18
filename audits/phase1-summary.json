@@ -1,0 +1,14 @@
+{
+  "produits_total": 676,
+  "produits_sans_photo": 0,
+  "produits_avec_prix_manquant": 0,
+  "produits_incertain": 657,
+  "produits_probable": 0,
+  "produits_certain": 19,
+  "photos_total": 356,
+  "photos_utilisees": 283,
+  "photos_non_utilisees": 73,
+  "categories": 5,
+  "marques": 0,
+  "admin_roles": 1
+}
