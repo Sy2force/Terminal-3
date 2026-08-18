@@ -1,73 +1,93 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { Eye, EyeOff } from "lucide-react";
+
+const REMEMBER_EMAIL_KEY = "terminal3.admin.email";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+  const [email, setEmail] = useState(() =>
+    typeof window !== "undefined" ? window.localStorage.getItem(REMEMBER_EMAIL_KEY) ?? "" : "",
+  );
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(
+    () => typeof window !== "undefined" ? window.localStorage.getItem(REMEMBER_EMAIL_KEY) !== null : false,
+  );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(searchParams.get("error"));
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    const supabase = createClient();
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      setError(null);
 
-    if (signInError || !data.user) {
-      setError("Email ou mot de passe incorrect.");
-      return;
-    }
+      const supabase = createClient();
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    router.push("/admin");
-    router.refresh();
-  }
+      setLoading(false);
+
+      if (signInError || !data.user) {
+        setError("Email ou mot de passe incorrect.");
+        return;
+      }
+
+      if (typeof window !== "undefined") {
+        if (remember) {
+          window.localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+        } else {
+          window.localStorage.removeItem(REMEMBER_EMAIL_KEY);
+        }
+      }
+
+      router.push("/admin");
+      router.refresh();
+    },
+    [email, password, remember, router],
+  );
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-noir-profond px-4">
-      {/* Animated 3D background layers */}
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#151411] px-4">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-or-principal/10 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C6A15B]/10 blur-[120px]" />
         <div className="absolute left-1/4 top-1/3 -z-10 h-96 w-96 rounded-full bg-[#9B3444]/20 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 -z-10 h-80 w-80 rounded-full bg-or-principal/15 blur-[90px]" />
+        <div className="absolute bottom-1/4 right-1/4 -z-10 h-80 w-80 rounded-full bg-[#C6A15B]/15 blur-[90px]" />
       </div>
 
-      {/* 3D card */}
-      <div className="relative w-full max-w-md perspective-1000">
-        <div className="relative overflow-hidden rounded-xl border border-or-principal/20 bg-black/60 p-8 shadow-2xl shadow-or-principal/20 backdrop-blur-md">
-          {/* Decorative gold line */}
-          <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-or-principal to-transparent" />
+      <div className="relative w-full max-w-md">
+        <div className="relative overflow-hidden rounded-xl border border-[#C6A15B]/20 bg-[#1C1A16] p-8 shadow-2xl shadow-[#C6A15B]/10">
+          <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#C6A15B] to-transparent" />
 
           <div className="flex flex-col items-center">
-            <div className="relative mb-6 h-32 w-48 [transform:rotateX(15deg)] drop-shadow-2xl">
+            <div className="relative mb-6 h-28 w-40 drop-shadow-2xl">
               <Image
                 src="/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png"
                 alt="Terminal 3"
                 fill
                 unoptimized
-                className="object-contain"
                 priority
+                className="object-contain"
               />
             </div>
 
-            <h1 className="font-serif text-3xl text-ivory">Espace Admin</h1>
-            <p className="mt-2 text-center text-sm text-gris-chaud">
-              Accédez au tableau de bord de Terminal 3
+            <h1 className="font-serif text-3xl text-[#F7F0E4]">Espace Admin</h1>
+            <p className="mt-2 text-center text-sm text-[#71695F]">
+              Connectez-vous pour gérer Terminal 3
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="mt-8 flex flex-col gap-4">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
+            <label className="flex flex-col gap-2 text-sm text-[#F7F0E4]/80">
               Email
               <input
                 type="email"
@@ -75,26 +95,61 @@ export default function AdminLoginPage() {
                 autoFocus
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
+                className="rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
                 placeholder="vous@exemple.com"
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+
+            <label className="flex flex-col gap-2 text-sm text-[#F7F0E4]/80">
               Mot de passe
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-or-principal"
-                placeholder="••••••"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 pr-11 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
+                  placeholder="••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#71695F] hover:text-[#C6A15B]"
+                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
-            {error && <p className="text-sm text-amber-400">{error}</p>}
+
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 text-[#F7F0E4]/80">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                  className="h-4 w-4 rounded border-white/10 bg-[#2C2924] text-[#C6A15B] focus:ring-[#C6A15B]"
+                />
+                Se souvenir de moi
+              </label>
+              <Link
+                href="/mot-de-passe-oublie?redirect=/admin"
+                className="text-[#C6A15B] hover:underline"
+              >
+                Mot de passe oublié ?
+              </Link>
+            </div>
+
+            {error && (
+              <p role="alert" className="rounded-sm bg-[#9B3444]/10 px-3 py-2 text-sm text-[#9B3444]">
+                {error}
+              </p>
+            )}
+
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 rounded-full bg-or-principal px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+              className="mt-2 rounded-sm bg-[#C6A15B] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#151411] transition-all hover:bg-[#D9B87A] active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? "Connexion..." : "Se connecter"}
             </button>
@@ -102,7 +157,7 @@ export default function AdminLoginPage() {
 
           <Link
             href="/"
-            className="mt-6 block text-center text-xs text-gris-chaud hover:text-or-principal"
+            className="mt-6 block text-center text-xs text-[#71695F] hover:text-[#C6A15B]"
           >
             Retour au site
           </Link>

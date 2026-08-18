@@ -35,6 +35,7 @@ import {
   List,
 } from "lucide-react";
 import type { AdminSession } from "@/lib/admin/auth";
+import { signOutAdmin } from "@/app/admin/logout/actions";
 
 interface NavGroup {
   label: string;
@@ -199,13 +200,15 @@ export function AdminShell({
             <Store className="h-4 w-4" />
             Voir le site
           </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[#F7F0E4]/80 hover:bg-white/5 hover:text-[#C6A15B]"
-          >
-            <LogOut className="h-4 w-4" />
-            Déconnexion
-          </Link>
+          <form action={signOutAdmin}>
+            <button
+              type="submit"
+              className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-[#F7F0E4]/80 hover:bg-white/5 hover:text-[#C6A15B]"
+            >
+              <LogOut className="h-4 w-4" />
+              Déconnexion
+            </button>
+          </form>
         </div>
       </aside>
 

@@ -140,7 +140,7 @@ export async function requireAdmin(): Promise<AdminSession> {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login?redirect=/admin");
+    redirect("/admin/login");
   }
 
   const supabase = await createClient();
