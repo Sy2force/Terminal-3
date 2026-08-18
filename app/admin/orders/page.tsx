@@ -34,9 +34,18 @@ export default async function AdminOrdersPage({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="font-serif text-2xl text-ivory">Commandes</h1>
-        <Link href="/admin/orders/kanban" className="text-sm text-champagne hover:text-soft-gold">
-          Vue Kanban
-        </Link>
+        <div className="flex items-center gap-3">
+          <a
+            href="/api/admin/export/orders"
+            download
+            className="rounded-full border border-champagne/40 px-5 py-2 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
+          >
+            Export CSV
+          </a>
+          <Link href="/admin/orders/kanban" className="text-sm text-champagne hover:text-soft-gold">
+            Vue Kanban
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
