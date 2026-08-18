@@ -37,7 +37,8 @@ export default async function WinesPage() {
     <div className="min-h-screen bg-fond-papier">
       {/* Cover */}
       <CategoryCover
-        imageUrl={coverUrl}
+        contentSlug="vins"
+        imageUrl={pageContent?.og_image_url ?? coverUrl}
         pretitle="La cave Terminal 3"
         title={pageContent?.title ?? "Nos vins"}
         subtitle={

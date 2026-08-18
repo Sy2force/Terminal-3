@@ -34,7 +34,8 @@ export default async function SpiritsPage() {
     <div className="min-h-screen bg-fond-papier">
       {/* Cover */}
       <CategoryCover
-        imageUrl={coverUrl}
+        contentSlug="spiritueux"
+        imageUrl={pageContent?.og_image_url ?? coverUrl}
         pretitle="Whisky · Arak · Cognac · Sélection premium"
         title={pageContent?.title ?? "Nos spiritueux"}
         subtitle={

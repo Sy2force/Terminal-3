@@ -12,6 +12,7 @@ import { getPublishedTheme, themeToCssVars } from "@/lib/data/theme";
 import { getPublishedMenu } from "@/lib/data/navigation";
 import { CartProvider } from "@/lib/cart/cart-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { AdminEditModeProvider } from "@/components/admin/admin-edit-mode";
 
 const editorialSerif = Cormorant_Garamond({
   variable: "--font-editorial-serif",
@@ -71,17 +72,19 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
         <CartProvider>
-          <AnnouncementBar />
-          <Navbar
-            settings={settings}
-            user={user}
-            isAdmin={!!adminSession}
-            mainMenu={mainMenu}
-          />
-          <main className="flex-1 pb-16 md:pb-0">{children}</main>
-          <Footer settings={settings} footerMenu={footerMenu} />
-          <ScrollToTop />
-          <BottomNav isAdmin={!!adminSession} />
+          <AdminEditModeProvider session={adminSession}>
+            <AnnouncementBar />
+            <Navbar
+              settings={settings}
+              user={user}
+              isAdmin={!!adminSession}
+              mainMenu={mainMenu}
+            />
+            <main className="flex-1 pb-16 md:pb-0">{children}</main>
+            <Footer settings={settings} footerMenu={footerMenu} />
+            <ScrollToTop />
+            <BottomNav isAdmin={!!adminSession} />
+          </AdminEditModeProvider>
         </CartProvider>
       </body>
     </html>

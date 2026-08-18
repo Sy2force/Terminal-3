@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, Search, ChevronDown, Shield } from "lucide-react";
+import { Heart, Search, ChevronDown, Shield, Pencil } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Logo } from "@/components/brand/logo";
 import { CartBadge } from "@/components/commerce/cart-badge";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { NavLink } from "@/components/layout/nav-link";
 import { AuthNav } from "@/components/auth/auth-nav";
+import { useAdminEdit } from "@/components/admin/admin-edit-mode";
 import type { SiteSettings } from "@/lib/settings";
 import type { NavMenu } from "@/lib/data/navigation";
 
@@ -52,6 +53,7 @@ export function Navbar({
     () => typeof window !== "undefined" && window.scrollY > 24,
   );
   const [moreOpen, setMoreOpen] = useState(false);
+  const { isEditing, setIsEditing, canEdit } = useAdminEdit();
 
   useEffect(() => {
     function onScroll() {
@@ -157,6 +159,20 @@ export function Navbar({
             <Shield className="h-4 w-4" aria-hidden />
             <span>Admin</span>
           </Link>
+          {canEdit && (
+            <button
+              type="button"
+              onClick={() => setIsEditing(!isEditing)}
+              className={`hidden items-center gap-1.5 rounded-[10px] border px-3 py-2 text-[13px] font-semibold transition-all lg:inline-flex ${
+                isEditing
+                  ? "border-champagne bg-champagne text-obsidian hover:bg-champagne/90"
+                  : "border-or-principal/80 bg-transparent text-texte-clair hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal"
+              }`}
+            >
+              <Pencil className="h-4 w-4" aria-hidden />
+              <span>{isEditing ? "Quitter" : "Éditer le site"}</span>
+            </button>
+          )}
           <AuthNav user={user} />
           <MobileMenu settings={settings} user={user} isAdmin={isAdmin} links={toNavLinks(mainMenu).length > 0 ? toNavLinks(mainMenu) : [...FALLBACK_PRIMARY, ...FALLBACK_MORE]} />
         </div>

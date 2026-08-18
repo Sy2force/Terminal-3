@@ -34,7 +34,8 @@ export default async function CharcuteriePage() {
     <div className="min-h-screen bg-fond-papier">
       {/* Cover */}
       <CategoryCover
-        imageUrl={coverUrl}
+        contentSlug="charcuterie"
+        imageUrl={pageContent?.og_image_url ?? coverUrl}
         pretitle="Découpée à la demande · Sélection artisanale"
         title={pageContent?.title ?? "Nos charcuteries"}
         subtitle={

@@ -32,7 +32,8 @@ export default async function PlatterPage() {
   return (
     <div className="min-h-screen bg-fond-papier">
       <CategoryCover
-        imageUrl={coverUrl}
+        contentSlug="plateaux"
+        imageUrl={pageContent?.og_image_url ?? coverUrl}
         pretitle="Réceptions · Apéritifs · Shabbat"
         title={pageContent?.title ?? "Nos plateaux"}
         subtitle={
