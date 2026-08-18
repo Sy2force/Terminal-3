@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_PREFIXES = ["/account", "/compte", "/checkout"];
+const PROTECTED_PREFIXES = ["/account", "/compte", "/checkout", "/admin"];
 
 /**
  * Refreshes the Supabase auth session on every request and redirects
@@ -43,13 +43,15 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isProtected = PROTECTED_PREFIXES.some((prefix) =>
-    request.nextUrl.pathname.startsWith(prefix),
-  );
+  const pathname = request.nextUrl.pathname;
+  const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
   if (isProtected && !user) {
-    const redirectUrl = new URL("/login", request.url);
-    redirectUrl.searchParams.set("redirect", request.nextUrl.pathname);
+    const isAdmin = pathname.startsWith("/admin");
+    const redirectUrl = new URL(isAdmin ? "/admin/login" : "/login", request.url);
+    if (!isAdmin) {
+      redirectUrl.searchParams.set("redirect", pathname);
+    }
     return NextResponse.redirect(redirectUrl);
   }
 
