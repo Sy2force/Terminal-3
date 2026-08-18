@@ -76,6 +76,7 @@ export function NewArrivalsCarousel({ products, favoriteIds }: NewArrivalsCarous
                     src={product.media[0].url}
                     alt={product.name_fr || product.name_he}
                     fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                     className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (

@@ -88,8 +88,8 @@ export function ProductsTableClient({
                   </td>
                   <td className="px-4 py-3">
                     <div className="relative h-12 w-12 overflow-hidden rounded-sm bg-warm-black">
-                      {cover ? (
-                        <Image src={cover.url} alt={cover.alt ?? ""} fill className="object-contain" />
+                      {cover?.url ? (
+                        <Image src={cover.url} alt={cover.alt ?? ""} fill className="object-contain" sizes="48px" />
                       ) : (
                         <span className="flex h-full w-full items-center justify-center text-[10px] text-amber-400">
                           ⚠

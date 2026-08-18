@@ -25,7 +25,11 @@ export function LogoUploader({ initialUrl }: { initialUrl: string }) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
       <div className="relative h-20 w-40 shrink-0 overflow-hidden rounded-sm border border-white/10 bg-warm-black">
-        <Image src={url} alt="Logo Terminal 3" fill className="object-contain p-2" />
+        {url ? (
+          <Image src={url} alt="Logo Terminal 3" fill sizes="160px" className="object-contain p-2" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-grey">Logo</div>
+        )}
       </div>
       <div className="flex flex-col gap-2">
         <ImageUploader bucket="brand-assets" onUploaded={handleUploaded} label="Remplacer le logo" />

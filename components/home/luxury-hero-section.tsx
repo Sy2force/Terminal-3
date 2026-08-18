@@ -34,17 +34,22 @@ export function LuxuryHeroSection({
     ? "Jérusalem"
     : "Jérusalem";
 
+  const logoUrl = typeof settings.LOGO_URL === "string" && settings.LOGO_URL ? settings.LOGO_URL : "";
   const mainTitle = title ?? (
     <>
-      <Image
-        src={settings.LOGO_URL}
-        alt="Terminal 3"
-        width={500}
-        height={200}
-        unoptimized
-        priority
-        className="h-20 w-auto object-contain sm:h-24 lg:h-32"
-      />
+      {logoUrl ? (
+        <Image
+          src={logoUrl}
+          alt="Terminal 3"
+          width={500}
+          height={200}
+          unoptimized
+          priority
+          className="h-20 w-auto object-contain sm:h-24 lg:h-32"
+        />
+      ) : (
+        <span className="font-serif text-4xl text-texte-clair sm:text-5xl lg:text-6xl">Terminal 3</span>
+      )}
       <span className="text-or-principal/80 block text-2xl sm:text-3xl lg:text-4xl mt-4">Vins, spiritueux et épicerie fine</span>
     </>
   );

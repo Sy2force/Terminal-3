@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["127.0.0.1:50824", "127.0.0.1:3000", "localhost:3000"],
+    },
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

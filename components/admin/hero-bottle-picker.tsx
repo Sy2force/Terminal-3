@@ -102,7 +102,7 @@ export function HeroBottlePicker({
                 >
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-sm bg-[#FBF8F1]">
                     {product.coverUrl ? (
-                      <Image src={product.coverUrl} alt={product.name} fill className="object-contain" />
+                      <Image src={product.coverUrl} alt={product.name} fill className="object-contain" sizes="56px" />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-[10px] text-[#B97832]">
                         Pas de photo
@@ -167,7 +167,7 @@ export function HeroBottlePicker({
             >
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-sm bg-[#FBF8F1]">
                 {product.coverUrl && (
-                  <Image src={product.coverUrl} alt={product.name} fill className="object-contain" />
+                  <Image src={product.coverUrl} alt={product.name} fill className="object-contain" sizes="40px" />
                 )}
               </div>
               <span className="min-w-0 flex-1 truncate text-sm text-[#151411]">{product.name}</span>

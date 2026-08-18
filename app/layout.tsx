@@ -67,6 +67,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="fr"
       dir="ltr"
+      data-scroll-behavior="smooth"
       className={`${editorialSerif.variable} ${editorialSans.variable} h-full antialiased`}
       style={cssVars}
     >

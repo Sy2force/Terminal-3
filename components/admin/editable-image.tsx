@@ -53,22 +53,28 @@ export function EditableImage({
     }
   };
 
-  const image = fill ? (
-    <Image
-      src={value}
-      alt={alt ?? "Image modifiable"}
-      fill
-      className={className}
-      sizes={sizes}
-    />
+  const image = value ? (
+    fill ? (
+      <Image
+        src={value}
+        alt={alt ?? "Image modifiable"}
+        fill
+        className={className}
+        sizes={sizes}
+      />
+    ) : (
+      <Image
+        src={value}
+        alt={alt ?? "Image modifiable"}
+        width={width ?? 1200}
+        height={height ?? 800}
+        className={className}
+      />
+    )
   ) : (
-    <Image
-      src={value}
-      alt={alt ?? "Image modifiable"}
-      width={width ?? 1200}
-      height={height ?? 800}
-      className={className}
-    />
+    <div className={`flex items-center justify-center bg-warm-black ${className ?? ""}`}>
+      <span className="text-xs text-muted-grey">Image à définir</span>
+    </div>
   );
 
   if (!isEditing) {
