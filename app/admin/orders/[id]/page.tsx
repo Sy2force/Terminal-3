@@ -6,6 +6,7 @@ import { formatAgorot } from "@/lib/money";
 import { OrderStatusUpdater } from "@/components/admin/order-status-updater";
 import { FulfillmentStatusUpdater } from "@/components/admin/fulfillment-status-updater";
 import { OrderPaymentAndNotes } from "@/components/admin/order-payment-and-notes";
+import { CreateInvoiceFromOrder } from "@/components/admin/create-invoice-from-order";
 
 export default async function AdminOrderDetailPage({
   params,
@@ -124,6 +125,8 @@ export default async function AdminOrderDetailPage({
         notes={notes}
         statusHistory={statusHistory}
       />
+
+      <CreateInvoiceFromOrder orderId={order.id} />
     </div>
   );
 }

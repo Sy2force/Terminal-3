@@ -69,13 +69,19 @@ export default async function AdminInvoicesPage() {
                     {new Date(inv.issued_at).toLocaleDateString("fr-FR")}
                   </td>
                   <td className="px-4 py-3 text-right">
+                    <Link
+                      href={`/admin/invoices/${inv.id}`}
+                      className="text-xs text-champagne hover:underline"
+                    >
+                      Aperçu
+                    </Link>
                     <a
                       href={`/api/orders/${inv.order_id}/recap`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-champagne hover:underline"
+                      className="ml-3 text-xs text-champagne hover:underline"
                     >
-                      Consulter
+                      Récap PDF
                     </a>
                     <Link
                       href={`/admin/orders/${inv.order_id}`}
