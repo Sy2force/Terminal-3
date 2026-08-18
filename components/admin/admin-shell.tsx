@@ -105,7 +105,7 @@ const NAV: NavGroup[] = [
   {
     label: "Paramètres",
     items: [
-      { href: "/admin/store", label: "Paramètres", icon: Settings },
+      { href: "/admin/settings", label: "Paramètres", icon: Settings },
       { href: "/admin/users", label: "Utilisateurs", icon: Shield },
       { href: "/admin/roles", label: "Rôles & permissions", icon: Shield },
       { href: "/admin/historique", label: "Historique / Audit", icon: History },
