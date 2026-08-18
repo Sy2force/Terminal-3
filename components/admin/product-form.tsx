@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -9,6 +9,7 @@ import {
   type ProductFormData,
 } from "@/app/admin/products/actions";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { formatAgorot } from "@/lib/money";
 import type {
   CategoryRow,
   ProductRow,
@@ -22,10 +23,19 @@ interface ProductFormProps {
   initial?: ProductRow & { variants: ProductVariantRow[]; media: ProductMediaRow[] };
 }
 
+interface ProductPreview extends ProductRow {
+  category: { name_fr: string | null; name_he: string; slug: string } | null;
+  variants: ProductVariantRow[];
+  media: ProductMediaRow[];
+}
+
 export function ProductForm({ categories, initial }: ProductFormProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [preview, setPreview] = useState<ProductPreview | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [variants, setVariants] = useState<Partial<ProductVariantRow>[]>(
     initial?.variants.length ? initial.variants : [{ label: "Défaut" }],
@@ -34,13 +44,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
     initial?.media.length ? initial.media : [],
   );
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError(null);
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const product: ProductFormData = {
+  function getFormProduct(formData: FormData): ProductFormData {
+    return {
       slug: String(formData.get("slug")),
       category_id: (formData.get("category_id") as string) || null,
       product_type: (formData.get("product_type") as "STANDARD" | "PLATTER") ?? "STANDARD",
@@ -75,8 +80,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       customizable: formData.get("customizable") === "on",
       preparation_time_minutes: parseOptionalInt(formData.get("preparation_time_minutes")),
       new_until: (formData.get("new_until") as string) || null,
-      wine_type:
-        (formData.get("wine_type") as ProductFormData["wine_type"]) || null,
+      wine_type: (formData.get("wine_type") as ProductFormData["wine_type"]) || null,
       region: String(formData.get("region") || "") || null,
       country: String(formData.get("country") || "") || null,
       grape_varieties: String(formData.get("grape_varieties") || "")
@@ -89,8 +93,6 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       badge: String(formData.get("badge") || "") || null,
       serving_temperature: String(formData.get("serving_temperature") || "") || null,
       aging_potential: String(formData.get("aging_potential") || "") || null,
-      // Wine ("vinification_method") and spirits ("production_method") share
-      // one "Méthode de fabrication / vinification" input in the form.
       vinification_method: String(formData.get("production_method") || "") || null,
       subcategory: String(formData.get("subcategory") || "") || null,
       age_years: parseOptionalInt(formData.get("age_years")),
@@ -108,6 +110,36 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       preparation_method: String(formData.get("preparation_method") || "") || null,
       smoked: formData.get("smoked") === "on",
     };
+  }
+
+  function buildPreviewProduct() {
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    const input = getFormProduct(formData);
+    const categoryRow = categories.find((c) => c.id === input.category_id);
+    const previewProduct: ProductPreview = {
+      ...input,
+      id: initial?.id ?? "preview",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      published_at: null,
+      category: categoryRow
+        ? { name_fr: categoryRow.name_fr, name_he: categoryRow.name_he, slug: categoryRow.slug }
+        : null,
+      variants: variants as ProductVariantRow[],
+      media: media as ProductMediaRow[],
+    } as unknown as ProductPreview;
+    setPreview(previewProduct);
+    setShowPreview(true);
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const product = getFormProduct(formData);
 
     const payload = {
       product,
@@ -154,7 +186,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6">
       {error && (
         <div className="rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-400">
           {error}
@@ -276,6 +308,13 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
           className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
         >
           {saving ? "Enregistrement..." : initial ? "Enregistrer" : "Créer"}
+        </button>
+        <button
+          type="button"
+          onClick={buildPreviewProduct}
+          className="rounded-full border border-champagne/40 px-6 py-2.5 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
+        >
+          Aperçu
         </button>
         <button type="button" onClick={() => router.push("/admin/products")} className="text-sm text-muted-grey hover:text-ivory">
           Annuler
@@ -446,7 +485,145 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
           </div>
         )}
       </div>
+
+      {showPreview && preview && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-obsidian/80 p-4">
+          <div className="relative mt-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-sm border border-white/10 bg-graphite p-6 shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setShowPreview(false)}
+              className="absolute right-4 top-4 text-ivory/70 hover:text-ivory"
+              aria-label="Fermer"
+            >
+              ✕
+            </button>
+            <h2 className="mb-4 font-serif text-xl text-champagne">Aperçu fiche produit</h2>
+            <ProductPreviewCard product={preview} />
+          </div>
+        </div>
+      )}
     </form>
+  );
+}
+
+function ProductPreviewCard({ product }: { product: ProductPreview }) {
+  const cover =
+    product.media?.find((m) => m.kind === "COVER")?.url ??
+    product.media?.[0]?.url;
+  const savingPercent =
+    product.compare_at_price_agorot && product.base_price_agorot
+      ? Math.round(
+          ((product.compare_at_price_agorot - product.base_price_agorot) /
+            product.compare_at_price_agorot) *
+            100,
+        )
+      : 0;
+
+  return (
+    <div className="space-y-4">
+      {cover ? (
+        <div className="relative h-64 w-full overflow-hidden rounded-sm bg-warm-black">
+          <Image
+            src={cover}
+            alt={product.name_fr ?? product.name_he ?? ""}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 640px"
+          />
+        </div>
+      ) : (
+        <div className="flex h-64 w-full items-center justify-center rounded-sm border border-white/10 bg-warm-black text-sm text-muted-grey">
+          Photo manquante
+        </div>
+      )}
+
+      <div>
+        <p className="text-xs uppercase tracking-wider text-muted-grey">
+          {product.category?.name_fr ?? "—"}
+        </p>
+        <h3 className="font-serif text-2xl text-ivory">
+          {product.name_fr ?? product.name_he}
+        </h3>
+        {product.name_he && (
+          <p className="text-right text-sm text-muted-grey" dir="rtl">
+            {product.name_he}
+          </p>
+        )}
+        {product.age_restricted && (
+          <span className="mt-2 inline-block rounded-sm bg-red-900/30 px-2 py-0.5 text-xs text-red-200">
+            18+
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-wrap items-baseline gap-3">
+        <span className="font-serif text-2xl text-champagne">
+          {formatAgorot(product.base_price_agorot ?? 0)}
+        </span>
+        {product.compare_at_price_agorot ? (
+          <>
+            <span className="text-sm text-muted-grey line-through">
+              {formatAgorot(product.compare_at_price_agorot)}
+            </span>
+            <span className="rounded-sm bg-green-900/30 px-2 py-0.5 text-xs text-green-200">
+              -{savingPercent}%
+            </span>
+          </>
+        ) : null}
+      </div>
+
+      <p className="whitespace-pre-line text-sm text-ivory/80">
+        {product.description_fr ?? product.description_he}
+      </p>
+
+      {product.variants && product.variants.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-champagne">Variantes</p>
+          <ul className="divide-y divide-white/5 rounded-sm border border-white/10">
+            {product.variants.map((v, i) => (
+              <li
+                key={i}
+                className="flex justify-between px-3 py-2 text-sm text-ivory/80"
+              >
+                <span>{v.label}</span>
+                <span>
+                  {v.regular_price_agorot != null
+                    ? formatAgorot(v.regular_price_agorot)
+                    : "—"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2 text-xs text-ivory/70">
+        {product.is_featured && (
+          <span className="rounded-full border border-champagne/30 px-2 py-1 text-champagne">
+            Mis en avant
+          </span>
+        )}
+        {product.is_best_seller && (
+          <span className="rounded-full border border-amber-400/30 px-2 py-1 text-amber-400">
+            Best-seller
+          </span>
+        )}
+        {product.badge && (
+          <span className="rounded-full border border-white/10 px-2 py-1">
+            {product.badge}
+          </span>
+        )}
+      </div>
+
+      <p className="text-xs text-muted-grey">
+        Statut :{" "}
+        {product.status === "published"
+          ? "Publié"
+          : product.status === "draft"
+            ? "Brouillon"
+            : "Archivé"}
+      </p>
+    </div>
   );
 }
 
