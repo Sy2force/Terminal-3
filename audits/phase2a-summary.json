@@ -1,0 +1,61 @@
+{
+  "REAL_CONFIRMED": 4,
+  "REAL_REVIEW": 256,
+  "DEMO_GENERATED": 316,
+  "DUPLICATE_OR_INVALID": 100,
+  "origines": {
+    "seed-to-supabase": 629,
+    "seed-food-products": 47
+  },
+  "produits_confirmes": 4,
+  "photos_inutilisees": 73,
+  "photos_utilisees": 676,
+  "marques_fiables": 40,
+  "public_state": [
+    {
+      "categorie": "Vins",
+      "slug": "vins",
+      "total": 184,
+      "reels_probables": 15,
+      "demo_invalides": 169,
+      "image_incorrecte": 125,
+      "exemples": "Rouge de Galilée 2027 | Petit Castel 2034 | Merlot 2037"
+    },
+    {
+      "categorie": "Spiritueux",
+      "slug": "spiritueux",
+      "total": 368,
+      "reels_probables": 245,
+      "demo_invalides": 123,
+      "image_incorrecte": 118,
+      "exemples": "Dewar's | Bushmills Blanco | Ararat Floral"
+    },
+    {
+      "categorie": "Charcuterie",
+      "slug": "charcuterie",
+      "total": 50,
+      "reels_probables": 0,
+      "demo_invalides": 50,
+      "image_incorrecte": 0,
+      "exemples": "Terrine de campagne coup de cœur 0 | Rillettes tradition 1 | Pâté en croûte sélection 2"
+    },
+    {
+      "categorie": "Poissons fumés",
+      "slug": "poissons",
+      "total": 50,
+      "reels_probables": 0,
+      "demo_invalides": 50,
+      "image_incorrecte": 0,
+      "exemples": "Saumon fumé d'Écosse tradition 0 | Saumon gravlax sélection 1 | Saumon fumé norvégien artisanal 2"
+    },
+    {
+      "categorie": "Plateaux",
+      "slug": "plateaux",
+      "total": 24,
+      "reels_probables": 0,
+      "demo_invalides": 24,
+      "image_incorrecte": 0,
+      "exemples": "Plateau mixte saumon & charcuterie artisanal 22 | Plateau réception 12 personnes sélection 21 | Plateau charcuterie tradition premium 24"
+    }
+  ]
+}

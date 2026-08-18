@@ -44,5 +44,5 @@ CREATE POLICY "Admins can manage invoice items"
 ON invoice_items
 FOR ALL
 TO authenticated
-USING ((SELECT role FROM admin_roles WHERE user_id = auth.uid()) IS NOT NULL)
-WITH CHECK ((SELECT role FROM admin_roles WHERE user_id = auth.uid()) IS NOT NULL);
+USING (EXISTS (SELECT 1 FROM admin_roles WHERE user_id = auth.uid()))
+WITH CHECK (EXISTS (SELECT 1 FROM admin_roles WHERE user_id = auth.uid()));

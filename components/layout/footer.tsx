@@ -33,11 +33,9 @@ function footerGroups(menu: NavMenu | null) {
 export function Footer({
   settings,
   footerMenu,
-  isAdmin,
 }: {
   settings: SiteSettings;
   footerMenu: NavMenu | null;
-  isAdmin?: boolean;
 }) {
   const hasHours = settings.OPENING_HOURS.some((h) => h.open && h.close);
 

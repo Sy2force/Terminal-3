@@ -52,7 +52,6 @@ function scanImages(subdir) {
   const out = [];
   if (!fs.existsSync(dir)) return out;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       out.push(...scanImages(path.join(subdir, entry.name)));
     } else if (/\.(png|webp|jpg|jpeg)$/i.test(entry.name) && !entry.name.startsWith(".")) {
@@ -62,7 +61,7 @@ function scanImages(subdir) {
   return out;
 }
 
-function uuidFromIndex(index) {
+function uuidFromIndex() {
   return crypto.randomUUID();
 }
 
@@ -80,7 +79,7 @@ function buildProducts(type, count, offset, images, category) {
 
   for (let i = 0; i < count; i++) {
     const index = offset + i;
-    const id = uuidFromIndex(index);
+    const id = uuidFromIndex();
     const baseName = names[index % names.length];
     const adj = ADJS[index % ADJS.length];
     const nameFr = `${baseName} ${adj} ${i}`;

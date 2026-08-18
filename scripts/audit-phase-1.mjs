@@ -1,27 +1,9 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { createClient } from "@supabase/supabase-js";
 
 const ROOT = process.cwd();
 const AUDIT_DIR = path.join(ROOT, "audits");
-
-const env = Object.fromEntries(
-  fs
-    .readFileSync(path.join(ROOT, ".env"), "utf-8")
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .filter((l) => !l.startsWith("#"))
-    .map((l) => {
-      const [k, ...v] = l.split("=");
-      return [k, v.join("=")];
-    }),
-);
-
-const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
-  auth: { persistSession: false },
-});
 
 function money(agorot) {
   if (agorot == null) return "";
@@ -261,8 +243,6 @@ async function main() {
     }
   }
   if (fs.existsSync(imageRoot)) scan(imageRoot);
-
-  const usedUrls = new Set(media.map((m) => m.url));
 
   for (const url of imageFiles) {
     const usedBy = media
