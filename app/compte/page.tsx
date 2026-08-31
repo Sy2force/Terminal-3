@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Bell, Package, Sparkles, ArrowRight } from "lucide-react";
+import { Bell, Package, Sparkles, ArrowRight, Store } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { getMyVerificationProfile } from "@/lib/data/verification";
 import { getMyLoyaltyAccount } from "@/lib/data/loyalty";
+import { getMyBarProfile } from "@/lib/data/bar-profiles";
 import { listMyNotifications, countMyUnreadNotifications } from "@/lib/data/customer-notifications";
 import { listOrdersForCurrentUser } from "@/lib/data/orders";
 import { formatAgorot } from "@/lib/money";
@@ -23,7 +24,7 @@ export default async function ComptePage() {
   if (!user) redirect("/login?redirect=/compte");
 
   const supabase = await createClient();
-  const [profile, loyalty, orders, notifications, unreadCount, { count: favoritesCount }] =
+  const [profile, loyalty, orders, notifications, unreadCount, { count: favoritesCount }, barProfile] =
     await Promise.all([
       getMyVerificationProfile(),
       getMyLoyaltyAccount(),
@@ -31,6 +32,7 @@ export default async function ComptePage() {
       listMyNotifications(5),
       countMyUnreadNotifications(),
       supabase.from("favorites").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+      getMyBarProfile(),
     ]);
 
   const totalOrders = orders.length;
@@ -115,6 +117,28 @@ export default async function ComptePage() {
               </p>
             </>
           )}
+        </div>
+      )}
+
+      {/* Bar / pro CTA */}
+      {!barProfile && (
+        <div className="mt-6 flex flex-col items-start gap-3 rounded-sm border border-white/5 bg-graphite/60 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <Store className="mt-0.5 h-5 w-5 shrink-0 text-champagne" />
+            <div>
+              <p className="font-serif text-lg text-ivory">Vous gérez un bar ?</p>
+              <p className="mt-1 text-sm text-ivory/70">
+                Créez votre fiche pro pour bénéficier de tarifs négociés et d&rsquo;un
+                suivi dédié.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/compte/bar"
+            className="shrink-0 rounded-full bg-champagne px-5 py-2.5 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold"
+          >
+            Créer ma fiche pro
+          </Link>
         </div>
       )}
 

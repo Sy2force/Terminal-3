@@ -58,3 +58,58 @@ set role authenticated;
 select count(*) from inventory;
 -- expected: 0 for non-staff
 reset role;
+
+-- ============================================================
+-- 0043_business_b2b.sql RLS tests
+-- ============================================================
+
+-- 9. Bar profiles: customer A cannot read customer B's bar profile.
+set local "request.jwt.claim.sub" = 'A';
+set role authenticated;
+select count(*) from bar_profiles where user_id != 'A';
+-- expected: 0
+reset role;
+
+-- 10. Bar profiles: customer A cannot set their own status
+--     (DB trigger `forbid_bar_profile_status_change` should raise).
+--     This block is a "should fail" — wrap in EXCEPTION expected.
+do $$
+begin
+  set local "request.jwt.claim.sub" = 'A';
+  set role authenticated;
+  begin
+    update bar_profiles set status = 'approved' where user_id = 'A';
+    raise notice 'Test 10 FAILED: customer was allowed to change status';
+  exception
+    when others then
+      raise notice 'Test 10 OK: status change blocked (%)', SQLERRM;
+  end;
+  reset role;
+end $$;
+
+-- 11. Product requests: customer A cannot read customer B's requests.
+set local "request.jwt.claim.sub" = 'A';
+set role authenticated;
+select count(*) from product_requests where user_id != 'A';
+-- expected: 0
+reset role;
+
+-- 12. Product requests: customer A cannot update a request that already
+--     went past the "new"/"reviewing" stage (RLS forbids the row match).
+set local "request.jwt.claim.sub" = 'A';
+set role authenticated;
+update product_requests
+  set comment = 'client tries to alter after quote'
+  where user_id = 'A' and status = 'quoted';
+-- expected: 0 rows affected
+reset role;
+
+-- 13. pro_price_history: customer A only sees their own order history.
+set local "request.jwt.claim.sub" = 'A';
+set role authenticated;
+select count(*)
+  from pro_price_history pph
+  join orders o on o.id = pph.order_id
+  where o.user_id != 'A';
+-- expected: 0
+reset role;

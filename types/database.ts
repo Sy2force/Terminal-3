@@ -26,6 +26,51 @@ export type OrderStatus =
   | "ready"
   | "completed"
   | "cancelled";
+
+/**
+ * Extended lifecycle labels for the B2B flow (0043_business_b2b.sql).
+ * Kept separate from `OrderStatus` so existing code that switches on the
+ * legacy statuses keeps compiling. Statuses that overlap semantically map
+ * as follows: `received≈submitted`, `accepted≈confirmed`, `collected≈completed`.
+ */
+export type ExtendedOrderStatus =
+  | OrderStatus
+  | "received"
+  | "reviewing"
+  | "accepted"
+  | "preparing"
+  | "collected"
+  | "quote_sent"
+  | "customer_approved"
+  | "rejected"
+  | "expired";
+
+export type OrderType = "personal" | "business";
+export type IntendedPaymentMethod = "cash" | "card" | "bit" | "other";
+export type OrderPaymentStatus =
+  | "unpaid"
+  | "paid_in_store"
+  | "refunded"
+  | "cancelled";
+export type PriceSource = "public" | "pro_price" | "quote";
+export type PackType = "unit" | "pack" | "case";
+export type AccountType = "personal" | "business";
+export type BarStatus =
+  | "new"
+  | "contacted"
+  | "qualified"
+  | "approved"
+  | "inactive";
+export type PickupPreference = "self" | "delegate" | "delivery_when_available";
+export type ProductRequestKind = "in_catalog" | "out_of_catalog";
+export type ProductRequestStatus =
+  | "new"
+  | "reviewing"
+  | "quoted"
+  | "accepted"
+  | "declined"
+  | "fulfilled"
+  | "cancelled";
 export type FulfillmentGroupType = "NON_RESTRICTED" | "AGE_RESTRICTED";
 export type FoodFulfillmentStatus =
   | "SUBMITTED"
@@ -152,6 +197,9 @@ export type ProfileRow = {
   email: string | null;
   created_at: string;
   updated_at: string;
+  /** Business vs personal customer (0043_business_b2b.sql). */
+  account_type: AccountType;
+  preferred_contact_channel: "phone" | "whatsapp" | "email" | null;
 }
 
 export type ClubMembershipRow = {
@@ -366,6 +414,24 @@ export type OrderRow = {
   estimated_delivery_at: string | null;
   delivered_at: string | null;
   idempotency_key: string | null;
+  /** B2B / bar extensions (0043_business_b2b.sql). */
+  order_type: OrderType;
+  bar_profile_id: string | null;
+  quote_total_agorot: number | null;
+  quote_sent_at: string | null;
+  quote_approved_at: string | null;
+  quote_rejected_at: string | null;
+  quote_notes: string | null;
+  ready_estimate_at: string | null;
+  ready_estimate_label: string | null;
+  intended_payment_method: IntendedPaymentMethod | null;
+  payment_method_actual: string | null;
+  payment_status: OrderPaymentStatus;
+  paid_at: string | null;
+  paid_by: string | null;
+  id_checked_at: string | null;
+  id_checked_by: string | null;
+  public_order_number: string | null;
 }
 
 export type OrderFulfillmentGroupRow = {
@@ -391,6 +457,75 @@ export type OrderItemRow = {
   final_price_agorot_snapshot: number;
   quantity: number;
   tax_info: Record<string, unknown> | null;
+  created_at: string;
+  /** B2B pricing (0043_business_b2b.sql). */
+  pro_price_agorot_snapshot: number | null;
+  price_source: PriceSource;
+  line_notes: string | null;
+  pack_type: PackType | null;
+}
+
+export type BarProfileRow = {
+  id: string;
+  user_id: string;
+  business_name: string;
+  legal_name: string | null;
+  registration_number: string | null;
+  contact_first_name: string;
+  contact_last_name: string;
+  contact_phone: string;
+  whatsapp_number: string | null;
+  contact_email: string | null;
+  address: string | null;
+  city: string | null;
+  postal_code: string | null;
+  preferred_contact_window: string | null;
+  pickup_preference: PickupPreference | null;
+  notes: string | null;
+  status: BarStatus;
+  approved_at: string | null;
+  approved_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type ProductRequestRow = {
+  id: string;
+  public_reference: string | null;
+  user_id: string;
+  bar_profile_id: string | null;
+  kind: ProductRequestKind;
+  requested_type: string | null;
+  requested_brand: string | null;
+  requested_name: string | null;
+  requested_volume_ml: number | null;
+  requested_quantity: number;
+  requested_budget_agorot: number | null;
+  photo_url: string | null;
+  comment: string | null;
+  product_id: string | null;
+  variant_id: string | null;
+  status: ProductRequestStatus;
+  quote_price_agorot: number | null;
+  quote_note: string | null;
+  admin_response: string | null;
+  handled_by: string | null;
+  handled_at: string | null;
+  order_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type ProPriceHistoryRow = {
+  id: string;
+  order_id: string;
+  order_item_id: string | null;
+  product_id: string | null;
+  variant_id: string | null;
+  old_price_agorot: number | null;
+  new_price_agorot: number;
+  reason: string | null;
+  changed_by: string | null;
   created_at: string;
 }
 
@@ -1032,6 +1167,19 @@ export interface Database {
       carousels: TableDef<CarouselRow, "key" | "kind">;
       carousel_items: TableDef<CarouselItemRow, "carousel_id" | "display_order">;
       promotional_banners: TableDef<PromotionalBannerRow, "key" | "position">;
+      /** B2B / bar (0043_business_b2b.sql). */
+      bar_profiles: TableDef<
+        BarProfileRow,
+        "user_id" | "business_name" | "contact_first_name" | "contact_last_name" | "contact_phone"
+      >;
+      product_requests: TableDef<
+        ProductRequestRow,
+        "user_id" | "kind"
+      >;
+      pro_price_history: TableDef<
+        ProPriceHistoryRow,
+        "order_id" | "new_price_agorot"
+      >;
     };
   };
 }

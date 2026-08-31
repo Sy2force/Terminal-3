@@ -14,6 +14,8 @@ import {
   Bell,
   Lock,
   Settings,
+  Store,
+  MessageSquare,
 } from "lucide-react";
 
 const LINKS = [
@@ -21,6 +23,8 @@ const LINKS = [
   { href: "/compte/profil", label: "Mon profil", icon: User },
   { href: "/compte/verification", label: "Vérification", icon: ShieldCheck },
   { href: "/compte/commandes", label: "Commandes", icon: Package },
+  { href: "/compte/bar", label: "Mon bar / pro", icon: Store },
+  { href: "/compte/demandes", label: "Mes demandes", icon: MessageSquare },
   { href: "/compte/factures", label: "Factures", icon: FileText },
   { href: "/favoris", label: "Favoris", icon: Heart },
   { href: "/compte/fidelite", label: "Fidélité", icon: Sparkles },

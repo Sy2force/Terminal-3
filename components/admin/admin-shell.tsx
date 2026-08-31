@@ -67,6 +67,8 @@ const NAV: NavGroup[] = [
     label: "Clients",
     items: [
       { href: "/admin/clients", label: "Clients inscrits", icon: Users },
+      { href: "/admin/bars", label: "Bars & pros", icon: Store },
+      { href: "/admin/product-requests", label: "Demandes produits", icon: MessageSquare },
       { href: "/admin/leads", label: "Leads", icon: UserPlus },
       { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
       { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
