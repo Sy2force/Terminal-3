@@ -21,29 +21,21 @@ export type PromotionStatus =
   | "expired"
   | "paused";
 export type OrderStatus =
-  | "submitted"
-  | "confirmed"
-  | "ready"
-  | "completed"
-  | "cancelled";
-
-/**
- * Extended lifecycle labels for the B2B flow (0043_business_b2b.sql).
- * Kept separate from `OrderStatus` so existing code that switches on the
- * legacy statuses keeps compiling. Statuses that overlap semantically map
- * as follows: `received≈submitted`, `accepted≈confirmed`, `collected≈completed`.
- */
-export type ExtendedOrderStatus =
-  | OrderStatus
   | "received"
   | "reviewing"
   | "accepted"
   | "preparing"
+  | "ready"
   | "collected"
-  | "quote_sent"
-  | "customer_approved"
-  | "rejected"
-  | "expired";
+  | "submitted"
+  | "confirmed"
+  | "completed"
+  | "cancelled";
+
+/**
+ * Legacy+extended lifecycle statuses unified in the DB by migration 0044.
+ */
+export type ExtendedOrderStatus = OrderStatus;
 
 export type OrderType = "personal" | "business";
 export type IntendedPaymentMethod = "cash" | "card" | "bit" | "other";
@@ -313,6 +305,8 @@ export type ProductVariantRow = {
   id: string;
   product_id: string;
   sku: string | null;
+  /** Scannable barcode (EAN/UPC) stored as text to preserve leading zeros. */
+  barcode?: string | null;
   label: string;
   weight_g: number | null;
   volume_ml: number | null;
@@ -413,6 +407,8 @@ export type OrderRow = {
   estimated_ready_at: string | null;
   estimated_delivery_at: string | null;
   delivered_at: string | null;
+  ready_notified_at: string | null;
+  staff_notes: string | null;
   idempotency_key: string | null;
   /** B2B / bar extensions (0043_business_b2b.sql). */
   order_type: OrderType;
@@ -1075,6 +1071,15 @@ export type StockAlertRow = {
   updated_at: string;
 };
 
+export type UserPresenceRow = {
+  id: string;
+  session_id: string;
+  user_id: string | null;
+  anonymous: boolean;
+  last_seen_at: string;
+  created_at: string;
+};
+
 export interface Database {
   public: {
     Views: Record<string, never>;
@@ -1180,6 +1185,7 @@ export interface Database {
         ProPriceHistoryRow,
         "order_id" | "new_price_agorot"
       >;
+      user_presence: TableDef<UserPresenceRow, "session_id">;
     };
   };
 }

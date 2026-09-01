@@ -58,7 +58,7 @@ export async function markIdCheckedAction(
 const setEstimateSchema = z.object({
   orderId: z.string().uuid(),
   label: z.string().min(1).max(80),
-  atIso: z.string().datetime(),
+  minutes: z.number().int().min(1).max(480),
 });
 
 export async function setReadyEstimateAction(
@@ -68,10 +68,7 @@ export async function setReadyEstimateAction(
   const parsed = setEstimateSchema.safeParse(raw);
   if (!parsed.success) return { success: false, error: "Formulaire invalide." };
 
-  const at = new Date(parsed.data.atIso);
-  if (Number.isNaN(at.getTime())) {
-    return { success: false, error: "Date invalide." };
-  }
+  const at = new Date(Date.now() + parsed.data.minutes * 60_000);
 
   const result = await setReadyEstimate(
     parsed.data.orderId,

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeWhatsAppNumber } from "@/lib/whatsapp";
 
 export async function setStoreOnline(online: boolean): Promise<void> {
   const supabase = await createClient();
@@ -59,6 +60,29 @@ export async function setLogoUrl(url: string): Promise<void> {
 
   revalidatePath("/", "layout");
   revalidatePath("/admin/store");
+}
+
+export async function saveStoreWhatsApp(raw: string): Promise<string> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("unauthenticated");
+
+  const normalized = normalizeWhatsAppNumber(raw);
+  if (raw.trim() && !normalized) throw new Error("numero_invalide");
+
+  const { error } = await supabase.from("site_settings").upsert({
+    key: "STORE_WHATSAPP",
+    value: normalized,
+    updated_by: user.id,
+  });
+
+  if (error) throw new Error("update_failed");
+
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/store");
+  return normalized ?? "";
 }
 
 export async function setSalmonGalleryImages(urls: string[]): Promise<void> {

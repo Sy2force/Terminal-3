@@ -79,6 +79,8 @@ export interface ProductVariantInput {
   id?: string;
   label: string;
   sku?: string | null;
+  /** Scannable barcode (EAN/UPC) stored as text; preserved leading zeros. */
+  barcode?: string | null;
   weight_g?: number | null;
   volume_ml?: number | null;
   abv?: number | null;
@@ -168,6 +170,7 @@ export async function createProduct(
           product_id: created.id,
           label: v.label,
           sku: v.sku ?? null,
+          barcode: v.barcode ?? null,
           weight_g: v.weight_g ?? null,
           volume_ml: v.volume_ml ?? null,
           abv: v.abv ?? null,
@@ -242,6 +245,7 @@ export async function updateProduct(
             product_id: id,
             label: v.label,
             sku: v.sku ?? null,
+            barcode: v.barcode ?? null,
             weight_g: v.weight_g ?? null,
             volume_ml: v.volume_ml ?? null,
             abv: v.abv ?? null,
@@ -336,6 +340,7 @@ export async function duplicateProduct(id: string): Promise<ProductRow> {
     originalVariants.map((v) => ({
       label: v.label,
       sku: v.sku,
+      barcode: v.barcode,
       weight_g: v.weight_g,
       volume_ml: v.volume_ml,
       abv: v.abv,

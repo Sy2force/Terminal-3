@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { notifyCustomer } from "@/lib/data/customer-notifications";
 import type {
   OrderRow,
   OrderStatus,
@@ -69,7 +70,7 @@ export async function getActiveOrdersWithDetailsForStaff(): Promise<OrderWithDet
   const { data: orders, error } = await supabase
     .from("orders")
     .select("*")
-    .in("status", ["submitted", "confirmed", "ready"])
+    .in("status", ["received", "reviewing", "accepted", "preparing", "submitted", "confirmed", "ready"])
     .order("created_at", { ascending: false });
 
   if (error || !orders || orders.length === 0) return [];
@@ -137,15 +138,25 @@ export async function updateOrderStatus(
 
   const { data: current, error: fetchError } = await supabase
     .from("orders")
-    .select("status")
+    .select("status, user_id, public_order_number, estimated_ready_at, ready_notified_at")
     .eq("id", orderId)
     .maybeSingle();
 
   if (fetchError || !current) throw new Error(fetchError?.message ?? "order_not_found");
 
+  const now = new Date().toISOString();
+  const update: Partial<OrderRow> = {
+    status,
+    updated_at: now,
+  };
+
+  if (status === "ready" && !current.ready_notified_at) {
+    update.ready_notified_at = now;
+  }
+
   const { error } = await supabase
     .from("orders")
-    .update({ status, updated_at: new Date().toISOString() })
+    .update(update)
     .eq("id", orderId);
 
   if (error) throw new Error(error.message ?? "update_order_status_failed");
@@ -159,6 +170,42 @@ export async function updateOrderStatus(
       changed_by_name: changedByName,
       comment,
     });
+  }
+
+  if (current.user_id) {
+    await maybeNotifyCustomer(current.user_id, status, current.public_order_number, current.estimated_ready_at);
+  }
+}
+
+function maybeNotifyCustomer(
+  userId: string,
+  status: OrderStatus,
+  publicOrderNumber: string | null,
+  estimatedReadyAt: string | null,
+): Promise<void> | undefined {
+  const ref = publicOrderNumber ? `Commande ${publicOrderNumber}` : "Votre commande";
+  const eta = estimatedReadyAt
+    ? ` — prête approximativement le ${new Date(estimatedReadyAt).toLocaleString("fr-FR", { timeZone: "Asia/Jerusalem" })}`
+    : "";
+
+  switch (status) {
+    case "received":
+      return notifyCustomer(userId, "order_received", `${ref} reçue`, `Nous avons bien reçu votre commande.`);
+    case "reviewing":
+      return notifyCustomer(userId, "order_reviewing", `${ref} en validation`, `Votre commande est en cours de validation.`);
+    case "accepted":
+      return notifyCustomer(userId, "order_accepted", `${ref} acceptée`, `Votre commande a été acceptée.${eta}`);
+    case "preparing":
+      return notifyCustomer(userId, "order_preparing", `${ref} en préparation`, `Votre commande est en cours de préparation.${eta}`);
+    case "ready":
+      return notifyCustomer(userId, "order_ready", `${ref} prête`, `Votre commande est prête au retrait.`);
+    case "collected":
+    case "completed":
+      return notifyCustomer(userId, "order_collected", `${ref} récupérée`, `Votre commande a été récupérée. Merci !`);
+    case "cancelled":
+      return notifyCustomer(userId, "order_cancelled", `${ref} annulée`, `Votre commande a été annulée.`);
+    default:
+      return undefined;
   }
 }
 

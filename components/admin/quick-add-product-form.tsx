@@ -88,6 +88,24 @@ export function QuickAddProductForm({ categories }: { categories: CategoryRow[] 
         </div>
 
         <div>
+          <label htmlFor="barcode" className="mb-1 block text-sm text-ivory/80">
+            Code-barres (EAN/UPC)
+          </label>
+          <input
+            id="barcode"
+            name="barcode"
+            inputMode="numeric"
+            maxLength={40}
+            className={`w-full rounded-sm border bg-obsidian px-3 py-2.5 text-sm text-ivory focus:outline-none ${
+              state && !state.ok && state.field === "barcode"
+                ? "border-bordeaux-principal"
+                : "border-white/10 focus:border-champagne"
+            }`}
+          />
+          <p className="mt-1 text-xs text-ivory/50">Optionnel. Distinct du SKU. Les zéros initiaux sont conservés.</p>
+        </div>
+
+        <div>
           <label htmlFor="price_agorot" className="mb-1 block text-sm text-ivory/80">
             Prix (agorot) *
           </label>

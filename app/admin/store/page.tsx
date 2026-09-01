@@ -5,6 +5,7 @@ import { WeeklyMessageEditor } from "@/components/admin/weekly-message-editor";
 import { SalmonGalleryEditor } from "@/components/admin/salmon-gallery-editor";
 import { DeliveryFeeEditor } from "@/components/admin/delivery-fee-editor";
 import { LogoUploader } from "@/components/admin/logo-uploader";
+import { WhatsAppEditor } from "@/components/admin/whatsapp-editor";
 
 export default async function AdminStorePage() {
   await requireAdminPermission("store.settings");
@@ -29,6 +30,14 @@ export default async function AdminStorePage() {
         </p>
 
         <StoreToggle initialOnline={online} />
+      </div>
+
+      <div className="mt-16 flex flex-col gap-3 border-t border-white/5 pt-10">
+        <h2 className="font-serif text-xl text-ivory">WhatsApp boutique</h2>
+        <p className="text-sm text-muted-grey">
+          Numéro officiel utilisé par les boutons WhatsApp du site public.
+        </p>
+        <WhatsAppEditor initial={settings.STORE_WHATSAPP} />
       </div>
 
       <div className="mt-16 flex flex-col gap-3 border-t border-white/5 pt-10">

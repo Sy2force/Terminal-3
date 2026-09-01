@@ -6,30 +6,22 @@ import type {
 } from "@/types/database";
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  received: "Commande reçue",
+  reviewing: "En cours de validation",
+  accepted: "Acceptée par la boutique",
+  preparing: "En préparation",
+  ready: "Prête",
+  collected: "Récupérée",
   submitted: "Commande envoyée",
   confirmed: "Confirmée par la boutique",
-  ready: "Prête",
   completed: "Terminée",
   cancelled: "Annulée",
 };
 
 /**
- * Extended labels aligned with the B2B and pickup-gate flow
- * (0043_business_b2b.sql). The "collected" label is what the UI shows to
- * the customer after `completed` under RLS-safe pickup-closure gates.
+ * Alias unifié (statuts hérités et étendus désormais dans le même enum).
  */
-export const EXTENDED_ORDER_STATUS_LABELS: Record<ExtendedOrderStatus, string> = {
-  ...ORDER_STATUS_LABELS,
-  received: "Commande reçue",
-  reviewing: "En cours de validation",
-  accepted: "Acceptée par la boutique",
-  preparing: "En préparation",
-  collected: "Récupérée",
-  quote_sent: "Devis envoyé",
-  customer_approved: "Client a approuvé",
-  rejected: "Refusée",
-  expired: "Expirée",
-};
+export const EXTENDED_ORDER_STATUS_LABELS: Record<ExtendedOrderStatus, string> = ORDER_STATUS_LABELS;
 
 export const FOOD_STATUS_LABELS: Record<FoodFulfillmentStatus, string> = {
   SUBMITTED: "Envoyée",

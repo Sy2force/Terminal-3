@@ -48,6 +48,7 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
       { href: "/admin/orders", label: "Nouvelles commandes", icon: ShoppingBag },
+      { href: "/admin/presence", label: "Présence en ligne", icon: Users },
     ],
   },
   {

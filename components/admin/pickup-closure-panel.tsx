@@ -69,9 +69,8 @@ export function PickupClosurePanel({
   }
 
   function applyEstimate(minutes: number, label: string) {
-    const at = new Date(Date.now() + minutes * 60_000);
     run(() =>
-      setReadyEstimateAction({ orderId, label, atIso: at.toISOString() }),
+      setReadyEstimateAction({ orderId, label, minutes }),
       `Estimation "${label}" enregistrée.`,
     );
   }

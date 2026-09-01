@@ -1,5 +1,6 @@
 import { Phone, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { normalizeWhatsAppNumber } from "@/lib/whatsapp";
 
 function buildWhatsAppMessage(params?: {
   productName?: string;
@@ -30,9 +31,10 @@ export function WhatsAppButton({
   className?: string;
   children?: React.ReactNode;
 }) {
-  if (!whatsapp) return null;
-  const digits = whatsapp.replace(/[^\d+]/g, "");
-  const href = `https://wa.me/${digits.replace(/^\+/, "")}?text=${buildWhatsAppMessage(
+  const normalized = normalizeWhatsAppNumber(whatsapp);
+  if (!normalized) return null;
+  const digits = normalized.replace(/^\+/, "");
+  const href = `https://wa.me/${digits}?text=${buildWhatsAppMessage(
     { productName, variantLabel, promoPriceLabel },
   )}`;
 

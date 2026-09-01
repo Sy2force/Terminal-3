@@ -13,6 +13,7 @@ import { getPublishedMenu } from "@/lib/data/navigation";
 import { CartProvider } from "@/lib/cart/cart-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { AdminEditModeProvider } from "@/components/admin/admin-edit-mode";
+import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
 
 const editorialSerif = Cormorant_Garamond({
   variable: "--font-editorial-serif",
@@ -74,6 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
         <CartProvider>
           <AdminEditModeProvider session={adminSession}>
+            {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
             <AnnouncementBar />
             <Navbar
               settings={settings}

@@ -14,6 +14,7 @@ const QuickAddSchema = z.object({
   brand: z.string().optional(),
   category_id: z.string().uuid(),
   sku: z.string().min(1).max(80),
+  barcode: z.string().max(40).optional(),
   price_agorot: z.coerce.number().int().min(1),
   age_restricted: z.coerce.boolean(),
   status: z.enum(["published", "draft"]),
@@ -35,6 +36,7 @@ export async function quickAddProductAction(
     brand: formData.get("brand"),
     category_id: formData.get("category_id"),
     sku: formData.get("sku"),
+    barcode: formData.get("barcode"),
     price_agorot: formData.get("price_agorot"),
     age_restricted: formData.get("age_restricted") === "on",
     status: formData.get("status"),
@@ -44,7 +46,8 @@ export async function quickAddProductAction(
     return { ok: false, error: parsed.error.issues.map((e) => e.message).join(" ; ") };
   }
 
-  const { name_fr, name_he, brand, category_id, sku, price_agorot, age_restricted, status } = parsed.data;
+  const { name_fr, name_he, brand, category_id, sku, barcode: rawBarcode, price_agorot, age_restricted, status } = parsed.data;
+  const barcode = rawBarcode ? rawBarcode.trim().replace(/\s+/g, " ") || null : null;
 
   const supabase = await createClient();
 
@@ -56,6 +59,17 @@ export async function quickAddProductAction(
 
   if (existingSku) {
     return { ok: false, error: "Ce code/SKU est déjà utilisé par un autre produit.", field: "sku" };
+  }
+
+  if (barcode) {
+    const { data: existingBarcode } = await supabase
+      .from("product_variants")
+      .select("id")
+      .eq("barcode", barcode)
+      .maybeSingle();
+    if (existingBarcode) {
+      return { ok: false, error: "Ce code-barres est déjà utilisé.", field: "barcode" };
+    }
   }
 
   const baseSlug = slugify(name_fr);
@@ -85,6 +99,7 @@ export async function quickAddProductAction(
       {
         label: "Unité",
         sku,
+        barcode,
         regular_price_agorot: price_agorot,
         is_default: true,
         status,

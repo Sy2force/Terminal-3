@@ -17,6 +17,7 @@ const SETTINGS_KEYS = [
   "STORE_NAME",
   "STORE_PHONE",
   "STORE_WHATSAPP",
+  "PRESENCE_TRACKING_ENABLED",
   "STORE_ADDRESS",
   "STORE_LATITUDE",
   "STORE_LONGITUDE",
@@ -33,6 +34,7 @@ export interface SalmonGalleryImage {
 }
 
 export interface SiteSettings extends BusinessConfig {
+  PRESENCE_TRACKING_ENABLED: boolean;
   CLUB_WELCOME_DISCOUNT_PERCENT: number;
   /** Short promotional line, edited weekly by the owner via /admin/store. */
   WEEKLY_PROMO_MESSAGE: string | null;
@@ -51,6 +53,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   if (isDemoMode()) {
     return {
       ...DEFAULT_BUSINESS_CONFIG,
+      PRESENCE_TRACKING_ENABLED: true,
       CLUB_WELCOME_DISCOUNT_PERCENT: 20,
       WEEKLY_PROMO_MESSAGE: null,
       SALMON_GALLERY_IMAGES: [],
@@ -76,6 +79,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       "ANNOUNCEMENT_TEXT",
     ]);
 
+
   const overrides: Record<string, unknown> = {};
   if (!error && data) {
     for (const row of data) {
@@ -89,6 +93,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     OPENING_HOURS:
       (overrides.OPENING_HOURS as OpeningHoursEntry[] | undefined) ??
       DEFAULT_BUSINESS_CONFIG.OPENING_HOURS,
+    PRESENCE_TRACKING_ENABLED:
+      (overrides.PRESENCE_TRACKING_ENABLED as boolean | undefined) ?? true,
     CLUB_WELCOME_DISCOUNT_PERCENT:
       (overrides.CLUB_WELCOME_DISCOUNT_PERCENT as number | undefined) ?? 20,
     WEEKLY_PROMO_MESSAGE:
