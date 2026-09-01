@@ -1,77 +1,11 @@
-"use client";
-
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@/lib/supabase/client";
-import { logAdminLogin } from "@/app/admin/login/actions";
-import { Eye, EyeOff } from "lucide-react";
-
-const REMEMBER_EMAIL_KEY = "terminal3.admin.email";
+import { loginWithAdminPassword } from "./actions";
 
 export interface LoginFormProps {
   initialError: string | null;
 }
 
 export function LoginForm({ initialError }: LoginFormProps) {
-  const router = useRouter();
-  const [email, setEmail] = useState(() =>
-    typeof window !== "undefined" ? window.localStorage.getItem(REMEMBER_EMAIL_KEY) ?? "" : "",
-  );
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(
-    () => typeof window !== "undefined" ? window.localStorage.getItem(REMEMBER_EMAIL_KEY) !== null : false,
-  );
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(initialError);
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setLoading(true);
-      setError(null);
-
-        if (!email.trim() || !password.trim()) {
-        setError("Saisissez votre adresse email et votre mot de passe.");
-        setLoading(false);
-        return;
-      }
-
-      const supabase = createClient();
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
-
-      setLoading(false);
-
-      if (signInError || !data.user) {
-        // Generic message: never reveal whether an account exists.
-        setError("Email ou mot de passe incorrect.");
-        return;
-      }
-
-      if (typeof window !== "undefined") {
-        if (remember) {
-          window.localStorage.setItem(REMEMBER_EMAIL_KEY, email.trim());
-        } else {
-          window.localStorage.removeItem(REMEMBER_EMAIL_KEY);
-        }
-      }
-
-      try {
-        await logAdminLogin();
-      } catch {
-        // Audit log failure must not block the login.
-      }
-      router.push("/admin");
-      router.refresh();
-    },
-    [email, password, remember, router],
-  );
-
   return (
     <main className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[#151411] px-4">
       <div className="pointer-events-none absolute inset-0 opacity-60">
@@ -88,8 +22,8 @@ export function LoginForm({ initialError }: LoginFormProps) {
                 src="/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png"
                 alt="Terminal 3"
                 fill
-                unoptimized
                 priority
+                sizes="(max-width: 420px) 40vw, 170px"
                 className="object-contain"
               />
             </div>
@@ -98,82 +32,37 @@ export function LoginForm({ initialError }: LoginFormProps) {
               Administration Terminal 3
             </h1>
             <p className="mt-2 text-center text-sm text-[#71695F]">
-              Connectez-vous pour gérer la boutique
+              Saisissez le mot de passe pour accéder à l&apos;espace administrateur
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
+          <form action={loginWithAdminPassword} className="mt-8 flex flex-col gap-4">
             <label className="flex flex-col gap-2 text-sm text-[#F7F0E4]/80">
-              Email
+              Mot de passe
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
-                placeholder="vous@exemple.com"
+                type="password"
+                name="password"
+                required
+                minLength={1}
+                className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
+                placeholder="••••••"
+                autoComplete="current-password"
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-sm text-[#F7F0E4]/80">
-              Mot de passe
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 pr-11 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
-                  placeholder="••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#71695F] hover:text-[#C6A15B]"
-                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-            </label>
-
-            <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-              <label className="flex items-center gap-2 text-[#F7F0E4]/80">
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                  className="h-4 w-4 rounded border-white/10 bg-[#2C2924] text-[#C6A15B] focus:ring-[#C6A15B]"
-                />
-                Se souvenir de moi
-              </label>
-              <Link
-                href="/mot-de-passe-oublie?redirect=/admin"
-                className="text-[#C6A15B] hover:underline"
-              >
-                Mot de passe oublié ?
-              </Link>
-            </div>
-
-            {error && (
+            {initialError && (
               <p role="alert" className="rounded-sm bg-[#9B3444]/10 px-3 py-2 text-sm text-[#9B3444]">
-                {error}
+                {initialError}
               </p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
-              className="mt-2 w-full rounded-sm bg-[#C6A15B] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#151411] transition-all hover:bg-[#D9B87A] active:scale-[0.98] disabled:opacity-50"
+              className="mt-2 w-full rounded-sm bg-[#C6A15B] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#151411] transition-all hover:bg-[#D9B87A] active:scale-[0.98]"
             >
-              {loading ? "Connexion..." : "Se connecter"}
+              Se connecter
             </button>
           </form>
-
-          <Link
-            href="/"
-            className="mt-6 block text-center text-xs text-[#71695F] hover:text-[#C6A15B]"
-          >
-            Retour à la boutique
-          </Link>
         </div>
       </div>
     </main>

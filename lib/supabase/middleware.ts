@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { verifyAdminCookie } from "@/lib/admin/admin-cookie";
 
 const PROTECTED_PREFIXES = ["/account", "/compte", "/checkout", "/admin"];
 
@@ -49,6 +50,15 @@ export async function updateSession(request: NextRequest) {
 
   if (isProtected && !isAdminLogin && !user) {
     const isAdmin = pathname.startsWith("/admin");
+
+    if (isAdmin) {
+      const adminCookie = request.cookies.get("admin_session")?.value;
+      const adminSession = await verifyAdminCookie(adminCookie, process.env.ADMIN_SESSION_SECRET);
+      if (adminSession) {
+        return response;
+      }
+    }
+
     const redirectUrl = new URL(isAdmin ? "/admin/login" : "/login", request.url);
     if (!isAdmin) {
       redirectUrl.searchParams.set("redirect", pathname);
