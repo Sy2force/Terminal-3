@@ -324,6 +324,8 @@ export type ProductVariantRow = {
   pricing_unit: PricingUnit | null;
   /** e.g. "GLASS", "CAN", "VACUUM", "BULK", "PLASTIC" — null for wine/spirits/charcuterie. */
   packaging: string | null;
+  wolt_enabled?: boolean;
+  wolt_url?: string | null;
 }
 
 export type ProductMediaRow = {

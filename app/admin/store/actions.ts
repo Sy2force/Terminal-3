@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { normalizeWhatsAppNumber } from "@/lib/whatsapp";
+import { isValidWoltUrl } from "@/lib/wolt";
 
 export async function setStoreOnline(online: boolean): Promise<void> {
   const supabase = await createClient();
@@ -57,6 +58,41 @@ export async function setLogoUrl(url: string): Promise<void> {
   });
 
   if (error) throw new Error("update_failed");
+
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/store");
+}
+
+export async function saveWoltSettings({
+  enabled,
+  storeUrl,
+}: {
+  enabled: boolean;
+  storeUrl: string | null;
+}): Promise<void> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("unauthenticated");
+
+  if (storeUrl && !isValidWoltUrl(storeUrl)) {
+    throw new Error("wolt_url_invalide");
+  }
+
+  const { error: enabledError } = await supabase.from("site_settings").upsert({
+    key: "WOLT_ENABLED",
+    value: enabled,
+    updated_by: user.id,
+  });
+
+  const { error: urlError } = await supabase.from("site_settings").upsert({
+    key: "WOLT_STORE_URL",
+    value: storeUrl,
+    updated_by: user.id,
+  });
+
+  if (enabledError || urlError) throw new Error("update_failed");
 
   revalidatePath("/", "layout");
   revalidatePath("/admin/store");

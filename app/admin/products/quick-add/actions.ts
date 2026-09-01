@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { createProduct } from "@/lib/data/products";
 import { slugify } from "@/lib/classification/parser";
+import { isValidWoltUrl } from "@/lib/wolt";
 
 const QuickAddSchema = z.object({
   name_fr: z.string().min(1).max(120),
@@ -15,6 +16,7 @@ const QuickAddSchema = z.object({
   category_id: z.string().uuid(),
   sku: z.string().min(1).max(80),
   barcode: z.string().max(40).optional(),
+  wolt_url: z.string().max(2000).optional(),
   price_agorot: z.coerce.number().int().min(1),
   age_restricted: z.coerce.boolean(),
   status: z.enum(["published", "draft"]),
@@ -30,6 +32,9 @@ export async function quickAddProductAction(
 ): Promise<QuickAddFormState> {
   await requireAdminPermission("catalog.products");
 
+  const woltEnabled = formData.get("wolt_enabled") === "on";
+  const woltUrlRaw = String(formData.get("wolt_url") ?? "").trim();
+
   const parsed = QuickAddSchema.safeParse({
     name_fr: formData.get("name_fr"),
     name_he: formData.get("name_he"),
@@ -37,6 +42,7 @@ export async function quickAddProductAction(
     category_id: formData.get("category_id"),
     sku: formData.get("sku"),
     barcode: formData.get("barcode"),
+    wolt_url: woltEnabled ? woltUrlRaw : undefined,
     price_agorot: formData.get("price_agorot"),
     age_restricted: formData.get("age_restricted") === "on",
     status: formData.get("status"),
@@ -46,8 +52,13 @@ export async function quickAddProductAction(
     return { ok: false, error: parsed.error.issues.map((e) => e.message).join(" ; ") };
   }
 
-  const { name_fr, name_he, brand, category_id, sku, barcode: rawBarcode, price_agorot, age_restricted, status } = parsed.data;
+  const { name_fr, name_he, brand, category_id, sku, barcode: rawBarcode, wolt_url: rawWoltUrl, price_agorot, age_restricted, status } = parsed.data;
   const barcode = rawBarcode ? rawBarcode.trim().replace(/\s+/g, " ") || null : null;
+
+  if (woltEnabled && rawWoltUrl && !isValidWoltUrl(rawWoltUrl)) {
+    return { ok: false, error: "Le lien Wolt n’est pas valide.", field: "wolt_url" };
+  }
+  const woltUrl = woltEnabled ? (rawWoltUrl ? rawWoltUrl.trim() : null) : null;
 
   const supabase = await createClient();
 
@@ -100,6 +111,8 @@ export async function quickAddProductAction(
         label: "Unité",
         sku,
         barcode,
+        wolt_enabled: woltEnabled && !!woltUrl,
+        wolt_url: woltUrl,
         regular_price_agorot: price_agorot,
         is_default: true,
         status,

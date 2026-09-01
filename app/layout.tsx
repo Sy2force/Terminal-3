@@ -14,6 +14,7 @@ import { CartProvider } from "@/lib/cart/cart-context";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { AdminEditModeProvider } from "@/components/admin/admin-edit-mode";
 import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
+import { WoltSettingsProvider } from "@/components/commerce/wolt-settings-provider";
 
 const editorialSerif = Cormorant_Garamond({
   variable: "--font-editorial-serif",
@@ -75,18 +76,20 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
         <CartProvider>
           <AdminEditModeProvider session={adminSession}>
-            {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
-            <AnnouncementBar />
-            <Navbar
-              settings={settings}
-              user={user}
-              isAdmin={!!adminSession}
-              mainMenu={mainMenu}
-            />
-            <main className="flex-1 pb-16 md:pb-0">{children}</main>
-            <Footer settings={settings} footerMenu={footerMenu} />
-            <ScrollToTop />
-            <BottomNav isAdmin={!!adminSession} />
+            <WoltSettingsProvider enabled={settings.WOLT_ENABLED} storeUrl={settings.WOLT_STORE_URL}>
+              {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
+              <AnnouncementBar />
+              <Navbar
+                settings={settings}
+                user={user}
+                isAdmin={!!adminSession}
+                mainMenu={mainMenu}
+              />
+              <main className="flex-1 pb-16 md:pb-0">{children}</main>
+              <Footer settings={settings} footerMenu={footerMenu} />
+              <ScrollToTop />
+              <BottomNav isAdmin={!!adminSession} />
+            </WoltSettingsProvider>
           </AdminEditModeProvider>
         </CartProvider>
       </body>

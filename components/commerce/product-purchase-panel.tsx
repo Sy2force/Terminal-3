@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { AddToCartButton } from "@/components/commerce/add-to-cart-button";
+import { WoltButton, WoltDisclaimer } from "@/components/commerce/wolt-button";
+import { useWoltSettings } from "@/components/commerce/wolt-settings-provider";
 import { formatAgorot } from "@/lib/money";
 import type { ProductVariantRow } from "@/types/database";
 
@@ -26,6 +28,7 @@ export function ProductPurchasePanel({
     () => variants.find((v) => v.is_default)?.id ?? variants[0]?.id,
   );
   const selected = variants.find((v) => v.id === selectedId) ?? variants[0];
+  const { enabled: woltEnabled, storeUrl } = useWoltSettings();
 
   if (!selected) {
     return (
@@ -75,6 +78,16 @@ export function ProductPurchasePanel({
         ageRestricted={ageRestricted}
         storeOnline={storeOnline && selected.regular_price_agorot != null}
       />
+
+      {woltEnabled && (selected.wolt_url || storeUrl) && (
+        <div className="space-y-1.5">
+          <WoltButton
+            url={selected.wolt_url}
+            storeUrl={storeUrl}
+          />
+          <WoltDisclaimer />
+        </div>
+      )}
     </div>
   );
 }

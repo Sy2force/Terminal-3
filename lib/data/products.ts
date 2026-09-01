@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeWoltUrl } from "@/lib/wolt";
 import type {
   ProductRow,
   ProductVariantRow,
@@ -93,6 +94,9 @@ export interface ProductVariantInput {
   status?: ProductStatus;
   pricing_unit?: "FIXED" | "PACKAGE" | "PER_100G" | "PER_KG" | "FROM" | null;
   packaging?: string | null;
+  /** Direct Wolt deep link for this variant / format. */
+  wolt_url?: string | null;
+  wolt_enabled?: boolean;
 }
 
 export interface ProductMediaInput {
@@ -166,25 +170,34 @@ export async function createProduct(
     const { error: variantsError } = await supabase
       .from("product_variants")
       .insert(
-        variants.map((v, index) => ({
-          product_id: created.id,
-          label: v.label,
-          sku: v.sku ?? null,
-          barcode: v.barcode ?? null,
-          weight_g: v.weight_g ?? null,
-          volume_ml: v.volume_ml ?? null,
-          abv: v.abv ?? null,
-          vintage: v.vintage ?? null,
-          regular_price_agorot: v.regular_price_agorot ?? null,
-          is_default: v.is_default ?? index === 0,
-          limited_stock: v.limited_stock ?? false,
-          availability_status: v.availability_status ?? "IN_STOCK",
-          display_order: v.display_order ?? index,
-          status: v.status ?? "published",
-          pricing_unit: v.pricing_unit ?? null,
-          packaging: v.packaging ?? null,
-          updated_at: now,
-        })),
+        variants.map((v, index) => {
+          const woltUrl = normalizeWoltUrl(v.wolt_url ?? "");
+          const wantsWolt = v.wolt_enabled && Boolean(v.wolt_url);
+          if (wantsWolt && !woltUrl) {
+            throw new Error(`wolt_url_invalide:${index}`);
+          }
+          return {
+            product_id: created.id,
+            label: v.label,
+            sku: v.sku ?? null,
+            barcode: v.barcode ?? null,
+            weight_g: v.weight_g ?? null,
+            volume_ml: v.volume_ml ?? null,
+            abv: v.abv ?? null,
+            vintage: v.vintage ?? null,
+            regular_price_agorot: v.regular_price_agorot ?? null,
+            is_default: v.is_default ?? index === 0,
+            limited_stock: v.limited_stock ?? false,
+            availability_status: v.availability_status ?? "IN_STOCK",
+            display_order: v.display_order ?? index,
+            status: v.status ?? "published",
+            pricing_unit: v.pricing_unit ?? null,
+            packaging: v.packaging ?? null,
+            wolt_enabled: wantsWolt && !!woltUrl,
+            wolt_url: woltUrl,
+            updated_at: now,
+          };
+        }),
       );
 
     if (variantsError) {
@@ -241,25 +254,34 @@ export async function updateProduct(
       const { error: variantsError } = await supabase
         .from("product_variants")
         .insert(
-          variants.map((v, index) => ({
-            product_id: id,
-            label: v.label,
-            sku: v.sku ?? null,
-            barcode: v.barcode ?? null,
-            weight_g: v.weight_g ?? null,
-            volume_ml: v.volume_ml ?? null,
-            abv: v.abv ?? null,
-            vintage: v.vintage ?? null,
-            regular_price_agorot: v.regular_price_agorot ?? null,
-            is_default: v.is_default ?? index === 0,
-            limited_stock: v.limited_stock ?? false,
-            availability_status: v.availability_status ?? "IN_STOCK",
-            display_order: v.display_order ?? index,
-            status: v.status ?? "published",
-            pricing_unit: v.pricing_unit ?? null,
-            packaging: v.packaging ?? null,
-            updated_at: now,
-          })),
+          variants.map((v, index) => {
+            const woltUrl = normalizeWoltUrl(v.wolt_url ?? "");
+            const wantsWolt = v.wolt_enabled && Boolean(v.wolt_url);
+            if (wantsWolt && !woltUrl) {
+              throw new Error(`wolt_url_invalide:${index}`);
+            }
+            return {
+              product_id: id,
+              label: v.label,
+              sku: v.sku ?? null,
+              barcode: v.barcode ?? null,
+              weight_g: v.weight_g ?? null,
+              volume_ml: v.volume_ml ?? null,
+              abv: v.abv ?? null,
+              vintage: v.vintage ?? null,
+              regular_price_agorot: v.regular_price_agorot ?? null,
+              is_default: v.is_default ?? index === 0,
+              limited_stock: v.limited_stock ?? false,
+              availability_status: v.availability_status ?? "IN_STOCK",
+              display_order: v.display_order ?? index,
+              status: v.status ?? "published",
+              pricing_unit: v.pricing_unit ?? null,
+              packaging: v.packaging ?? null,
+              wolt_enabled: wantsWolt && !!woltUrl,
+              wolt_url: woltUrl,
+              updated_at: now,
+            };
+          }),
         );
 
       if (variantsError) {
@@ -353,6 +375,9 @@ export async function duplicateProduct(id: string): Promise<ProductRow> {
       status: v.status,
       pricing_unit: v.pricing_unit,
       packaging: v.packaging,
+      // Do not copy the Wolt link to the duplicated product: admin must set it.
+      wolt_enabled: false,
+      wolt_url: null,
     })),
     originalMedia.map((m) => ({
       url: m.url,

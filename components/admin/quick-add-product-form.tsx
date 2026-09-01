@@ -1,11 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { quickAddProductAction } from "@/app/admin/products/quick-add/actions";
+import { isValidWoltUrl } from "@/lib/wolt";
 import type { CategoryRow } from "@/types/database";
 
 export function QuickAddProductForm({ categories }: { categories: CategoryRow[] }) {
   const [state, submit, isPending] = useActionState(quickAddProductAction, null);
+  const [woltUrl, setWoltUrl] = useState("");
+  const [woltEnabled, setWoltEnabled] = useState(false);
 
   return (
     <form action={submit} className="space-y-5 rounded-sm border border-white/5 bg-graphite p-6">
@@ -118,6 +121,49 @@ export function QuickAddProductForm({ categories }: { categories: CategoryRow[] 
             className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
           />
           <p className="mt-1 text-xs text-ivory/50">1 ₪ = 100 agorot. Ex: 9900 pour 99 ₪.</p>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label className="mb-2 flex items-center gap-2 text-sm text-ivory/80">
+            <input
+              type="checkbox"
+              name="wolt_enabled"
+              checked={woltEnabled}
+              onChange={(e) => setWoltEnabled(e.target.checked)}
+              className="h-4 w-4 accent-champagne"
+            />
+            Afficher le bouton Wolt
+          </label>
+          <div className="flex gap-2">
+            <input
+              id="wolt_url"
+              name="wolt_url"
+              type="url"
+              value={woltUrl}
+              onChange={(e) => setWoltUrl(e.target.value)}
+              disabled={!woltEnabled}
+              placeholder="https://wolt.com/en/isr/product/..."
+              className={`w-full rounded-sm border bg-obsidian px-3 py-2.5 text-sm text-ivory focus:outline-none disabled:opacity-40 ${
+                state && !state.ok && state.field === "wolt_url"
+                  ? "border-bordeaux-principal"
+                  : "border-white/10 focus:border-champagne"
+              }`}
+            />
+            <a
+              href={isValidWoltUrl(woltUrl) ? woltUrl : "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                if (!isValidWoltUrl(woltUrl)) e.preventDefault();
+              }}
+              className={`whitespace-nowrap rounded-sm px-3 py-2 text-xs ${isValidWoltUrl(woltUrl) ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-ivory/40"}`}
+            >
+              Tester
+            </a>
+          </div>
+          <p className="mt-1 text-xs text-ivory/50">
+            URL directe vers cette bouteille / ce format sur Wolt.
+          </p>
         </div>
       </div>
 

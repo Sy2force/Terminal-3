@@ -18,6 +18,8 @@ const SETTINGS_KEYS = [
   "STORE_PHONE",
   "STORE_WHATSAPP",
   "PRESENCE_TRACKING_ENABLED",
+  "WOLT_ENABLED",
+  "WOLT_STORE_URL",
   "STORE_ADDRESS",
   "STORE_LATITUDE",
   "STORE_LONGITUDE",
@@ -35,6 +37,8 @@ export interface SalmonGalleryImage {
 
 export interface SiteSettings extends BusinessConfig {
   PRESENCE_TRACKING_ENABLED: boolean;
+  WOLT_ENABLED: boolean;
+  WOLT_STORE_URL: string | null;
   CLUB_WELCOME_DISCOUNT_PERCENT: number;
   /** Short promotional line, edited weekly by the owner via /admin/store. */
   WEEKLY_PROMO_MESSAGE: string | null;
@@ -54,6 +58,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return {
       ...DEFAULT_BUSINESS_CONFIG,
       PRESENCE_TRACKING_ENABLED: true,
+      WOLT_ENABLED: false,
+      WOLT_STORE_URL: null,
       CLUB_WELCOME_DISCOUNT_PERCENT: 20,
       WEEKLY_PROMO_MESSAGE: null,
       SALMON_GALLERY_IMAGES: [],
@@ -80,6 +86,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     ]);
 
 
+
   const overrides: Record<string, unknown> = {};
   if (!error && data) {
     for (const row of data) {
@@ -95,6 +102,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       DEFAULT_BUSINESS_CONFIG.OPENING_HOURS,
     PRESENCE_TRACKING_ENABLED:
       (overrides.PRESENCE_TRACKING_ENABLED as boolean | undefined) ?? true,
+    WOLT_ENABLED:
+      (overrides.WOLT_ENABLED as boolean | undefined) ?? false,
+    WOLT_STORE_URL:
+      (overrides.WOLT_STORE_URL as string | undefined) ?? null,
     CLUB_WELCOME_DISCOUNT_PERCENT:
       (overrides.CLUB_WELCOME_DISCOUNT_PERCENT as number | undefined) ?? 20,
     WEEKLY_PROMO_MESSAGE:

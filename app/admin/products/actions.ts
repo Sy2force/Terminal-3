@@ -101,6 +101,8 @@ const variantSchema = z.object({
   status: z.enum(["draft", "published", "archived"]).default("published"),
   pricing_unit: z.enum(["FIXED", "PACKAGE", "PER_100G", "PER_KG", "FROM"]).nullable().optional(),
   packaging: z.string().max(100).nullable().optional(),
+  wolt_enabled: z.boolean().default(false),
+  wolt_url: z.string().url().max(2000).nullable().optional(),
 });
 
 const mediaSchema = z.object({

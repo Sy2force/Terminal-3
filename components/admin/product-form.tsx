@@ -10,6 +10,7 @@ import {
 } from "@/app/admin/products/actions";
 import { ImageUploader } from "@/components/admin/image-uploader";
 import { formatAgorot } from "@/lib/money";
+import { isValidWoltUrl } from "@/lib/wolt";
 import type {
   CategoryRow,
   ProductRow,
@@ -146,6 +147,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       variants: variants.map((v, index) => ({
         label: v.label || `Variante ${index + 1}`,
         sku: v.sku ?? null,
+        barcode: v.barcode ?? null,
         weight_g: v.weight_g ?? null,
         volume_ml: v.volume_ml ?? null,
         abv: v.abv ?? null,
@@ -158,6 +160,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         status: v.status ?? "published",
         pricing_unit: v.pricing_unit ?? null,
         packaging: v.packaging ?? null,
+        wolt_enabled: v.wolt_enabled ?? false,
+        wolt_url: v.wolt_url ?? null,
       })),
       media: media.map((m, index) => ({
         url: m.url || "",
@@ -731,6 +735,7 @@ function VariantEditor({
         <div key={i} className="grid gap-3 rounded-sm border border-white/5 p-3 sm:grid-cols-7">
           <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label (ex: 200g, Entier)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <input value={v.sku ?? ""} onChange={(e) => update(i, { sku: e.target.value })} placeholder="SKU" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
+          <input value={v.barcode ?? ""} onChange={(e) => update(i, { barcode: e.target.value })} placeholder="Code-barres" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <input type="number" value={v.weight_g ?? ""} onChange={(e) => update(i, { weight_g: e.target.value ? Number(e.target.value) : null })} placeholder="Poids (g)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <input type="number" value={v.regular_price_agorot ?? ""} onChange={(e) => update(i, { regular_price_agorot: e.target.value ? Number(e.target.value) : null })} placeholder="Prix (agorot)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
           <select
@@ -764,6 +769,41 @@ function VariantEditor({
             <button type="button" onClick={() => remove(i)} className="ml-auto text-xs text-amber-400 hover:text-amber-300">
               Supprimer
             </button>
+          </div>
+
+          <div className="col-span-full grid gap-3 border-t border-white/5 pt-3 sm:grid-cols-12">
+            <label className="flex items-center gap-2 text-sm text-ivory/80 sm:col-span-3">
+              <input
+                type="checkbox"
+                checked={!!v.wolt_enabled}
+                onChange={(e) => update(i, { wolt_enabled: e.target.checked })}
+                className="accent-champagne"
+              />
+              Afficher le bouton Wolt
+            </label>
+            <input
+              value={v.wolt_url ?? ""}
+              onChange={(e) => update(i, { wolt_url: e.target.value })}
+              placeholder="https://wolt.com/en/isr/product/..."
+              disabled={!v.wolt_enabled}
+              className="sm:col-span-6 rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory disabled:opacity-40"
+            />
+            <a
+              href={isValidWoltUrl(v.wolt_url ?? "") ? v.wolt_url! : "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                if (!isValidWoltUrl(v.wolt_url ?? "")) e.preventDefault();
+              }}
+              className={`sm:col-span-3 rounded-sm px-3 py-2 text-center text-xs ${isValidWoltUrl(v.wolt_url ?? "") ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-ivory/40"}`}
+            >
+              Tester le lien
+            </a>
+            {v.wolt_enabled && v.wolt_url && !isValidWoltUrl(v.wolt_url) && (
+              <p className="col-span-full text-xs text-amber-400">
+                Lien invalide. Utilisez une URL https://wolt.com ou https://wolt.co.il.
+              </p>
+            )}
           </div>
         </div>
       ))}

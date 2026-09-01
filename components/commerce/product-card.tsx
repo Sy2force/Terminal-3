@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/commerce/badge";
 import { FavoriteButton } from "@/components/commerce/favorite-button";
+import { WoltButton, WoltDisclaimer } from "@/components/commerce/wolt-button";
+import { useWoltSettings } from "@/components/commerce/wolt-settings-provider";
 import { formatAgorot } from "@/lib/money";
 import { getMediaFit } from "@/lib/catalog-visual-config";
 import type { ProductWithMedia } from "@/lib/data/catalog";
@@ -19,6 +23,7 @@ export function ProductCard({
   product: ProductWithMedia;
   isFavorited?: boolean;
 }) {
+  const { enabled: woltEnabled, storeUrl } = useWoltSettings();
   const cover = product.media?.[0];
   const defaultVariant =
     product.variants?.find((v) => v.is_default) ?? product.variants?.[0];
@@ -27,12 +32,12 @@ export function ProductCard({
   const hasCover = Boolean(cover?.url);
 
   return (
-    <Link
-      href={`/products/${product.slug}`}
-      data-analytics-event="view_product"
-      className="group flex flex-col overflow-hidden rounded-sm border border-white/5 bg-graphite transition-colors hover:border-champagne/30"
-    >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-warm-black">
+    <article className="group flex flex-col overflow-hidden rounded-sm border border-white/5 bg-graphite transition-colors hover:border-champagne/30">
+      <Link
+        href={`/products/${product.slug}`}
+        data-analytics-event="view_product"
+        className="relative aspect-[4/5] w-full overflow-hidden bg-warm-black"
+      >
         {hasCover && cover ? (
           <Image
             src={cover.url}
@@ -62,7 +67,7 @@ export function ProductCard({
           initialFavorited={isFavorited}
           className="absolute right-3 top-3"
         />
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col gap-1 p-4">
         {product.brand && (
@@ -71,7 +76,12 @@ export function ProductCard({
           </span>
         )}
         <h3 className="font-serif text-base leading-snug text-ivory">
-          {name}
+          <Link
+            href={`/products/${product.slug}`}
+            className="hover:text-champagne focus:outline-none focus-visible:underline"
+          >
+            {name}
+          </Link>
         </h3>
         <div className="mt-auto flex items-center justify-between pt-3">
           <span className="text-sm font-medium text-champagne">
@@ -85,7 +95,17 @@ export function ProductCard({
             </span>
           )}
         </div>
+
+        {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
+          <div className="mt-3 space-y-1.5">
+            <WoltButton
+              url={defaultVariant.wolt_url}
+              storeUrl={storeUrl}
+            />
+            <WoltDisclaimer />
+          </div>
+        )}
       </div>
-    </Link>
+    </article>
   );
 }

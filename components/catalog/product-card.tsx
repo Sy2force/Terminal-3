@@ -8,6 +8,8 @@ import { Heart, Star, ShoppingBag, Check } from "lucide-react";
 import { useCart } from "@/lib/cart/cart-context";
 import { toggleFavorite } from "@/app/favorites/actions";
 import { formatAgorot, formatUnitPrice, savingPercent } from "@/lib/money";
+import { WoltButton, WoltDisclaimer } from "@/components/commerce/wolt-button";
+import { useWoltSettings } from "@/components/commerce/wolt-settings-provider";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 
 function isNew(product: ProductWithMedia): boolean {
@@ -47,6 +49,7 @@ export function ProductCard({
 }) {
   const router = useRouter();
   const { addItem, lines } = useCart();
+  const { enabled: woltEnabled, storeUrl } = useWoltSettings();
   const [favorited, setFavorited] = useState(initialFavorited);
   const [isFavPending, startFavTransition] = useTransition();
   const [added, setAdded] = useState(false);
@@ -251,6 +254,18 @@ export function ProductCard({
               )}
             </button>
           </div>
+
+          {woltEnabled && (
+            <div className="space-y-1.5 pt-1">
+              <WoltButton
+                url={defaultVariant?.wolt_url}
+                storeUrl={storeUrl}
+              />
+              {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
+                <WoltDisclaimer />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
