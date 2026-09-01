@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, Search, ChevronDown, Shield, Pencil } from "lucide-react";
+import { Heart, Search, ChevronDown, Pencil } from "lucide-react";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { Logo } from "@/components/brand/logo";
 import { CartBadge } from "@/components/commerce/cart-badge";
@@ -15,17 +15,17 @@ import type { NavMenu } from "@/lib/data/navigation";
 
 const FALLBACK_PRIMARY = [
   { href: "/", label: "Accueil", target: "_self" as const },
-  { href: "/vins", label: "Vins", target: "_self" as const },
-  { href: "/spiritueux", label: "Spiritueux", target: "_self" as const },
-  { href: "/charcuterie", label: "Charcuterie", target: "_self" as const },
-  { href: "/poissons", label: "Poissons", target: "_self" as const },
-  { href: "/plateaux", label: "Plateux", target: "_self" as const },
-  { href: "/evenements", label: "Mariages & Fêtes", target: "_self" as const },
+  { href: "/vins", label: "Boutique", target: "_self" as const },
   { href: "/nouveautes", label: "Nouveautés", target: "_self" as const },
   { href: "/promotions", label: "Promotions", target: "_self" as const },
 ];
 
 const FALLBACK_MORE = [
+  { href: "/spiritueux", label: "Spiritueux", target: "_self" as const },
+  { href: "/charcuterie", label: "Charcuterie", target: "_self" as const },
+  { href: "/poissons", label: "Poissons", target: "_self" as const },
+  { href: "/plateaux", label: "Plateaux", target: "_self" as const },
+  { href: "/evenements", label: "Mariages & Fêtes", target: "_self" as const },
   { href: "/inspirations", label: "Inspirations", target: "_self" as const },
   { href: "/club", label: "Club", target: "_self" as const },
 ];
@@ -76,10 +76,10 @@ export function Navbar({
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center justify-center gap-0.5 lg:flex pl-20"
+          className="hidden items-center justify-center gap-0.5 lg:flex"
         >
-          {(toNavLinks(mainMenu).slice(0, 9).length > 0
-            ? toNavLinks(mainMenu).slice(0, 9)
+          {(toNavLinks(mainMenu).slice(0, 4).length > 0
+            ? toNavLinks(mainMenu).slice(0, 4)
             : FALLBACK_PRIMARY
           ).map((link) => (
             <NavLink
@@ -91,8 +91,8 @@ export function Navbar({
           ))}
 
           {(() => {
-            const more = toNavLinks(mainMenu).slice(9).length > 0
-              ? toNavLinks(mainMenu).slice(9)
+            const more = toNavLinks(mainMenu).slice(4).length > 0
+              ? toNavLinks(mainMenu).slice(4)
               : FALLBACK_MORE;
             if (more.length === 0) return null;
             return (
@@ -152,13 +152,6 @@ export function Navbar({
             <Heart className="h-5 w-5" aria-hidden />
           </Link>
           <CartBadge />
-          <Link
-            href="/admin/login"
-            className="hidden items-center gap-1.5 rounded-[10px] border border-or-principal/80 bg-transparent px-3 py-2 text-[13px] font-semibold text-texte-clair transition-all hover:border-or-principal hover:bg-or-principal/10 hover:text-or-principal lg:inline-flex"
-          >
-            <Shield className="h-4 w-4" aria-hidden />
-            <span>Admin</span>
-          </Link>
           {canEdit && (
             <button
               type="button"

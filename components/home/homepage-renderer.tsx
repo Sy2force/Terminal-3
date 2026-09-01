@@ -8,20 +8,15 @@ import type { ContentPostRow } from "@/types/database";
 import { LuxuryHeroSection } from "@/components/home/luxury-hero-section";
 import { NotreUniversSection } from "@/components/home/notre-univers-section";
 import { SelectionCavisteSection } from "@/components/home/selection-caviste-section";
-import { TestimonialsSection } from "@/components/home/testimonials-section";
-import { NewArrivalsCarousel } from "@/components/home/new-arrivals-carousel";
-import { BestSellersSection } from "@/components/home/best-sellers-section";
 import { PromotionsLuxurySection } from "@/components/home/promotions-luxury-section";
 import { PlattersSection } from "@/components/home/platters-section";
 import { StorePresentationSection } from "@/components/home/store-presentation-section";
-import { NewsletterSection } from "@/components/home/newsletter-section";
 import { CellarDescentSection } from "@/components/home/cellar-descent";
 import { TodaySection } from "@/components/home/today-section";
 import { FeaturedCategorySection } from "@/components/home/featured-category-section";
 import { SalmonGallerySection } from "@/components/home/salmon-gallery-section";
 import { InspirationSection } from "@/components/home/inspiration-section";
 import { ClubSection } from "@/components/home/club-section";
-import { PromoMarquee } from "@/components/promotions/promo-marquee";
 
 interface HomepageRendererProps {
   sections: HomepageSectionRow[];
@@ -83,16 +78,11 @@ export function HomepageRenderer({
         subtitle={pageContent?.subtitle ?? undefined}
         backgroundImage={pageContent?.og_image_url ?? undefined}
       />
-      <PromoMarquee />
       <NotreUniversSection categories={categories} />
       <SelectionCavisteSection products={newArrivals} favoriteIds={favoriteIds} />
-      <NewArrivalsCarousel products={newArrivals} favoriteIds={favoriteIds} />
-      <BestSellersSection products={newArrivals} favoriteIds={favoriteIds} />
-      <PromotionsLuxurySection promotions={promotions} settings={settings} />
+      {promotions.length > 0 && <PromotionsLuxurySection promotions={promotions} settings={settings} />}
       <PlattersSection settings={settings} />
       <StorePresentationSection settings={settings} />
-      <TestimonialsSection />
-      <NewsletterSection />
       {sections.map((section) => {
         const config = section.config;
         switch (section.section_type) {

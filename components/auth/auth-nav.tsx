@@ -43,9 +43,10 @@ export function AuthNav({ user }: AuthNavProps) {
       <div className="hidden items-center gap-2 lg:flex">
         <Link
           href="/login"
+          aria-label="Compte et connexion"
           className="auth-button inline-flex items-center justify-center h-[42px] px-[18px] rounded-[10px] border border-or-principal bg-or-principal text-[13px] font-semibold tracking-[0.02em] text-noir-profond whitespace-nowrap transition-all hover:translate-y-[-1px] hover:bg-gold-3 hover:shadow-[0_4px_12px_rgba(198,161,91,0.25)] focus:outline-none focus:ring-2 focus:ring-or-principal"
         >
-          Connexion / Inscription
+          Compte
         </Link>
       </div>
     );
