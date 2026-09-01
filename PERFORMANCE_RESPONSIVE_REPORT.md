@@ -27,7 +27,7 @@
 
 | Problème | Fichiers modifiés | Décision |
 |---|---|---|
-| Routage admin | `app/admin/login/page.tsx`, `app/admin/login/login-form.tsx`, `app/admin/login/actions.ts`, `lib/admin/admin-cookie.ts`, `lib/admin/auth.ts`, `lib/supabase/middleware.ts` | Page serveur avec formulaire sans JS, connexion par mot de passe unique et cookie HMAC signé. |
+| Routage / auth | `app/admin/login/page.tsx`, `app/admin/login/login-form.tsx`, `app/api/admin/login/route.ts`, `lib/admin/admin-cookie.ts`, `lib/admin/auth.ts`, `lib/supabase/middleware.ts` | Page serveur avec formulaire POST, connexion par mot de passe unique, `/demande-produit` protégé. |
 | Header | `components/layout/navbar.tsx`, `components/auth/auth-nav.tsx` | Navigation regroupée, breakpoints ajustés, accès admin discret. |
 | Landing | `components/home/homepage-renderer.tsx`, `components/home/luxury-hero-section.tsx` | Cinq blocs clés, hauteurs réduites, hero compact. |
 | Promotions | `app/promotions/page.tsx`, `components/commerce/promotion-card.tsx` | Suppression du libellé `CONVERSION`, message d'état adapté. |
@@ -46,7 +46,7 @@ vercel build                  # OK, fonctions ~23 Mo
 vercel deploy --prebuilt      # OK, Ready
 vercel --prod                 # OK, production déployée
 npx next build                # OK après formulaire admin sans JS
-npx playwright test           # partiel (voir §6)
+npx playwright test           # 32 passed, 4 skipped (auth flow non configuré)
 ```
 
 ## 4. Optimisations supplémentaires effectuées
