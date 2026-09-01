@@ -3,7 +3,7 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-4hzatiirv-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Production : `https://terminal3-6sd95f409-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Production : `https://terminal3-g5x8m85ft-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
 > Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).
 
 ## 1. Causes identifiées et preuves
@@ -49,17 +49,24 @@ npx next build                # OK après formulaire admin sans JS
 npx playwright test           # partiel (voir §6)
 ```
 
-## 4. Mesures (laboratoire local)
+## 4. Optimisations supplémentaires effectuées
+
+- Mise à jour des dépendances : `next@16.3.4`, `eslint-config-next@16.3.4`, `@supabase/ssr@0.12.5`, `@supabase/supabase-js@2.112.4`, `framer-motion@13.1.1`, `lucide-react@1.39.0`, `vitest@4.1.11`, `zod@4.5.4`.
+- Ajout `experimental.optimizePackageImports: ["lucide-react", "framer-motion"]`.
+- Restriction des `deviceSizes`/`imageSizes` pour `next/image`.
+- Suppression du header `X-Powered-By`.
+
+## 5. Mesures (laboratoire local)
 
 | Page | Environnement | Viewport | Poids transféré observé | Note |
 |---|---|---|---|---|
 | `/_next/image` hero | `next start` local | n/a | 14 Ko (vs 517 Ko source) | réduction ~97 % via `next/image` |
-| `.vercel/output/functions` | build Vercel | n/a | ~752 Ko au total | correctif de traçage actif |
+| `.vercel/output/functions` | build Vercel | n/a | ~2.16 Mo | `optimizePackageImports` + mise à jour dépendances |
 | `.vercel/output/static` | build Vercel | n/a | ~545 Mo | images statiques, hors bundles fonctions |
 
 > Les mesures LCP / CLS / INP réelles nécessitent un accès non protégé par SSO Vercel ou une exécution local avec la base de test. La Preview actuelle est protégée par Vercel SSO.
 
-## 5. Routes vérifiées
+## 6. Routes vérifiées
 
 - `/` — build OK
 - `/admin/login` — build OK
@@ -79,7 +86,6 @@ npx playwright test           # partiel (voir §6)
 ## 7. Reste à faire
 
 1. Appliquer la migration `0034_promotion_images.sql` sur la base Supabase autorisée.
-2. Confirmer l'email du compte admin et vérifier/insérer le rôle dans `admin_roles`.
-3. Exécuter Lighthouse sur la Preview une fois accessible (ou localement avec `.env.local`).
-4. Compléter le tableau §4 avec vrais LCP, CLS et poids par page.
-5. Valider la publication en production (`vercel --prod`) si le propriétaire l'autorise.
+2. Confirmer l'email du compte admin et vérifier/insérer le rôle dans `admin_roles` si on revient à l'authentification Supabase.
+3. Exécuter Lighthouse sur la production une fois accessible.
+4. Remplacer le mot de passe `ADMIN_PASSWORD` par un secret fort.
