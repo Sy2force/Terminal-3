@@ -35,7 +35,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 pb-40 pt-14 sm:px-6 sm:pb-14 lg:px-8">
         {lines.length === 0 ? (
           <div className="flex flex-col items-center gap-6 rounded-sm border border-brun-cave/15 bg-white/40 px-6 py-20 text-center">
             <ShoppingBag className="h-8 w-8 text-brun-cave/40" aria-hidden />
