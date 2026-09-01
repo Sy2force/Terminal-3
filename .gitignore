@@ -40,6 +40,9 @@ yarn-error.log*
 /test-results
 /audits/backups
 
+# heavy image source originals kept out of deployment
+public/images/**/source/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
