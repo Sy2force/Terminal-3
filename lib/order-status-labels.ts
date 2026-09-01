@@ -1,5 +1,6 @@
 import type {
   OrderStatus,
+  ExtendedOrderStatus,
   FoodFulfillmentStatus,
   AlcoholFulfillmentStatus,
 } from "@/types/database";
@@ -10,6 +11,24 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   ready: "Prête",
   completed: "Terminée",
   cancelled: "Annulée",
+};
+
+/**
+ * Extended labels aligned with the B2B and pickup-gate flow
+ * (0043_business_b2b.sql). The "collected" label is what the UI shows to
+ * the customer after `completed` under RLS-safe pickup-closure gates.
+ */
+export const EXTENDED_ORDER_STATUS_LABELS: Record<ExtendedOrderStatus, string> = {
+  ...ORDER_STATUS_LABELS,
+  received: "Commande reçue",
+  reviewing: "En cours de validation",
+  accepted: "Acceptée par la boutique",
+  preparing: "En préparation",
+  collected: "Récupérée",
+  quote_sent: "Devis envoyé",
+  customer_approved: "Client a approuvé",
+  rejected: "Refusée",
+  expired: "Expirée",
 };
 
 export const FOOD_STATUS_LABELS: Record<FoodFulfillmentStatus, string> = {

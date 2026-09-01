@@ -44,37 +44,37 @@ interface NavGroup {
 
 const NAV: NavGroup[] = [
   {
-    label: "Dashboard",
+    label: "Tableau de bord",
     items: [
       { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
       { href: "/admin/orders", label: "Nouvelles commandes", icon: ShoppingBag },
     ],
   },
   {
-    label: "Produits",
+    label: "Catalogue",
     items: [
-      { href: "/admin/products", label: "Tous les produits", icon: Package },
+      { href: "/admin/products", label: "Produits", icon: Package },
       { href: "/admin/products/new", label: "Ajouter un produit", icon: PlusCircle },
+      { href: "/admin/products/quick-add", label: "Ajout rapide", icon: Sparkles },
       { href: "/admin/categories", label: "Catégories", icon: Grid3X3 },
       { href: "/admin/brands", label: "Marques", icon: Star },
-      { href: "/admin/inventory", label: "Stocks", icon: Tag },
       { href: "/admin/promotions", label: "Promotions", icon: Percent },
-      { href: "/admin/products/import", label: "Import CSV", icon: Upload },
+      { href: "/admin/products/import", label: "Import / Export", icon: Upload },
       { href: "/admin/products?tab=classification", label: "Règles de classement", icon: Tag },
     ],
   },
   {
-    label: "Clients",
+    label: "Inventaire",
+    items: [{ href: "/admin/inventory", label: "Stocks", icon: Tag }],
+  },
+  {
+    label: "B2B & Pros",
     items: [
       { href: "/admin/clients", label: "Clients inscrits", icon: Users },
       { href: "/admin/bars", label: "Bars & pros", icon: Store },
       { href: "/admin/product-requests", label: "Demandes produits", icon: MessageSquare },
       { href: "/admin/leads", label: "Leads", icon: UserPlus },
-      { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
-      { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
-      { href: "/admin/discounts", label: "Remises", icon: Percent },
       { href: "/admin/members", label: "Membres Club", icon: Crown },
-      { href: "/admin/reviews", label: "Avis", icon: MessageSquare },
     ],
   },
   {
@@ -89,30 +89,34 @@ const NAV: NavGroup[] = [
     ],
   },
   {
-    label: "Factures",
+    label: "Clients",
     items: [
-      { href: "/admin/invoices", label: "Factures", icon: Receipt },
+      { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
+      { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
+      { href: "/admin/discounts", label: "Remises", icon: Percent },
+      { href: "/admin/reviews", label: "Avis", icon: MessageSquare },
     ],
   },
   {
-    label: "Contenu et médias",
+    label: "Contenu",
     items: [
       { href: "/admin/contenus", label: "Pages", icon: FileText },
       { href: "/admin/couvertures", label: "Hero", icon: ImageIcon },
       { href: "/admin/medias", label: "Médiathèque", icon: ImageIcon },
       { href: "/admin/content", label: "Inspirations", icon: FileText },
       { href: "/admin/homepage", label: "Accueil", icon: LayoutDashboard },
+      { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
     ],
   },
   {
-    label: "Paramètres",
+    label: "Réglages",
     items: [
+      { href: "/admin/invoices", label: "Factures", icon: Receipt },
       { href: "/admin/settings", label: "Paramètres", icon: Settings },
       { href: "/admin/users", label: "Utilisateurs", icon: Shield },
       { href: "/admin/roles", label: "Rôles & permissions", icon: Shield },
       { href: "/admin/historique", label: "Historique / Audit", icon: History },
       { href: "/admin/age-verifications", label: "Vérif. 18+", icon: AlertCircle },
-      { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
     ],
   },
 ];

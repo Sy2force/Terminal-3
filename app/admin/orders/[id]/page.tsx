@@ -2,11 +2,14 @@ import { notFound } from "next/navigation";
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { getOrderDetailsForStaff, getOrderNotes, getOrderStatusHistory } from "@/lib/data/orders-admin";
 import { getOrderPaymentSummary } from "@/lib/data/payments";
+import { loadClosureContext } from "@/lib/data/pickup-closure";
 import { formatAgorot } from "@/lib/money";
 import { OrderStatusUpdater } from "@/components/admin/order-status-updater";
 import { FulfillmentStatusUpdater } from "@/components/admin/fulfillment-status-updater";
 import { OrderPaymentAndNotes } from "@/components/admin/order-payment-and-notes";
 import { CreateInvoiceFromOrder } from "@/components/admin/create-invoice-from-order";
+import { PickupClosurePanel } from "@/components/admin/pickup-closure-panel";
+import type { OrderRow } from "@/types/database";
 
 export default async function AdminOrderDetailPage({
   params,
@@ -15,13 +18,23 @@ export default async function AdminOrderDetailPage({
 }) {
   await requireAdminPermission("sales.orders");
   const { id } = await params;
-  const [order, { summary, payments, history: paymentHistory }, notes, statusHistory] = await Promise.all([
+  const [order, { summary, payments, history: paymentHistory }, notes, statusHistory, closureCtx] = await Promise.all([
     getOrderDetailsForStaff(id),
     getOrderPaymentSummary(id),
     getOrderNotes(id),
     getOrderStatusHistory(id),
+    loadClosureContext(id),
   ]);
   if (!order) notFound();
+
+  const orderExt = order as OrderRow & {
+    payment_status?: string;
+    payment_method_actual?: string | null;
+    paid_at?: string | null;
+    id_checked_at?: string | null;
+    ready_estimate_label?: string | null;
+    public_order_number?: string | null;
+  };
 
   return (
     <div className="space-y-8">
@@ -116,6 +129,19 @@ export default async function AdminOrderDetailPage({
           </div>
         ))}
       </div>
+
+      {closureCtx && (
+        <PickupClosurePanel
+          orderId={order.id}
+          currentStatus={order.status}
+          paymentStatus={closureCtx.order.payment_status}
+          paymentMethodActual={closureCtx.order.payment_method_actual}
+          paidAt={closureCtx.order.paid_at}
+          idCheckedAt={closureCtx.order.id_checked_at}
+          hasAgeRestrictedItem={closureCtx.hasAgeRestrictedItem}
+          readyEstimateLabel={orderExt.ready_estimate_label ?? null}
+        />
+      )}
 
       <OrderPaymentAndNotes
         orderId={order.id}
