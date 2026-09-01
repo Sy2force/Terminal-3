@@ -3,7 +3,7 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-4hzatiirv-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Production : `https://terminal3-4zhkgr4g2-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Production : `https://terminal3-finqic5dg-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
 > Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).
 
 ## 1. Causes identifiées et preuves
@@ -47,6 +47,7 @@ vercel deploy --prebuilt      # OK, Ready
 vercel --prod                 # OK, production déployée
 npx next build                # OK après formulaire admin sans JS
 npx playwright test           # 32 passed, 4 skipped (auth flow non configuré)
+npm run test:unit             # 51 passed
 ```
 
 ## 4. Optimisations supplémentaires effectuées
