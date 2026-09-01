@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { loginWithAdminPassword } from "./actions";
 
 export interface LoginFormProps {
   initialError: string | null;
@@ -36,7 +35,7 @@ export function LoginForm({ initialError }: LoginFormProps) {
             </p>
           </div>
 
-          <form action={loginWithAdminPassword} className="mt-8 flex flex-col gap-4">
+          <form action="/api/admin/login" method="POST" className="mt-8 flex flex-col gap-4">
             <label className="flex flex-col gap-2 text-sm text-[#F7F0E4]/80">
               Mot de passe
               <input
