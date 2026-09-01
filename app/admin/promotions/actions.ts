@@ -17,6 +17,8 @@ const promotionSchema = z.object({
   product_id: z.string().uuid().nullable().optional(),
   variant_id: z.string().uuid().nullable().optional(),
   branch_id: z.string().uuid().nullable().optional(),
+  image_url: z.string().url().max(1000).nullable().optional(),
+  og_image_url: z.string().url().max(1000).nullable().optional(),
   regular_price_agorot: z.number().int().min(0),
   promo_price_agorot: z.number().int().min(0),
   start_at: z.string().datetime(),

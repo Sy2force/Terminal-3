@@ -8,6 +8,7 @@ import {
   updateCategoryCoverAction,
   updateHeroBackgroundAction,
   updateLogoAction,
+  updatePromotionImageAction,
 } from "./actions";
 import type { ProductWithDetails } from "@/lib/data/products";
 import type { CategoryRow, PromotionRow } from "@/types/database";
@@ -30,6 +31,7 @@ type Toast = { id: string; text: string; error?: boolean };
 export function PhotoManager({
   products,
   categories,
+  promotions,
   homePage,
   settings,
   demoMode,
@@ -195,6 +197,40 @@ export function PhotoManager({
                     }
                     label={pending[key] ? "..." : "Remplacer"}
                   />
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Promotions */}
+      <section className="rounded-sm border border-[#E7DECE] bg-white p-6 shadow-sm">
+        <h2 className="font-serif text-xl text-[#151411]">Photos des promotions</h2>
+        <p className="text-sm text-[#71695F]">Image affichée sur la carte de l&apos;offre, prioritaire sur celle du produit lié.</p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {promotions.map((promo) => {
+            const key = `promotion-${promo.id}`;
+            const cover = promo.image_url;
+            return (
+              <div key={promo.id} className="flex flex-col gap-3 rounded-sm border border-[#E7DECE] p-3">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-[#FBF8F1]">
+                  {cover ? (
+                    <Image src={cover} alt={promo.title} fill className="object-cover" sizes="300px" unoptimized />
+                  ) : (
+                    <span className="flex h-full items-center justify-center text-xs text-[#71695F]">Aucune image</span>
+                  )}
+                </div>
+                <p className="truncate text-sm font-medium text-[#151411]" title={promo.title}>
+                  {promo.title}
+                </p>
+                <ImageUploader
+                  bucket="content-images"
+                  folder="promotions"
+                  onUploaded={(url) =>
+                    wrap(key, `Promotion ${promo.title || ""}`, updatePromotionImageAction(promo.id, url))
+                  }
+                  label={pending[key] ? "..." : "Remplacer"}
+                />
               </div>
             );
           })}

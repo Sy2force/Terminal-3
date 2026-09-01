@@ -355,6 +355,8 @@ export type PromotionRow = {
   product_id: string | null;
   variant_id: string | null;
   branch_id: string | null;
+  image_url: string | null;
+  og_image_url: string | null;
   regular_price_agorot: number;
   promo_price_agorot: number;
   start_at: string;

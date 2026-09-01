@@ -14,6 +14,49 @@ export interface PhotoActionResult {
 }
 
 /**
+ * Replace the image of a promotion.
+ */
+export async function updatePromotionImageAction(
+  promotionId: string,
+  url: string,
+): Promise<PhotoActionResult> {
+  const session = await requireAdminPermission("marketing.promotions");
+  if (isDemoMode()) return { success: false, error: "demo_mode" };
+
+  const supabase = await createClient();
+
+  try {
+    const { error } = await supabase
+      .from("promotions")
+      .update({
+        image_url: url,
+        og_image_url: url,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", promotionId);
+
+    if (error) throw new Error(error.message);
+
+    await logAudit({
+      actor: session.userId,
+      action: "updated",
+      entityType: "promotion",
+      entityId: promotionId,
+      metadata: { url, field: "image_url" },
+    });
+
+    revalidatePath(`/admin/photos`);
+    revalidatePath(`/admin/promotions`);
+    revalidatePath(`/admin/promotions/${promotionId}`);
+    revalidatePath(`/promotions`);
+    revalidatePath(`/promotions/[slug]`, "page");
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "update_failed" };
+  }
+}
+
+/**
  * Replace the cover image of a product. Persists in product_media and logs.
  */
 export async function updateProductCoverAction(

@@ -10,7 +10,7 @@ export function PromotionCard({
 }: {
   promotion: PromotionWithProduct;
 }) {
-  const cover = promotion.product?.media?.[0]?.url;
+  const cover = promotion.image_url ?? promotion.product?.media?.[0]?.url;
   const name = promotion.product
     ? promotion.product.name_fr || promotion.product.name_he
     : promotion.title;

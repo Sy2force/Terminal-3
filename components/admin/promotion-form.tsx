@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   createPromotionAction,
   updatePromotionAction,
   type PromotionFormData,
 } from "@/app/admin/promotions/actions";
+import { ImageUploader } from "@/components/admin/image-uploader";
 import type { PromotionRow } from "@/types/database";
 import type { ProductWithDetails } from "@/lib/data/products";
 
@@ -19,6 +21,7 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState(initial?.image_url ?? "");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,6 +35,8 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       product_id: (formData.get("product_id") as string) || null,
       variant_id: (formData.get("variant_id") as string) || null,
       branch_id: (formData.get("branch_id") as string) || null,
+      image_url: imageUrl.trim() || null,
+      og_image_url: imageUrl.trim() || null,
       regular_price_agorot: Number(formData.get("regular_price_agorot") || 0),
       promo_price_agorot: Number(formData.get("promo_price_agorot") || 0),
       start_at: new Date(String(formData.get("start_at"))).toISOString(),
@@ -71,6 +76,26 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       </div>
 
       <TextArea label="Description" name="description" defaultValue={initial?.description ?? ""} />
+
+      <input type="hidden" name="image_url" value={imageUrl} />
+      <input type="hidden" name="og_image_url" value={imageUrl} />
+
+      <div className="space-y-3 rounded-sm border border-white/10 bg-graphite/50 p-4">
+        <label className="text-sm text-ivory/80">Image de la promotion</label>
+        {imageUrl ? (
+          <div className="relative h-40 w-full max-w-md overflow-hidden rounded-sm border border-white/10">
+            <Image src={imageUrl} alt="Aperçu promotion" fill className="object-cover" sizes="400px" unoptimized />
+          </div>
+        ) : (
+          <p className="text-xs text-muted-grey">Aucune image. Importez-en une.</p>
+        )}
+        <ImageUploader
+          bucket="content-images"
+          folder="promotions"
+          onUploaded={(url) => setImageUrl(url)}
+          label={imageUrl ? "Remplacer l'image" : "Ajouter une image"}
+        />
+      </div>
 
       <div className="grid gap-5 sm:grid-cols-3">
         <Field label="Prix régulier (agorot) *" name="regular_price_agorot" type="number" defaultValue={initial?.regular_price_agorot ?? 0} required />
