@@ -28,7 +28,14 @@ const FALLBACK: ThemeValues = {
   maxContentWidth: "1400px",
 };
 
+let cache: { value: ThemeValues; expiresAt: number } | null = null;
+const CACHE_TTL_MS = 30_000;
+
 export async function getPublishedTheme(): Promise<ThemeValues> {
+  if (cache && cache.expiresAt > Date.now()) {
+    return cache.value;
+  }
+
   const supabase = await createClient();
   const { data } = await supabase
     .from("theme_settings")
@@ -36,8 +43,9 @@ export async function getPublishedTheme(): Promise<ThemeValues> {
     .eq("key", "theme")
     .maybeSingle();
 
-  if (!data?.value) return FALLBACK;
-  return { ...FALLBACK, ...(data.value as unknown as ThemeValues) };
+  const value = !data?.value ? FALLBACK : { ...FALLBACK, ...(data.value as unknown as ThemeValues) };
+  cache = { value, expiresAt: Date.now() + CACHE_TTL_MS };
+  return value;
 }
 
 export function themeToCssVars(values: ThemeValues): Record<string, string> {
