@@ -45,7 +45,7 @@ export async function createAccount({
   }
 
   const now = new Date().toISOString();
-  await supabase.from("profiles").upsert(
+  const { error: profileError } = await supabase.from("profiles").upsert(
     {
       id: data.user.id,
       email,
@@ -60,6 +60,11 @@ export async function createAccount({
     } as any,
     { onConflict: "id" },
   );
+
+  if (profileError) {
+    await supabase.auth.admin.deleteUser(data.user.id);
+    return { success: false, error: "Impossible d'enregistrer le profil. Le service est temporairement indisponible." };
+  }
 
   return { success: true, userId: data.user.id };
 }
