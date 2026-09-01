@@ -8,11 +8,15 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       // Supabase Storage — product photography and editorial imagery.
       { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
     ],
+  },
+  outputFileTracingExcludes: {
+    "/*": ["public/images/terminal-3/**/*"],
   },
   async redirects() {
     return [
