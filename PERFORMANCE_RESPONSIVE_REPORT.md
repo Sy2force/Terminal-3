@@ -3,7 +3,7 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-4hzatiirv-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Production : `https://terminal3-msqjygdjr-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Production : `https://terminal3-nezt7hiu2-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
 > Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).
 
 ## 1. Causes identifiées et preuves
@@ -61,7 +61,9 @@ npm run test:unit             # 51 passed
 
 | Page | Environnement | Viewport | Poids transféré observé | Note |
 |---|---|---|---|---|
-| `/_next/image` hero | `next start` local | n/a | 14 Ko (vs 517 Ko source) | réduction ~97 % via `next/image` |
+| `/_next/image` hero | `next start` local | n/a | 14 Ko (vs 517 Ko source) |
+|| `/` | production Vercel | n/a | TTFB ~0.6s, Total ~2.2s | middleware allégé + cache + loading |
+|| `/admin/login` | production Vercel | n/a | TTFB ~0.35s, Total ~0.37s | formulaire POST sans JS | réduction ~97 % via `next/image` |
 | `.vercel/output/functions` | build Vercel | n/a | ~2.16 Mo | `optimizePackageImports` + mise à jour dépendances |
 | `.vercel/output/static` | build Vercel | n/a | ~545 Mo | images statiques, hors bundles fonctions |
 
