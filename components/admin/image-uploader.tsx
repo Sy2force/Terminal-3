@@ -3,13 +3,15 @@
 import { useRef, useState } from "react";
 
 interface ImageUploaderProps {
-  bucket?: "product-images" | "content-images" | "brand-assets";
+  bucket?: "product-images" | "content-images" | "brand-assets" | "media-library";
+  folder?: string;
   onUploaded: (url: string) => void;
   label?: string;
 }
 
 export function ImageUploader({
   bucket = "product-images",
+  folder,
   onUploaded,
   label = "Ajouter une image",
 }: ImageUploaderProps) {
@@ -27,6 +29,7 @@ export function ImageUploader({
     const formData = new FormData();
     formData.append("file", file);
     formData.append("bucket", bucket);
+    if (folder) formData.append("folder", folder);
 
     try {
       const res = await fetch("/api/upload", { method: "POST", body: formData });

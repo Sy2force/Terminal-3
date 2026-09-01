@@ -102,6 +102,7 @@ const NAV: NavGroup[] = [
     label: "Contenu",
     items: [
       { href: "/admin/contenus", label: "Pages", icon: FileText },
+      { href: "/admin/photos", label: "Photos du site", icon: ImageIcon },
       { href: "/admin/couvertures", label: "Hero", icon: ImageIcon },
       { href: "/admin/medias", label: "Médiathèque", icon: ImageIcon },
       { href: "/admin/content", label: "Inspirations", icon: FileText },
