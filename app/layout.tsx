@@ -18,6 +18,7 @@ import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
 import { WoltSettingsProvider } from "@/components/commerce/wolt-settings-provider";
 import { IntroSplash } from "@/components/intro/intro-splash";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 
 const editorialSerif = Cormorant_Garamond({
   variable: "--font-editorial-serif",
@@ -98,6 +99,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <Footer settings={settings} footerMenu={footerMenu} />
               <ScrollToTop />
               <BottomNav isAdmin={!!adminSession} />
+              <InstallPrompt />
             </WoltSettingsProvider>
           </AdminEditModeProvider>
         </CartProvider>
