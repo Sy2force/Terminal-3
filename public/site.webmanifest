@@ -1,26 +1,56 @@
 {
-  "name": "Terminal 3",
+  "name": "Terminal 3 — Cave à vin et épicerie fine",
   "short_name": "Terminal 3",
-  "description": "Cave à vin, spiritueux et épicerie fine casher à Jérusalem.",
+  "description": "Vins, spiritueux, bières, saumon fumé et épicerie fine à Jérusalem. Commande en retrait au magasin.",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0A0A",
-  "theme_color": "#B97832",
+  "background_color": "#151411",
+  "theme_color": "#1B1814",
   "orientation": "portrait",
   "scope": "/",
   "lang": "fr",
+  "dir": "ltr",
+  "categories": ["food", "shopping", "lifestyle"],
   "icons": [
     {
       "src": "/images/terminal-3/brand/favicon/favicon-32x32.png",
       "sizes": "32x32",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
       "src": "/images/terminal-3/brand/favicon/apple-touch-icon-180x180.png",
       "sizes": "180x180",
       "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/images/terminal-3/brand/favicon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/images/terminal-3/brand/favicon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catalogue",
+      "short_name": "Catalogue",
+      "description": "Parcourir le catalogue",
+      "url": "/categories",
+      "icons": [{ "src": "/images/terminal-3/brand/favicon/icon-512x512.png", "sizes": "512x512" }]
+    },
+    {
+      "name": "Panier",
+      "short_name": "Panier",
+      "description": "Voir mon panier",
+      "url": "/cart",
+      "icons": [{ "src": "/images/terminal-3/brand/favicon/icon-512x512.png", "sizes": "512x512" }]
     }
   ]
 }
