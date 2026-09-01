@@ -3,7 +3,8 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-4hzatiirv-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Déploiement : Preview uniquement, production non publiée.
+> Production : `https://terminal3-6sd95f409-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).
 
 ## 1. Causes identifiées et preuves
 
@@ -26,7 +27,7 @@
 
 | Problème | Fichiers modifiés | Décision |
 |---|---|---|
-| Routage admin | `app/admin/login/page.tsx`, `app/admin/login/login-form.tsx`, `app/admin/page.tsx` | Page serveur dédiée, formulaire client sans `useSearchParams`, message si compte sans rôle admin. |
+| Routage admin | `app/admin/login/page.tsx`, `app/admin/login/login-form.tsx`, `app/admin/login/actions.ts`, `lib/admin/admin-cookie.ts`, `lib/admin/auth.ts`, `lib/supabase/middleware.ts` | Page serveur avec formulaire sans JS, connexion par mot de passe unique et cookie HMAC signé. |
 | Header | `components/layout/navbar.tsx`, `components/auth/auth-nav.tsx` | Navigation regroupée, breakpoints ajustés, accès admin discret. |
 | Landing | `components/home/homepage-renderer.tsx`, `components/home/luxury-hero-section.tsx` | Cinq blocs clés, hauteurs réduites, hero compact. |
 | Promotions | `app/promotions/page.tsx`, `components/commerce/promotion-card.tsx` | Suppression du libellé `CONVERSION`, message d'état adapté. |
@@ -43,6 +44,8 @@ npm run lint                  # OK
 npx next build                # OK, 112 routes
 vercel build                  # OK, fonctions ~23 Mo
 vercel deploy --prebuilt      # OK, Ready
+vercel --prod                 # OK, production déployée
+npx next build                # OK après formulaire admin sans JS
 npx playwright test           # partiel (voir §6)
 ```
 
