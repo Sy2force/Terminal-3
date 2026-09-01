@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { verifyAdminCookie } from "@/lib/admin/admin-cookie";
 
-const PROTECTED_PREFIXES = ["/account", "/compte", "/checkout", "/admin"];
+const PROTECTED_PREFIXES = ["/account", "/compte", "/checkout", "/admin", "/demande-produit"];
 
 /**
  * Refreshes the Supabase auth session on every request and redirects
