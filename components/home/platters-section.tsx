@@ -48,7 +48,6 @@ export function PlattersSection({ settings }: PlattersSectionProps) {
                   src={platter.image}
                   alt={platter.name}
                   fill
-                  unoptimized
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />

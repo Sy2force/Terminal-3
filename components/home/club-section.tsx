@@ -36,7 +36,6 @@ export function ClubSection({ settings }: { settings: SiteSettings }) {
                 alt="Terminal 3"
                 width={400}
                 height={160}
-                unoptimized
                 className="h-14 w-auto object-contain sm:h-16 md:h-20"
               />
             ) : (

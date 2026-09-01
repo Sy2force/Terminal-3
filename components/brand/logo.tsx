@@ -26,7 +26,6 @@ export function Logo({
             src={logoUrl}
             alt={settings.STORE_NAME}
             fill
-            unoptimized
             priority
             className="object-contain object-center"
             sizes="(max-width: 640px) 120px, (max-width: 1024px) 130px, 150px"

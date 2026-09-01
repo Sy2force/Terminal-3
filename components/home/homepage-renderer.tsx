@@ -64,7 +64,6 @@ export function HomepageRenderer({
           src="/images/terminal-3/couvertures/store.webp"
           alt=""
           fill
-          unoptimized
           className="object-cover opacity-[0.12]"
           sizes="100vw"
         />

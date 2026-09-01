@@ -33,28 +33,39 @@ export function LoginForm({ initialError }: LoginFormProps) {
       setLoading(true);
       setError(null);
 
+        if (!email.trim() || !password.trim()) {
+        setError("Saisissez votre adresse email et votre mot de passe.");
+        setLoading(false);
+        return;
+      }
+
       const supabase = createClient();
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim(),
         password,
       });
 
       setLoading(false);
 
       if (signInError || !data.user) {
+        // Generic message: never reveal whether an account exists.
         setError("Email ou mot de passe incorrect.");
         return;
       }
 
       if (typeof window !== "undefined") {
         if (remember) {
-          window.localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+          window.localStorage.setItem(REMEMBER_EMAIL_KEY, email.trim());
         } else {
           window.localStorage.removeItem(REMEMBER_EMAIL_KEY);
         }
       }
 
-      await logAdminLogin();
+      try {
+        await logAdminLogin();
+      } catch {
+        // Audit log failure must not block the login.
+      }
       router.push("/admin");
       router.refresh();
     },
@@ -96,8 +107,6 @@ export function LoginForm({ initialError }: LoginFormProps) {
               Email
               <input
                 type="email"
-                required
-                autoFocus
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
@@ -110,7 +119,6 @@ export function LoginForm({ initialError }: LoginFormProps) {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 pr-11 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { isDemoMode } from "@/lib/demo-mode";
-import { requireAdmin } from "@/lib/admin/auth";
+import { getAdminSession } from "@/lib/admin/auth";
+import { signOutAdmin } from "@/app/admin/logout/actions";
 import { AdminDashboardClient, type RecentProduct, type RecentActivity } from "@/components/admin/dashboard-stats";
 
 export const metadata: Metadata = {
@@ -19,7 +20,31 @@ function sevenDaysAgoIso(): string {
 }
 
 export default async function AdminDashboardPage() {
-  await requireAdmin();
+  const session = await getAdminSession();
+
+  if (!session) {
+    return (
+      <div className="mx-auto max-w-lg space-y-6 rounded-sm border border-[#E7DECE] bg-white p-8 text-center shadow-sm">
+        <h1 className="font-serif text-2xl text-[#151411]">Accès réservé aux administrateurs</h1>
+        <p className="text-sm text-[#71695F]">
+          Ce compte n&apos;est pas reconnu comme administrateur, ou vous n&apos;êtes pas connecté.
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <a href="/admin/login" className="rounded-sm bg-[#C6A15B] px-4 py-2 text-sm font-medium text-[#151411]">
+            Connexion admin
+          </a>
+          <form action={signOutAdmin}>
+            <button
+              type="submit"
+              className="rounded-sm border border-[#E7DECE] px-4 py-2 text-sm text-[#151411]"
+            >
+              Se déconnecter
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   const supabase = isDemoMode() ? null : await createClient();
 

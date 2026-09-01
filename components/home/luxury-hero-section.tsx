@@ -31,7 +31,6 @@ export function LuxuryHeroSection({
           alt="Terminal 3"
           width={500}
           height={200}
-          unoptimized
           priority
           className="h-20 w-auto object-contain sm:h-24 lg:h-32"
         />
@@ -58,7 +57,6 @@ export function LuxuryHeroSection({
           alt=""
           fill
           priority
-          unoptimized
           className="object-cover opacity-[0.65]"
           sizes="100vw"
         />
@@ -123,7 +121,6 @@ export function LuxuryHeroSection({
               alt="Bouteille Petit Castel"
               width={500}
               height={900}
-              unoptimized
               priority
               className="h-auto w-[60vw] max-w-[320px] object-contain drop-shadow-2xl lg:w-[50vw] lg:max-w-[480px]"
             />

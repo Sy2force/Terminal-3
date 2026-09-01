@@ -83,7 +83,6 @@ export function NotreUniversSection({ categories }: NotreUniversSectionProps) {
                   src={card.image}
                   alt={card.name}
                   fill
-                  unoptimized
                   className="object-cover opacity-25 transition-opacity duration-300 group-hover:opacity-35"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
