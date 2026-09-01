@@ -16,7 +16,6 @@ import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { AdminEditModeProvider } from "@/components/admin/admin-edit-mode";
 import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
 import { WoltSettingsProvider } from "@/components/commerce/wolt-settings-provider";
-import { IntroSplash } from "@/components/intro/intro-splash";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 
@@ -84,7 +83,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
         <CartProvider>
           <RegisterServiceWorker />
-          <IntroSplash />
           <AdminEditModeProvider session={adminSession}>
             <WoltSettingsProvider enabled={settings.WOLT_ENABLED} storeUrl={settings.WOLT_STORE_URL}>
               {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
