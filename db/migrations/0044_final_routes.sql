@@ -73,13 +73,13 @@ select
   now(),
   now()
 from (values
-  ('whisky', 'וויסקי', 'Whisky', null, 10),
-  ('gin',    'ג''ין',   'Gin',    null, 11),
-  ('tequila','טקילה',   'Tequila',null, 12),
-  ('arak',   'ערק',     'Arak',   null, 13),
-  ('bieres', 'בירות',   'Bières', null, 14),
-  ('saumon-fume','דגים מעושנים','Saumon fumé',null, 15),
-  ('epicerie-fine','מעדני יוקרה','Épicerie fine',null, 16)
+  ('whisky', 'וויסקי', 'Whisky', null::uuid, 10),
+  ('gin',    'ג''ין',   'Gin',    null::uuid, 11),
+  ('tequila','טקילה',   'Tequila',null::uuid, 12),
+  ('arak',   'ערק',     'Arak',   null::uuid, 13),
+  ('bieres', 'בירות',   'Bières', null::uuid, 14),
+  ('saumon-fume','דגים מעושנים','Saumon fumé',null::uuid, 15),
+  ('epicerie-fine','מעדני יוקרה','Épicerie fine',null::uuid, 16)
 ) as t(slug, name_he, name_fr, parent_id, display_order)
 where not exists (select 1 from categories c where c.slug = t.slug);
 
