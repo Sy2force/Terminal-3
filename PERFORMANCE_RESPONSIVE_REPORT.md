@@ -3,7 +3,7 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-epajexw1p-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Production : `https://terminal3-qvtos0jcy-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Production : `https://terminal3-n0rm3jinj-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
 > Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).  
 > Migrations Supabase : `0001_init.sql` → `0045_wolt_links.sql` appliquées sur `dtoxlxqkhmiaiesazjvy`.
 
@@ -73,11 +73,11 @@ npm run test:unit             # 51 passed
 ## 6. Routes vérifiées
 
 - `/` — build OK
-- `/admin/login` — build OK
+- `/admin/login` — build OK, connexion réussie, cookie `admin_session` posé
 - `/admin/photos` — build OK
 - `/promotions` — build OK
 - `/vins`, `/spiritueux`, `/categories/[slug]`, `/products/[slug]` — build OK
-- `/admin`, `/admin/promotions`, `/admin/promotions/[id]`, `/admin/products` — build OK
+- `/admin`, `/admin/promotions`, `/admin/promotions/[id]`, `/admin/products`, `/admin/photos` — build OK
 - Playwright (partiel) : homepage, redirections auth, routes catalogue.
 
 ## 6. Contrôles bloqués ou non exécutés
