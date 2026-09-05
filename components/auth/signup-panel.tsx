@@ -2,67 +2,76 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { completeRegistration, createAccount } from "@/app/inscription/actions";
-import { IdentityDocUpload } from "@/components/auth/identity-doc-upload";
+import { createCustomerAccount, createBarAccount } from "@/app/inscription/actions";
 
-const STEPS = ["Compte", "Coordonnées", "Justificatif"] as const;
+type AccountType = "personal" | "business";
 
 function inputClass() {
   return "rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne";
 }
 
+function labelClass() {
+  return "flex flex-col gap-2 text-sm text-ivory/80";
+}
+
 export function SignupPanel({ redirectTo }: { redirectTo: string }) {
   const router = useRouter();
-
-  const [step, setStep] = useState(0);
+  const [type, setType] = useState<AccountType>("personal");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [docUploaded, setDocUploaded] = useState(false);
 
-  const [form, setForm] = useState({
+  const [personal, setPersonal] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
-    dateOfBirth: "",
-    phone: "",
-    city: "",
-    street: "",
-    buildingNumber: "",
-    apartment: "",
-    postalCode: "",
-    deliveryInstructions: "",
-    termsAccepted: false,
     ageConfirmed: false,
+    termsAccepted: false,
     privacyAccepted: false,
   });
 
-  function set<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
-    setForm((f) => ({ ...f, [key]: value }));
-  }
+  const [business, setBusiness] = useState({
+    businessName: "",
+    contactFirstName: "",
+    contactLastName: "",
+    contactEmail: "",
+    contactPhone: "",
+    whatsapp: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    notes: "",
+    password: "",
+    confirmPassword: "",
+    ageConfirmed: false,
+    termsAccepted: false,
+    privacyAccepted: false,
+  });
 
-  async function handleCreateAccount(e: React.FormEvent) {
+  async function handlePersonalSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (form.password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
-      return;
-    }
-    if (form.password !== form.confirmPassword) {
+    if (personal.password !== personal.confirmPassword) {
       setError("Les mots de passe ne correspondent pas.");
       return;
     }
 
     setLoading(true);
-    const result = await createAccount({
-      email: form.email,
-      password: form.password,
-      firstName: form.firstName,
-      lastName: form.lastName,
+    const result = await createCustomerAccount({
+      accountType: "personal",
+      firstName: personal.firstName,
+      lastName: personal.lastName,
+      email: personal.email,
+      phone: personal.phone,
+      password: personal.password,
+      ageConfirmed: personal.ageConfirmed,
+      termsAccepted: personal.termsAccepted,
+      privacyAccepted: personal.privacyAccepted,
     });
 
     if (!result.success) {
@@ -72,213 +81,398 @@ export function SignupPanel({ redirectTo }: { redirectTo: string }) {
     }
 
     const supabase = createClient();
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email: form.email,
-      password: form.password,
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: personal.email,
+      password: personal.password,
     });
+
     setLoading(false);
 
-    if (signInError || !data.session || !data.user) {
+    if (signInError) {
       setError("Compte créé. Veuillez vous connecter pour continuer.");
       return;
     }
 
-    setUserId(data.user.id);
-    setStep(1);
+    router.push(redirectTo);
+    router.refresh();
   }
 
-  async function handleSubmitDetails(e: React.FormEvent) {
+  async function handleBusinessSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (!form.ageConfirmed) {
-      setError("Vous devez confirmer avoir 18 ans ou plus.");
-      return;
-    }
-    if (!form.termsAccepted) {
-      setError("Vous devez accepter les conditions générales.");
-      return;
-    }
-    if (!form.privacyAccepted) {
-      setError("Vous devez accepter la politique de confidentialité.");
+    if (business.password !== business.confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
       return;
     }
 
     setLoading(true);
-    const result = await completeRegistration({
-      firstName: form.firstName,
-      lastName: form.lastName,
-      dateOfBirth: form.dateOfBirth,
-      phone: form.phone,
-      city: form.city,
-      street: form.street,
-      buildingNumber: form.buildingNumber,
-      apartment: form.apartment || undefined,
-      postalCode: form.postalCode || undefined,
-      deliveryInstructions: form.deliveryInstructions || undefined,
-      termsAccepted: form.termsAccepted,
-      ageConfirmed: form.ageConfirmed,
-      privacyAccepted: form.privacyAccepted,
+    const result = await createBarAccount({
+      accountType: "business",
+      businessName: business.businessName,
+      contactFirstName: business.contactFirstName,
+      contactLastName: business.contactLastName,
+      contactEmail: business.contactEmail,
+      contactPhone: business.contactPhone,
+      whatsapp: business.whatsapp,
+      address: business.address,
+      city: business.city,
+      postalCode: business.postalCode,
+      notes: business.notes,
+      password: business.password,
+      ageConfirmed: business.ageConfirmed,
+      termsAccepted: business.termsAccepted,
+      privacyAccepted: business.privacyAccepted,
     });
-    setLoading(false);
 
     if (!result.success) {
-      setError(result.error ?? "Une erreur est survenue.");
+      setLoading(false);
+      setError(result.error ?? "Impossible de créer le compte.");
       return;
     }
-    finish();
-  }
 
-  function finish() {
-    router.push(redirectTo === "/compte" ? "/compte/verification" : redirectTo);
+    const supabase = createClient();
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: business.contactEmail,
+      password: business.password,
+    });
+
+    setLoading(false);
+
+    if (signInError) {
+      setError("Compte créé. Veuillez vous connecter pour continuer.");
+      return;
+    }
+
+    router.push("/compte");
     router.refresh();
   }
+
+  const checkboxClass =
+    "mt-0.5 h-4 w-4 rounded border-white/10 bg-graphite text-champagne focus:ring-champagne";
 
   return (
     <div>
       <span className="text-xs uppercase tracking-[0.3em] text-champagne">Nouveau client</span>
       <h1 className="mt-2 font-serif text-3xl text-ivory">Créer mon compte</h1>
 
-      {/* Step progress */}
-      <div className="mt-6 flex items-center gap-2">
-        {STEPS.map((label, i) => (
-          <div key={label} className="flex flex-1 items-center gap-2">
-            <div
-              className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold ${
-                i <= step ? "bg-champagne text-obsidian" : "bg-white/10 text-muted-grey"
-              }`}
-            >
-              {i + 1}
-            </div>
-            <span className={`text-xs ${i <= step ? "text-ivory" : "text-muted-grey"}`}>{label}</span>
-            {i < STEPS.length - 1 && <div className="h-px flex-1 bg-white/10" />}
-          </div>
-        ))}
+      <div className="mt-6 flex rounded-full border border-white/10 bg-graphite p-1">
+        <button
+          type="button"
+          onClick={() => setType("personal")}
+          className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            type === "personal" ? "bg-champagne text-obsidian" : "text-ivory/70 hover:text-ivory"
+          }`}
+        >
+          Particulier
+        </button>
+        <button
+          type="button"
+          onClick={() => setType("business")}
+          className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            type === "business" ? "bg-champagne text-obsidian" : "text-ivory/70 hover:text-ivory"
+          }`}
+        >
+          Bar / Professionnel
+        </button>
       </div>
 
-      {step === 0 && (
-        <form onSubmit={handleCreateAccount} className="mt-8 flex flex-col gap-4">
+      {type === "personal" ? (
+        <form onSubmit={handlePersonalSubmit} className="mt-8 flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+            <label className={labelClass()}>
               Prénom
-              <input required value={form.firstName} onChange={(e) => set("firstName", e.target.value)} className={inputClass()} />
+              <input
+                required
+                value={personal.firstName}
+                onChange={(e) => setPersonal({ ...personal, firstName: e.target.value })}
+                className={inputClass()}
+              />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+            <label className={labelClass()}>
               Nom
-              <input required value={form.lastName} onChange={(e) => set("lastName", e.target.value)} className={inputClass()} />
+              <input
+                required
+                value={personal.lastName}
+                onChange={(e) => setPersonal({ ...personal, lastName: e.target.value })}
+                className={inputClass()}
+              />
             </label>
           </div>
-          <label className="flex flex-col gap-2 text-sm text-ivory/80">
+          <label className={labelClass()}>
             Email
-            <input required type="email" value={form.email} onChange={(e) => set("email", e.target.value)} className={inputClass()} />
+            <input
+              required
+              type="email"
+              value={personal.email}
+              onChange={(e) => setPersonal({ ...personal, email: e.target.value })}
+              className={inputClass()}
+              placeholder="vous@exemple.com"
+            />
+          </label>
+          <label className={labelClass()}>
+            Téléphone (Israël)
+            <input
+              type="tel"
+              value={personal.phone}
+              onChange={(e) => setPersonal({ ...personal, phone: e.target.value })}
+              className={inputClass()}
+              placeholder="05X-XXXXXXX"
+            />
           </label>
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+            <label className={labelClass()}>
               Mot de passe
-              <input required type="password" minLength={8} value={form.password} onChange={(e) => set("password", e.target.value)} className={inputClass()} />
+              <input
+                required
+                type="password"
+                minLength={8}
+                value={personal.password}
+                onChange={(e) => setPersonal({ ...personal, password: e.target.value })}
+                className={inputClass()}
+              />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
+            <label className={labelClass()}>
               Confirmer le mot de passe
-              <input required type="password" minLength={8} value={form.confirmPassword} onChange={(e) => set("confirmPassword", e.target.value)} className={inputClass()} />
+              <input
+                required
+                type="password"
+                minLength={8}
+                value={personal.confirmPassword}
+                onChange={(e) => setPersonal({ ...personal, confirmPassword: e.target.value })}
+                className={inputClass()}
+              />
             </label>
           </div>
-          {error && <p className="text-sm text-amber-400">{error}</p>}
-          <button type="submit" disabled={loading} className="mt-2 rounded-full bg-champagne px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50">
-            {loading ? "Création..." : "Continuer"}
-          </button>
-        </form>
-      )}
-
-      {step === 1 && (
-        <form onSubmit={handleSubmitDetails} className="mt-8 flex flex-col gap-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Date de naissance
-              <input required type="date" value={form.dateOfBirth} onChange={(e) => set("dateOfBirth", e.target.value)} className={inputClass()} />
-            </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Téléphone (Israël)
-              <input required type="tel" placeholder="05X-XXXXXXX" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={inputClass()} />
-            </label>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Ville
-              <input required value={form.city} onChange={(e) => set("city", e.target.value)} className={inputClass()} />
-            </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Rue
-              <input required value={form.street} onChange={(e) => set("street", e.target.value)} className={inputClass()} />
-            </label>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Numéro
-              <input required value={form.buildingNumber} onChange={(e) => set("buildingNumber", e.target.value)} className={inputClass()} />
-            </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Étage / appt.
-              <input value={form.apartment} onChange={(e) => set("apartment", e.target.value)} className={inputClass()} />
-            </label>
-            <label className="flex flex-col gap-2 text-sm text-ivory/80">
-              Code postal
-              <input value={form.postalCode} onChange={(e) => set("postalCode", e.target.value)} className={inputClass()} />
-            </label>
-          </div>
-          <label className="flex flex-col gap-2 text-sm text-ivory/80">
-            Instructions de livraison (facultatif)
-            <textarea rows={2} value={form.deliveryInstructions} onChange={(e) => set("deliveryInstructions", e.target.value)} className={inputClass()} />
-          </label>
 
           <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-4">
             <label className="flex items-start gap-3 text-sm text-ivory/80">
-              <input type="checkbox" checked={form.ageConfirmed} onChange={(e) => set("ageConfirmed", e.target.checked)} className="mt-0.5 h-4 w-4" />
+              <input
+                type="checkbox"
+                checked={personal.ageConfirmed}
+                onChange={(e) => setPersonal({ ...personal, ageConfirmed: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
               Je confirme avoir 18 ans ou plus.
             </label>
             <label className="flex items-start gap-3 text-sm text-ivory/80">
-              <input type="checkbox" checked={form.termsAccepted} onChange={(e) => set("termsAccepted", e.target.checked)} className="mt-0.5 h-4 w-4" />
-              J&rsquo;accepte les <a href="/conditions" className="text-champagne hover:underline">conditions générales</a>.
+              <input
+                type="checkbox"
+                checked={personal.termsAccepted}
+                onChange={(e) => setPersonal({ ...personal, termsAccepted: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
+              J&rsquo;accepte les{" "}
+              <a href="/conditions" className="text-champagne hover:underline">
+                conditions générales
+              </a>
+              .
             </label>
             <label className="flex items-start gap-3 text-sm text-ivory/80">
-              <input type="checkbox" checked={form.privacyAccepted} onChange={(e) => set("privacyAccepted", e.target.checked)} className="mt-0.5 h-4 w-4" />
-              J&rsquo;accepte la <a href="/confidentialite" className="text-champagne hover:underline">politique de confidentialité</a>.
+              <input
+                type="checkbox"
+                checked={personal.privacyAccepted}
+                onChange={(e) => setPersonal({ ...personal, privacyAccepted: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
+              J&rsquo;accepte la{" "}
+              <a href="/confidentialite" className="text-champagne hover:underline">
+                politique de confidentialité
+              </a>
+              .
             </label>
           </div>
 
           {error && <p className="text-sm text-amber-400">{error}</p>}
-          <button type="submit" disabled={loading} className="mt-2 rounded-full bg-champagne px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50">
-            {loading ? "Enregistrement..." : "Continuer"}
-          </button>
-        </form>
-      )}
 
-      {step === 2 && userId && (
-        <div className="mt-8 flex flex-col gap-4">
-          <p className="text-sm text-ivory/70">
-            Pour valider votre compte et vous permettre de commander des produits soumis à une
-            limite d&rsquo;âge, nous devons vérifier votre identité. Cette photo n&rsquo;est jamais
-            partagée et reste stockée de façon privée et sécurisée.
-          </p>
-          <IdentityDocUpload
-            userId={userId}
-            side="front"
-            label="Recto de votre pièce d'identité (Teudat Zehut ou passeport)"
-            onUploaded={() => setDocUploaded(true)}
-          />
           <button
-            type="button"
-            onClick={finish}
-            disabled={!docUploaded}
+            type="submit"
+            disabled={loading}
             className="mt-2 rounded-full bg-champagne px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
           >
-            Terminer l&rsquo;inscription
+            {loading ? "Création..." : "Créer mon compte"}
           </button>
-          {!docUploaded && (
-            <p className="text-center text-xs text-muted-grey">
-              Le téléversement du justificatif est obligatoire pour activer votre compte.
-            </p>
-          )}
-        </div>
+
+          <p className="text-center text-sm text-ivory/60">
+            Déjà inscrit ?{" "}
+            <Link href="/connexion" className="text-champagne hover:underline">
+              Se connecter
+            </Link>
+          </p>
+        </form>
+      ) : (
+        <form onSubmit={handleBusinessSubmit} className="mt-8 flex flex-col gap-4">
+          <label className={labelClass()}>
+            Nom de l&apos;établissement
+            <input
+              required
+              value={business.businessName}
+              onChange={(e) => setBusiness({ ...business, businessName: e.target.value })}
+              className={inputClass()}
+            />
+          </label>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className={labelClass()}>
+              Prénom du responsable
+              <input
+                required
+                value={business.contactFirstName}
+                onChange={(e) => setBusiness({ ...business, contactFirstName: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+            <label className={labelClass()}>
+              Nom du responsable
+              <input
+                required
+                value={business.contactLastName}
+                onChange={(e) => setBusiness({ ...business, contactLastName: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+          </div>
+          <label className={labelClass()}>
+            Email professionnel
+            <input
+              required
+              type="email"
+              value={business.contactEmail}
+              onChange={(e) => setBusiness({ ...business, contactEmail: e.target.value })}
+              className={inputClass()}
+            />
+          </label>
+          <label className={labelClass()}>
+            Téléphone (Israël)
+            <input
+              required
+              type="tel"
+              value={business.contactPhone}
+              onChange={(e) => setBusiness({ ...business, contactPhone: e.target.value })}
+              className={inputClass()}
+              placeholder="05X-XXXXXXX"
+            />
+          </label>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className={labelClass()}>
+              Ville
+              <input
+                value={business.city}
+                onChange={(e) => setBusiness({ ...business, city: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+            <label className={labelClass()}>
+              Code postal
+              <input
+                value={business.postalCode}
+                onChange={(e) => setBusiness({ ...business, postalCode: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+          </div>
+          <label className={labelClass()}>
+            Adresse
+            <input
+              value={business.address}
+              onChange={(e) => setBusiness({ ...business, address: e.target.value })}
+              className={inputClass()}
+            />
+          </label>
+          <label className={labelClass()}>
+            Besoins / message (facultatif)
+            <textarea
+              rows={3}
+              value={business.notes}
+              onChange={(e) => setBusiness({ ...business, notes: e.target.value })}
+              className={inputClass()}
+            />
+          </label>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className={labelClass()}>
+              Mot de passe
+              <input
+                required
+                type="password"
+                minLength={8}
+                value={business.password}
+                onChange={(e) => setBusiness({ ...business, password: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+            <label className={labelClass()}>
+              Confirmer le mot de passe
+              <input
+                required
+                type="password"
+                minLength={8}
+                value={business.confirmPassword}
+                onChange={(e) => setBusiness({ ...business, confirmPassword: e.target.value })}
+                className={inputClass()}
+              />
+            </label>
+          </div>
+
+          <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-4">
+            <label className="flex items-start gap-3 text-sm text-ivory/80">
+              <input
+                type="checkbox"
+                checked={business.ageConfirmed}
+                onChange={(e) => setBusiness({ ...business, ageConfirmed: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
+              Je confirme avoir 18 ans ou plus.
+            </label>
+            <label className="flex items-start gap-3 text-sm text-ivory/80">
+              <input
+                type="checkbox"
+                checked={business.termsAccepted}
+                onChange={(e) => setBusiness({ ...business, termsAccepted: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
+              J&rsquo;accepte les{" "}
+              <a href="/conditions" className="text-champagne hover:underline">
+                conditions générales
+              </a>
+              .
+            </label>
+            <label className="flex items-start gap-3 text-sm text-ivory/80">
+              <input
+                type="checkbox"
+                checked={business.privacyAccepted}
+                onChange={(e) => setBusiness({ ...business, privacyAccepted: e.target.checked })}
+                className={checkboxClass}
+                required
+              />
+              J&rsquo;accepte la{" "}
+              <a href="/confidentialite" className="text-champagne hover:underline">
+                politique de confidentialité
+              </a>
+              .
+            </label>
+          </div>
+
+          {error && <p className="text-sm text-amber-400">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 rounded-full bg-champagne px-6 py-3 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          >
+            {loading ? "Création..." : "Créer ma fiche pro"}
+          </button>
+
+          <p className="text-center text-sm text-ivory/60">
+            Déjà inscrit ?{" "}
+            <Link href="/connexion" className="text-champagne hover:underline">
+              Se connecter
+            </Link>
+          </p>
+        </form>
       )}
     </div>
   );
