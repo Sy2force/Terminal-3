@@ -8,7 +8,7 @@ import {
   updateProductAction,
   type ProductFormData,
 } from "@/app/admin/products/actions";
-import { ImageUploader } from "@/components/admin/image-uploader";
+import { ProductMediaEditor } from "@/components/admin/product-media-editor";
 import { formatAgorot } from "@/lib/money";
 import { isValidWoltUrl } from "@/lib/wolt";
 import type {
@@ -198,37 +198,25 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       )}
 
       {/* PHOTO */}
-      <Section title="Photo">
-        <div className="flex flex-col gap-4">
-          {coverMedia?.url ? (
-            <div className="relative h-48 w-48 overflow-hidden rounded-sm bg-creme">
-              <Image src={coverMedia.url} alt={coverMedia.alt ?? "Photo produit"} fill className="object-contain" sizes="192px" />
+      <Section title="Photos du produit">
+        {coverMedia?.url ? (
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end">
+            <div className="relative h-48 w-48 overflow-hidden rounded-xl border border-or-principal bg-white p-2 shadow-sm">
+              <Image
+                src={coverMedia.url}
+                alt={coverMedia.alt ?? "Couverture produit"}
+                fill
+                className="object-contain"
+                sizes="192px"
+              />
             </div>
-          ) : (
-            <div className="flex h-48 w-48 items-center justify-center rounded-sm border border-amber-300 bg-amber-50 text-center text-xs text-amber-700">
-              ⚠ Photo manquante
+            <div>
+              <p className="text-sm font-medium text-noir-profond">Couverture actuelle</p>
+              <p className="text-xs text-gris-chaud">L&apos;étoile dans la galerie choisit la nouvelle couverture.</p>
             </div>
-          )}
-          <ImageUploader
-            bucket="product-images"
-            onUploaded={(url) => {
-              const existing = media.filter((m) => m.kind !== "COVER");
-              setMedia([{ url, kind: "COVER", alt: null, display_order: 0 }, ...existing]);
-            }}
-            label={coverMedia?.url ? "Remplacer la photo" : "Ajouter une photo"}
-          />
-          {coverMedia?.url && (
-            <button
-              type="button"
-              onClick={() => {
-                setMedia(media.filter((m) => m.kind !== "COVER" && m.url !== coverMedia.url));
-              }}
-              className="w-fit text-xs text-amber-700 hover:text-amber-300"
-            >
-              Supprimer la photo
-            </button>
-          )}
-        </div>
+          </div>
+        ) : null}
+        <ProductMediaEditor media={media} onChange={setMedia} />
       </Section>
 
       {/* NOM + CATÉGORIE */}
@@ -336,10 +324,6 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         </button>
         {showAdvanced && (
           <div className="mt-4 flex flex-col gap-6">
-            <Section title="Médias supplémentaires">
-              <MediaEditor media={media} onChange={setMedia} />
-            </Section>
-
             <Section title="Détails produit">
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field name="slug" label="Slug (URL)" defaultValue={initial?.slug} required />
@@ -809,55 +793,6 @@ function VariantEditor({
       ))}
       <button type="button" onClick={add} className="w-fit rounded-full border border-or-principal/40 px-4 py-2 text-xs font-medium text-or-principal hover:bg-or-principal hover:text-noir-profond">
         + Ajouter une variante
-      </button>
-    </div>
-  );
-}
-
-function MediaEditor({
-  media,
-  onChange,
-}: {
-  media: Partial<ProductMediaRow>[];
-  onChange: (m: Partial<ProductMediaRow>[]) => void;
-}) {
-  function update(index: number, patch: Partial<ProductMediaRow>) {
-    onChange(media.map((m, i) => (i === index ? { ...m, ...patch } : m)));
-  }
-
-  function add() {
-    onChange([...media, { kind: "GALLERY" }]);
-  }
-
-  function remove(index: number) {
-    onChange(media.filter((_, i) => i !== index));
-  }
-
-  return (
-    <div className="flex flex-col gap-4">
-      <ImageUploader
-        bucket="product-images"
-        onUploaded={(url) => onChange([...media, { url, kind: "GALLERY" }])}
-        label="Uploader une image"
-      />
-      {media.map((m, i) => (
-        <div key={i} className="grid gap-3 rounded-sm border border-beige-fonce p-3 sm:grid-cols-4">
-          <input value={m.url ?? ""} onChange={(e) => update(i, { url: e.target.value })} placeholder="URL image" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <input value={(m.alt as string) ?? ""} onChange={(e) => update(i, { alt: e.target.value })} placeholder="Alt text" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <select value={m.kind ?? "GALLERY"} onChange={(e) => update(i, { kind: e.target.value as ProductMediaKind })} className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond">
-            <option value="COVER">Cover</option>
-            <option value="GALLERY">Gallery</option>
-            <option value="LIFESTYLE">Lifestyle</option>
-            <option value="DETAIL">Detail</option>
-            <option value="EDITORIAL">Editorial</option>
-          </select>
-          <button type="button" onClick={() => remove(i)} className="text-left text-xs text-amber-700 hover:text-amber-300 sm:text-right">
-            Supprimer
-          </button>
-        </div>
-      ))}
-      <button type="button" onClick={add} className="w-fit rounded-full border border-or-principal/40 px-4 py-2 text-xs font-medium text-or-principal hover:bg-or-principal hover:text-noir-profond">
-        + Ajouter une image
       </button>
     </div>
   );

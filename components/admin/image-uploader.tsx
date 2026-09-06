@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
-import { Upload, X, AlertCircle, ImageIcon } from "lucide-react";
+import { useRef, useState } from "react";
+import { Upload, AlertCircle, ImageIcon } from "lucide-react";
+import Image from "next/image";
 
 const MAX_SIZE_MB = 5;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
@@ -109,25 +110,25 @@ export function ImageUploader({
     if (file) upload(file);
   }
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragOver(false);
     const file = e.dataTransfer.files?.[0];
     if (file) upload(file);
-  }, []);
+  };
 
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragOver(true);
-  }, []);
+  };
 
-  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragOver(false);
-  }, []);
+  };
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -188,7 +189,7 @@ export function ImageUploader({
 
         {previewUrl && !uploading && (
           <div className="relative mt-2 h-24 w-24 overflow-hidden rounded-sm border border-beige-fonce">
-            <img src={previewUrl} alt="Aperçu" className="h-full w-full object-contain" />
+            <Image src={previewUrl} alt="Aperçu" fill className="object-contain" unoptimized sizes="96px" />
           </div>
         )}
       </div>
