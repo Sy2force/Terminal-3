@@ -3,8 +3,8 @@
 > Date : 1er septembre 2026  
 > Branche : `audit-reorg-2026`  
 > Dernière Preview : `https://terminal3-9zuuas9w4-projet-607a8e5b.vercel.app` — statut Vercel `Ready`  
-> Production : `https://terminal3-n0rm3jinj-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
-> Connexion admin : mot de passe unique (`ADMIN_PASSWORD`) via cookie HMAC signé (`ADMIN_SESSION_SECRET`).  
+> Production : `https://terminal3-50wpsumpk-projet-607a8e5b.vercel.app` / `https://terminal3-beta.vercel.app` — déployé  
+> Connexion admin : `/admin/login` vérifié en production (desktop + mobile via Playwright), cookie `admin_session` HMAC signé, rate limit côté serveur.  
 > Migrations Supabase : `0001_init.sql` → `0045_wolt_links.sql` appliquées sur `dtoxlxqkhmiaiesazjvy`.  
 > Inscription : formulaire réparticulier / bar sur `/inscription`, crée profil + `bar_profiles` + `leads` (build OK).
 
