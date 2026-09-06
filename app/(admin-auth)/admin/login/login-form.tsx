@@ -36,7 +36,7 @@ export function LoginForm({ initialError }: LoginFormProps) {
               />
             </div>
 
-            <h1 className="text-center font-serif text-2xl text-[#F7F0E4] sm:text-3xl">
+            <h1 data-testid="admin-login-title" className="text-center font-serif text-2xl text-[#F7F0E4] sm:text-3xl">
               Administration Terminal 3
             </h1>
             <p className="mt-2 text-center text-sm text-[#71695F]">
@@ -59,8 +59,7 @@ export function LoginForm({ initialError }: LoginFormProps) {
                   required
                   minLength={1}
                   autoComplete="current-password"
-                  disabled={isLoading}
-                  className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 pr-12 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B] disabled:opacity-60"
+                  className="w-full rounded-sm border border-white/10 bg-[#2C2924] px-4 py-3 pr-12 text-[#F7F0E4] outline-none transition-colors focus:border-[#C6A15B]"
                   placeholder="••••••"
                 />
                 <button
@@ -82,9 +81,8 @@ export function LoginForm({ initialError }: LoginFormProps) {
 
             <button
               type="submit"
-              disabled={isLoading}
               aria-busy={isLoading}
-              className="mt-2 w-full rounded-sm bg-[#C6A15B] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#151411] transition-all hover:bg-[#D9B87A] active:scale-[0.98] disabled:opacity-70"
+              className="mt-2 w-full rounded-sm bg-[#C6A15B] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#151411] transition-all hover:bg-[#D9B87A] active:scale-[0.98]"
             >
               {isLoading ? "Connexion..." : "Se connecter"}
             </button>
