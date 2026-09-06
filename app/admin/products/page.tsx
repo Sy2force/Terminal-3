@@ -5,6 +5,7 @@ import { getAllCategories } from "@/lib/data/categories";
 import { ProductsFilterBar } from "@/components/admin/products-filter-bar";
 import { ProductsTableClient } from "@/components/admin/products-table-client";
 import { ProductsClassificationClient } from "@/components/admin/products-classification-client";
+import { PlusCircle, Upload, Download, Search } from "lucide-react";
 import { clsx } from "clsx";
 
 interface AdminProductsPageProps {
@@ -20,56 +21,107 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
     ? [null, null]
     : await Promise.all([getAllProducts(), getAllCategories()]);
 
+  const stats = {
+    total: products?.length ?? 0,
+    published: products?.filter((p) => p.status === "published").length ?? 0,
+    draft: products?.filter((p) => p.status === "draft").length ?? 0,
+    noPhoto: products?.filter((p) => !p.media.find((m) => m.kind === "COVER") && !p.media[0]).length ?? 0,
+    promotions: products?.filter((p) => p.compare_at_price_agorot).length ?? 0,
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl text-ivory">Produits</h1>
-        <div className="flex items-center gap-3">
-          {!isClassification && (
-            <>
-              <Link
-                href="/admin/products/import"
-                className="rounded-full border border-champagne/40 px-5 py-2 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
-              >
-                Import CSV
-              </Link>
-              <a
-                href="/api/admin/export/products"
-                download
-                className="rounded-full border border-champagne/40 px-5 py-2 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
-              >
-                Export CSV
-              </a>
-              <Link
-                href="/admin/products/new"
-                className="rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold"
-              >
-                Nouveau produit
-              </Link>
-            </>
-          )}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <h1 className="font-serif text-3xl text-noir-profond">Produits</h1>
+          <p className="mt-1 text-sm text-gris-chaud">
+            Gérez le catalogue, les stocks, les photos et les promotions.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/admin/products/import"
+            className="inline-flex items-center gap-2 rounded-sm border border-beige-fonce bg-white px-4 py-2 text-sm font-medium text-noir-profond hover:bg-creme"
+          >
+            <Upload className="h-4 w-4" />
+            Import CSV
+          </Link>
+          <a
+            href="/api/admin/export/products"
+            download
+            className="inline-flex items-center gap-2 rounded-sm border border-beige-fonce bg-white px-4 py-2 text-sm font-medium text-noir-profond hover:bg-creme"
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
+          </a>
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center gap-2 rounded-sm bg-or-principal px-4 py-2 text-sm font-semibold text-noir-profond hover:bg-or-clair"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Nouveau produit
+          </Link>
         </div>
       </div>
 
-      <div className="flex gap-4 border-b border-ivory/10 pb-1">
-        <Link
-          href="/admin/products"
-          className={clsx(
-            "pb-2 text-sm font-medium transition-colors",
-            !isClassification ? "border-b-2 border-champagne text-ivory" : "text-ivory/60 hover:text-ivory",
-          )}
-        >
-          Catalogue
-        </Link>
-        <Link
-          href="/admin/products?tab=classification"
-          className={clsx(
-            "pb-2 text-sm font-medium transition-colors",
-            isClassification ? "border-b-2 border-champagne text-ivory" : "text-ivory/60 hover:text-ivory",
-          )}
-        >
-          Règles de classement
-        </Link>
+      {!isClassification && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="rounded-xl border border-beige-fonce bg-white p-4 shadow-sm">
+            <p className="text-xs text-gris-chaud">Total</p>
+            <p className="mt-1 font-serif text-2xl text-noir-profond">{stats.total}</p>
+          </div>
+          <div className="rounded-xl border border-beige-fonce bg-white p-4 shadow-sm">
+            <p className="text-xs text-gris-chaud">Publiés</p>
+            <p className="mt-1 font-serif text-2xl text-green-700">{stats.published}</p>
+          </div>
+          <div className="rounded-xl border border-beige-fonce bg-white p-4 shadow-sm">
+            <p className="text-xs text-gris-chaud">Brouillons</p>
+            <p className="mt-1 font-serif text-2xl text-slate-700">{stats.draft}</p>
+          </div>
+          <div className="rounded-xl border border-beige-fonce bg-white p-4 shadow-sm">
+            <p className="text-xs text-gris-chaud">Sans photo</p>
+            <p className="mt-1 font-serif text-2xl text-amber-700">{stats.noPhoto}</p>
+          </div>
+          <div className="rounded-xl border border-beige-fonce bg-white p-4 shadow-sm">
+            <p className="text-xs text-gris-chaud">Promotions</p>
+            <p className="mt-1 font-serif text-2xl text-bordeaux-principal">{stats.promotions}</p>
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex gap-4 border-b border-beige-fonce pb-1">
+          <Link
+            href="/admin/products"
+            className={clsx(
+              "pb-2 text-sm font-medium transition-colors",
+              !isClassification ? "border-b-2 border-or-principal text-noir-profond" : "text-gris-chaud hover:text-noir-profond",
+            )}
+          >
+            Catalogue
+          </Link>
+          <Link
+            href="/admin/products?tab=classification"
+            className={clsx(
+              "pb-2 text-sm font-medium transition-colors",
+              isClassification ? "border-b-2 border-or-principal text-noir-profond" : "text-gris-chaud hover:text-noir-profond",
+            )}
+          >
+            Règles de classement
+          </Link>
+        </div>
+
+        {!isClassification && (
+          <div className="hidden items-center rounded-xl border border-beige-fonce bg-white px-3 py-2 lg:flex">
+            <Search className="h-4 w-4 text-gris-chaud" />
+            <input
+              type="text"
+              placeholder="Rechercher par nom, SKU, code-barres..."
+              className="ml-2 bg-transparent text-sm text-noir-profond placeholder:text-gris-chaud focus:outline-none"
+            />
+          </div>
+        )}
       </div>
 
       {isClassification ? (

@@ -2,53 +2,58 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   LayoutDashboard,
   ShoppingBag,
-  Truck,
   Package,
+  PlusCircle,
+  Zap,
   Grid3X3,
-  Tag,
+  Star,
+  Percent,
+  Upload,
   Image as ImageIcon,
   FileText,
-  Star,
-  Users,
-  Crown,
-  MessageSquare,
   Settings,
-  Shield,
-  History,
   LogOut,
   Menu,
   Store,
-  AlertCircle,
-  CreditCard,
-  CalendarHeart,
-  Receipt,
-  Sparkles,
-  Percent,
-  UserPlus,
-  PlusCircle,
-  Upload,
-  LayoutGrid,
-  List,
+  ChevronDown,
+  Search,
+  User,
+  Bell,
 } from "lucide-react";
 import type { AdminSession } from "@/lib/admin/auth";
 import { signOutAdmin } from "@/app/admin/logout/actions";
 
+interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: number;
+}
+
 interface NavGroup {
   label: string;
-  items: { href: string; label: string; icon: React.ComponentType<{ className?: string }>; badge?: number }[];
+  items: NavItem[];
 }
 
 const NAV: NavGroup[] = [
   {
-    label: "Tableau de bord",
+    label: "Accueil",
     items: [
       { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
-      { href: "/admin/orders", label: "Nouvelles commandes", icon: ShoppingBag },
-      { href: "/admin/presence", label: "Présence en ligne", icon: Users },
+    ],
+  },
+  {
+    label: "Ventes",
+    items: [
+      { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
+      { href: "/admin/clients", label: "Clients", icon: User },
+      { href: "/admin/bars", label: "Bars et leads", icon: Store },
+      { href: "/admin/product-requests", label: "Demandes produits", icon: FileText },
     ],
   },
   {
@@ -56,72 +61,38 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/admin/products", label: "Produits", icon: Package },
       { href: "/admin/products/new", label: "Ajouter un produit", icon: PlusCircle },
-      { href: "/admin/products/quick-add", label: "Ajout rapide", icon: Sparkles },
+      { href: "/admin/products/quick-add", label: "Ajout rapide", icon: Zap },
       { href: "/admin/categories", label: "Catégories", icon: Grid3X3 },
       { href: "/admin/brands", label: "Marques", icon: Star },
+      { href: "/admin/inventory", label: "Stocks", icon: Package },
       { href: "/admin/promotions", label: "Promotions", icon: Percent },
       { href: "/admin/products/import", label: "Import / Export", icon: Upload },
-      { href: "/admin/products?tab=classification", label: "Règles de classement", icon: Tag },
-    ],
-  },
-  {
-    label: "Inventaire",
-    items: [{ href: "/admin/inventory", label: "Stocks", icon: Tag }],
-  },
-  {
-    label: "B2B & Pros",
-    items: [
-      { href: "/admin/clients", label: "Clients inscrits", icon: Users },
-      { href: "/admin/bars", label: "Bars & pros", icon: Store },
-      { href: "/admin/product-requests", label: "Demandes produits", icon: MessageSquare },
-      { href: "/admin/leads", label: "Leads", icon: UserPlus },
-      { href: "/admin/members", label: "Membres Club", icon: Crown },
-    ],
-  },
-  {
-    label: "Commandes",
-    items: [
-      { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
-      { href: "/admin/orders/kanban", label: "Vue Kanban", icon: LayoutGrid },
-      { href: "/admin/orders/queue", label: "File d'attente", icon: List },
-      { href: "/admin/payments", label: "Paiements", icon: CreditCard },
-      { href: "/admin/livraisons", label: "Livraisons", icon: Truck },
-      { href: "/admin/wolt", label: "Wolt", icon: Store },
-    ],
-  },
-  {
-    label: "Clients",
-    items: [
-      { href: "/admin/verifications", label: "Vérifications identité", icon: Shield },
-      { href: "/admin/loyalty", label: "Fidélité", icon: Sparkles },
-      { href: "/admin/discounts", label: "Remises", icon: Percent },
-      { href: "/admin/reviews", label: "Avis", icon: MessageSquare },
     ],
   },
   {
     label: "Contenu",
     items: [
-      { href: "/admin/contenus", label: "Pages", icon: FileText },
       { href: "/admin/photos", label: "Photos du site", icon: ImageIcon },
-      { href: "/admin/couvertures", label: "Hero", icon: ImageIcon },
-      { href: "/admin/medias", label: "Médiathèque", icon: ImageIcon },
-      { href: "/admin/content", label: "Inspirations", icon: FileText },
-      { href: "/admin/homepage", label: "Accueil", icon: LayoutDashboard },
-      { href: "/admin/evenements", label: "Mariages & Fêtes", icon: CalendarHeart },
+      { href: "/admin/couvertures", label: "Accueil", icon: LayoutDashboard },
+      { href: "/admin/homepage", label: "Bannières", icon: ImageIcon },
+      { href: "/admin/evenements", label: "Événements", icon: FileText },
+      { href: "/admin/contenus", label: "Pages", icon: FileText },
     ],
   },
   {
     label: "Réglages",
     items: [
-      { href: "/admin/invoices", label: "Factures", icon: Receipt },
-      { href: "/admin/settings", label: "Paramètres", icon: Settings },
-      { href: "/admin/users", label: "Utilisateurs", icon: Shield },
-      { href: "/admin/roles", label: "Rôles & permissions", icon: Shield },
-      { href: "/admin/historique", label: "Historique / Audit", icon: History },
-      { href: "/admin/age-verifications", label: "Vérif. 18+", icon: AlertCircle },
+      { href: "/admin/store", label: "Magasin", icon: Store },
+      { href: "/admin/settings", label: "Horaires & WhatsApp", icon: Settings },
+      { href: "/admin/wolt", label: "Wolt", icon: Store },
+      { href: "/admin/users", label: "Utilisateurs", icon: User },
     ],
   },
 ];
+
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function AdminShell({
   children,
@@ -133,120 +104,178 @@ export function AdminShell({
   unreadNotifications: number;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(NAV.map((g) => [g.label, true]))
+  );
+
+  const pageTitle = NAV.flatMap((g) => g.items).find((i) => isActive(pathname, i.href))?.label || "Administration";
 
   return (
-    <div className="flex min-h-screen bg-[#FBF8F1]">
-      {/* Mobile overlay */}
+    <div className="flex min-h-screen bg-fond-papier text-noir-profond">
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[#151411]/60 lg:hidden"
+          className="fixed inset-0 z-40 bg-noir-profond/40 lg:hidden"
           onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen w-64 flex-col border-r border-white/5 bg-[#151411] text-[#F7F0E4] transition-transform lg:static lg:translate-x-0 ${
+        className={`fixed left-0 top-0 z-50 h-screen w-64 flex-col border-r border-beige-fonce bg-creme transition-transform lg:static lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center gap-3 border-b border-white/5 px-5">
-          <span className="font-serif text-lg text-[#C6A15B]">Terminal 3</span>
-          <span className="rounded-sm border border-[#C6A15B]/30 px-1.5 py-0.5 text-[9px] uppercase tracking-wider text-[#C6A15B]">
-            Admin
-          </span>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-3 py-4">
-          {NAV.map((group) => (
-            <div key={group.label} className="mb-6">
-              <p className="mb-2 px-3 text-[10px] uppercase tracking-widest text-[#71695F]">
-                {group.label}
-              </p>
-              <div className="space-y-1">
-                {group.items.map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`flex items-center justify-between rounded-sm px-3 py-2.5 text-sm transition-colors ${
-                        active
-                          ? "bg-[#692031] text-[#F7F0E4]"
-                          : "text-[#F7F0E4]/80 hover:bg-white/5 hover:text-[#C6A15B]"
-                      }`}
-                    >
-                      <span className="flex items-center gap-3">
-                        <Icon className="h-4 w-4 shrink-0" />
-                        {item.label}
-                      </span>
-                      {item.badge ? (
-                        <span className="rounded-sm bg-[#692031] px-1.5 py-0.5 text-[10px]">
-                          {item.badge}
-                        </span>
-                      ) : null}
-                    </Link>
-                  );
-                })}
-              </div>
+        <div className="flex h-16 items-center gap-3 border-b border-beige-fonce px-5">
+          <Link href="/admin" className="flex items-center gap-3">
+            <div className="relative h-10 w-10">
+              <Image
+                src="/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png"
+                alt="Terminal 3"
+                fill
+                className="object-contain"
+              />
             </div>
-          ))}
+            <div>
+              <p className="font-serif text-base leading-tight text-noir-profond">Terminal 3</p>
+              <p className="text-[10px] uppercase tracking-wider text-gris-chaud">Administration</p>
+            </div>
+          </Link>
         </div>
 
-        <div className="border-t border-white/5 p-4">
-          <div className="mb-3 text-xs text-[#71695F]">
-            <p className="text-[#F7F0E4]">{session.email}</p>
-            <p className="uppercase tracking-wider">{session.role}</p>
-          </div>
-          <Link
-            href="/"
-            className="mb-2 flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-[#F7F0E4]/80 hover:bg-white/5 hover:text-[#C6A15B]"
-          >
-            <Store className="h-4 w-4" />
-            Voir le site
-          </Link>
-          <form action={signOutAdmin}>
-            <button
-              type="submit"
-              className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-[#F7F0E4]/80 hover:bg-white/5 hover:text-[#C6A15B]"
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          {NAV.map((group) => {
+            const open = expanded[group.label];
+            const activeInGroup = group.items.some((i) => isActive(pathname, i.href));
+            return (
+              <div key={group.label} className="mb-3">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExpanded((s) => ({ ...s, [group.label]: !s[group.label] }))
+                  }
+                  className={`flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                    activeInGroup ? "text-bordeaux-principal" : "text-gris-chaud hover:text-noir-profond"
+                  }`}
+                  aria-expanded={open}
+                >
+                  {group.label}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+                </button>
+                {open && (
+                  <div className="mt-1 space-y-0.5">
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(pathname, item.href);
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={`flex items-center justify-between rounded-sm px-3 py-2.5 text-sm transition-colors ${
+                            active
+                              ? "bg-or-principal/10 font-medium text-noir-profond"
+                              : "text-gris-chaud hover:bg-beige hover:text-noir-profond"
+                          }`}
+                          aria-current={active ? "page" : undefined}
+                        >
+                          <span className="flex items-center gap-3">
+                            <Icon className="h-4 w-4 shrink-0" />
+                            {item.label}
+                          </span>
+                          {item.badge ? (
+                            <span className="rounded-sm bg-bordeaux-principal px-1.5 py-0.5 text-[10px] text-creme">
+                              {item.badge}
+                            </span>
+                          ) : null}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+
+        <div className="border-t border-beige-fonce p-4">
+          <p className="px-3 text-sm text-noir-profond">{session.email}</p>
+          <p className="mb-3 px-3 text-[10px] uppercase tracking-wider text-gris-chaud">{session.role}</p>
+          <div className="space-y-1">
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-gris-chaud hover:bg-beige hover:text-noir-profond"
             >
-              <LogOut className="h-4 w-4" />
-              Déconnexion
-            </button>
-          </form>
+              <Store className="h-4 w-4" />
+              Voir la boutique
+            </a>
+            <form action={signOutAdmin}>
+              <button
+                type="submit"
+                className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-gris-chaud hover:bg-beige hover:text-bordeaux-principal"
+              >
+                <LogOut className="h-4 w-4" />
+                Se déconnecter
+              </button>
+            </form>
+          </div>
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[#E7DECE] bg-[#FBF8F1] px-4 lg:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-beige-fonce bg-creme/90 px-4 backdrop-blur-sm lg:px-8">
           <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="rounded-sm border border-[#E7DECE] p-2 text-[#151411] lg:hidden"
+              className="rounded-sm border border-beige-fonce p-2 text-noir-profond lg:hidden"
               aria-label="Ouvrir le menu"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <h1 className="font-serif text-xl text-[#151411]">Administration</h1>
+            <h1 className="font-serif text-xl text-noir-profond">{pageTitle}</h1>
           </div>
-          <div className="flex items-center gap-4">
+
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center rounded-sm border border-beige-fonce bg-white px-3 py-1.5 md:flex">
+              <Search className="h-4 w-4 text-gris-chaud" />
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                className="ml-2 bg-transparent text-sm text-noir-profond placeholder:text-gris-chaud focus:outline-none"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    const q = (e.target as HTMLInputElement).value;
+                    if (q.trim()) router.push(`/admin/products?search=${encodeURIComponent(q.trim())}`);
+                  }
+                }}
+              />
+            </div>
+
             {unreadNotifications > 0 && (
-              <div className="flex h-8 items-center gap-1.5 rounded-sm border border-[#692031]/20 bg-[#692031]/10 px-2.5 text-xs text-[#692031]">
-                <AlertCircle className="h-3.5 w-3.5" />
-                {unreadNotifications}
-              </div>
+              <button
+                type="button"
+                className="relative rounded-sm border border-beige-fonce p-2 text-noir-profoud"
+                aria-label="Notifications"
+              >
+                <Bell className="h-5 w-5" />
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-bordeaux-principal text-[10px] text-creme">
+                  {unreadNotifications}
+                </span>
+              </button>
             )}
-            <Link
+
+            <a
               href="/"
-              className="hidden rounded-sm border border-[#E7DECE] px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-[#151411] hover:border-[#C6A15B] hover:text-[#C6A15B] sm:block"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden rounded-sm border border-beige-fonce bg-white px-3 py-2 text-xs font-medium uppercase tracking-wider text-noir-profond hover:border-or-principal hover:text-or-principal sm:block"
             >
-              Voir le site
-            </Link>
+              Voir la boutique
+            </a>
           </div>
         </header>
 
