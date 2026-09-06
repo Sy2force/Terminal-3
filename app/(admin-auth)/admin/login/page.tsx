@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Connexion admin | Terminal 3",
 };
 
+export const dynamic = "force-dynamic";
+
 interface AdminLoginPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
