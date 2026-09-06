@@ -27,10 +27,10 @@ export function CategoryRowActions({ categoryId }: { categoryId: string }) {
 
   return (
     <div className="flex items-center justify-end gap-3">
-      {error && <span className="text-xs text-amber-400">{error}</span>}
+      {error && <span className="text-xs text-amber-700">{error}</span>}
       <Link
         href={`/admin/categories/${categoryId}`}
-        className="text-xs text-champagne hover:text-soft-gold"
+        className="text-xs text-or-principal hover:text-soft-gold"
       >
         Modifier
       </Link>
@@ -38,7 +38,7 @@ export function CategoryRowActions({ categoryId }: { categoryId: string }) {
         type="button"
         onClick={handleArchive}
         disabled={isPending}
-        className="text-xs text-ivory/60 hover:text-ivory disabled:opacity-50"
+        className="text-xs text-noir-profond/60 hover:text-noir-profond disabled:opacity-50"
       >
         Désactiver
       </button>
@@ -46,7 +46,7 @@ export function CategoryRowActions({ categoryId }: { categoryId: string }) {
         type="button"
         onClick={handleDelete}
         disabled={isPending}
-        className="text-xs text-amber-400 hover:text-amber-300 disabled:opacity-50"
+        className="text-xs text-amber-700 hover:text-amber-300 disabled:opacity-50"
       >
         Supprimer
       </button>

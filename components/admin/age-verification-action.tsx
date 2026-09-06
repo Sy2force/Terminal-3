@@ -48,7 +48,7 @@ export function AgeVerificationAction({
 
   return (
     <div className="flex items-center gap-2">
-      <span className="flex items-center gap-1 text-amber-400 text-sm">
+      <span className="flex items-center gap-1 text-amber-700 text-sm">
         <AlertTriangle className="h-4 w-4" />
         En attente
       </span>

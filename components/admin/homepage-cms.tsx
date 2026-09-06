@@ -91,27 +91,27 @@ export function HomepageCMS({
       )}
 
       <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-grey">
+        <span className="text-sm text-gris-chaud">
           {sections.length} section{sections.length > 1 ? "s" : ""}
         </span>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="inline-flex items-center gap-2 rounded-full bg-champagne px-4 py-2 text-xs font-semibold text-obsidian transition-colors hover:bg-soft-gold"
+          className="inline-flex items-center gap-2 rounded-full bg-or-principal px-4 py-2 text-xs font-semibold text-noir-profond transition-colors hover:bg-or-clair"
         >
           <Plus className="h-4 w-4" /> Ajouter une section
         </button>
       </div>
 
       {showAdd && (
-        <div className="rounded-sm border border-champagne/30 bg-graphite p-4">
+        <div className="rounded-sm border border-champagne/30 bg-white p-4">
           <div className="flex flex-col gap-3">
-            <label className="text-xs uppercase tracking-widest text-champagne">
+            <label className="text-xs uppercase tracking-widest text-or-principal">
               Type de section
             </label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value as HomepageSectionType)}
-              className="rounded-sm border border-white/10 bg-warm-black px-4 py-2 text-sm text-ivory"
+              className="rounded-sm border border-beige-fonce bg-creme px-4 py-2 text-sm text-noir-profond"
             >
               {SECTION_TYPES.map((type) => (
                 <option key={type} value={type}>
@@ -122,7 +122,7 @@ export function HomepageCMS({
             <button
               onClick={handleAdd}
               disabled={pendingId !== null}
-              className="self-start rounded-full bg-champagne px-4 py-2 text-xs font-semibold text-obsidian disabled:opacity-50"
+              className="self-start rounded-full bg-or-principal px-4 py-2 text-xs font-semibold text-noir-profond disabled:opacity-50"
             >
               Confirmer
             </button>
@@ -134,21 +134,21 @@ export function HomepageCMS({
         {sections.map((section, index) => (
           <div
             key={section.id}
-            className={`rounded-sm border bg-graphite p-4 transition-opacity ${
-              section.is_enabled ? "border-white/5" : "border-white/5 opacity-50"
+            className={`rounded-sm border bg-white p-4 transition-opacity ${
+              section.is_enabled ? "border-beige-fonce" : "border-beige-fonce opacity-50"
             }`}
           >
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono text-muted-grey">
+                <span className="text-xs font-mono text-gris-chaud">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <span className="text-sm font-medium text-ivory">
+                  <span className="text-sm font-medium text-noir-profond">
                     {SECTION_TYPE_LABELS[section.section_type]}
                   </span>
                   {typeof section.config.title === "string" && (
-                    <span className="ml-2 text-xs text-muted-grey">
+                    <span className="ml-2 text-xs text-gris-chaud">
                       {section.config.title}
                     </span>
                   )}
@@ -159,7 +159,7 @@ export function HomepageCMS({
                 <button
                   onClick={() => handleReorder(section.id, section.sort_order, -1)}
                   disabled={index === 0 || pendingId !== null}
-                  className="rounded p-1.5 text-ivory/60 hover:bg-warm-black hover:text-champagne disabled:opacity-30"
+                  className="rounded p-1.5 text-noir-profond/60 hover:bg-creme hover:text-or-principal disabled:opacity-30"
                   aria-label="Monter"
                 >
                   <ArrowUp className="h-4 w-4" />
@@ -167,7 +167,7 @@ export function HomepageCMS({
                 <button
                   onClick={() => handleReorder(section.id, section.sort_order, 1)}
                   disabled={index === sections.length - 1 || pendingId !== null}
-                  className="rounded p-1.5 text-ivory/60 hover:bg-warm-black hover:text-champagne disabled:opacity-30"
+                  className="rounded p-1.5 text-noir-profond/60 hover:bg-creme hover:text-or-principal disabled:opacity-30"
                   aria-label="Descendre"
                 >
                   <ArrowDown className="h-4 w-4" />
@@ -175,7 +175,7 @@ export function HomepageCMS({
                 <button
                   onClick={() => handleToggle(section.id, !section.is_enabled)}
                   disabled={pendingId !== null}
-                  className="rounded p-1.5 text-ivory/60 hover:bg-warm-black hover:text-champagne"
+                  className="rounded p-1.5 text-noir-profond/60 hover:bg-creme hover:text-or-principal"
                   aria-label={section.is_enabled ? "Désactiver" : "Activer"}
                 >
                   {section.is_enabled ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
@@ -183,7 +183,7 @@ export function HomepageCMS({
                 <button
                   onClick={() => handleDelete(section.id)}
                   disabled={pendingId !== null}
-                  className="rounded p-1.5 text-red-400/60 hover:bg-warm-black hover:text-red-400"
+                  className="rounded p-1.5 text-red-400/60 hover:bg-creme hover:text-red-400"
                   aria-label="Supprimer"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -192,8 +192,8 @@ export function HomepageCMS({
             </div>
 
             {section.is_enabled && section.section_type === "FEATURED_CATEGORY" && (
-              <div className="mt-3 flex flex-col gap-2 border-t border-white/5 pt-3">
-                <label className="text-xs text-muted-grey">Titre</label>
+              <div className="mt-3 flex flex-col gap-2 border-t border-beige-fonce pt-3">
+                <label className="text-xs text-gris-chaud">Titre</label>
                 <input
                   type="text"
                   defaultValue={(section.config.title as string) ?? ""}
@@ -203,9 +203,9 @@ export function HomepageCMS({
                       title: e.target.value,
                     })
                   }
-                  className="rounded-sm border border-white/10 bg-warm-black px-3 py-1.5 text-sm text-ivory"
+                  className="rounded-sm border border-beige-fonce bg-creme px-3 py-1.5 text-sm text-noir-profond"
                 />
-                <label className="mt-1 text-xs text-muted-grey">Catégorie</label>
+                <label className="mt-1 text-xs text-gris-chaud">Catégorie</label>
                 <select
                   defaultValue={(section.config.category_slug as string) ?? ""}
                   onChange={(e) =>
@@ -214,7 +214,7 @@ export function HomepageCMS({
                       category_slug: e.target.value,
                     })
                   }
-                  className="rounded-sm border border-white/10 bg-warm-black px-3 py-1.5 text-sm text-ivory"
+                  className="rounded-sm border border-beige-fonce bg-creme px-3 py-1.5 text-sm text-noir-profond"
                 >
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.slug}>

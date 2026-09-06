@@ -8,7 +8,7 @@ export default async function NewCategoryPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Nouvelle catégorie</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Nouvelle catégorie</h1>
       <CategoryForm categories={categories} />
     </div>
   );

@@ -15,9 +15,11 @@ export function ProductMediaEditor({ media, onChange }: ProductMediaEditorProps)
   const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   const addMedia = (url: string) => {
+    const hasCover = media.some((m) => m.kind === "COVER");
+    const kind = hasCover ? "GALLERY" : "COVER";
     onChange([
       ...media,
-      { url, kind: "GALLERY" as ProductMediaKind, alt: "", display_order: media.length },
+      { url, kind: kind as ProductMediaKind, alt: "", display_order: media.length },
     ]);
   };
 

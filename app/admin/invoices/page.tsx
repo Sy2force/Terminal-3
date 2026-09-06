@@ -30,8 +30,8 @@ export default async function AdminInvoicesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Factures et documents</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Factures et documents</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           Tant qu&rsquo;un paiement n&rsquo;est pas confirmé, seul un récapitulatif de commande est
           disponible — une vraie facture nécessite la configuration comptable et l&rsquo;encaissement
           confirmé.
@@ -39,14 +39,14 @@ export default async function AdminInvoicesPage() {
       </div>
 
       {!invoices || invoices.length === 0 ? (
-        <div className="rounded-sm border border-white/5 bg-graphite p-12 text-center text-sm text-muted-grey">
+        <div className="rounded-sm border border-beige-fonce bg-white p-12 text-center text-sm text-gris-chaud">
           Aucun document généré pour le moment.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-sm border border-white/5">
+        <div className="overflow-x-auto rounded-sm border border-beige-fonce">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-xs uppercase tracking-wide text-muted-grey">
+              <tr className="border-b border-beige-fonce text-xs uppercase tracking-wide text-gris-chaud">
                 <th className="px-4 py-3">N°</th>
                 <th className="px-4 py-3">Client</th>
                 <th className="px-4 py-3">Type</th>
@@ -58,20 +58,20 @@ export default async function AdminInvoicesPage() {
             <tbody>
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {(invoices as any[]).map((inv) => (
-                <tr key={inv.id} className="border-b border-white/5 last:border-0 hover:bg-graphite/40">
-                  <td className="px-4 py-3 text-ivory">{inv.number}</td>
-                  <td className="px-4 py-3 text-ivory/70">
+                <tr key={inv.id} className="border-b border-beige-fonce last:border-0 hover:bg-creme">
+                  <td className="px-4 py-3 text-noir-profond">{inv.number}</td>
+                  <td className="px-4 py-3 text-noir-profond/70">
                     {orderById.get(inv.order_id)?.customer_name ?? "—"}
                   </td>
-                  <td className="px-4 py-3 text-ivory/70">{KIND_LABELS[inv.kind] ?? inv.kind}</td>
-                  <td className="px-4 py-3 text-xs text-muted-grey">{inv.payment_status ?? "—"}</td>
-                  <td className="px-4 py-3 text-xs text-muted-grey">
+                  <td className="px-4 py-3 text-noir-profond/70">{KIND_LABELS[inv.kind] ?? inv.kind}</td>
+                  <td className="px-4 py-3 text-xs text-gris-chaud">{inv.payment_status ?? "—"}</td>
+                  <td className="px-4 py-3 text-xs text-gris-chaud">
                     {new Date(inv.issued_at).toLocaleDateString("fr-FR")}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Link
                       href={`/admin/invoices/${inv.id}`}
-                      className="text-xs text-champagne hover:underline"
+                      className="text-xs text-or-principal hover:underline"
                     >
                       Aperçu
                     </Link>
@@ -79,13 +79,13 @@ export default async function AdminInvoicesPage() {
                       href={`/api/orders/${inv.order_id}/recap`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-3 text-xs text-champagne hover:underline"
+                      className="ml-3 text-xs text-or-principal hover:underline"
                     >
                       Récap PDF
                     </a>
                     <Link
                       href={`/admin/orders/${inv.order_id}`}
-                      className="ml-3 text-xs text-champagne hover:underline"
+                      className="ml-3 text-xs text-or-principal hover:underline"
                     >
                       Commande
                     </Link>

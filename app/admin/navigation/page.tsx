@@ -8,8 +8,8 @@ export default async function NavigationPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
-      <h1 className="font-serif text-2xl text-ivory">Navigation</h1>
-      <p className="mt-1 text-sm text-muted-grey">Menus, liens et pied de page.</p>
+      <h1 className="font-serif text-2xl text-noir-profond">Navigation</h1>
+      <p className="mt-1 text-sm text-gris-chaud">Menus, liens et pied de page.</p>
       <NavigationManager menus={menus} />
     </div>
   );

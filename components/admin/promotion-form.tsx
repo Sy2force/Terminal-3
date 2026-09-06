@@ -65,7 +65,7 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <div className="rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-400">
+        <div className="rounded-sm border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-700">
           {error}
         </div>
       )}
@@ -80,14 +80,14 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       <input type="hidden" name="image_url" value={imageUrl} />
       <input type="hidden" name="og_image_url" value={imageUrl} />
 
-      <div className="space-y-3 rounded-sm border border-white/10 bg-graphite/50 p-4">
-        <label className="text-sm text-ivory/80">Image de la promotion</label>
+      <div className="space-y-3 rounded-sm border border-beige-fonce bg-creme p-4">
+        <label className="text-sm text-noir-profond/80">Image de la promotion</label>
         {imageUrl ? (
-          <div className="relative h-40 w-full max-w-md overflow-hidden rounded-sm border border-white/10">
+          <div className="relative h-40 w-full max-w-md overflow-hidden rounded-sm border border-beige-fonce">
             <Image src={imageUrl} alt="Aperçu promotion" fill className="object-cover" sizes="400px" unoptimized />
           </div>
         ) : (
-          <p className="text-xs text-muted-grey">Aucune image. Importez-en une.</p>
+          <p className="text-xs text-gris-chaud">Aucune image. Importez-en une.</p>
         )}
         <ImageUploader
           bucket="content-images"
@@ -109,12 +109,12 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="flex flex-col gap-2 text-sm text-ivory/80">
+        <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
           Produit lié
           <select
             name="product_id"
             defaultValue={initial?.product_id ?? ""}
-            className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-sm text-ivory outline-none focus:border-champagne"
+            className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
           >
             <option value="">— Aucun —</option>
             {products.map((p) => (
@@ -131,12 +131,12 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       <Field label="Filiale (ID)" name="branch_id" defaultValue={initial?.branch_id ?? ""} />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="flex items-center gap-2 text-sm text-ivory/80">
-          <input type="checkbox" name="members_only" defaultChecked={initial?.members_only ?? false} className="h-4 w-4 accent-champagne" />
+        <label className="flex items-center gap-2 text-sm text-noir-profond/80">
+          <input type="checkbox" name="members_only" defaultChecked={initial?.members_only ?? false} className="h-4 w-4 accent-or-principal" />
           Membres seulement
         </label>
-        <label className="flex items-center gap-2 text-sm text-ivory/80">
-          <input type="checkbox" name="featured" defaultChecked={initial?.featured ?? false} className="h-4 w-4 accent-champagne" />
+        <label className="flex items-center gap-2 text-sm text-noir-profond/80">
+          <input type="checkbox" name="featured" defaultChecked={initial?.featured ?? false} className="h-4 w-4 accent-or-principal" />
           Mise en avant
         </label>
       </div>
@@ -158,11 +158,11 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold tracking-wide text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-50"
         >
           {saving ? "Enregistrement..." : initial ? "Mettre à jour" : "Créer"}
         </button>
-        <button type="button" onClick={() => router.push("/admin/promotions")} className="text-sm text-muted-grey hover:text-ivory">
+        <button type="button" onClick={() => router.push("/admin/promotions")} className="text-sm text-gris-chaud hover:text-noir-profond">
           Annuler
         </button>
       </div>
@@ -184,14 +184,14 @@ function Field({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <input
         type={type}
         name={name}
         defaultValue={defaultValue}
         required={required}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
       />
     </label>
   );
@@ -207,13 +207,13 @@ function TextArea({
   defaultValue?: string;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <textarea
         name={name}
         defaultValue={defaultValue}
         rows={4}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
       />
     </label>
   );
@@ -231,12 +231,12 @@ function Select({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <select
         name={name}
         defaultValue={defaultValue}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-sm text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>

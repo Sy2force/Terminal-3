@@ -98,8 +98,8 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
             onClick={() => setSelectedMenu(m.id)}
             className={`rounded-full px-4 py-2 text-sm ${
               selectedMenu === m.id
-                ? "bg-champagne text-obsidian"
-                : "border border-white/10 text-ivory hover:border-champagne"
+                ? "bg-or-principal text-noir-profond"
+                : "border border-beige-fonce text-noir-profond hover:border-champagne"
             }`}
           >
             {m.name_fr}
@@ -107,30 +107,30 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="rounded-sm border border-white/10 bg-graphite p-5">
+      <form onSubmit={handleSubmit} className="rounded-sm border border-beige-fonce bg-white p-5">
         <div className="grid gap-4 sm:grid-cols-2">
           <input
             placeholder="Libellé (fr)"
             value={form.label_fr}
             onChange={(e) => setForm({ ...form, label_fr: e.target.value })}
-            className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
           />
           <input
             placeholder="Libellé (he)"
             value={form.label_he}
             onChange={(e) => setForm({ ...form, label_he: e.target.value })}
-            className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
           />
           <input
             placeholder="Lien / URL"
             value={form.href}
             onChange={(e) => setForm({ ...form, href: e.target.value })}
-            className="sm:col-span-2 rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+            className="sm:col-span-2 rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
           />
           <select
             value={form.target}
             onChange={(e) => setForm({ ...form, target: e.target.value as "_self" | "_blank" })}
-            className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
           >
             <option value="_self">Même onglet</option>
             <option value="_blank">Nouvel onglet</option>
@@ -140,9 +140,9 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
             placeholder="Ordre"
             value={form.display_order}
             onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })}
-            className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
           />
-          <label className="flex items-center gap-2 text-sm text-ivory sm:col-span-2">
+          <label className="flex items-center gap-2 text-sm text-noir-profond sm:col-span-2">
             <input
               type="checkbox"
               checked={form.is_active}
@@ -154,7 +154,7 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
         <div className="mt-4 flex gap-3">
           <button
             type="submit"
-            className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold text-obsidian hover:bg-soft-gold"
+            className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold text-noir-profond hover:bg-or-clair"
           >
             {editingId ? "Mettre à jour" : "Ajouter"}
           </button>
@@ -162,7 +162,7 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
             <button
               type="button"
               onClick={reset}
-              className="rounded-full border border-white/10 px-4 py-2.5 text-sm text-ivory hover:border-champagne"
+              className="rounded-full border border-beige-fonce px-4 py-2.5 text-sm text-noir-profond hover:border-champagne"
             >
               Annuler
             </button>
@@ -172,9 +172,9 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
         {message && <p className="mt-3 text-sm text-green-400">{message}</p>}
       </form>
 
-      <div className="overflow-x-auto rounded-sm border border-white/5">
+      <div className="overflow-x-auto rounded-sm border border-beige-fonce">
         <table className="w-full text-left text-sm">
-          <thead className="bg-graphite text-ivory/70">
+          <thead className="bg-white text-noir-profond/70">
             <tr>
               <th className="px-4 py-3">Libellé</th>
               <th className="px-4 py-3">Lien</th>
@@ -185,18 +185,18 @@ export function NavigationManager({ menus }: { menus: NavigationMenuRow[] }) {
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.id} className="border-b border-white/5 last:border-0">
-                <td className="px-4 py-3 text-ivory">
+              <tr key={item.id} className="border-b border-beige-fonce last:border-0">
+                <td className="px-4 py-3 text-noir-profond">
                   {item.label_fr}
-                  {item.label_he && <span className="ml-2 text-xs text-muted-grey">{item.label_he}</span>}
+                  {item.label_he && <span className="ml-2 text-xs text-gris-chaud">{item.label_he}</span>}
                 </td>
-                <td className="px-4 py-3 text-muted-grey">{item.href}</td>
-                <td className="px-4 py-3 text-muted-grey">{item.target}</td>
-                <td className="px-4 py-3 text-muted-grey">{item.display_order}</td>
+                <td className="px-4 py-3 text-gris-chaud">{item.href}</td>
+                <td className="px-4 py-3 text-gris-chaud">{item.target}</td>
+                <td className="px-4 py-3 text-gris-chaud">{item.display_order}</td>
                 <td className="px-4 py-3 text-right">
                   <button
                     onClick={() => startEdit(item)}
-                    className="mr-3 text-xs text-champagne hover:underline"
+                    className="mr-3 text-xs text-or-principal hover:underline"
                   >
                     Modifier
                   </button>

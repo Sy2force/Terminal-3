@@ -40,10 +40,10 @@ export default async function AdminOrderDetailPage({
     <div className="space-y-8">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs uppercase tracking-widest text-muted-grey">
+          <span className="text-xs uppercase tracking-widest text-gris-chaud">
             Commande {order.id.slice(0, 8)}
           </span>
-          <h1 className="font-serif text-2xl text-ivory">
+          <h1 className="font-serif text-2xl text-noir-profond">
             {order.customer_name || "Client anonyme"}
           </h1>
         </div>
@@ -64,23 +64,23 @@ export default async function AdminOrderDetailPage({
       </div>
 
       {order.customer_notes && (
-        <div className="rounded-sm border border-white/5 bg-graphite/30 p-4">
-          <span className="text-xs uppercase tracking-widest text-muted-grey">
+        <div className="rounded-sm border border-beige-fonce bg-creme p-4">
+          <span className="text-xs uppercase tracking-widest text-gris-chaud">
             Note client
           </span>
-          <p className="mt-2 text-sm text-ivory/80">{order.customer_notes}</p>
+          <p className="mt-2 text-sm text-noir-profond/80">{order.customer_notes}</p>
         </div>
       )}
 
       <div className="space-y-4">
-        <h2 className="font-serif text-xl text-ivory">Groupes de préparation</h2>
+        <h2 className="font-serif text-xl text-noir-profond">Groupes de préparation</h2>
         {order.fulfillment_groups.map((group) => (
           <div
             key={group.id}
-            className="rounded-sm border border-white/5 bg-graphite/30 p-4"
+            className="rounded-sm border border-beige-fonce bg-creme p-4"
           >
             <div className="mb-4 flex items-center justify-between">
-              <span className="text-xs uppercase tracking-widest text-champagne">
+              <span className="text-xs uppercase tracking-widest text-or-principal">
                 {group.group_type === "AGE_RESTRICTED" ? "Alcool (18+)" : "Nourriture"}
               </span>
               <FulfillmentStatusUpdater
@@ -93,30 +93,30 @@ export default async function AdminOrderDetailPage({
                 }
               />
             </div>
-            <ul className="divide-y divide-white/5">
+            <ul className="divide-y divide-beige-fonce">
               {group.items.map((item) => (
                 <li
                   key={item.id}
                   className="flex items-center justify-between py-2 text-sm"
                 >
-                  <span className="text-ivory/80">
+                  <span className="text-noir-profond/80">
                     {item.quantity} × {item.product_name_snapshot}
                     {item.variant_label_snapshot && (
-                      <span className="text-muted-grey">
+                      <span className="text-gris-chaud">
                         {" "}
                         ({item.variant_label_snapshot})
                       </span>
                     )}
                   </span>
-                  <span className="text-ivory/60">
+                  <span className="text-noir-profond/60">
                     {formatAgorot(item.final_price_agorot_snapshot)}
                   </span>
                 </li>
               ))}
             </ul>
             {group.age_verification && (
-              <div className="mt-4 rounded-sm border border-amber-400/20 bg-amber-400/5 p-3 text-sm">
-                <span className="text-amber-400">
+              <div className="mt-4 rounded-sm border border-amber-400/20 bg-amber-50 p-3 text-sm">
+                <span className="text-amber-700">
                   Vérification d’âge :{" "}
                   {group.age_verification.status === "PENDING"
                     ? "En attente"
@@ -159,11 +159,11 @@ export default async function AdminOrderDetailPage({
 
 function Detail({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-sm border border-white/5 bg-graphite/30 p-4">
-      <span className="text-xs uppercase tracking-widest text-muted-grey">
+    <div className="rounded-sm border border-beige-fonce bg-creme p-4">
+      <span className="text-xs uppercase tracking-widest text-gris-chaud">
         {label}
       </span>
-      <p className="mt-1 text-ivory">{value}</p>
+      <p className="mt-1 text-noir-profond">{value}</p>
     </div>
   );
 }

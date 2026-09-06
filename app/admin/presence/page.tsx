@@ -12,8 +12,8 @@ export default async function AdminPresencePage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="mb-2 font-serif text-2xl text-ivory">Présence en ligne</h1>
-      <p className="mb-6 text-sm text-muted-grey">
+      <h1 className="mb-2 font-serif text-2xl text-noir-profond">Présence en ligne</h1>
+      <p className="mb-6 text-sm text-gris-chaud">
         Visiteurs actifs sur les 5 dernières minutes. Les sessions anonymes sont
         comptées par onglet ; les utilisateurs connectés sont dédupliqués.
       </p>

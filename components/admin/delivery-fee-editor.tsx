@@ -25,7 +25,7 @@ export function DeliveryFeeEditor({ initialFeeAgorot }: { initialFeeAgorot: numb
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-xs uppercase tracking-widest text-champagne">
+      <label className="text-xs uppercase tracking-widest text-or-principal">
         Frais de livraison
       </label>
       <div className="flex items-center gap-3">
@@ -35,10 +35,10 @@ export function DeliveryFeeEditor({ initialFeeAgorot }: { initialFeeAgorot: numb
           step={100}
           value={ilsValue}
           onChange={(e) => setFeeAgorot(Math.round(Number(e.target.value) * 100))}
-          className="w-24 rounded-sm border border-white/10 bg-warm-black px-3 py-2 text-sm text-ivory"
+          className="w-24 rounded-sm border border-beige-fonce bg-creme px-3 py-2 text-sm text-noir-profond"
         />
-        <span className="text-sm text-muted-grey">₪</span>
-        <span className="text-xs text-muted-grey">
+        <span className="text-sm text-gris-chaud">₪</span>
+        <span className="text-xs text-gris-chaud">
           ({feeAgorot} agorot)
         </span>
       </div>
@@ -46,11 +46,11 @@ export function DeliveryFeeEditor({ initialFeeAgorot }: { initialFeeAgorot: numb
         <button
           onClick={handleSave}
           disabled={pending}
-          className="rounded-full bg-champagne px-4 py-2 text-xs font-semibold text-obsidian disabled:opacity-50"
+          className="rounded-full bg-or-principal px-4 py-2 text-xs font-semibold text-noir-profond disabled:opacity-50"
         >
           Enregistrer
         </button>
-        {saved && <span className="text-xs text-champagne">✓ Enregistré</span>}
+        {saved && <span className="text-xs text-or-principal">✓ Enregistré</span>}
       </div>
     </div>
   );

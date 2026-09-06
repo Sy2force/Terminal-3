@@ -88,9 +88,17 @@ export function ImageUploader({
       } else {
         try {
           const json = JSON.parse(xhr.responseText);
-          setError(json.error ?? "Échec de l'upload");
+          const message =
+            json.error === "unauthorized"
+              ? "Session admin invalide. Reconnectez-vous."
+              : json.error === "file_too_large"
+                ? "Fichier trop lourd."
+                : json.error === "invalid_file_type"
+                  ? "Format non supporté."
+                  : json.error ?? "Échec de l'upload";
+          setError(message);
         } catch {
-          setError("Échec de l'upload");
+          setError(`Échec de l'upload (${xhr.status})`);
         }
       }
       if (inputRef.current) inputRef.current.value = "";

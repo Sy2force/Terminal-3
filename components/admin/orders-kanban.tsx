@@ -60,11 +60,11 @@ export function OrdersKanban({ initialOrders }: { initialOrders: OrderListItem[]
               key={col.status}
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => handleDrop(col.status)}
-              className={`min-h-[400px] rounded-sm border-t-4 bg-graphite/40 p-3 ${col.accent}`}
+              className={`min-h-[400px] rounded-sm border-t-4 bg-creme p-3 ${col.accent}`}
             >
               <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-medium text-ivory">{col.label}</h3>
-                <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs text-ivory/70">
+                <h3 className="text-sm font-medium text-noir-profond">{col.label}</h3>
+                <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs text-noir-profond/70">
                   {columnOrders.length}
                 </span>
               </div>
@@ -74,23 +74,23 @@ export function OrdersKanban({ initialOrders }: { initialOrders: OrderListItem[]
                     key={order.id}
                     draggable
                     onDragStart={() => setDragging(order.id)}
-                    className="cursor-grab rounded-sm border border-white/10 bg-warm-black p-3 text-sm shadow-sm active:cursor-grabbing"
+                    className="cursor-grab rounded-sm border border-beige-fonce bg-creme p-3 text-sm shadow-sm active:cursor-grabbing"
                   >
                     <div className="mb-1 flex items-center justify-between">
-                      <span className="font-mono text-xs text-muted-grey">#{order.id.slice(0, 8)}</span>
-                      <span className="text-xs text-champagne">{formatAgorot(order.total_agorot)}</span>
+                      <span className="font-mono text-xs text-gris-chaud">#{order.id.slice(0, 8)}</span>
+                      <span className="text-xs text-or-principal">{formatAgorot(order.total_agorot)}</span>
                     </div>
-                    <p className="truncate text-ivory">{order.customer_name || order.customer_phone || "Client anonyme"}</p>
-                    <div className="mt-1 flex items-center justify-between text-[10px] text-muted-grey">
+                    <p className="truncate text-noir-profond">{order.customer_name || order.customer_phone || "Client anonyme"}</p>
+                    <div className="mt-1 flex items-center justify-between text-[10px] text-gris-chaud">
                       <span>{order.item_count} article(s)</span>
-                      <Link href={`/admin/orders/${order.id}`} className="text-champagne hover:underline">
+                      <Link href={`/admin/orders/${order.id}`} className="text-or-principal hover:underline">
                         Détails
                       </Link>
                     </div>
                   </div>
                 ))}
                 {columnOrders.length === 0 && (
-                  <p className="py-6 text-center text-xs text-muted-grey">Aucune commande</p>
+                  <p className="py-6 text-center text-xs text-gris-chaud">Aucune commande</p>
                 )}
               </div>
             </div>

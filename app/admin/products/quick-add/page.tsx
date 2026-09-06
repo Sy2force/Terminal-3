@@ -8,7 +8,7 @@ export default async function QuickAddProductPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="mb-6 font-serif text-2xl text-ivory">Ajout rapide d’un produit</h1>
+      <h1 className="mb-6 font-serif text-2xl text-noir-profond">Ajout rapide d’un produit</h1>
       <QuickAddProductForm categories={categories} />
     </div>
   );

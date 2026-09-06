@@ -42,14 +42,14 @@ export function ProductClassificationPreview({
   const hasActions = onConfirm || onReject || onEdit;
 
   return (
-    <div className="space-y-4 rounded-xl border border-champagne/20 bg-obsidian/40 p-5">
+    <div className="space-y-4 rounded-xl border border-champagne/20 bg-fond-papier/40 p-5">
       <div className="flex items-center gap-3">
         {confidenceIcons[result.confidence]}
         <div>
           <p className={`font-medium ${confidenceStyles[result.confidence]}`}>
             Confiance : {confidenceLabels[result.confidence]}
           </p>
-          <p className="text-sm text-ivory/60">Famille : {result.family}</p>
+          <p className="text-sm text-noir-profond/60">Famille : {result.family}</p>
         </div>
       </div>
 
@@ -68,8 +68,8 @@ export function ProductClassificationPreview({
 
       {result.matchedRules.length > 0 && (
         <div>
-          <p className="mb-1 text-sm font-medium text-ivory/80">Règles détectées</p>
-          <ul className="list-inside list-disc text-sm text-ivory/60">
+          <p className="mb-1 text-sm font-medium text-noir-profond/80">Règles détectées</p>
+          <ul className="list-inside list-disc text-sm text-noir-profond/60">
             {result.matchedRules.slice(0, 6).map((r, i) => (
               <li key={i}>
                 {r.keyword} → {r.categorySlug ?? "?"}
@@ -83,7 +83,7 @@ export function ProductClassificationPreview({
 
       {result.reasons.length > 0 && (
         <div>
-          <p className="mb-1 text-sm font-medium text-ivory/80">Raisons</p>
+          <p className="mb-1 text-sm font-medium text-noir-profond/80">Raisons</p>
           <ul className="list-inside list-disc text-sm text-green-300/80">
             {result.reasons.map((r, i) => (
               <li key={i}>{r}</li>
@@ -94,7 +94,7 @@ export function ProductClassificationPreview({
 
       {result.conflicts.length > 0 && (
         <div>
-          <p className="mb-1 text-sm font-medium text-ivory/80">Conflits</p>
+          <p className="mb-1 text-sm font-medium text-noir-profond/80">Conflits</p>
           <ul className="list-inside list-disc text-sm text-red-300/80">
             {result.conflicts.map((c, i) => (
               <li key={i}>{c}</li>
@@ -108,7 +108,7 @@ export function ProductClassificationPreview({
           {onConfirm && (
             <button
               onClick={onConfirm}
-              className="rounded-full bg-champagne px-4 py-2 text-sm font-semibold text-obsidian hover:bg-soft-gold"
+              className="rounded-full bg-or-principal px-4 py-2 text-sm font-semibold text-noir-profond hover:bg-or-clair"
             >
               Confirmer
             </button>
@@ -116,7 +116,7 @@ export function ProductClassificationPreview({
           {onEdit && (
             <button
               onClick={onEdit}
-              className="rounded-full border border-ivory/30 px-4 py-2 text-sm text-ivory hover:bg-ivory/10"
+              className="rounded-full border border-ivory/30 px-4 py-2 text-sm text-noir-profond hover:bg-ivory/10"
             >
               Modifier
             </button>
@@ -138,8 +138,8 @@ export function ProductClassificationPreview({
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs text-ivory/50">{label}</p>
-      <p className="text-sm font-medium text-ivory">{value}</p>
+      <p className="text-xs text-noir-profond/50">{label}</p>
+      <p className="text-sm font-medium text-noir-profond">{value}</p>
     </div>
   );
 }

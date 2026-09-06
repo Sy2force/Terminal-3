@@ -8,7 +8,7 @@ export default async function NewPromotionPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Nouvelle promotion</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Nouvelle promotion</h1>
       <PromotionForm products={products} />
     </div>
   );

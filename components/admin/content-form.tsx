@@ -51,7 +51,7 @@ export function ContentForm({ initial }: ContentFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <div className="rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-400">
+        <div className="rounded-sm border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-700">
           {error}
         </div>
       )}
@@ -67,13 +67,13 @@ export function ContentForm({ initial }: ContentFormProps) {
 
       <Field label="Catégorie" name="category" defaultValue={initial?.category ?? ""} />
 
-      <label className="flex flex-col gap-2 text-sm text-ivory/80">
+      <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
         Corps de l&apos;article
         <textarea
           name="body"
           defaultValue={initial?.body ?? ""}
           rows={12}
-          className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+          className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
           placeholder="Contenu de l'article..."
         />
       </label>
@@ -93,14 +93,14 @@ export function ContentForm({ initial }: ContentFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold tracking-wide text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-50"
         >
           {saving ? "Enregistrement..." : initial ? "Mettre à jour" : "Créer"}
         </button>
         <button
           type="button"
           onClick={() => router.push("/admin/content")}
-          className="text-sm text-muted-grey hover:text-ivory"
+          className="text-sm text-gris-chaud hover:text-noir-profond"
         >
           Annuler
         </button>
@@ -123,14 +123,14 @@ function Field({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <input
         type={type}
         name={name}
         defaultValue={defaultValue}
         required={required}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
       />
     </label>
   );
@@ -148,12 +148,12 @@ function Select({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <select
         name={name}
         defaultValue={defaultValue}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-sm text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>

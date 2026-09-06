@@ -36,10 +36,10 @@ export function SalmonGalleryEditor({
         onChange={(e) => setText(e.target.value)}
         rows={6}
         placeholder={"https://xxxx.supabase.co/storage/v1/object/public/media/plateau-1.jpg\nhttps://.../plateau-2.jpg\n..."}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 font-mono text-xs text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 font-mono text-xs text-noir-profond outline-none focus:border-or-principal"
       />
       <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-grey">
+        <span className="text-xs text-gris-chaud">
           Une URL d&rsquo;image par ligne (max 10). Uploadez d&rsquo;abord les
           photos dans Supabase Storage.
         </span>
@@ -47,7 +47,7 @@ export function SalmonGalleryEditor({
           type="button"
           onClick={handleSave}
           disabled={isPending}
-          className="rounded-full bg-champagne px-5 py-2 text-xs font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          className="rounded-full bg-or-principal px-5 py-2 text-xs font-semibold tracking-wide text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-50"
         >
           {isPending ? "..." : saved ? "Enregistré ✓" : "Enregistrer"}
         </button>

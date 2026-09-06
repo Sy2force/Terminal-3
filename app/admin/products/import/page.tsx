@@ -6,7 +6,7 @@ export default async function ProductsImportPage() {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Import CSV de produits</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Import CSV de produits</h1>
       <CsvImportForm />
     </div>
   );

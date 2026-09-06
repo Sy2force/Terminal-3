@@ -26,8 +26,8 @@ export default async function AdminLeadsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Leads</h1>
-        <p className="mt-1 text-sm text-muted-grey">{leads.length} lead{leads.length > 1 ? "s" : ""}</p>
+        <h1 className="font-serif text-2xl text-noir-profond">Leads</h1>
+        <p className="mt-1 text-sm text-gris-chaud">{leads.length} lead{leads.length > 1 ? "s" : ""}</p>
       </div>
 
       <LeadsBoard initialLeads={leads} />

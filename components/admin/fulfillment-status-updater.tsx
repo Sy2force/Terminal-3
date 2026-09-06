@@ -64,8 +64,8 @@ export function FulfillmentStatusUpdater({
             onClick={() => handleChange(status)}
             className={`px-2 py-1 text-xs rounded border transition-colors ${
               status === currentStatus
-                ? "border-champagne text-champagne bg-champagne/10"
-                : "border-white/10 text-ivory/60 hover:border-white/30"
+                ? "border-champagne text-or-principal bg-or-principal/10"
+                : "border-beige-fonce text-noir-profond/60 hover:border-white/30"
             } disabled:opacity-50`}
           >
             {fulfillmentStatusLabel(type, status).slice(0, 3)}
@@ -80,7 +80,7 @@ export function FulfillmentStatusUpdater({
       disabled={isPending}
       defaultValue={currentStatus ?? ""}
       onChange={(e) => handleChange(e.target.value)}
-      className="rounded-sm border border-white/10 bg-graphite px-3 py-1.5 text-xs text-ivory outline-none focus:border-champagne disabled:opacity-50"
+      className="rounded-sm border border-beige-fonce bg-white px-3 py-1.5 text-xs text-noir-profond outline-none focus:border-or-principal disabled:opacity-50"
     >
       {statuses.map((status) => (
         <option key={status} value={status}>

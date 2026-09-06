@@ -67,7 +67,7 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <div className="rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-400">
+        <div className="rounded-sm border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-700">
           {error}
         </div>
       )}
@@ -90,14 +90,14 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label htmlFor="parent_id" className="text-sm text-ivory/80">
+          <label htmlFor="parent_id" className="text-sm text-noir-profond/80">
             Catégorie parente
           </label>
           <select
             id="parent_id"
             name="parent_id"
             defaultValue={initial?.parent_id ?? ""}
-            className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-sm text-ivory outline-none focus:border-champagne"
+            className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
           >
             <option value="">Aucune</option>
             {parentCandidates.map((c) => (
@@ -114,8 +114,8 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
       <Field label="Description courte" name="short_description" defaultValue={initial?.short_description ?? ""} />
       <TextArea label="Description" name="description" defaultValue={initial?.description ?? ""} rows={5} />
 
-      <div className="rounded-sm border border-white/5 bg-graphite/30 p-4">
-        <h3 className="mb-3 font-serif text-sm text-champagne">SEO</h3>
+      <div className="rounded-sm border border-beige-fonce bg-creme p-4">
+        <h3 className="mb-3 font-serif text-sm text-or-principal">SEO</h3>
         <div className="flex flex-col gap-4">
           <Field label="Meta titre" name="meta_title" defaultValue={initial?.meta_title ?? ""} />
           <TextArea label="Meta description" name="meta_description" defaultValue={initial?.meta_description ?? ""} />
@@ -123,21 +123,21 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
       </div>
 
       <div className="flex flex-wrap gap-6">
-        <label className="flex items-center gap-2 text-sm text-ivory/80">
+        <label className="flex items-center gap-2 text-sm text-noir-profond/80">
           <input
             type="checkbox"
             name="is_active"
             defaultChecked={initial?.is_active ?? true}
-            className="h-4 w-4 accent-champagne"
+            className="h-4 w-4 accent-or-principal"
           />
           Active
         </label>
-        <label className="flex items-center gap-2 text-sm text-ivory/80">
+        <label className="flex items-center gap-2 text-sm text-noir-profond/80">
           <input
             type="checkbox"
             name="is_featured"
             defaultChecked={initial?.is_featured ?? false}
-            className="h-4 w-4 accent-champagne"
+            className="h-4 w-4 accent-or-principal"
           />
           Mise en avant
         </label>
@@ -147,14 +147,14 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold tracking-wide text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-50"
         >
           {saving ? "Enregistrement..." : initial ? "Mettre à jour" : "Créer"}
         </button>
         <button
           type="button"
           onClick={() => router.push("/admin/categories")}
-          className="text-sm text-muted-grey hover:text-ivory"
+          className="text-sm text-gris-chaud hover:text-noir-profond"
         >
           Annuler
         </button>
@@ -177,14 +177,14 @@ function Field({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <input
         type={type}
         name={name}
         defaultValue={defaultValue}
         required={required}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
       />
     </label>
   );
@@ -202,13 +202,13 @@ function TextArea({
   rows?: number;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
+    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
       {label}
       <textarea
         name={name}
         defaultValue={defaultValue}
         rows={rows}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
+        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
       />
     </label>
   );

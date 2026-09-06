@@ -38,9 +38,9 @@ export function ThemeEditor({ initial }: { initial: ThemeValue | null }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-sm border border-white/10 bg-graphite p-6">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-sm border border-beige-fonce bg-white p-6">
       {FIELDS.map(({ key, label, type }) => (
-        <label key={key} className="flex flex-col gap-1.5 text-sm text-ivory">
+        <label key={key} className="flex flex-col gap-1.5 text-sm text-noir-profond">
           {label}
           {type === "color" ? (
             <div className="flex items-center gap-3">
@@ -48,13 +48,13 @@ export function ThemeEditor({ initial }: { initial: ThemeValue | null }) {
                 type="color"
                 value={values[key] || "#000000"}
                 onChange={(e) => setValues((v) => ({ ...v, [key]: e.target.value }))}
-                className="h-10 w-16 rounded-sm border border-white/10 bg-obsidian"
+                className="h-10 w-16 rounded-sm border border-beige-fonce bg-fond-papier"
               />
               <input
                 type="text"
                 value={values[key] || ""}
                 onChange={(e) => setValues((v) => ({ ...v, [key]: e.target.value }))}
-                className="flex-1 rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+                className="flex-1 rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
               />
             </div>
           ) : (
@@ -62,7 +62,7 @@ export function ThemeEditor({ initial }: { initial: ThemeValue | null }) {
               type="text"
               value={values[key] || ""}
               onChange={(e) => setValues((v) => ({ ...v, [key]: e.target.value }))}
-              className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
+              className="rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2 text-sm text-noir-profond"
             />
           )}
         </label>
@@ -71,7 +71,7 @@ export function ThemeEditor({ initial }: { initial: ThemeValue | null }) {
       <button
         type="submit"
         disabled={pending}
-        className="mt-4 rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold text-obsidian hover:bg-soft-gold disabled:opacity-50"
+        className="mt-4 rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold text-noir-profond hover:bg-or-clair disabled:opacity-50"
       >
         {pending ? "Enregistrement..." : "Enregistrer l'apparence"}
       </button>

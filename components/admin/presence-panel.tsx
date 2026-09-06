@@ -44,28 +44,28 @@ export function PresencePanel({ initial }: { initial: PresenceStats }) {
   const data = stats ?? initial;
 
   return (
-    <div className="rounded-sm border border-white/5 bg-graphite p-6">
+    <div className="rounded-sm border border-beige-fonce bg-white p-6">
       <div className="grid grid-cols-3 gap-4 text-center">
         <div>
-          <p className="text-3xl font-serif text-champagne">{data.total}</p>
-          <p className="mt-1 text-xs uppercase tracking-widest text-ivory/60">
+          <p className="text-3xl font-serif text-or-principal">{data.total}</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-noir-profond/60">
             Sessions actives
           </p>
         </div>
         <div>
-          <p className="text-3xl font-serif text-champagne">{data.anonymousSessions}</p>
-          <p className="mt-1 text-xs uppercase tracking-widest text-ivory/60">
+          <p className="text-3xl font-serif text-or-principal">{data.anonymousSessions}</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-noir-profond/60">
             Anonymes
           </p>
         </div>
         <div>
-          <p className="text-3xl font-serif text-champagne">{data.authenticatedUsers}</p>
-          <p className="mt-1 text-xs uppercase tracking-widest text-ivory/60">
+          <p className="text-3xl font-serif text-or-principal">{data.authenticatedUsers}</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-noir-profond/60">
             Clients connectés
           </p>
         </div>
       </div>
-      <p className="mt-4 text-right text-xs text-muted-grey">
+      <p className="mt-4 text-right text-xs text-gris-chaud">
         Dernier rafraîchissement :{" "}
         {new Date(data.refreshedAt).toLocaleTimeString("fr-FR", {
           timeZone: "Asia/Jerusalem",

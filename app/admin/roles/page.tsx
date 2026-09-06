@@ -9,8 +9,8 @@ export default async function AdminRolesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Rôles et permissions</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Rôles et permissions</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           {session.role === "OWNER"
             ? "Vous pouvez attribuer ou retirer un rôle à tout membre de l'équipe."
             : "Seul le propriétaire peut modifier les rôles."}

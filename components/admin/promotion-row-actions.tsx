@@ -23,10 +23,10 @@ export function PromotionRowActions({
 
   return (
     <div className="flex items-center justify-end gap-3">
-      {error && <span className="text-xs text-amber-400">{error}</span>}
+      {error && <span className="text-xs text-amber-700">{error}</span>}
       <Link
         href={`/admin/promotions/${promotionId}`}
-        className="text-xs text-champagne hover:text-soft-gold"
+        className="text-xs text-or-principal hover:text-soft-gold"
       >
         Modifier
       </Link>
@@ -34,7 +34,7 @@ export function PromotionRowActions({
         type="button"
         onClick={handleDelete}
         disabled={isPending}
-        className="text-xs text-amber-400 hover:text-amber-300 disabled:opacity-50"
+        className="text-xs text-amber-700 hover:text-amber-300 disabled:opacity-50"
       >
         Supprimer
       </button>

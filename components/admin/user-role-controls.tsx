@@ -27,14 +27,14 @@ export function AssignRoleControl({ userId, isOwner }: { userId: string; isOwner
         disabled={pending}
         defaultValue=""
         onChange={(e) => handleAssign(e.target.value)}
-        className="rounded-sm border border-white/10 bg-warm-black px-2 py-1 text-[10px] text-ivory"
+        className="rounded-sm border border-beige-fonce bg-creme px-2 py-1 text-[10px] text-noir-profond"
       >
         <option value="" disabled>Attribuer un rôle...</option>
         {ROLES.map((r) => (
           <option key={r} value={r}>{r}</option>
         ))}
       </select>
-      {error && <span className="text-[10px] text-amber-400">{error}</span>}
+      {error && <span className="text-[10px] text-amber-700">{error}</span>}
     </div>
   );
 }
@@ -56,7 +56,7 @@ export function RevokeRoleButton({ roleId, isOwner }: { roleId: string; isOwner:
       type="button"
       onClick={handleRevoke}
       disabled={pending}
-      className="text-[10px] text-amber-400 hover:text-amber-300 disabled:opacity-50"
+      className="text-[10px] text-amber-700 hover:text-amber-300 disabled:opacity-50"
     >
       Retirer
     </button>

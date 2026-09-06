@@ -8,8 +8,8 @@ export default async function AppearancePage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
-      <h1 className="font-serif text-2xl text-ivory">Apparence</h1>
-      <p className="mt-1 text-sm text-muted-grey">
+      <h1 className="font-serif text-2xl text-noir-profond">Apparence</h1>
+      <p className="mt-1 text-sm text-gris-chaud">
         Couleurs, polices et espacement du site. Les changements sont publiés immédiatement.
       </p>
       <div className="mt-8">
