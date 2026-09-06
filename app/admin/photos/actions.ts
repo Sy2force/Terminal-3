@@ -119,6 +119,12 @@ export async function updateCategoryCoverAction(
 
     if (error) throw new Error(error.message);
 
+    const { data: category } = await supabase
+      .from("categories")
+      .select("slug")
+      .eq("id", categoryId)
+      .maybeSingle();
+
     await logAudit({
       actor: session.userId,
       action: "updated",
@@ -130,6 +136,7 @@ export async function updateCategoryCoverAction(
     revalidatePath(`/admin/photos`);
     revalidatePath(`/admin/categories`);
     revalidatePath(`/categories`, "page");
+    if (category?.slug) revalidatePath(`/categories/${category.slug}`);
     return { success: true };
   } catch (err) {
     return { success: false, error: err instanceof Error ? err.message : "update_failed" };

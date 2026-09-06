@@ -45,24 +45,10 @@ const draftSchema = z.object({
   blocks: z.array(blockSchema).max(50),
 });
 
-// Public routes this page-content editor is allowed to revalidate. This
-// list mirrors the pages listed in /admin/contenus and prevents an
-// arbitrary path from being passed to revalidatePath.
-const REVALIDATABLE_SLUGS: Record<string, string> = {
-  home: "/",
-  vins: "/vins",
-  spiritueux: "/spiritueux",
-  charcuterie: "/charcuterie",
-  poissons: "/poissons",
-  plateaux: "/plateaux",
-  nouveautes: "/nouveautes",
-  promotions: "/promotions",
-  inspirations: "/inspirations",
-  club: "/club",
-  "a-propos": "/a-propos",
-  contact: "/contact",
-  footer: "/",
-};
+// Public routes this page-content editor is allowed to revalidate. The
+// list lives in lib/admin/page-slugs.ts (shared with the editor UI) and
+// prevents an arbitrary path from being passed to revalidatePath.
+import { publicPathForSlug } from "@/lib/admin/page-slugs";
 
 export async function savePageDraftAction(
   slug: string,
@@ -122,7 +108,7 @@ export async function publishPageContentAction(slug: string): Promise<PageConten
     });
 
     revalidatePath(`/admin/contenus/${slug}`);
-    const publicPath = REVALIDATABLE_SLUGS[slug];
+    const publicPath = publicPathForSlug(slug);
     if (publicPath) revalidatePath(publicPath);
 
     return { success: true };
@@ -170,7 +156,7 @@ export async function archivePageContentAction(slug: string): Promise<PageConten
       metadata: { type: "page_content_archived", slug },
     });
     revalidatePath(`/admin/contenus/${slug}`);
-    const publicPath = REVALIDATABLE_SLUGS[slug];
+    const publicPath = publicPathForSlug(slug);
     if (publicPath) revalidatePath(publicPath);
     return { success: true };
   } catch (err) {

@@ -47,6 +47,7 @@ export async function createPostAction(
       metadata: { type: "content_post", slug: data.slug },
     });
     revalidatePath("/inspirations");
+    revalidatePath(`/inspirations/${data.slug}`);
     revalidatePath("/admin/content");
     return { success: true };
   } catch (err) {
@@ -77,6 +78,7 @@ export async function updatePostAction(
       metadata: { type: "content_post" },
     });
     revalidatePath("/inspirations");
+    revalidatePath(`/inspirations/${data.slug}`);
     revalidatePath("/admin/content");
     return { success: true };
   } catch (err) {
