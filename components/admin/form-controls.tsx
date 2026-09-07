@@ -65,9 +65,11 @@ export function AdminField({
   required,
   hint,
   error,
+  invalid,
   placeholder,
   disabled,
   inputMode,
+  inputProps,
 }: {
   name: string;
   label: string;
@@ -75,11 +77,17 @@ export function AdminField({
   defaultValue?: string | number;
   required?: boolean;
   hint?: string;
+  /** Message d'erreur affiché sous le champ (avec icône). */
   error?: string;
+  /** Marque le champ en erreur sans message (erreur globale affichée ailleurs). */
+  invalid?: boolean;
   placeholder?: string;
   disabled?: boolean;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  /** Props additionnelles passées à l'input (dir, maxLength, value/onChange…). */
+  inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, "id" | "name" | "type" | "defaultValue" | "required" | "placeholder" | "disabled" | "inputMode" | "className">;
 }) {
+  const hasError = !!error || !!invalid;
   return (
     <FieldShell label={label} htmlFor={name} hint={hint} error={error} required={required}>
       <input
@@ -91,9 +99,10 @@ export function AdminField({
         placeholder={placeholder}
         disabled={disabled}
         inputMode={inputMode}
-        aria-invalid={!!error}
+        aria-invalid={hasError}
         aria-describedby={error ? `${name}-error` : hint ? `${name}-hint` : undefined}
-        className={inputState(!!error, disabled)}
+        className={inputState(hasError, disabled)}
+        {...inputProps}
       />
     </FieldShell>
   );
@@ -108,6 +117,7 @@ export function AdminTextarea({
   error,
   rows = 4,
   placeholder,
+  invalid,
 }: {
   name: string;
   label: string;
@@ -117,6 +127,7 @@ export function AdminTextarea({
   error?: string;
   rows?: number;
   placeholder?: string;
+  invalid?: boolean;
 }) {
   return (
     <FieldShell label={label} htmlFor={name} hint={hint} error={error} required={required}>
@@ -127,8 +138,8 @@ export function AdminTextarea({
         required={required}
         rows={rows}
         placeholder={placeholder}
-        aria-invalid={!!error}
-        className={inputState(!!error)}
+        aria-invalid={!!error || !!invalid}
+        className={inputState(!!error || !!invalid)}
       />
     </FieldShell>
   );
@@ -142,6 +153,7 @@ export function AdminSelect({
   required,
   hint,
   error,
+  invalid,
   disabled,
 }: {
   name: string;
@@ -151,6 +163,7 @@ export function AdminSelect({
   required?: boolean;
   hint?: string;
   error?: string;
+  invalid?: boolean;
   disabled?: boolean;
 }) {
   return (
@@ -161,8 +174,8 @@ export function AdminSelect({
         defaultValue={defaultValue}
         required={required}
         disabled={disabled}
-        aria-invalid={!!error}
-        className={inputState(!!error, disabled)}
+        aria-invalid={!!error || !!invalid}
+        className={inputState(!!error || !!invalid, disabled)}
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>
@@ -180,12 +193,15 @@ export function AdminCheckbox({
   description,
   defaultChecked,
   disabled,
+  inputProps,
 }: {
   name: string;
   label: string;
   description?: string;
   defaultChecked?: boolean;
   disabled?: boolean;
+  /** Props additionnelles (ex. checked/onChange pour un usage contrôlé). */
+  inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "name" | "defaultChecked" | "disabled" | "className">;
 }) {
   return (
     <label className="flex min-h-[44px] cursor-pointer items-start gap-3">
@@ -195,6 +211,7 @@ export function AdminCheckbox({
         defaultChecked={defaultChecked}
         disabled={disabled}
         className="mt-0.5 h-5 w-5 shrink-0 rounded-[6px] border-[1.5px] border-[var(--admin-border-strong)] accent-[var(--admin-burgundy)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--admin-focus)]"
+        {...inputProps}
       />
       <span>
         <span className="block text-sm font-medium text-[var(--admin-text)]">{label}</span>

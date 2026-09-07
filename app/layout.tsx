@@ -81,7 +81,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     >
       <body
         className={`min-h-full flex flex-col ${
-          isAdmin ? "bg-fond-papier text-noir-profond" : "bg-noir-profond text-texte-clair"
+          isAdmin ? "admin-ui bg-fond-papier text-noir-profond" : "bg-noir-profond text-texte-clair"
         }`}
       >
         {isAdmin ? (

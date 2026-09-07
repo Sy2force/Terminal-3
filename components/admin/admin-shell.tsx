@@ -124,24 +124,24 @@ export function AdminShell({
       )}
 
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen w-64 flex-col border-r border-beige-fonce bg-creme transition-transform lg:static lg:translate-x-0 ${
+        className={`fixed left-0 top-0 z-50 h-screen w-64 flex-col border-r border-[#2A2620] bg-[#15130F] transition-transform lg:static lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center gap-3 border-b border-beige-fonce px-5">
+        <div className="flex h-16 items-center gap-3 border-b border-[#2A2620] px-5">
           <Link href="/admin" className="flex items-center gap-3">
-            <div className="relative h-10 w-10">
+            <div className="relative h-10 w-10 rounded-full bg-[#F7F0E4] p-1">
               <Image
                 src="/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png"
                 alt="Terminal 3"
                 fill
                 sizes="40px"
-                className="object-contain"
+                className="object-contain p-0.5"
               />
             </div>
             <div>
-              <p className="font-serif text-base leading-tight text-noir-profond">Terminal 3</p>
-              <p className="text-[10px] uppercase tracking-wider text-gris-chaud">Administration</p>
+              <p className="font-serif text-base leading-tight text-[#F7F0E4]">Terminal 3</p>
+              <p className="text-[10px] uppercase tracking-wider text-[#8E8678]">Administration</p>
             </div>
           </Link>
         </div>
@@ -158,7 +158,7 @@ export function AdminShell({
                     setExpanded((s) => ({ ...s, [group.label]: !s[group.label] }))
                   }
                   className={`flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
-                    activeInGroup ? "text-bordeaux-principal" : "text-gris-chaud hover:text-noir-profond"
+                    activeInGroup ? "text-[#C6A15B]" : "text-[#8E8678] hover:text-[#F7F0E4]"
                   }`}
                   aria-expanded={open}
                 >
@@ -177,8 +177,8 @@ export function AdminShell({
                           onClick={() => setMobileOpen(false)}
                           className={`flex items-center justify-between rounded-sm px-3 py-2.5 text-sm transition-colors ${
                             active
-                              ? "bg-or-principal/10 font-medium text-noir-profond"
-                              : "text-gris-chaud hover:bg-beige hover:text-noir-profond"
+                              ? "bg-[#C6A15B]/15 font-medium text-[#F7F0E4]"
+                              : "text-[#B8B0A2] hover:bg-[#23201A] hover:text-[#F7F0E4]"
                           }`}
                           aria-current={active ? "page" : undefined}
                         >
@@ -201,14 +201,14 @@ export function AdminShell({
           })}
         </nav>
 
-        <div className="border-t border-beige-fonce p-4">
-          <p className="px-3 text-sm text-noir-profond">{session.email}</p>
-          <p className="mb-3 px-3 text-[10px] uppercase tracking-wider text-gris-chaud">{session.role}</p>
+        <div className="border-t border-[#2A2620] p-4">
+          <p className="px-3 text-sm text-[#F7F0E4]">{session.email}</p>
+          <p className="mb-3 px-3 text-[10px] uppercase tracking-wider text-[#8E8678]">{session.role}</p>
           <div className="space-y-1">
             <form action={signOutAdmin}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-gris-chaud hover:bg-beige hover:text-bordeaux-principal"
+                className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-[#B8B0A2] hover:bg-[#23201A] hover:text-[#E8849C]"
               >
                 <LogOut className="h-4 w-4" />
                 Déconnexion

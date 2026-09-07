@@ -42,8 +42,12 @@ export function CsvImportForm() {
         </p>
       </div>
 
+      <label htmlFor="csv-file" className="block text-sm font-medium text-[var(--admin-text)]">
+        Fichier CSV à importer
+      </label>
       <input
         ref={fileRef}
+        id="csv-file"
         type="file"
         accept=".csv,text/csv"
         className="block w-full text-sm text-noir-profond/70 file:mr-4 file:rounded-full file:border-0 file:bg-or-principal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-noir-profond"

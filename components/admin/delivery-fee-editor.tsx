@@ -25,11 +25,12 @@ export function DeliveryFeeEditor({ initialFeeAgorot }: { initialFeeAgorot: numb
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-xs uppercase tracking-widest text-or-principal">
+      <label htmlFor="delivery-fee" className="text-xs uppercase tracking-widest text-or-principal">
         Frais de livraison
       </label>
       <div className="flex items-center gap-3">
         <input
+          id="delivery-fee"
           type="number"
           min={0}
           step={100}

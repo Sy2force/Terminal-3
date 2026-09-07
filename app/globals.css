@@ -57,6 +57,64 @@
   --admin-focus: #7A2038;
 }
 
+/*
+ * Couche design admin (.admin-ui posée sur <body> pour les routes /admin).
+ * Uniformise les champs existants qui n'ont pas encore migré vers
+ * components/admin/form-controls.tsx : fond blanc, bordure 1,5 px
+ * --admin-border, rayon 10 px, hauteur confortable, focus bordeaux
+ * avec anneau sans déplacement de mise en page.
+ * Les composants utilisant déjà les contrôles partagés ont leurs propres
+ * classes utilitaires — ces règles n'ont qu'une spécificité de classe+type
+ * et ne s'appliquent qu'aux éléments sans les classes Admin* (reconnaissables
+ * par la classe rounded-[10px] qu'ils posent). En pratique on applique le
+ * style de base à tout champ admin : les overrides éventuels des contrôles
+ * partagés restent compatibles car ils ciblent les mêmes propriétés.
+ */
+@layer components {
+  .admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+  .admin-ui select,
+  .admin-ui textarea {
+    background-color: var(--admin-surface);
+    color: var(--admin-text);
+    border: 1.5px solid var(--admin-border);
+    border-radius: 10px;
+    min-height: 42px;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):hover,
+  .admin-ui select:hover,
+  .admin-ui textarea:hover {
+    border-color: var(--admin-border-strong);
+  }
+  .admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):focus,
+  .admin-ui select:focus,
+  .admin-ui textarea:focus {
+    outline: none;
+    border-color: var(--admin-burgundy);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--admin-burgundy) 20%, transparent);
+  }
+  .admin-ui input::placeholder,
+  .admin-ui textarea::placeholder {
+    color: color-mix(in srgb, var(--admin-text-muted) 60%, transparent);
+  }
+  .admin-ui input:disabled,
+  .admin-ui select:disabled,
+  .admin-ui textarea:disabled {
+    background-color: var(--admin-surface-soft);
+    color: var(--admin-text-muted);
+    cursor: not-allowed;
+  }
+  .admin-ui input[type="checkbox"],
+  .admin-ui input[type="radio"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--admin-burgundy);
+  }
+  .admin-ui label {
+    color: var(--admin-text);
+  }
+}
+
 @theme inline {
   --color-noir-profond: var(--t3-noir-profond);
   --color-noir-chaud: var(--t3-noir-chaud);

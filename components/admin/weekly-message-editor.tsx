@@ -27,7 +27,11 @@ export function WeeklyMessageEditor({
 
   return (
     <div className="flex flex-col gap-3">
+      <label htmlFor="weekly-message" className="text-sm font-medium text-[var(--admin-text)]">
+        Message du bandeau
+      </label>
       <textarea
+        id="weekly-message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         rows={2}
