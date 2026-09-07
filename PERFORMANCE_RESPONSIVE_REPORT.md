@@ -88,6 +88,25 @@ npm run test:unit             # 51 passed
 - **Lighthouse mobile / desktop** : impossible en ligne à cause de la protection SSO Vercel ; nécessite une URL publique de test ou un run local avec `.env`.
 - **Migration `promotion_images`** : fichiers SQL créés mais non appliqués sur Supabase (attend l'accord / l'exécution par le propriétaire).
 
+## 8. Nouvelle passe — streaming dashboard + formulaires opérationnels
+
+| Date | Action | Résultat |
+|---|---|---|
+| 2026-09-02 | `app/admin/page.tsx` streamé avec `Suspense` et `DashboardSkeleton` | TTFB admin perçu instantané, tests E2E en **1m12** |
+| 2026-09-02 | Correction convention middleware (`proxy.ts`) | Build sans warning, 112 routes OK |
+| 2026-09-02 | Formulaire newsletter branché sur `leads` (source `newsletter`) | Inscription persistante, anti-duplicat email/source |
+| 2026-09-02 | Formulaire contact branché sur `leads` (source `contact`) | Messages persistants, accessibles dans `/admin/leads` |
+
+Commandes validées :
+
+```
+npm run lint                 # OK
+npx tsc --noEmit             # OK
+npm run test:unit            # 83 passed
+npm run test:e2e             # 52 passed, 4 skipped
+npm run build                # OK, 112 routes
+```
+
 ## 7. Reste à faire
 
 1. Appliquer la migration `0034_promotion_images.sql` sur la base Supabase autorisée.
