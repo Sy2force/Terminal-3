@@ -44,10 +44,10 @@ export function NewsletterSection() {
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-gris-chaud mb-2">Le carnet Terminal 3</p>
           <h2 className="font-serif text-4xl text-noir-profond mb-4">
-            Nos arrivages, nos conseils et quelques belles surprises.
+            Les bonnes adresses de Terminal 3.
           </h2>
           <p className="text-texte-clair/70 mb-8">
-            Rejoignez notre communauté pour recevoir nos dernières nouveautés et offres exclusives.
+            Arrivages, accords mets et vins, invitations privées et offres réservées — directement dans votre boîte.
           </p>
 
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">

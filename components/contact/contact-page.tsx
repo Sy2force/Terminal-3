@@ -34,7 +34,7 @@ export function ContactPageContent({ settings, pageContent }: ContactPageProps) 
               {pageContent?.title ?? "Contact"}
             </h1>
             <p className="text-lg text-texte-clair/70 max-w-2xl mx-auto">
-              {pageContent?.subtitle ?? "Nous sommes à votre écoute pour toute question ou suggestion."}
+              {pageContent?.subtitle ?? "Une question, une commande sur mesure ou une suggestion ? Nous vous répondons sous 24 heures."}
             </p>
           </div>
         </div>
@@ -135,7 +135,7 @@ export function ContactPageContent({ settings, pageContent }: ContactPageProps) 
 
           {/* Contact form */}
           <div>
-            <h2 className="font-serif text-3xl text-texte-clair mb-6">Envoyez-nous un message</h2>
+            <h2 className="font-serif text-3xl text-texte-clair mb-6">Écrivez-nous</h2>
             <ContactForm />
           </div>
         </div>

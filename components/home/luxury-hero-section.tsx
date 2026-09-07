@@ -43,7 +43,7 @@ export function LuxuryHeroSection({
 
   const description =
     subtitle ??
-    "Vins casher, spiritueux, saumon fumé et épicerie fine à Jérusalem.";
+    "Cave casher à Jérusalem. Vins, spiritueux, saumon fumé et charcuterie fine — pour vos repas, vos cadeaux et vos moments précieux.";
 
   return (
     <section
