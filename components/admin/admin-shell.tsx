@@ -8,8 +8,6 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Package,
-  PlusCircle,
-  Zap,
   Grid3X3,
   Star,
   Percent,
@@ -42,41 +40,44 @@ interface NavGroup {
 
 const NAV: NavGroup[] = [
   {
-    label: "Accueil",
+    label: "Vue d'ensemble",
     items: [
       { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
     ],
   },
   {
-    label: "Ventes",
+    label: "Commandes",
     items: [
-      { href: "/admin/orders", label: "Commandes", icon: ShoppingBag },
-      { href: "/admin/clients", label: "Clients", icon: User },
-      { href: "/admin/bars", label: "Bars et leads", icon: Store },
-      { href: "/admin/product-requests", label: "Demandes produits", icon: FileText },
+      { href: "/admin/orders", label: "Toutes les commandes", icon: ShoppingBag },
     ],
   },
   {
     label: "Catalogue",
     items: [
       { href: "/admin/products", label: "Produits", icon: Package },
-      { href: "/admin/products/new", label: "Ajouter un produit", icon: PlusCircle },
-      { href: "/admin/products/quick-add", label: "Ajout rapide", icon: Zap },
       { href: "/admin/categories", label: "Catégories", icon: Grid3X3 },
-      { href: "/admin/brands", label: "Marques", icon: Star },
       { href: "/admin/inventory", label: "Stocks", icon: Package },
       { href: "/admin/promotions", label: "Promotions", icon: Percent },
+      { href: "/admin/brands", label: "Marques", icon: Star },
       { href: "/admin/products/import", label: "Import / Export", icon: Upload },
+    ],
+  },
+  {
+    label: "Clients",
+    items: [
+      { href: "/admin/clients", label: "Particuliers", icon: User },
+      { href: "/admin/bars", label: "Bars et leads", icon: Store },
+      { href: "/admin/product-requests", label: "Demandes produits", icon: FileText },
     ],
   },
   {
     label: "Contenu",
     items: [
-      { href: "/admin/photos", label: "Photos du site", icon: ImageIcon },
+      { href: "/admin/contenus", label: "Pages du site", icon: FileText },
+      { href: "/admin/medias", label: "Photos et médias", icon: ImageIcon },
       { href: "/admin/couvertures", label: "Accueil", icon: LayoutDashboard },
       { href: "/admin/homepage", label: "Bannières", icon: ImageIcon },
       { href: "/admin/evenements", label: "Événements", icon: FileText },
-      { href: "/admin/contenus", label: "Pages", icon: FileText },
     ],
   },
   {
@@ -203,15 +204,6 @@ export function AdminShell({
           <p className="px-3 text-sm text-noir-profond">{session.email}</p>
           <p className="mb-3 px-3 text-[10px] uppercase tracking-wider text-gris-chaud">{session.role}</p>
           <div className="space-y-1">
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-gris-chaud hover:bg-beige hover:text-noir-profond"
-            >
-              <Store className="h-4 w-4" />
-              Voir la boutique
-            </a>
             <form action={signOutAdmin}>
               <button
                 type="submit"
@@ -272,9 +264,10 @@ export function AdminShell({
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden rounded-sm border border-beige-fonce bg-white px-3 py-2 text-xs font-medium uppercase tracking-wider text-noir-profond hover:border-or-principal hover:text-or-principal sm:block"
+              className="flex min-h-[36px] items-center gap-1.5 rounded-sm border border-beige-fonce bg-white px-3 py-2 text-xs font-medium uppercase tracking-wider text-noir-profond hover:border-or-principal hover:text-or-principal"
             >
-              Voir la boutique
+              <Store className="h-4 w-4 sm:hidden" />
+              <span className="hidden sm:inline">Voir la boutique</span>
             </a>
           </div>
         </header>

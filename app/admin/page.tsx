@@ -10,7 +10,7 @@ import {
   type DashboardOrder,
   type DashboardClient,
 } from "@/components/admin/dashboard-stats";
-import { getPresenceStats, type PresenceOnlineUser } from "@/lib/data/presence";
+import { getPresenceStats } from "@/lib/data/presence";
 import { buildActivityFeed, type ActivityItem } from "@/lib/activity-feed";
 
 export const metadata: Metadata = {
@@ -20,26 +20,22 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const EMPTY_STATS: DashboardStats = {
-  onlineVisitors: 0,
+  onlineTotal: 0,
   onlineUsers: 0,
-  newAccounts: 0,
-  ordersInPeriod: 0,
-  toConfirmCount: 0,
-  inPrepCount: 0,
+  newOrdersCount: 0,
+  toPrepareCount: 0,
   readyCount: 0,
-  stockAlertsCount: 0,
-  newBarLeadsCount: 0,
-  ageChecksPending: 0,
-  paidPeriodAgorot: 0,
-  unpaidPeriodAgorot: 0,
+  alertsCount: 0,
+  catalogTotal: 0,
+  catalogPublished: 0,
+  catalogLowStock: 0,
+  catalogMissingPhotos: 0,
 };
 
 function periodStart(period: DashboardPeriod): string {
   const now = Date.now();
   if (period === "7j") return new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
   if (period === "30j") return new Date(now - 30 * 24 * 60 * 60 * 1000).toISOString();
-  // "jour" — start of the current day (server timezone kept deliberately
-  // simple: ISO date boundary at UTC midnight).
   return new Date().toISOString().slice(0, 10) + "T00:00:00.000Z";
 }
 
@@ -55,6 +51,7 @@ export default async function AdminDashboardPage({
   const session = await getAdminSession();
   const { periode } = await searchParams;
   const period = parsePeriod(periode);
+  const refreshedAt = new Date().toISOString();
 
   if (!session) {
     return (
@@ -90,7 +87,7 @@ export default async function AdminDashboardPage({
         activity={[]}
         recentOrders={[]}
         newClients={[]}
-        onlineUsers={[]}
+        refreshedAt={refreshedAt}
       />
     );
   }
@@ -98,67 +95,77 @@ export default async function AdminDashboardPage({
   const since = periodStart(period);
 
   // Presence: service-role read, admin-only. Failure must not break the dashboard.
-  let onlineVisitors = 0;
-  let onlineUsers: PresenceOnlineUser[] = [];
+  let onlineTotal = 0;
+  let onlineUsers = 0;
   try {
     const presence = await getPresenceStats();
-    onlineVisitors = presence.anonymousSessions;
-    onlineUsers = presence.onlineUsers;
+    onlineTotal = presence.total;
+    onlineUsers = presence.authenticatedUsers;
   } catch {
-    onlineVisitors = 0;
-    onlineUsers = [];
+    onlineTotal = 0;
+    onlineUsers = 0;
   }
 
   const [
-    { count: newAccounts },
-    { count: ordersInPeriod },
-    { count: toConfirmCount },
-    { count: inPrepCount },
+    { count: newOrdersCount },
+    { count: toPrepareCount },
     { count: readyCount },
-    { count: stockAlertsCount },
-    { count: newBarLeads },
-    { count: newProspectLeads },
     { count: ageChecksPending },
-    { data: paidPeriod },
-    { data: unpaidPeriod },
+    { count: lowStockCount },
+    { count: outOfStockCount },
+    { count: missingPhotosCount },
+    { count: catalogTotal },
+    { count: catalogPublished },
     { data: recentOrdersRaw },
     { data: newClientsRaw },
+    { data: recentProfiles },
     { data: recentBars },
     { data: auditLogs },
     { data: lowStockProducts },
   ] = await Promise.all([
-    supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", since),
     supabase.from("orders").select("*", { count: "exact", head: true }).gte("created_at", since),
-    supabase.from("orders").select("*", { count: "exact", head: true }).in("status", ["submitted", "received", "reviewing"]),
-    supabase.from("orders").select("*", { count: "exact", head: true }).in("status", ["confirmed", "accepted", "preparing"]),
+    supabase.from("orders").select("*", { count: "exact", head: true }).in("status", ["submitted", "received", "reviewing", "confirmed", "accepted", "preparing"]),
     supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "ready"),
-    supabase.from("products").select("*", { count: "exact", head: true }).in("availability_status", ["LOW_STOCK", "OUT_OF_STOCK"]),
-    supabase.from("bar_profiles").select("*", { count: "exact", head: true }).eq("status", "new"),
-    supabase.from("leads").select("*", { count: "exact", head: true }).eq("status", "new"),
     supabase.from("age_verifications").select("*", { count: "exact", head: true }).eq("status", "PENDING"),
-    supabase.from("orders").select("total_agorot").gte("created_at", since).in("status", ["completed", "collected", "ready"]),
-    supabase.from("orders").select("total_agorot").gte("created_at", since).in("status", ["submitted", "received", "reviewing", "confirmed", "accepted", "preparing"]),
+    supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "LOW_STOCK"),
+    supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "OUT_OF_STOCK"),
+    supabase.from("products").select("id", { count: "exact", head: true }).not("id", "in", "(select product_id from product_media where kind = 'COVER')"),
+    supabase.from("products").select("*", { count: "exact", head: true }),
+    supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
     supabase
       .from("orders")
-      .select("id, public_order_number, customer_name, customer_phone, total_agorot, status, created_at, user_id")
+      .select("id, public_order_number, customer_name, total_agorot, status, created_at")
       .order("created_at", { ascending: false })
-      .limit(6),
+      .limit(5),
     // `verification_status` and `account_type` exist in the DB (migrations
     // 0021/0043) but are missing from the generated Database types — cast.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (supabase.from("profiles") as any)
-      .select("id, first_name, last_name, email, phone, created_at, account_type, verification_status")
+      .select("id, first_name, last_name, email, created_at, account_type, verification_status")
       .order("created_at", { ascending: false })
-      .limit(6) as Promise<{
+      .limit(5) as Promise<{
       data: {
         id: string;
         first_name: string | null;
         last_name: string | null;
         email: string | null;
-        phone: string | null;
         created_at: string;
         account_type: string | null;
         verification_status: string | null;
+      }[] | null;
+    }>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase.from("profiles") as any)
+      .select("id, first_name, last_name, email, created_at, account_type")
+      .order("created_at", { ascending: false })
+      .limit(8) as Promise<{
+      data: {
+        id: string;
+        first_name: string | null;
+        last_name: string | null;
+        email: string | null;
+        created_at: string;
+        account_type: string | null;
       }[] | null;
     }>,
     supabase
@@ -180,21 +187,13 @@ export default async function AdminDashboardPage({
 
   const orders = recentOrdersRaw ?? [];
   const orderIds = orders.map((o) => o.id);
-  const orderUserIds = [...new Set(orders.map((o) => o.user_id).filter(Boolean))] as string[];
-
-  const clients = newClientsRaw ?? [];
-  const clientIds = clients.map((c) => c.id);
-
   const actorIds = [
     ...new Set((auditLogs ?? []).map((l) => l.actor_user_id).filter(Boolean)),
   ] as string[];
 
   const [
     { data: orderItems },
-    { data: orderProfiles },
     { data: orderAgeVerifications },
-    { data: clientOrders },
-    { data: clientPresence },
     { data: actorProfiles },
   ] = await Promise.all([
     orderIds.length
@@ -203,44 +202,20 @@ export default async function AdminDashboardPage({
           .select("order_id, product_name_snapshot, variant_label_snapshot, quantity")
           .in("order_id", orderIds)
       : Promise.resolve({ data: [] as { order_id: string; product_name_snapshot: string; variant_label_snapshot: string | null; quantity: number }[] }),
-    orderUserIds.length
-      ? supabase.from("profiles").select("id, email").in("id", orderUserIds)
-      : Promise.resolve({ data: [] as { id: string; email: string | null }[] }),
     orderIds.length
       ? supabase.from("age_verifications").select("order_id, status").in("order_id", orderIds)
       : Promise.resolve({ data: [] as { order_id: string; status: string }[] }),
-    clientIds.length
-      ? (supabase.from("orders").select("user_id").in("user_id", clientIds) as unknown as Promise<{
-          data: { user_id: string | null }[];
-        }>)
-      : Promise.resolve({ data: [] as { user_id: string | null }[] }),
-    clientIds.length
-      ? (supabase.from("user_presence").select("user_id, last_seen_at").in("user_id", clientIds).order("last_seen_at", { ascending: false }) as unknown as Promise<{
-          data: { user_id: string | null; last_seen_at: string }[];
-        }>)
-      : Promise.resolve({ data: [] as { user_id: string | null; last_seen_at: string }[] }),
     actorIds.length
       ? supabase.from("profiles").select("id, first_name, last_name, email").in("id", actorIds)
       : Promise.resolve({ data: [] as { id: string; first_name: string | null; last_name: string | null; email: string | null }[] }),
   ]);
 
-  const emailByUserId = new Map((orderProfiles ?? []).map((p) => [p.id, p.email]));
   const actorNameById = new Map(
     (actorProfiles ?? []).map((p) => [
       p.id,
       [p.first_name, p.last_name].filter(Boolean).join(" ").trim() || p.email || null,
     ]),
   );
-  const orderCountByUserId = new Map<string, number>();
-  for (const row of clientOrders ?? []) {
-    if (!row.user_id) continue;
-    orderCountByUserId.set(row.user_id, (orderCountByUserId.get(row.user_id) ?? 0) + 1);
-  }
-  const lastSeenByUserId = new Map<string, string>();
-  for (const row of clientPresence ?? []) {
-    if (!row.user_id || lastSeenByUserId.has(row.user_id)) continue;
-    lastSeenByUserId.set(row.user_id, row.last_seen_at);
-  }
 
   const recentOrders: DashboardOrder[] = orders.map((order) => {
     const items = (orderItems ?? []).filter((i) => i.order_id === order.id);
@@ -254,8 +229,6 @@ export default async function AdminDashboardPage({
       id: order.id,
       ref: order.public_order_number ?? `#${order.id.slice(0, 8)}`,
       customerName: order.customer_name,
-      customerPhone: order.customer_phone,
-      customerEmail: order.user_id ? (emailByUserId.get(order.user_id) ?? null) : null,
       totalAgorot: order.total_agorot,
       status: order.status,
       createdAt: order.created_at,
@@ -268,15 +241,12 @@ export default async function AdminDashboardPage({
     };
   });
 
-  const newClients: DashboardClient[] = clients.map((c) => ({
+  const newClients: DashboardClient[] = (newClientsRaw ?? []).map((c) => ({
     id: c.id,
     name: [c.first_name, c.last_name].filter(Boolean).join(" ").trim() || c.email || "Client",
     email: c.email,
-    phone: c.phone,
-    accountType: (c as { account_type?: string | null }).account_type ?? null,
-    verificationStatus: (c as { verification_status?: string | null }).verification_status ?? null,
-    orderCount: orderCountByUserId.get(c.id) ?? 0,
-    lastSeenAt: lastSeenByUserId.get(c.id) ?? null,
+    accountType: c.account_type ?? null,
+    verificationStatus: c.verification_status ?? null,
     createdAt: c.created_at,
   }));
 
@@ -290,12 +260,12 @@ export default async function AdminDashboardPage({
       item_count: (orderItems ?? []).filter((i) => i.order_id === o.id).length,
       created_at: o.created_at,
     })),
-    profiles: clients.map((c) => ({
+    profiles: (recentProfiles ?? []).map((c) => ({
       id: c.id,
       first_name: c.first_name,
       last_name: c.last_name,
       email: c.email,
-      account_type: (c as { account_type?: string | null }).account_type ?? null,
+      account_type: c.account_type ?? null,
       created_at: c.created_at,
     })),
     bars: (recentBars ?? []).map((b) => ({
@@ -312,22 +282,20 @@ export default async function AdminDashboardPage({
       created_at: l.created_at,
     })),
     lowStock: (lowStockProducts ?? []).map((p) => ({ id: p.id, name: p.name_fr ?? "Produit" })),
-    limit: 15,
+    limit: 12,
   });
 
   const stats: DashboardStats = {
-    onlineVisitors,
-    onlineUsers: onlineUsers.length,
-    newAccounts: newAccounts ?? 0,
-    ordersInPeriod: ordersInPeriod ?? 0,
-    toConfirmCount: toConfirmCount ?? 0,
-    inPrepCount: inPrepCount ?? 0,
+    onlineTotal,
+    onlineUsers,
+    newOrdersCount: newOrdersCount ?? 0,
+    toPrepareCount: toPrepareCount ?? 0,
     readyCount: readyCount ?? 0,
-    stockAlertsCount: stockAlertsCount ?? 0,
-    newBarLeadsCount: (newBarLeads ?? 0) + (newProspectLeads ?? 0),
-    ageChecksPending: ageChecksPending ?? 0,
-    paidPeriodAgorot: (paidPeriod ?? []).reduce((sum, row) => sum + (row.total_agorot ?? 0), 0),
-    unpaidPeriodAgorot: (unpaidPeriod ?? []).reduce((sum, row) => sum + (row.total_agorot ?? 0), 0),
+    alertsCount: (ageChecksPending ?? 0) + (lowStockCount ?? 0) + (outOfStockCount ?? 0) + (missingPhotosCount ?? 0),
+    catalogTotal: catalogTotal ?? 0,
+    catalogPublished: catalogPublished ?? 0,
+    catalogLowStock: (lowStockCount ?? 0) + (outOfStockCount ?? 0),
+    catalogMissingPhotos: missingPhotosCount ?? 0,
   };
 
   return (
@@ -337,7 +305,7 @@ export default async function AdminDashboardPage({
       activity={activity}
       recentOrders={recentOrders}
       newClients={newClients}
-      onlineUsers={onlineUsers}
+      refreshedAt={refreshedAt}
     />
   );
 }
