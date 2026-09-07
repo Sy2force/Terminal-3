@@ -177,8 +177,21 @@ Implemented and tested:
   orders, clients, content, settings, weekly banner, salmon gallery.
 - Server-side validation, price recalculation, promotion logic, age
   verification, first-purchase discount.
+- Newsletter and contact forms persisted to the `leads` table.
 - E2E smoke tests for admin login, dashboard, auth gates, cart, catalog
   routes.
+- Security headers (HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
+  Permissions-Policy, DNS prefetch).
+
+Current deployments:
+
+- Vercel production: `https://terminal3-5cw43dpqm-projet-607a8e5b.vercel.app`
+- Alias: `https://terminal3-beta.vercel.app`
+- Inspect: `https://vercel.com/projet-607a8e5b/terminal3`
+
+> The deployment is currently protected by Vercel SSO. To open it to the public,
+> disable **Deployment Protection** in the Vercel dashboard and/or add a custom
+> domain under **Domains**.
 
 What remains for production:
 
@@ -186,10 +199,10 @@ What remains for production:
 - Strong `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`.
 - Real product/category data, prices, stock, and photos (via `/admin` or seed).
 - Wolt integration keys and webhook configuration.
-- Newsletter / contact: wire to an email provider (Resend, Brevo, SendGrid) or
-  persist messages in the database.
+- Newsletter / contact: optionally wire to an email provider (Resend, Brevo,
+  SendGrid); the database persistence is already in place.
 - Production DB indexes / query tuning for large catalogs.
-- SSL, custom domain, and Vercel environment variables.
+- Custom domain and final SSL configuration in Vercel.
 
 ## Money
 
