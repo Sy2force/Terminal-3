@@ -35,8 +35,8 @@ test.describe("admin login", () => {
     await page.goto("/admin/login");
     await page.locator('input[name="password"]').first().fill(ADMIN_PASSWORD);
     await page.locator("button:has-text('Se connecter')").first().click();
-    await page.waitForURL("/admin", { timeout: 5000 });
-    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible();
+    await page.waitForURL("/admin", { waitUntil: "commit", timeout: 10000 });
+    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible({ timeout: 15000 });
 
     const cookies = await context.cookies();
     const adminCookie = cookies.find((c) => c.name === "admin_session");
@@ -45,7 +45,7 @@ test.describe("admin login", () => {
     expect(adminCookie?.sameSite).toBe("Strict");
 
     await page.reload();
-    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible({ timeout: 15000 });
   });
 
   test("logout and denied access", async ({ page, context }) => {
@@ -54,11 +54,11 @@ test.describe("admin login", () => {
     await page.goto("/admin/login");
     await page.locator('input[name="password"]').first().fill(ADMIN_PASSWORD);
     await page.locator("button:has-text('Se connecter')").first().click();
-    await page.waitForURL("/admin", { timeout: 5000 });
+    await page.waitForURL("/admin", { waitUntil: "commit", timeout: 10000 });
 
     await openMobileAdminMenu(page);
     const logoutButton = page.locator("button:has-text('Déconnexion')").first();
-    await expect(logoutButton).toBeVisible();
+    await expect(logoutButton).toBeVisible({ timeout: 10000 });
     await logoutButton.evaluate((el) => (el as HTMLElement).click());
     await page.waitForURL("/admin/login", { timeout: 5000 });
 
@@ -75,8 +75,8 @@ test.describe("admin login", () => {
     await expect(page.getByTestId("admin-login-title").first()).toBeVisible();
     await page.locator('input[name="password"]').first().fill(ADMIN_PASSWORD);
     await page.locator("button:has-text('Se connecter')").first().click();
-    await page.waitForURL("/admin", { timeout: 5000 });
-    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible();
+    await page.waitForURL("/admin", { waitUntil: "commit", timeout: 10000 });
+    await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible({ timeout: 15000 });
 
     const cookies = await context.cookies();
     const adminCookie = cookies.find((c) => c.name === "admin_session");

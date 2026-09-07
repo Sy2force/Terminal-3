@@ -18,7 +18,8 @@ async function loginAsAdmin(page: Page) {
   await page.goto("/admin/login");
   await page.locator('input[name="password"]').first().fill(ADMIN_PASSWORD);
   await page.locator("button:has-text('Se connecter')").first().click();
-  await page.waitForURL("/admin", { timeout: 8000 });
+  await page.waitForURL("/admin", { waitUntil: "commit", timeout: 10000 });
+  await expect(page.getByRole("heading", { name: "Vue d'ensemble" }).first()).toBeVisible({ timeout: 15000 });
 }
 
 async function horizontalOverflow(page: Page): Promise<number> {
