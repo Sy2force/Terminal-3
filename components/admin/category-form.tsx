@@ -8,6 +8,10 @@ import {
   type CategoryFormData,
 } from "@/app/admin/categories/actions";
 import type { CategoryRow } from "@/types/database";
+import {
+  AdminField as Field,
+  AdminTextarea as TextArea,
+} from "@/components/admin/form-controls";
 
 interface CategoryFormProps {
   categories: CategoryRow[];
@@ -73,7 +77,7 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Slug *" name="slug" defaultValue={initial?.slug} required />
+        <Field label="Slug" name="slug" defaultValue={initial?.slug} required />
         <Field
           label="Ordre d'affichage"
           name="display_order"
@@ -83,7 +87,7 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-3">
-        <Field label="Nom (hébreu) *" name="name_he" defaultValue={initial?.name_he} required />
+        <Field label="Nom (hébreu)" name="name_he" defaultValue={initial?.name_he} required />
         <Field label="Nom (français)" name="name_fr" defaultValue={initial?.name_fr ?? ""} />
         <Field label="Nom (anglais)" name="name_en" defaultValue={initial?.name_en ?? ""} />
       </div>
@@ -163,53 +167,4 @@ export function CategoryForm({ categories, initial }: CategoryFormProps) {
   );
 }
 
-function Field({
-  label,
-  name,
-  type = "text",
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  defaultValue?: string | number;
-  required?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        required={required}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
 
-function TextArea({
-  label,
-  name,
-  defaultValue,
-  rows = 4,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string;
-  rows?: number;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <textarea
-        name={name}
-        defaultValue={defaultValue}
-        rows={rows}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}

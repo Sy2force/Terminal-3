@@ -8,6 +8,11 @@ import {
   type ContentFormData,
 } from "@/app/admin/content/actions";
 import type { ContentPostRow } from "@/types/database";
+import {
+  AdminField as Field,
+  AdminSelect as Select,
+  AdminTextarea as TextArea,
+} from "@/components/admin/form-controls";
 
 interface ContentFormProps {
   initial?: ContentPostRow;
@@ -57,8 +62,8 @@ export function ContentForm({ initial }: ContentFormProps) {
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Slug *" name="slug" defaultValue={initial?.slug} required />
-        <Field label="Titre *" name="title" defaultValue={initial?.title} required />
+        <Field label="Slug" name="slug" defaultValue={initial?.slug} required />
+        <Field label="Titre" name="title" defaultValue={initial?.title} required />
       </div>
 
       <Field label="Sous-titre" name="subtitle" defaultValue={initial?.subtitle ?? ""} />
@@ -67,16 +72,13 @@ export function ContentForm({ initial }: ContentFormProps) {
 
       <Field label="Catégorie" name="category" defaultValue={initial?.category ?? ""} />
 
-      <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-        Corps de l&apos;article
-        <textarea
-          name="body"
-          defaultValue={initial?.body ?? ""}
-          rows={12}
-          className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-          placeholder="Contenu de l'article..."
-        />
-      </label>
+      <TextArea
+        label="Corps de l'article"
+        name="body"
+        defaultValue={initial?.body ?? ""}
+        rows={12}
+        placeholder="Contenu de l'article..."
+      />
 
       <Select
         name="status"
@@ -109,58 +111,4 @@ export function ContentForm({ initial }: ContentFormProps) {
   );
 }
 
-function Field({
-  label,
-  name,
-  type = "text",
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  defaultValue?: string | number;
-  required?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        required={required}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
 
-function Select({
-  name,
-  label,
-  defaultValue,
-  options,
-}: {
-  name: string;
-  label: string;
-  defaultValue: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <select
-        name={name}
-        defaultValue={defaultValue}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}

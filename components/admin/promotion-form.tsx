@@ -11,6 +11,11 @@ import {
 import { ImageUploader } from "@/components/admin/image-uploader";
 import type { PromotionRow } from "@/types/database";
 import type { ProductWithDetails } from "@/lib/data/products";
+import {
+  AdminField as Field,
+  AdminTextarea as TextArea,
+  AdminSelect as Select,
+} from "@/components/admin/form-controls";
 
 interface PromotionFormProps {
   initial?: PromotionRow;
@@ -71,8 +76,8 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Slug *" name="slug" defaultValue={initial?.slug} required />
-        <Field label="Titre *" name="title" defaultValue={initial?.title} required />
+        <Field label="Slug" name="slug" defaultValue={initial?.slug} required />
+        <Field label="Titre" name="title" defaultValue={initial?.title} required />
       </div>
 
       <TextArea label="Description" name="description" defaultValue={initial?.description ?? ""} />
@@ -98,14 +103,14 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-3">
-        <Field label="Prix régulier (agorot) *" name="regular_price_agorot" type="number" defaultValue={initial?.regular_price_agorot ?? 0} required />
-        <Field label="Prix promo (agorot) *" name="promo_price_agorot" type="number" defaultValue={initial?.promo_price_agorot ?? 0} required />
+        <Field label="Prix régulier (agorot)" name="regular_price_agorot" type="number" defaultValue={initial?.regular_price_agorot ?? 0} required />
+        <Field label="Prix promo (agorot)" name="promo_price_agorot" type="number" defaultValue={initial?.promo_price_agorot ?? 0} required />
         <Field label="Quantité max" name="quantity_limit" type="number" defaultValue={initial?.quantity_limit ?? ""} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Début *" name="start_at" type="datetime-local" defaultValue={initial ? initial.start_at.slice(0, 16) : ""} required />
-        <Field label="Fin *" name="end_at" type="datetime-local" defaultValue={initial ? initial.end_at.slice(0, 16) : ""} required />
+        <Field label="Début" name="start_at" type="datetime-local" defaultValue={initial ? initial.start_at.slice(0, 16) : ""} required />
+        <Field label="Fin" name="end_at" type="datetime-local" defaultValue={initial ? initial.end_at.slice(0, 16) : ""} required />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -170,80 +175,5 @@ export function PromotionForm({ initial, products = [] }: PromotionFormProps) {
   );
 }
 
-function Field({
-  label,
-  name,
-  type = "text",
-  defaultValue,
-  required,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  defaultValue?: string | number;
-  required?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        required={required}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
 
-function TextArea({
-  label,
-  name,
-  defaultValue,
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <textarea
-        name={name}
-        defaultValue={defaultValue}
-        rows={4}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
 
-function Select({
-  name,
-  label,
-  defaultValue,
-  options,
-}: {
-  name: string;
-  label: string;
-  defaultValue: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <select
-        name={name}
-        defaultValue={defaultValue}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
