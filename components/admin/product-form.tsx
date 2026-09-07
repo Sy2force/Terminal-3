@@ -9,6 +9,13 @@ import {
   type ProductFormData,
 } from "@/app/admin/products/actions";
 import { ProductMediaEditor } from "@/components/admin/product-media-editor";
+import {
+  AdminField as Field,
+  AdminSelect as Select,
+  AdminTextarea as TextArea,
+  AdminCheckbox,
+  FormSection as Section,
+} from "@/components/admin/form-controls";
 import { formatAgorot } from "@/lib/money";
 import { isValidWoltUrl } from "@/lib/wolt";
 import type {
@@ -223,7 +230,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       <Section title="Informations principales">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field name="name_fr" label="Nom (français)" defaultValue={initial?.name_fr ?? ""} />
-          <Field name="name_he" label="Nom (hébreu) *" defaultValue={initial?.name_he} required />
+          <Field name="name_he" label="Nom (hébreu)" defaultValue={initial?.name_he} required />
           <Select
             name="category_id"
             label="Catégorie"
@@ -276,14 +283,18 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
           <Field name="new_until" label="Nouveau jusqu'à" type="datetime-local" defaultValue={initial?.new_until ? initial.new_until.slice(0, 16) : ""} />
         </div>
         <div className="mt-4 flex flex-wrap gap-6">
-          <label className="flex items-center gap-2 text-sm text-noir-profond/80">
-            <input type="checkbox" name="is_featured" defaultChecked={initial?.is_featured ?? false} className="h-4 w-4 accent-or-principal" />
-            Mis en avant
-          </label>
-          <label className="flex items-center gap-2 text-sm text-noir-profond/80">
-            <input type="checkbox" name="age_restricted" defaultChecked={initial?.age_restricted ?? false} className="h-4 w-4 accent-or-principal" />
-            18+
-          </label>
+          <AdminCheckbox
+            name="is_featured"
+            label="Mis en avant"
+            description="Affiche ce produit dans les mises en avant du site."
+            defaultChecked={initial?.is_featured ?? false}
+          />
+          <AdminCheckbox
+            name="age_restricted"
+            label="Produit soumis à la règle 18+"
+            description="La vérification d'âge sera demandée lors du retrait en magasin."
+            defaultChecked={initial?.age_restricted ?? false}
+          />
         </div>
       </Section>
 
@@ -293,22 +304,26 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       </Section>
 
       {/* ACTIONS PRINCIPALES */}
-      <div className="flex items-center gap-3 pt-4">
+      <div className="flex flex-wrap items-center gap-3 border-t border-[var(--admin-border)] pt-4">
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold tracking-wide text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-50"
+          className="min-h-[44px] rounded-[10px] bg-[var(--admin-burgundy)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--admin-burgundy-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {saving ? "Enregistrement..." : initial ? "Enregistrer" : "Créer"}
+          {saving ? "Enregistrement…" : initial ? "Enregistrer" : "Créer"}
         </button>
         <button
           type="button"
           onClick={buildPreviewProduct}
-          className="rounded-full border border-or-principal/40 px-6 py-2.5 text-sm font-medium text-or-principal transition-colors hover:bg-or-principal hover:text-noir-profond"
+          className="min-h-[44px] rounded-[10px] border-[1.5px] border-[var(--admin-border-strong)] bg-white px-6 py-2.5 text-sm font-medium text-[var(--admin-text)] transition-colors hover:border-[var(--admin-gold)]"
         >
           Aperçu
         </button>
-        <button type="button" onClick={() => router.push("/admin/products")} className="text-sm text-gris-chaud hover:text-noir-profond">
+        <button
+          type="button"
+          onClick={() => router.push("/admin/products")}
+          className="min-h-[44px] rounded-[10px] px-4 py-2.5 text-sm text-[var(--admin-text-muted)] hover:text-[var(--admin-text)]"
+        >
           Annuler
         </button>
       </div>
@@ -612,85 +627,6 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
             : "Archivé"}
       </p>
     </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <fieldset className="rounded-sm border border-beige-fonce bg-white p-5">
-      <legend className="px-2 font-serif text-lg text-or-principal">{title}</legend>
-      <div className="flex flex-col gap-4">{children}</div>
-    </fieldset>
-  );
-}
-
-function Field({
-  name,
-  label,
-  type = "text",
-  defaultValue,
-  required,
-}: {
-  name: string;
-  label: string;
-  type?: string;
-  defaultValue?: string | number;
-  required?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        required={required}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
-
-function TextArea({ name, label, defaultValue }: { name: string; label: string; defaultValue?: string }) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <textarea
-        name={name}
-        defaultValue={defaultValue}
-        rows={4}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-noir-profond outline-none focus:border-or-principal"
-      />
-    </label>
-  );
-}
-
-function Select({
-  name,
-  label,
-  defaultValue,
-  options,
-}: {
-  name: string;
-  label: string;
-  defaultValue: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-noir-profond/80">
-      {label}
-      <select
-        name={name}
-        defaultValue={defaultValue}
-        className="rounded-sm border border-beige-fonce bg-white px-4 py-3 text-sm text-noir-profond outline-none focus:border-or-principal"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </label>
   );
 }
 

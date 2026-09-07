@@ -35,6 +35,26 @@
 
   --background: var(--t3-noir-profond);
   --foreground: var(--t3-texte-clair);
+
+  /* Admin design system — palette centralisée (voir composants
+     components/admin/form-controls.tsx qui les consomment). */
+  --admin-bg: #F7F3EC;
+  --admin-surface: #FFFFFF;
+  --admin-surface-soft: #EFE8DC;
+  --admin-sidebar: #15130F;
+  --admin-text: #1D1B18;
+  --admin-text-muted: #625C53;
+  --admin-border: #D8CCBA;
+  --admin-border-strong: #A99678;
+  --admin-gold: #C6A15B;
+  --admin-gold-dark: #87651F;
+  --admin-burgundy: #7A2038;
+  --admin-burgundy-hover: #63172C;
+  --admin-success: #2F6B4F;
+  --admin-warning: #A55F18;
+  --admin-danger: #B42332;
+  --admin-info: #315D82;
+  --admin-focus: #7A2038;
 }
 
 @theme inline {
