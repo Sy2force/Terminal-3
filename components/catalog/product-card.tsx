@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { memo, useCallback, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { toggleFavorite } from "@/app/favorites/actions";
 import { formatAgorot, formatUnitPrice, savingPercent } from "@/lib/money";
 import { WoltButton, WoltDisclaimer } from "@/components/commerce/wolt-button";
 import { useWoltSettings } from "@/components/commerce/wolt-settings-provider";
+import { getMediaFit } from "@/lib/catalog-visual-config";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 
 function isNew(product: ProductWithMedia): boolean {
@@ -38,7 +39,7 @@ export interface ProductCardConfig {
   showHebrewName?: boolean;
 }
 
-export function ProductCard({
+function ProductCardInner({
   product,
   initialFavorited,
   config,
@@ -54,64 +55,105 @@ export function ProductCard({
   const [isFavPending, startFavTransition] = useTransition();
   const [added, setAdded] = useState(false);
 
-  const name = product.name_fr || product.name_he;
-  const cover = product.media?.[0];
-  const defaultVariant = product.variants?.find((v) => v.is_default) ?? product.variants?.[0];
-  const priceAgorot = defaultVariant?.regular_price_agorot ?? product.base_price_agorot ?? null;
+  const name = useMemo(
+    () => product.name_fr || product.name_he || "Produit",
+    [product.name_fr, product.name_he],
+  );
+
+  const cover = useMemo(() => product.media?.[0], [product.media]);
+
+  const defaultVariant = useMemo(
+    () => product.variants?.find((v) => v.is_default) ?? product.variants?.[0],
+    [product.variants],
+  );
+
+  const priceAgorot = useMemo(
+    () => defaultVariant?.regular_price_agorot ?? product.base_price_agorot ?? null,
+    [defaultVariant?.regular_price_agorot, product.base_price_agorot],
+  );
+
   const compareAgorot = product.compare_at_price_agorot;
-  const discount = compareAgorot && priceAgorot ? savingPercent(compareAgorot, priceAgorot) : 0;
-  const outOfStock =
-    product.availability_status === "OUT_OF_STOCK" ||
-    defaultVariant?.availability_status === "OUT_OF_STOCK";
-  const lowStock =
-    product.availability_status === "LOW_STOCK" || defaultVariant?.availability_status === "LOW_STOCK";
-  const badge = resolveBadge(product);
-  const alreadyInCart = defaultVariant
-    ? lines.some((l) => l.variantId === defaultVariant.id)
-    : false;
-  const detailHref = `${config.basePath}/${product.slug}`;
+  const discount = useMemo(
+    () => (compareAgorot && priceAgorot ? savingPercent(compareAgorot, priceAgorot) : 0),
+    [compareAgorot, priceAgorot],
+  );
 
-  function handleFavoriteClick(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    const next = !favorited;
-    setFavorited(next);
-    startFavTransition(async () => {
-      try {
-        const result = await toggleFavorite(product.id);
-        if (!result.success) {
-          setFavorited(!next);
-          if (result.error?.includes("connecté")) {
-            router.push(`/login?redirect=${config.basePath}`);
+  const outOfStock = useMemo(
+    () =>
+      product.availability_status === "OUT_OF_STOCK" ||
+      defaultVariant?.availability_status === "OUT_OF_STOCK",
+    [product.availability_status, defaultVariant?.availability_status],
+  );
+
+  const lowStock = useMemo(
+    () =>
+      product.availability_status === "LOW_STOCK" ||
+      defaultVariant?.availability_status === "LOW_STOCK",
+    [product.availability_status, defaultVariant?.availability_status],
+  );
+
+  const badge = useMemo(() => resolveBadge(product), [product]);
+
+  const alreadyInCart = useMemo(
+    () => (defaultVariant ? lines.some((l) => l.variantId === defaultVariant.id) : false),
+    [defaultVariant, lines],
+  );
+
+  const detailHref = useMemo(
+    () => `${config.basePath}/${product.slug}`,
+    [config.basePath, product.slug],
+  );
+
+  const imageFit = useMemo(
+    () => getMediaFit(cover?.kind, product.category?.slug ?? null),
+    [cover?.kind, product.category?.slug],
+  );
+
+  const handleFavoriteClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const next = !favorited;
+      setFavorited(next);
+      startFavTransition(async () => {
+        try {
+          const result = await toggleFavorite(product.id);
+          if (!result.success) {
+            setFavorited(!next);
+            if (result.error?.includes("connecté")) {
+              router.push(`/login?redirect=${config.basePath}`);
+            }
+            return;
           }
-          return;
+          setFavorited(result.favorited);
+        } catch {
+          setFavorited(!next);
         }
-        setFavorited(result.favorited);
-      } catch {
-        // Network/config issue — revert optimistic state rather than
-        // leaving the UI in an inconsistent "favorited" state.
-        setFavorited(!next);
-      }
-    });
-  }
+      });
+    },
+    [favorited, product.id, router, config.basePath],
+  );
 
-  function handleAddToCart(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!defaultVariant || outOfStock) return;
-    addItem({
-      variantId: defaultVariant.id,
-      productId: product.id,
-      productSlug: product.slug,
-      productName: name,
-      variantLabel: defaultVariant.label,
-      displayPriceAgorot: priceAgorot,
-      imageUrl: cover?.url ?? null,
-      ageRestricted: product.age_restricted,
-    });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
-  }
+  const handleAddToCart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!defaultVariant || outOfStock) return;
+      addItem({
+        variantId: defaultVariant.id,
+        productId: product.id,
+        productSlug: product.slug,
+        productName: name,
+        variantLabel: defaultVariant.label,
+        displayPriceAgorot: priceAgorot,
+        imageUrl: cover?.url ?? null,
+        ageRestricted: product.age_restricted,
+      });
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1800);
+    },
+    [defaultVariant, outOfStock, addItem, product, name, priceAgorot, cover?.url],
+  );
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-sm border border-brun-cave/40 bg-[#FAF7F0] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-or-principal/40 hover:shadow-xl hover:shadow-noir-profond/10">
@@ -126,7 +168,9 @@ export function ProductCard({
             alt={cover.alt ?? name}
             fill
             sizes="(min-width: 1280px) 23vw, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 90vw"
-            className="object-contain p-6 transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+            className={`${imageFit === "contain" ? "object-contain p-6" : "object-cover"} transition-transform duration-300 ease-out group-hover:scale-[1.04]`}
           />
         ) : (
           <div className="flex h-full items-center justify-center px-4">
@@ -255,15 +299,10 @@ export function ProductCard({
             </button>
           </div>
 
-          {woltEnabled && (
+          {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
             <div className="space-y-1.5 pt-1">
-              <WoltButton
-                url={defaultVariant?.wolt_url}
-                storeUrl={storeUrl}
-              />
-              {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
-                <WoltDisclaimer />
-              )}
+              <WoltButton url={defaultVariant?.wolt_url} storeUrl={storeUrl} />
+              {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && <WoltDisclaimer />}
             </div>
           )}
         </div>
@@ -271,3 +310,5 @@ export function ProductCard({
     </div>
   );
 }
+
+export const ProductCard = memo(ProductCardInner);

@@ -1,3 +1,6 @@
+"use client";
+
+import { memo, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -12,24 +15,35 @@ function isNew(product: ProductWithMedia): boolean {
   return new Date(product.new_until).getTime() > Date.now();
 }
 
-export function SalmonProductCard({
+function SalmonProductCardInner({
   product,
   isFavorited = false,
 }: {
   product: ProductWithMedia;
   isFavorited?: boolean;
 }) {
-  const cover = product.media?.[0];
-  const defaultVariant =
-    product.variants?.find((v) => v.is_default) ?? product.variants?.[0];
-  const name = product.name_fr || product.name_he;
-  const newProduct = isNew(product);
-  const hasPromo =
-    product.compare_at_price_agorot != null &&
-    product.base_price_agorot != null &&
-    product.compare_at_price_agorot > product.base_price_agorot;
-  const imageFit = getMediaFit(cover?.kind, product.category?.slug ?? null);
-  const hasCover = Boolean(cover?.url);
+  const cover = useMemo(() => product.media?.[0], [product.media]);
+  const defaultVariant = useMemo(
+    () => product.variants?.find((v) => v.is_default) ?? product.variants?.[0],
+    [product.variants],
+  );
+  const name = useMemo(
+    () => product.name_fr || product.name_he || "Produit",
+    [product.name_fr, product.name_he],
+  );
+  const newProduct = useMemo(() => isNew(product), [product]);
+  const hasPromo = useMemo(
+    () =>
+      product.compare_at_price_agorot != null &&
+      product.base_price_agorot != null &&
+      product.compare_at_price_agorot > product.base_price_agorot,
+    [product.compare_at_price_agorot, product.base_price_agorot],
+  );
+  const imageFit = useMemo(
+    () => getMediaFit(cover?.kind, product.category?.slug ?? null),
+    [cover?.kind, product.category?.slug],
+  );
+  const hasCover = useMemo(() => Boolean(cover?.url), [cover?.url]);
 
   return (
     <Link
@@ -44,6 +58,8 @@ export function SalmonProductCard({
             alt={cover.alt ?? name}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            loading="lazy"
+            decoding="async"
             className={`${imageFit === "contain" ? "object-contain p-6" : "object-cover"} transition-transform duration-500 ease-out group-hover:scale-[1.025]`}
             priority={false}
           />
@@ -86,9 +102,7 @@ export function SalmonProductCard({
               : "Prix en magasin"}
           </span>
           {defaultVariant?.label && (
-            <span className="text-xs text-muted-grey">
-              {defaultVariant.label}
-            </span>
+            <span className="text-xs text-muted-grey">{defaultVariant.label}</span>
           )}
         </div>
         <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-champagne transition-transform duration-300 group-hover:translate-x-1">
@@ -98,3 +112,5 @@ export function SalmonProductCard({
     </Link>
   );
 }
+
+export const SalmonProductCard = memo(SalmonProductCardInner);
