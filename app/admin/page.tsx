@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import { isDemoMode } from "@/lib/demo-mode";
+import { Suspense } from "react";
 import { getAdminSession } from "@/lib/admin/auth";
 import { signOutAdmin } from "@/app/admin/logout/actions";
 import {
@@ -12,6 +11,8 @@ import {
 } from "@/components/admin/dashboard-stats";
 import { getPresenceStats } from "@/lib/data/presence";
 import { buildActivityFeed, type ActivityItem } from "@/lib/activity-feed";
+import { createClient } from "@/lib/supabase/server";
+import { isDemoMode } from "@/lib/demo-mode";
 
 export const metadata: Metadata = {
   title: "Tableau de bord | Terminal 3 Admin",
@@ -43,40 +44,8 @@ function parsePeriod(raw: string | undefined): DashboardPeriod {
   return raw === "7j" || raw === "30j" ? raw : "jour";
 }
 
-export default async function AdminDashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ periode?: string }>;
-}) {
-  const session = await getAdminSession();
-  const { periode } = await searchParams;
-  const period = parsePeriod(periode);
+async function DashboardContent({ period }: { period: DashboardPeriod }) {
   const refreshedAt = new Date().toISOString();
-
-  if (!session) {
-    return (
-      <div className="mx-auto max-w-lg space-y-6 rounded-sm border border-[#E7DECE] bg-white p-8 text-center shadow-sm">
-        <h1 className="font-serif text-2xl text-[#151411]">Accès réservé aux administrateurs</h1>
-        <p className="text-sm text-[#71695F]">
-          Ce compte n&apos;est pas reconnu comme administrateur, ou vous n&apos;êtes pas connecté.
-        </p>
-        <div className="flex items-center justify-center gap-3">
-          <a href="/admin/login" className="rounded-sm bg-[#C6A15B] px-4 py-2 text-sm font-medium text-[#151411]">
-            Connexion admin
-          </a>
-          <form action={signOutAdmin}>
-            <button
-              type="submit"
-              className="rounded-sm border border-[#E7DECE] px-4 py-2 text-sm text-[#151411]"
-            >
-              Se déconnecter
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
   const supabase = isDemoMode() ? null : await createClient();
 
   if (!supabase) {
@@ -94,7 +63,6 @@ export default async function AdminDashboardPage({
 
   const since = periodStart(period);
 
-  // Presence: service-role read, admin-only. Failure must not break the dashboard.
   let onlineTotal = 0;
   let onlineUsers = 0;
   try {
@@ -124,12 +92,18 @@ export default async function AdminDashboardPage({
     { data: lowStockProducts },
   ] = await Promise.all([
     supabase.from("orders").select("*", { count: "exact", head: true }).gte("created_at", since),
-    supabase.from("orders").select("*", { count: "exact", head: true }).in("status", ["submitted", "received", "reviewing", "confirmed", "accepted", "preparing"]),
+    supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true })
+      .in("status", ["submitted", "received", "reviewing", "confirmed", "accepted", "preparing"]),
     supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "ready"),
     supabase.from("age_verifications").select("*", { count: "exact", head: true }).eq("status", "PENDING"),
     supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "LOW_STOCK"),
     supabase.from("products").select("*", { count: "exact", head: true }).eq("availability_status", "OUT_OF_STOCK"),
-    supabase.from("products").select("id", { count: "exact", head: true }).not("id", "in", "(select product_id from product_media where kind = 'COVER')"),
+    supabase
+      .from("products")
+      .select("id", { count: "exact", head: true })
+      .not("id", "in", "(select product_id from product_media where kind = 'COVER')"),
     supabase.from("products").select("*", { count: "exact", head: true }),
     supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "published"),
     supabase
@@ -168,21 +142,13 @@ export default async function AdminDashboardPage({
         account_type: string | null;
       }[] | null;
     }>,
-    supabase
-      .from("bar_profiles")
-      .select("id, business_name, created_at")
-      .order("created_at", { ascending: false })
-      .limit(5),
+    supabase.from("bar_profiles").select("id, business_name, created_at").order("created_at", { ascending: false }).limit(5),
     supabase
       .from("audit_logs")
       .select("id, action, entity_type, entity_id, actor_user_id, created_at")
       .order("created_at", { ascending: false })
       .limit(10),
-    supabase
-      .from("products")
-      .select("id, name_fr")
-      .eq("availability_status", "LOW_STOCK")
-      .limit(5),
+    supabase.from("products").select("id, name_fr").eq("availability_status", "LOW_STOCK").limit(5),
   ]);
 
   const orders = recentOrdersRaw ?? [];
@@ -307,5 +273,125 @@ export default async function AdminDashboardPage({
       newClients={newClients}
       refreshedAt={refreshedAt}
     />
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="mx-auto max-w-6xl space-y-6" aria-busy="true" aria-label="Chargement du tableau de bord">
+      <section className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="font-serif text-2xl text-[#151411]">Vue d&apos;ensemble</h1>
+          <div className="mt-0.5 h-3 w-48 animate-pulse rounded-sm bg-[#E7DECE]" />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="h-9 w-48 animate-pulse rounded-sm bg-[#E7DECE]" />
+          <div className="h-9 w-28 animate-pulse rounded-sm bg-[#E7DECE]" />
+          <div className="h-9 w-32 animate-pulse rounded-sm bg-[#E7DECE]" />
+        </div>
+      </section>
+
+      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {["Nouvelles commandes", "À préparer", "Prêtes à récupérer", "Alertes"].map((label) => (
+          <div key={label} className="rounded-sm border border-[#E7DECE] bg-white p-4 shadow-sm">
+            <p className="text-xs text-[#71695F]">{label}</p>
+            <div className="mt-2 h-8 w-16 animate-pulse rounded-sm bg-[#E7DECE]" />
+          </div>
+        ))}
+      </section>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <section className="rounded-sm border border-[#E7DECE] bg-white shadow-sm">
+          <header className="border-b border-[#E7DECE] px-4 py-3">
+            <h2 className="font-serif text-base text-[#151411]">Commandes récentes</h2>
+          </header>
+          <div className="space-y-3 p-4">
+            <div className="h-16 animate-pulse rounded-sm bg-[#E7DECE]" />
+            <div className="h-16 animate-pulse rounded-sm bg-[#E7DECE]" />
+          </div>
+        </section>
+        <section className="rounded-sm border border-[#E7DECE] bg-white shadow-sm">
+          <header className="border-b border-[#E7DECE] px-4 py-3">
+            <h2 className="font-serif text-base text-[#151411]">Activité récente</h2>
+          </header>
+          <div className="space-y-3 p-4">
+            <div className="h-12 animate-pulse rounded-sm bg-[#E7DECE]" />
+            <div className="h-12 animate-pulse rounded-sm bg-[#E7DECE]" />
+          </div>
+        </section>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <section className="rounded-sm border border-[#E7DECE] bg-white p-4 shadow-sm">
+          <h2 className="font-serif text-base text-[#151411]">État du catalogue</h2>
+          <dl className="mt-3 grid grid-cols-2 gap-3">
+            {["Produits", "Publiés", "Stock faible", "Photos manquantes"].map((label) => (
+              <div key={label}>
+                <dt className="text-xs text-[#71695F]">{label}</dt>
+                <dd className="mt-1 h-6 w-12 animate-pulse rounded-sm bg-[#E7DECE]" />
+              </div>
+            ))}
+          </dl>
+        </section>
+        <section className="rounded-sm border border-[#E7DECE] bg-white p-4 shadow-sm">
+          <h2 className="font-serif text-base text-[#151411]">Nouveaux clients</h2>
+          <div className="mt-3 space-y-2">
+            <div className="h-8 animate-pulse rounded-sm bg-[#E7DECE]" />
+            <div className="h-8 animate-pulse rounded-sm bg-[#E7DECE]" />
+          </div>
+        </section>
+        <section className="rounded-sm border border-[#E7DECE] bg-white p-4 shadow-sm">
+          <h2 className="font-serif text-base text-[#151411]">Actions rapides</h2>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {["Ajouter un produit", "Ajouter des photos", "Modifier l'accueil", "Créer une promotion"].map((label) => (
+              <div key={label} aria-label={label} className="h-20 animate-pulse rounded-sm bg-[#E7DECE]" />
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default async function AdminDashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ periode?: string }>;
+}) {
+  const session = await getAdminSession();
+  const { periode } = await searchParams;
+  const period = parsePeriod(periode);
+
+  if (!session) {
+    return (
+      <div className="mx-auto max-w-lg space-y-6 rounded-sm border border-[#E7DECE] bg-white p-8 text-center shadow-sm">
+        <h1 className="font-serif text-2xl text-[#151411]">Accès réservé aux administrateurs</h1>
+        <p className="text-sm text-[#71695F]">
+          Ce compte n&apos;est pas reconnu comme administrateur, ou vous n&apos;êtes pas connecté.
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <a
+            href="/admin/login"
+            className="rounded-sm bg-[#C6A15B] px-4 py-2 text-sm font-medium text-[#151411]"
+          >
+            Connexion admin
+          </a>
+          <form action={signOutAdmin}>
+            <button
+              type="submit"
+              className="rounded-sm border border-[#E7DECE] px-4 py-2 text-sm text-[#151411]"
+            >
+              Se déconnecter
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardContent period={period} />
+    </Suspense>
   );
 }
