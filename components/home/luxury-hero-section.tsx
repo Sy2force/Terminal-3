@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Star, Truck, MessageCircle, BadgeCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { GlassButton } from "@/components/ui/glass-button";
-import { FridayTagline } from "@/components/home/friday-tagline";
 import type { SiteSettings } from "@/lib/settings";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 
@@ -16,12 +15,6 @@ interface LuxuryHeroSectionProps {
   backgroundImage?: string | null;
 }
 
-const TRUST_PROOFS = [
-  { icon: BadgeCheck, label: "200+ références sélectionnées" },
-  { icon: Truck, label: "Livraison à Jérusalem" },
-  { icon: Star, label: "Conseils personnalisés" },
-  { icon: MessageCircle, label: "Commande rapide par WhatsApp" },
-];
 
 export function LuxuryHeroSection({
   settings,
@@ -29,11 +22,6 @@ export function LuxuryHeroSection({
   subtitle,
   backgroundImage,
 }: LuxuryHeroSectionProps) {
-  const city = settings.STORE_ADDRESS?.includes("Jérusalem") ||
-    settings.STORE_ADDRESS?.includes("Jerusalem")
-    ? "Jérusalem"
-    : "Jérusalem";
-
   const logoUrl = typeof settings.LOGO_URL === "string" && settings.LOGO_URL ? settings.LOGO_URL : "";
   const mainTitle = title ?? (
     <>
@@ -43,7 +31,6 @@ export function LuxuryHeroSection({
           alt="Terminal 3"
           width={500}
           height={200}
-          unoptimized
           priority
           className="h-20 w-auto object-contain sm:h-24 lg:h-32"
         />
@@ -56,11 +43,11 @@ export function LuxuryHeroSection({
 
   const description =
     subtitle ??
-    "La sélection Jérusalem — vins casher, whiskies rares, saumon fumé, charcuterie et plateaux préparés avec soin pour Chabbat, vos réceptions et vos soirées.";
+    "Cave casher à Jérusalem. Vins, spiritueux, saumon fumé et charcuterie fine — pour vos repas, vos cadeaux et vos moments précieux.";
 
   return (
     <section
-      className="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-noir-profond"
+      className="relative isolate flex min-h-[calc(90svh-4rem)] items-center overflow-hidden bg-noir-profond"
       aria-label="Accueil Terminal 3"
     >
       {/* Cover image with transparent overlay */}
@@ -70,7 +57,6 @@ export function LuxuryHeroSection({
           alt=""
           fill
           priority
-          unoptimized
           className="object-cover opacity-[0.65]"
           sizes="100vw"
         />
@@ -110,13 +96,6 @@ export function LuxuryHeroSection({
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="order-2 flex flex-col items-center text-center lg:order-1 lg:items-start lg:text-left"
           >
-            <FridayTagline />
-
-            <div className="mb-5 flex items-center justify-center gap-3 text-xs font-medium uppercase tracking-[0.25em] text-or-principal/80 lg:justify-start">
-              <span className="h-px w-10 bg-or-principal/60" />
-              <span>La sélection du vendredi</span>
-            </div>
-
             <h1 className="max-w-3xl font-serif text-4xl leading-[1.1] text-texte-clair sm:text-5xl md:text-6xl lg:text-7xl">
               {mainTitle}
             </h1>
@@ -127,47 +106,28 @@ export function LuxuryHeroSection({
 
             <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
               <GlassButton href="/vins" variant="gold" icon={ArrowRight}>
-                Préparer mon vendredi
+                Voir la boutique
               </GlassButton>
-              <GlassButton href="/promotions" variant="dark">
-                Découvrir la sélection
+              <GlassButton href="/nouveautes" variant="dark">
+                Les nouveautés
               </GlassButton>
             </div>
-
-            <dl className="mt-10 grid w-full grid-cols-2 gap-x-4 gap-y-4 border-t border-or-principal/15 pt-8 sm:grid-cols-4 lg:max-w-2xl">
-              {TRUST_PROOFS.map(({ icon: Icon, label }) => (
-                <div key={label} className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
-                  <Icon className="h-5 w-5 text-or-principal" aria-hidden />
-                  <dt className="text-xs leading-snug text-texte-clair/70">
-                    {label}
-                  </dt>
-                </div>
-              ))}
-            </dl>
-
-            <p className="mt-4 text-xs text-texte-clair/40">Livraison {city}</p>
           </motion.div>
 
           {/* 2D bottle stage */}
-          <div className="order-1 flex min-h-[55svh] items-center justify-center lg:order-2 lg:min-h-[70svh]">
+          <div className="order-1 flex min-h-[35svh] items-center justify-center lg:order-2 lg:min-h-[50svh]">
             <Image
               src="/images/terminal-3/wines/castel/petit-castel-2020.png"
               alt="Bouteille Petit Castel"
               width={500}
               height={900}
-              unoptimized
               priority
-              className="h-auto w-[70vw] max-w-[420px] object-contain drop-shadow-2xl lg:max-w-[620px]"
+              className="h-auto w-[60vw] max-w-[320px] object-contain drop-shadow-2xl lg:w-[50vw] lg:max-w-[480px]"
             />
           </div>
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-texte-clair/40">
-        <span className="text-[10px] uppercase tracking-wider">Découvrir</span>
-        <div className="h-6 w-px bg-gradient-to-b from-or-principal/60 to-transparent" />
-      </div>
     </section>
   );
 }

@@ -11,18 +11,18 @@ export default async function AdminPromotionsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl text-ivory">Promotions</h1>
+        <h1 className="font-serif text-2xl text-noir-profond">Promotions</h1>
         <Link
           href="/admin/promotions/new"
-          className="rounded-full bg-champagne px-5 py-2 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold"
+          className="rounded-full bg-or-principal px-5 py-2 text-sm font-semibold text-noir-profond transition-colors hover:bg-or-clair"
         >
           Nouvelle promotion
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-sm border border-white/5">
+      <div className="overflow-hidden rounded-sm border border-beige-fonce">
         <table className="w-full text-left text-sm">
-          <thead className="bg-graphite text-ivory/70">
+          <thead className="bg-white text-noir-profond/70">
             <tr>
               <th className="px-4 py-3 font-normal">Titre</th>
               <th className="px-4 py-3 font-normal">Prix promo</th>
@@ -32,29 +32,29 @@ export default async function AdminPromotionsPage() {
               <th className="px-4 py-3 font-normal text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-beige-fonce">
             {promotions.map((promotion) => (
               <tr key={promotion.id} className="hover:bg-white/[0.02]">
-                <td className="px-4 py-3 font-medium text-ivory">
+                <td className="px-4 py-3 font-medium text-noir-profond">
                   {promotion.title}
                   {promotion.featured && (
-                    <span className="ml-2 rounded-full border border-champagne/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-champagne">
+                    <span className="ml-2 rounded-full border border-champagne/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-or-principal">
                       Mise en avant
                     </span>
                   )}
                   {promotion.members_only && (
-                    <span className="ml-2 rounded-full border border-ivory/20 px-2 py-0.5 text-[10px] uppercase tracking-widest text-ivory/70">
+                    <span className="ml-2 rounded-full border border-ivory/20 px-2 py-0.5 text-[10px] uppercase tracking-widest text-noir-profond/70">
                       Membres
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-ivory/80">
+                <td className="px-4 py-3 text-noir-profond/80">
                   {formatAgorot(promotion.promo_price_agorot)}
                 </td>
-                <td className="px-4 py-3 text-muted-grey">
+                <td className="px-4 py-3 text-gris-chaud">
                   {new Date(promotion.start_at).toLocaleDateString("fr-FR")}
                 </td>
-                <td className="px-4 py-3 text-muted-grey">
+                <td className="px-4 py-3 text-gris-chaud">
                   {new Date(promotion.end_at).toLocaleDateString("fr-FR")}
                 </td>
                 <td className="px-4 py-3">
@@ -67,7 +67,7 @@ export default async function AdminPromotionsPage() {
             ))}
             {promotions.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-muted-grey">
+                <td colSpan={6} className="px-4 py-8 text-center text-gris-chaud">
                   Aucune promotion.
                 </td>
               </tr>
@@ -88,11 +88,11 @@ function StatusBadge({ status }: { status: string }) {
     paused: "Pause",
   };
   const styles: Record<string, string> = {
-    draft: "text-muted-grey",
-    scheduled: "text-ivory",
-    active: "text-champagne",
-    expired: "text-amber-400",
-    paused: "text-amber-400",
+    draft: "text-gris-chaud",
+    scheduled: "text-noir-profond",
+    active: "text-or-principal",
+    expired: "text-amber-700",
+    paused: "text-amber-700",
   };
-  return <span className={`text-xs ${styles[status] ?? "text-ivory"}`}>{labels[status] ?? status}</span>;
+  return <span className={`text-xs ${styles[status] ?? "text-noir-profond"}`}>{labels[status] ?? status}</span>;
 }

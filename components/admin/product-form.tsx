@@ -8,7 +8,14 @@ import {
   updateProductAction,
   type ProductFormData,
 } from "@/app/admin/products/actions";
-import { ImageUploader } from "@/components/admin/image-uploader";
+import { ProductMediaEditor } from "@/components/admin/product-media-editor";
+import {
+  AdminField as Field,
+  AdminSelect as Select,
+  AdminTextarea as TextArea,
+  AdminCheckbox,
+  FormSection as Section,
+} from "@/components/admin/form-controls";
 import { formatAgorot } from "@/lib/money";
 import { isValidWoltUrl } from "@/lib/wolt";
 import type {
@@ -192,50 +199,38 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6">
       {error && (
-        <div className="rounded-sm border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-400">
+        <div className="rounded-sm border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-700">
           {error}
         </div>
       )}
 
       {/* PHOTO */}
-      <Section title="Photo">
-        <div className="flex flex-col gap-4">
-          {coverMedia?.url ? (
-            <div className="relative h-48 w-48 overflow-hidden rounded-sm bg-warm-black">
-              <Image src={coverMedia.url} alt={coverMedia.alt ?? "Photo produit"} fill className="object-contain" sizes="192px" />
+      <Section title="Photos du produit">
+        {coverMedia?.url ? (
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end">
+            <div className="relative h-48 w-48 overflow-hidden rounded-xl border border-or-principal bg-white p-2 shadow-sm">
+              <Image
+                src={coverMedia.url}
+                alt={coverMedia.alt ?? "Couverture produit"}
+                fill
+                className="object-contain"
+                sizes="192px"
+              />
             </div>
-          ) : (
-            <div className="flex h-48 w-48 items-center justify-center rounded-sm border border-amber-400/30 bg-amber-400/5 text-center text-xs text-amber-400">
-              ⚠ Photo manquante
+            <div>
+              <p className="text-sm font-medium text-noir-profond">Couverture actuelle</p>
+              <p className="text-xs text-gris-chaud">L&apos;étoile dans la galerie choisit la nouvelle couverture.</p>
             </div>
-          )}
-          <ImageUploader
-            bucket="product-images"
-            onUploaded={(url) => {
-              const existing = media.filter((m) => m.kind !== "COVER");
-              setMedia([{ url, kind: "COVER", alt: null, display_order: 0 }, ...existing]);
-            }}
-            label={coverMedia?.url ? "Remplacer la photo" : "Ajouter une photo"}
-          />
-          {coverMedia?.url && (
-            <button
-              type="button"
-              onClick={() => {
-                setMedia(media.filter((m) => m.kind !== "COVER" && m.url !== coverMedia.url));
-              }}
-              className="w-fit text-xs text-amber-400 hover:text-amber-300"
-            >
-              Supprimer la photo
-            </button>
-          )}
-        </div>
+          </div>
+        ) : null}
+        <ProductMediaEditor media={media} onChange={setMedia} />
       </Section>
 
       {/* NOM + CATÉGORIE */}
       <Section title="Informations principales">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field name="name_fr" label="Nom (français)" defaultValue={initial?.name_fr ?? ""} />
-          <Field name="name_he" label="Nom (hébreu) *" defaultValue={initial?.name_he} required />
+          <Field name="name_he" label="Nom (hébreu)" defaultValue={initial?.name_he} required />
           <Select
             name="category_id"
             label="Catégorie"
@@ -288,14 +283,18 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
           <Field name="new_until" label="Nouveau jusqu'à" type="datetime-local" defaultValue={initial?.new_until ? initial.new_until.slice(0, 16) : ""} />
         </div>
         <div className="mt-4 flex flex-wrap gap-6">
-          <label className="flex items-center gap-2 text-sm text-ivory/80">
-            <input type="checkbox" name="is_featured" defaultChecked={initial?.is_featured ?? false} className="h-4 w-4 accent-champagne" />
-            Mis en avant
-          </label>
-          <label className="flex items-center gap-2 text-sm text-ivory/80">
-            <input type="checkbox" name="age_restricted" defaultChecked={initial?.age_restricted ?? false} className="h-4 w-4 accent-champagne" />
-            18+
-          </label>
+          <AdminCheckbox
+            name="is_featured"
+            label="Mis en avant"
+            description="Affiche ce produit dans les mises en avant du site."
+            defaultChecked={initial?.is_featured ?? false}
+          />
+          <AdminCheckbox
+            name="age_restricted"
+            label="Produit soumis à la règle 18+"
+            description="La vérification d'âge sera demandée lors du retrait en magasin."
+            defaultChecked={initial?.age_restricted ?? false}
+          />
         </div>
       </Section>
 
@@ -305,22 +304,26 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       </Section>
 
       {/* ACTIONS PRINCIPALES */}
-      <div className="flex items-center gap-3 pt-4">
+      <div className="flex flex-wrap items-center gap-3 border-t border-[var(--admin-border)] pt-4">
         <button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold tracking-wide text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-50"
+          className="min-h-[44px] rounded-[10px] bg-[var(--admin-burgundy)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--admin-burgundy-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {saving ? "Enregistrement..." : initial ? "Enregistrer" : "Créer"}
+          {saving ? "Enregistrement…" : initial ? "Enregistrer" : "Créer"}
         </button>
         <button
           type="button"
           onClick={buildPreviewProduct}
-          className="rounded-full border border-champagne/40 px-6 py-2.5 text-sm font-medium text-champagne transition-colors hover:bg-champagne hover:text-obsidian"
+          className="min-h-[44px] rounded-[10px] border-[1.5px] border-[var(--admin-border-strong)] bg-white px-6 py-2.5 text-sm font-medium text-[var(--admin-text)] transition-colors hover:border-[var(--admin-gold)]"
         >
           Aperçu
         </button>
-        <button type="button" onClick={() => router.push("/admin/products")} className="text-sm text-muted-grey hover:text-ivory">
+        <button
+          type="button"
+          onClick={() => router.push("/admin/products")}
+          className="min-h-[44px] rounded-[10px] px-4 py-2.5 text-sm text-[var(--admin-text-muted)] hover:text-[var(--admin-text)]"
+        >
           Annuler
         </button>
       </div>
@@ -330,16 +333,12 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         <button
           type="button"
           onClick={() => setShowAdvanced((v) => !v)}
-          className="text-sm text-champagne hover:text-soft-gold"
+          className="text-sm text-or-principal hover:text-soft-gold"
         >
           {showAdvanced ? "▾ Options avancées" : "▸ Options avancées"}
         </button>
         {showAdvanced && (
           <div className="mt-4 flex flex-col gap-6">
-            <Section title="Médias supplémentaires">
-              <MediaEditor media={media} onChange={setMedia} />
-            </Section>
-
             <Section title="Détails produit">
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field name="slug" label="Slug (URL)" defaultValue={initial?.slug} required />
@@ -375,8 +374,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
                 <Field name="preparation_time_minutes" label="Préparation (min)" type="number" defaultValue={initial?.preparation_time_minutes ?? ""} />
               </div>
               <TextArea name="composition_text" label="Composition" defaultValue={initial?.composition_text ?? ""} />
-              <label className="flex items-center gap-2 text-sm text-ivory/80">
-                <input type="checkbox" name="customizable" defaultChecked={initial?.customizable ?? false} className="h-4 w-4 accent-champagne" />
+              <label className="flex items-center gap-2 text-sm text-noir-profond/80">
+                <input type="checkbox" name="customizable" defaultChecked={initial?.customizable ?? false} className="h-4 w-4 accent-or-principal" />
                 Personnalisable
               </label>
             </Section>
@@ -433,12 +432,12 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
                   defaultValue={initial?.serving_temperature ?? ""}
                 />
               </div>
-              <label className="flex items-center gap-2 text-sm text-ivory/80">
+              <label className="flex items-center gap-2 text-sm text-noir-profond/80">
                 <input
                   type="checkbox"
                   name="is_best_seller"
                   defaultChecked={initial?.is_best_seller ?? false}
-                  className="h-4 w-4 accent-champagne"
+                  className="h-4 w-4 accent-or-principal"
                 />
                 Best-seller
               </label>
@@ -453,12 +452,12 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field name="meat_type" label="Type de viande" defaultValue={initial?.meat_type ?? ""} />
               </div>
-              <label className="flex items-center gap-2 text-sm text-ivory/80">
+              <label className="flex items-center gap-2 text-sm text-noir-profond/80">
                 <input
                   type="checkbox"
                   name="is_available_for_platter"
                   defaultChecked={initial?.is_available_for_platter ?? false}
-                  className="h-4 w-4 accent-champagne"
+                  className="h-4 w-4 accent-or-principal"
                 />
                 Disponible en plateau
               </label>
@@ -471,12 +470,12 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
                 <Field name="fish_type" label="Type de poisson" defaultValue={initial?.fish_type ?? ""} />
                 <Field name="preparation_method" label="Méthode de préparation" defaultValue={initial?.preparation_method ?? ""} />
               </div>
-              <label className="flex items-center gap-2 text-sm text-ivory/80">
+              <label className="flex items-center gap-2 text-sm text-noir-profond/80">
                 <input
                   type="checkbox"
                   name="smoked"
                   defaultChecked={initial?.smoked ?? false}
-                  className="h-4 w-4 accent-champagne"
+                  className="h-4 w-4 accent-or-principal"
                 />
                 Fumé
               </label>
@@ -491,17 +490,17 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       </div>
 
       {showPreview && preview && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-obsidian/80 p-4">
-          <div className="relative mt-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-sm border border-white/10 bg-graphite p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-noir-profond/60 p-4">
+          <div className="relative mt-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-sm border border-beige-fonce bg-white p-6 shadow-2xl">
             <button
               type="button"
               onClick={() => setShowPreview(false)}
-              className="absolute right-4 top-4 text-ivory/70 hover:text-ivory"
+              className="absolute right-4 top-4 text-noir-profond/70 hover:text-noir-profond"
               aria-label="Fermer"
             >
               ✕
             </button>
-            <h2 className="mb-4 font-serif text-xl text-champagne">Aperçu fiche produit</h2>
+            <h2 className="mb-4 font-serif text-xl text-or-principal">Aperçu fiche produit</h2>
             <ProductPreviewCard product={preview} />
           </div>
         </div>
@@ -526,7 +525,7 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
   return (
     <div className="space-y-4">
       {cover ? (
-        <div className="relative h-64 w-full overflow-hidden rounded-sm bg-warm-black">
+        <div className="relative h-64 w-full overflow-hidden rounded-sm bg-creme">
           <Image
             src={cover}
             alt={product.name_fr ?? product.name_he ?? ""}
@@ -536,58 +535,58 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
           />
         </div>
       ) : (
-        <div className="flex h-64 w-full items-center justify-center rounded-sm border border-white/10 bg-warm-black text-sm text-muted-grey">
+        <div className="flex h-64 w-full items-center justify-center rounded-sm border border-beige-fonce bg-creme text-sm text-gris-chaud">
           Photo manquante
         </div>
       )}
 
       <div>
-        <p className="text-xs uppercase tracking-wider text-muted-grey">
+        <p className="text-xs uppercase tracking-wider text-gris-chaud">
           {product.category?.name_fr ?? "—"}
         </p>
-        <h3 className="font-serif text-2xl text-ivory">
+        <h3 className="font-serif text-2xl text-noir-profond">
           {product.name_fr ?? product.name_he}
         </h3>
         {product.name_he && (
-          <p className="text-right text-sm text-muted-grey" dir="rtl">
+          <p className="text-right text-sm text-gris-chaud" dir="rtl">
             {product.name_he}
           </p>
         )}
         {product.age_restricted && (
-          <span className="mt-2 inline-block rounded-sm bg-red-900/30 px-2 py-0.5 text-xs text-red-200">
+          <span className="mt-2 inline-block rounded-sm bg-red-100 px-2 py-0.5 text-xs text-red-800">
             18+
           </span>
         )}
       </div>
 
       <div className="flex flex-wrap items-baseline gap-3">
-        <span className="font-serif text-2xl text-champagne">
+        <span className="font-serif text-2xl text-or-principal">
           {formatAgorot(product.base_price_agorot ?? 0)}
         </span>
         {product.compare_at_price_agorot ? (
           <>
-            <span className="text-sm text-muted-grey line-through">
+            <span className="text-sm text-gris-chaud line-through">
               {formatAgorot(product.compare_at_price_agorot)}
             </span>
-            <span className="rounded-sm bg-green-900/30 px-2 py-0.5 text-xs text-green-200">
+            <span className="rounded-sm bg-green-100 px-2 py-0.5 text-xs text-green-800">
               -{savingPercent}%
             </span>
           </>
         ) : null}
       </div>
 
-      <p className="whitespace-pre-line text-sm text-ivory/80">
+      <p className="whitespace-pre-line text-sm text-noir-profond/80">
         {product.description_fr ?? product.description_he}
       </p>
 
       {product.variants && product.variants.length > 0 && (
         <div className="space-y-2">
-          <p className="text-sm font-medium text-champagne">Variantes</p>
-          <ul className="divide-y divide-white/5 rounded-sm border border-white/10">
+          <p className="text-sm font-medium text-or-principal">Variantes</p>
+          <ul className="divide-y divide-beige-fonce rounded-sm border border-beige-fonce">
             {product.variants.map((v, i) => (
               <li
                 key={i}
-                className="flex justify-between px-3 py-2 text-sm text-ivory/80"
+                className="flex justify-between px-3 py-2 text-sm text-noir-profond/80"
               >
                 <span>{v.label}</span>
                 <span>
@@ -601,25 +600,25 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2 text-xs text-ivory/70">
+      <div className="flex flex-wrap gap-2 text-xs text-noir-profond/70">
         {product.is_featured && (
-          <span className="rounded-full border border-champagne/30 px-2 py-1 text-champagne">
+          <span className="rounded-full border border-champagne/30 px-2 py-1 text-or-principal">
             Mis en avant
           </span>
         )}
         {product.is_best_seller && (
-          <span className="rounded-full border border-amber-400/30 px-2 py-1 text-amber-400">
+          <span className="rounded-full border border-amber-300 px-2 py-1 text-amber-700">
             Best-seller
           </span>
         )}
         {product.badge && (
-          <span className="rounded-full border border-white/10 px-2 py-1">
+          <span className="rounded-full border border-beige-fonce px-2 py-1">
             {product.badge}
           </span>
         )}
       </div>
 
-      <p className="text-xs text-muted-grey">
+      <p className="text-xs text-gris-chaud">
         Statut :{" "}
         {product.status === "published"
           ? "Publié"
@@ -628,85 +627,6 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
             : "Archivé"}
       </p>
     </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <fieldset className="rounded-sm border border-white/5 bg-graphite/30 p-5">
-      <legend className="px-2 font-serif text-lg text-champagne">{title}</legend>
-      <div className="flex flex-col gap-4">{children}</div>
-    </fieldset>
-  );
-}
-
-function Field({
-  name,
-  label,
-  type = "text",
-  defaultValue,
-  required,
-}: {
-  name: string;
-  label: string;
-  type?: string;
-  defaultValue?: string | number;
-  required?: boolean;
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
-      {label}
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        required={required}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
-      />
-    </label>
-  );
-}
-
-function TextArea({ name, label, defaultValue }: { name: string; label: string; defaultValue?: string }) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
-      {label}
-      <textarea
-        name={name}
-        defaultValue={defaultValue}
-        rows={4}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-ivory outline-none focus:border-champagne"
-      />
-    </label>
-  );
-}
-
-function Select({
-  name,
-  label,
-  defaultValue,
-  options,
-}: {
-  name: string;
-  label: string;
-  defaultValue: string;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="flex flex-col gap-2 text-sm text-ivory/80">
-      {label}
-      <select
-        name={name}
-        defaultValue={defaultValue}
-        className="rounded-sm border border-white/10 bg-graphite px-4 py-3 text-sm text-ivory outline-none focus:border-champagne"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </label>
   );
 }
 
@@ -732,16 +652,16 @@ function VariantEditor({
   return (
     <div className="flex flex-col gap-4">
       {variants.map((v, i) => (
-        <div key={i} className="grid gap-3 rounded-sm border border-white/5 p-3 sm:grid-cols-7">
-          <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label (ex: 200g, Entier)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <input value={v.sku ?? ""} onChange={(e) => update(i, { sku: e.target.value })} placeholder="SKU" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <input value={v.barcode ?? ""} onChange={(e) => update(i, { barcode: e.target.value })} placeholder="Code-barres" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <input type="number" value={v.weight_g ?? ""} onChange={(e) => update(i, { weight_g: e.target.value ? Number(e.target.value) : null })} placeholder="Poids (g)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <input type="number" value={v.regular_price_agorot ?? ""} onChange={(e) => update(i, { regular_price_agorot: e.target.value ? Number(e.target.value) : null })} placeholder="Prix (agorot)" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
+        <div key={i} className="grid gap-3 rounded-sm border border-beige-fonce p-3 sm:grid-cols-7">
+          <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label (ex: 200g, Entier)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
+          <input value={v.sku ?? ""} onChange={(e) => update(i, { sku: e.target.value })} placeholder="SKU" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
+          <input value={v.barcode ?? ""} onChange={(e) => update(i, { barcode: e.target.value })} placeholder="Code-barres" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
+          <input type="number" value={v.weight_g ?? ""} onChange={(e) => update(i, { weight_g: e.target.value ? Number(e.target.value) : null })} placeholder="Poids (g)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
+          <input type="number" value={v.regular_price_agorot ?? ""} onChange={(e) => update(i, { regular_price_agorot: e.target.value ? Number(e.target.value) : null })} placeholder="Prix (agorot)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
           <select
             value={v.pricing_unit ?? "FIXED"}
             onChange={(e) => update(i, { pricing_unit: e.target.value as ProductVariantRow["pricing_unit"] })}
-            className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
           >
             <option value="FIXED">Prix fixe</option>
             <option value="PACKAGE">Le paquet</option>
@@ -752,7 +672,7 @@ function VariantEditor({
           <select
             value={v.packaging ?? ""}
             onChange={(e) => update(i, { packaging: e.target.value || null })}
-            className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory"
+            className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
           >
             <option value="">Conditionnement</option>
             <option value="GLASS">Verre</option>
@@ -762,22 +682,22 @@ function VariantEditor({
             <option value="PLASTIC">Plastique</option>
           </select>
           <div className="flex items-center gap-2">
-            <label className="flex items-center gap-1 text-xs text-ivory/70">
-              <input type="checkbox" checked={!!v.is_default} onChange={(e) => update(i, { is_default: e.target.checked })} className="accent-champagne" />
+            <label className="flex items-center gap-1 text-xs text-noir-profond/70">
+              <input type="checkbox" checked={!!v.is_default} onChange={(e) => update(i, { is_default: e.target.checked })} className="accent-or-principal" />
               Défaut
             </label>
-            <button type="button" onClick={() => remove(i)} className="ml-auto text-xs text-amber-400 hover:text-amber-300">
+            <button type="button" onClick={() => remove(i)} className="ml-auto text-xs text-amber-700 hover:text-amber-300">
               Supprimer
             </button>
           </div>
 
-          <div className="col-span-full grid gap-3 border-t border-white/5 pt-3 sm:grid-cols-12">
-            <label className="flex items-center gap-2 text-sm text-ivory/80 sm:col-span-3">
+          <div className="col-span-full grid gap-3 border-t border-beige-fonce pt-3 sm:grid-cols-12">
+            <label className="flex items-center gap-2 text-sm text-noir-profond/80 sm:col-span-3">
               <input
                 type="checkbox"
                 checked={!!v.wolt_enabled}
                 onChange={(e) => update(i, { wolt_enabled: e.target.checked })}
-                className="accent-champagne"
+                className="accent-or-principal"
               />
               Afficher le bouton Wolt
             </label>
@@ -786,7 +706,7 @@ function VariantEditor({
               onChange={(e) => update(i, { wolt_url: e.target.value })}
               placeholder="https://wolt.com/en/isr/product/..."
               disabled={!v.wolt_enabled}
-              className="sm:col-span-6 rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory disabled:opacity-40"
+              className="sm:col-span-6 rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond disabled:opacity-40"
             />
             <a
               href={isValidWoltUrl(v.wolt_url ?? "") ? v.wolt_url! : "#"}
@@ -795,69 +715,20 @@ function VariantEditor({
               onClick={(e) => {
                 if (!isValidWoltUrl(v.wolt_url ?? "")) e.preventDefault();
               }}
-              className={`sm:col-span-3 rounded-sm px-3 py-2 text-center text-xs ${isValidWoltUrl(v.wolt_url ?? "") ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-ivory/40"}`}
+              className={`sm:col-span-3 rounded-sm px-3 py-2 text-center text-xs ${isValidWoltUrl(v.wolt_url ?? "") ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-noir-profond/40"}`}
             >
               Tester le lien
             </a>
             {v.wolt_enabled && v.wolt_url && !isValidWoltUrl(v.wolt_url) && (
-              <p className="col-span-full text-xs text-amber-400">
+              <p className="col-span-full text-xs text-amber-700">
                 Lien invalide. Utilisez une URL https://wolt.com ou https://wolt.co.il.
               </p>
             )}
           </div>
         </div>
       ))}
-      <button type="button" onClick={add} className="w-fit rounded-full border border-champagne/40 px-4 py-2 text-xs font-medium text-champagne hover:bg-champagne hover:text-obsidian">
+      <button type="button" onClick={add} className="w-fit rounded-full border border-or-principal/40 px-4 py-2 text-xs font-medium text-or-principal hover:bg-or-principal hover:text-noir-profond">
         + Ajouter une variante
-      </button>
-    </div>
-  );
-}
-
-function MediaEditor({
-  media,
-  onChange,
-}: {
-  media: Partial<ProductMediaRow>[];
-  onChange: (m: Partial<ProductMediaRow>[]) => void;
-}) {
-  function update(index: number, patch: Partial<ProductMediaRow>) {
-    onChange(media.map((m, i) => (i === index ? { ...m, ...patch } : m)));
-  }
-
-  function add() {
-    onChange([...media, { kind: "GALLERY" }]);
-  }
-
-  function remove(index: number) {
-    onChange(media.filter((_, i) => i !== index));
-  }
-
-  return (
-    <div className="flex flex-col gap-4">
-      <ImageUploader
-        bucket="product-images"
-        onUploaded={(url) => onChange([...media, { url, kind: "GALLERY" }])}
-        label="Uploader une image"
-      />
-      {media.map((m, i) => (
-        <div key={i} className="grid gap-3 rounded-sm border border-white/5 p-3 sm:grid-cols-4">
-          <input value={m.url ?? ""} onChange={(e) => update(i, { url: e.target.value })} placeholder="URL image" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <input value={(m.alt as string) ?? ""} onChange={(e) => update(i, { alt: e.target.value })} placeholder="Alt text" className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory" />
-          <select value={m.kind ?? "GALLERY"} onChange={(e) => update(i, { kind: e.target.value as ProductMediaKind })} className="rounded-sm border border-white/10 bg-graphite px-3 py-2 text-sm text-ivory">
-            <option value="COVER">Cover</option>
-            <option value="GALLERY">Gallery</option>
-            <option value="LIFESTYLE">Lifestyle</option>
-            <option value="DETAIL">Detail</option>
-            <option value="EDITORIAL">Editorial</option>
-          </select>
-          <button type="button" onClick={() => remove(i)} className="text-left text-xs text-amber-400 hover:text-amber-300 sm:text-right">
-            Supprimer
-          </button>
-        </div>
-      ))}
-      <button type="button" onClick={add} className="w-fit rounded-full border border-champagne/40 px-4 py-2 text-xs font-medium text-champagne hover:bg-champagne hover:text-obsidian">
-        + Ajouter une image
       </button>
     </div>
   );

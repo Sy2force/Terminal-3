@@ -9,8 +9,8 @@ export default async function AdminLoyaltyPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Fidélité</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Fidélité</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           Configurez les niveaux, seuils et le multiplicateur de points. Les ajustements manuels
           exigent toujours un motif et sont journalisés.
         </p>

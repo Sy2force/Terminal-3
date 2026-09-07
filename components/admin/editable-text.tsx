@@ -56,7 +56,7 @@ export function EditableText({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={saving}
-          className="w-full rounded-sm border border-or-principal bg-noir-profond px-2 py-1 text-sm text-ivory focus:border-champagne focus:outline-none"
+          className="w-full rounded-sm border border-or-principal bg-noir-profond px-2 py-1 text-sm text-noir-profond focus:border-or-principal focus:outline-none"
         />
         {error && <span className="ml-2 text-xs text-red-300">{error}</span>}
         <span className="ml-2 inline-flex gap-1">
@@ -64,7 +64,7 @@ export function EditableText({
             type="button"
             onClick={save}
             disabled={saving}
-            className="rounded-sm bg-green-800 p-1 text-ivory hover:bg-green-700"
+            className="rounded-sm bg-green-800 p-1 text-noir-profond hover:bg-green-700"
           >
             <Check className="h-3 w-3" />
           </button>
@@ -76,7 +76,7 @@ export function EditableText({
               setError(null);
             }}
             disabled={saving}
-            className="rounded-sm bg-red-900 p-1 text-ivory hover:bg-red-800"
+            className="rounded-sm bg-red-900 p-1 text-noir-profond hover:bg-red-800"
           >
             <X className="h-3 w-3" />
           </button>

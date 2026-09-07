@@ -24,8 +24,8 @@ export default async function AdminDiscountsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Remises</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Remises</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           Toutes les remises sont recalculées côté serveur au moment de la commande — jamais
           confiées au navigateur.
         </p>

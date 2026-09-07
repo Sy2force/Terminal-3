@@ -132,7 +132,6 @@ export function HeroBottleCarousel({ bottles }: HeroBottleCarouselProps) {
                   src={media}
                   alt={bottle.name_fr || bottle.name_he || "Bouteille"}
                   fill
-                  unoptimized
                   priority
                   className="scale-[1.6] object-contain drop-shadow-2xl"
                   sizes="(max-width: 768px) 80vw, 45vw"

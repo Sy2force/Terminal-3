@@ -1,7 +1,9 @@
 import "server-only";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
+import { verifyAdminCookie } from "@/lib/admin/admin-cookie";
 import type { AdminRoleType } from "@/types/database";
 
 export type AdminPermission =
@@ -128,11 +130,37 @@ export interface AdminSession {
   role: AdminRoleType;
 }
 
+export const COOKIE_ADMIN_ROLES: readonly AdminRoleType[] = [
+  "OWNER",
+  "MANAGER",
+  "CONTENT_EDITOR",
+  "STAFF",
+  "COURIER",
+  "ORDER_MANAGER",
+  "DELIVERY_MANAGER",
+  "CUSTOMER_SUPPORT",
+];
+
+async function getCustomAdminSession(): Promise<AdminSession | null> {
+  const cookie = (await cookies()).get("admin_session")?.value;
+  const session = await verifyAdminCookie(cookie, process.env.ADMIN_SESSION_SECRET);
+  if (!session) return null;
+  if (!COOKIE_ADMIN_ROLES.includes(session.role as AdminRoleType)) return null;
+  return {
+    userId: session.userId,
+    email: session.email,
+    role: session.role as AdminRoleType,
+  };
+}
+
 /**
  * Verifies the current user is authenticated and has an admin role.
  * Redirects to login or home if not. Call from Server Components.
  */
 export async function requireAdmin(): Promise<AdminSession> {
+  const custom = await getCustomAdminSession();
+  if (custom) return custom;
+
   // getCurrentUser() returns null in demo mode (no live Supabase project
   // to authenticate against) — this redirects exactly like an
   // unauthenticated visitor rather than crashing the whole /admin

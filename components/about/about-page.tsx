@@ -18,7 +18,7 @@ export function AboutPageContent({ settings, pageContent }: AboutPageProps) {
   const title = pageContent?.title || "À propos";
   const subtitle =
     pageContent?.subtitle ||
-    "L\u2019histoire de Terminal 3, une cave à vin et épicerie fine au cœur de Jérusalem.";
+    "Une adresse à Jérusalem où le vin casher rencontre l’excellence.";
   const blocks = pageContent?.blocks;
 
   return (
@@ -61,7 +61,7 @@ export function AboutPageContent({ settings, pageContent }: AboutPageProps) {
           </div>
           <div className="relative h-96 bg-gradient-to-br from-brun-cave to-noir-profond rounded-sm border border-or-principal/20 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-texte-clair/40 font-serif">Photo de la cave à venir</p>
+              <p className="text-texte-clair/40 font-serif">Photographie à venir</p>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ export function AboutPageContent({ settings, pageContent }: AboutPageProps) {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-brun-cave to-noir-profond border border-or-principal/20 flex items-center justify-center">
-                <span className="text-texte-clair/40 font-serif">Photo</span>
+                <span className="text-texte-clair/40 font-serif">Portrait</span>
               </div>
               <h3 className="font-serif text-xl text-texte-clair mb-2">Équipe Terminal 3</h3>
               <p className="text-texte-clair/60 text-sm">

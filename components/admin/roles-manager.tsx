@@ -56,24 +56,24 @@ export function RolesManager({
   return (
     <div className="space-y-6">
       {isOwner && (
-        <form onSubmit={handleAssign} className="flex flex-wrap items-end gap-3 rounded-sm border border-white/10 bg-graphite p-5">
+        <form onSubmit={handleAssign} className="flex flex-wrap items-end gap-3 rounded-sm border border-beige-fonce bg-white p-5">
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-muted-grey">Email du compte</label>
+            <label className="text-xs text-gris-chaud">Email du compte</label>
             <input
               required
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@terminal3.co.il"
-              className="rounded-sm border border-white/10 bg-obsidian px-4 py-2.5 text-sm text-ivory outline-none focus:border-champagne"
+              className="rounded-sm border border-beige-fonce bg-fond-papier px-4 py-2.5 text-sm text-noir-profond outline-none focus:border-or-principal"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-muted-grey">Rôle</label>
+            <label className="text-xs text-gris-chaud">Rôle</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as AdminRoleType)}
-              className="rounded-sm border border-white/10 bg-obsidian px-4 py-2.5 text-sm text-ivory outline-none focus:border-champagne"
+              className="rounded-sm border border-beige-fonce bg-fond-papier px-4 py-2.5 text-sm text-noir-profond outline-none focus:border-or-principal"
             >
               {ALL_ADMIN_ROLES.map((r) => (
                 <option key={r} value={r}>
@@ -84,18 +84,18 @@ export function RolesManager({
           </div>
           <button
             type="submit"
-            className="rounded-full bg-champagne px-6 py-2.5 text-sm font-semibold text-obsidian hover:bg-soft-gold"
+            className="rounded-full bg-or-principal px-6 py-2.5 text-sm font-semibold text-noir-profond hover:bg-or-clair"
           >
             Attribuer
           </button>
-          {error && <p className="w-full text-sm text-amber-400">{error}</p>}
+          {error && <p className="w-full text-sm text-amber-700">{error}</p>}
         </form>
       )}
 
-      <div className="overflow-x-auto rounded-sm border border-white/5">
+      <div className="overflow-x-auto rounded-sm border border-beige-fonce">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/5 text-xs uppercase tracking-wide text-muted-grey">
+            <tr className="border-b border-beige-fonce text-xs uppercase tracking-wide text-gris-chaud">
               <th className="px-4 py-3">Administrateur</th>
               <th className="px-4 py-3">Rôle</th>
               <th className="px-4 py-3">Depuis</th>
@@ -104,17 +104,17 @@ export function RolesManager({
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.userId} className="border-b border-white/5 last:border-0">
-                <td className="px-4 py-3 text-ivory">
+              <tr key={u.userId} className="border-b border-beige-fonce last:border-0">
+                <td className="px-4 py-3 text-noir-profond">
                   {u.firstName || u.lastName ? `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim() : u.email}
-                  <p className="text-xs text-muted-grey">{u.email}</p>
+                  <p className="text-xs text-gris-chaud">{u.email}</p>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="rounded-full bg-champagne/10 px-2.5 py-0.5 text-xs text-champagne">
+                  <span className="rounded-full bg-or-principal/10 px-2.5 py-0.5 text-xs text-or-principal">
                     {ROLE_LABELS[u.role]}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs text-muted-grey">
+                <td className="px-4 py-3 text-xs text-gris-chaud">
                   {new Date(u.assignedAt).toLocaleDateString("fr-FR")}
                 </td>
                 {isOwner && (

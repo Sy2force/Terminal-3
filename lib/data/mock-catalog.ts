@@ -283,13 +283,13 @@ const wineDefs: WineDef[] = [
 function buildMockWines(): ProductWithMedia[] {
   const yardenPhotos = [
     "/images/terminal-3/wines/castel/petit-castel-2020.png",
-    "/images/terminal-3/wines/yarden/wine-yarden-02.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-03.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-04.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-05.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-06.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-07.webp",
-    "/images/terminal-3/wines/yarden/wine-yarden-08.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-02.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-03.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-04.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-05.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-06.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-07.webp",
+    "/images/terminal-3/wines/yarden/wines-yarden-08.webp",
   ];
   return wineDefs.map((def, index) => ({
     id: def.id,
@@ -684,7 +684,7 @@ const WINE_DIRS = ["castel", "carmel", "gamla", "golan", "yarden", "other-brands
 const BOTTLE_IMAGES_FALLBACK = [
   "/images/terminal-3/spirits/whisky/chivas-regal-12.png",
   "/images/terminal-3/spirits/whisky/glenfiddich-12.png",
-  "/images/terminal-3/wines/yarden/wine-yarden-02.webp",
+  "/images/terminal-3/wines/yarden/wines-yarden-02.webp",
 ];
 
 function scanBottleImages(): string[] {

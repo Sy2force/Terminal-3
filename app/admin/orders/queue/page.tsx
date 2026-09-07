@@ -17,17 +17,17 @@ export default async function StaffQueuePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl text-ivory">File de commande</h1>
-          <p className="mt-1 text-sm text-muted-grey">
+          <h1 className="font-serif text-2xl text-noir-profond">File de commande</h1>
+          <p className="mt-1 text-sm text-gris-chaud">
             {queueOrders.length} commande{queueOrders.length !== 1 ? "s" : ""} en cours
           </p>
         </div>
       </div>
 
       {queueOrders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-sm border border-white/5 bg-graphite/30 py-20">
-          <CheckCircle className="h-12 w-12 text-champagne/50" />
-          <p className="mt-4 text-muted-grey">Aucune commande en cours</p>
+        <div className="flex flex-col items-center justify-center rounded-sm border border-beige-fonce bg-creme py-20">
+          <CheckCircle className="h-12 w-12 text-or-principal/50" />
+          <p className="mt-4 text-gris-chaud">Aucune commande en cours</p>
         </div>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
@@ -56,21 +56,21 @@ function OrderCard({ order }: { order: OrderWithDetails }) {
   const StatusIcon = statusIcons[order.status] || Clock;
 
   return (
-    <div className={`rounded-sm border ${statusColors[order.status]} bg-graphite/50 p-5`}>
+    <div className={`rounded-sm border ${statusColors[order.status]} bg-creme p-5`}>
       <div className="mb-4 flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div className={`flex h-10 w-10 items-center justify-center rounded-full border ${
-            order.status === "submitted" ? "border-ivory/30 text-ivory" :
-            order.status === "confirmed" ? "border-champagne/50 text-champagne" :
+            order.status === "submitted" ? "border-ivory/30 text-noir-profond" :
+            order.status === "confirmed" ? "border-champagne/50 text-or-principal" :
             "border-soft-gold/50 text-soft-gold"
           }`}>
             <StatusIcon className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-xs uppercase tracking-widest text-muted-grey">
+            <span className="text-xs uppercase tracking-widest text-gris-chaud">
               #{order.id.slice(0, 8)}
             </span>
-            <h3 className="font-serif text-lg text-ivory">
+            <h3 className="font-serif text-lg text-noir-profond">
               {order.customer_name || "Client anonyme"}
             </h3>
           </div>
@@ -80,29 +80,29 @@ function OrderCard({ order }: { order: OrderWithDetails }) {
 
       <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
         <div className="rounded-sm bg-white/5 p-2">
-          <span className="text-xs text-muted-grey">Téléphone</span>
-          <p className="text-ivory">{order.customer_phone || "—"}</p>
+          <span className="text-xs text-gris-chaud">Téléphone</span>
+          <p className="text-noir-profond">{order.customer_phone || "—"}</p>
         </div>
         <div className="rounded-sm bg-white/5 p-2">
-          <span className="text-xs text-muted-grey">Total</span>
-          <p className="text-ivory">{formatAgorot(order.total_agorot)}</p>
+          <span className="text-xs text-gris-chaud">Total</span>
+          <p className="text-noir-profond">{formatAgorot(order.total_agorot)}</p>
         </div>
         <div className="rounded-sm bg-white/5 p-2">
-          <span className="text-xs text-muted-grey">Type</span>
-          <p className="text-ivory">
+          <span className="text-xs text-gris-chaud">Type</span>
+          <p className="text-noir-profond">
             {order.fulfillment_type === "pickup" ? "Retrait" : "Livraison"}
           </p>
         </div>
         <div className="rounded-sm bg-white/5 p-2">
-          <span className="text-xs text-muted-grey">Statut</span>
-          <p className="text-ivory">{orderStatusLabel(order.status)}</p>
+          <span className="text-xs text-gris-chaud">Statut</span>
+          <p className="text-noir-profond">{orderStatusLabel(order.status)}</p>
         </div>
       </div>
 
       {order.customer_notes && (
-        <div className="mb-4 rounded-sm border border-white/5 bg-white/5 p-3">
-          <span className="text-xs text-muted-grey">Note client</span>
-          <p className="mt-1 text-sm text-ivory/80">{order.customer_notes}</p>
+        <div className="mb-4 rounded-sm border border-beige-fonce bg-white/5 p-3">
+          <span className="text-xs text-gris-chaud">Note client</span>
+          <p className="mt-1 text-sm text-noir-profond/80">{order.customer_notes}</p>
         </div>
       )}
 
@@ -112,13 +112,13 @@ function OrderCard({ order }: { order: OrderWithDetails }) {
             key={group.id}
             className={`rounded-sm border p-3 ${
               group.group_type === "AGE_RESTRICTED"
-                ? "border-amber-400/30 bg-amber-400/5"
-                : "border-white/5 bg-white/5"
+                ? "border-amber-300 bg-amber-50"
+                : "border-beige-fonce bg-white/5"
             }`}
           >
             <div className="mb-2 flex items-center justify-between">
               <span className={`text-xs uppercase tracking-widest ${
-                group.group_type === "AGE_RESTRICTED" ? "text-amber-400" : "text-champagne"
+                group.group_type === "AGE_RESTRICTED" ? "text-amber-700" : "text-or-principal"
               }`}>
                 {group.group_type === "AGE_RESTRICTED" ? (
                   <span className="flex items-center gap-1">
@@ -143,20 +143,20 @@ function OrderCard({ order }: { order: OrderWithDetails }) {
 
             <ul className="space-y-1 text-sm">
               {group.items?.map((item) => (
-                <li key={item.id} className="flex justify-between text-ivory/80">
+                <li key={item.id} className="flex justify-between text-noir-profond/80">
                   <span>
                     {item.quantity} × {item.product_name_snapshot}
                     {item.variant_label_snapshot && (
-                      <span className="text-muted-grey"> ({item.variant_label_snapshot})</span>
+                      <span className="text-gris-chaud"> ({item.variant_label_snapshot})</span>
                     )}
                   </span>
-                  <span className="text-ivory/60">{formatAgorot(item.final_price_agorot_snapshot)}</span>
+                  <span className="text-noir-profond/60">{formatAgorot(item.final_price_agorot_snapshot)}</span>
                 </li>
               ))}
             </ul>
 
             {group.age_verification && (
-              <div className="mt-2 pt-2 border-t border-white/10">
+              <div className="mt-2 pt-2 border-t border-beige-fonce">
                 <AgeVerificationAction
                   verificationId={group.age_verification.id}
                   currentStatus={group.age_verification.status}
@@ -167,7 +167,7 @@ function OrderCard({ order }: { order: OrderWithDetails }) {
         ))}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-white/10 text-xs text-muted-grey">
+      <div className="mt-4 pt-4 border-t border-beige-fonce text-xs text-gris-chaud">
         {new Date(order.created_at).toLocaleString("fr-FR", {
           dateStyle: "short",
           timeStyle: "short",

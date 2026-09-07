@@ -28,8 +28,8 @@ export default async function AdminMembersPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Membres du Club</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Membres du Club</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           {totalCount ?? 0} membre{totalCount !== 1 ? "s" : ""} inscrit{totalCount !== 1 ? "s" : ""}
         </p>
       </div>

@@ -20,7 +20,7 @@ export default async function EditCategoryPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Modifier la catégorie</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Modifier la catégorie</h1>
       <CategoryForm categories={categories} initial={category} />
     </div>
   );

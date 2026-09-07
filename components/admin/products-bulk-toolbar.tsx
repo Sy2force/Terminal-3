@@ -39,8 +39,8 @@ export function ProductsBulkToolbar({ selectedIds, categories, onDone }: Product
   if (selectedIds.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-sm border border-champagne/30 bg-graphite px-4 py-3">
-      <span className="text-sm text-ivory">{selectedIds.length} sélectionné(s)</span>
+    <div className="flex flex-wrap items-center gap-3 rounded-sm border border-champagne/30 bg-white px-4 py-3">
+      <span className="text-sm text-noir-profond">{selectedIds.length} sélectionné(s)</span>
 
       <select
         disabled={pending}
@@ -49,7 +49,7 @@ export function ProductsBulkToolbar({ selectedIds, categories, onDone }: Product
           run(() => bulkUpdateStatusAction(selectedIds, e.target.value as "draft" | "published" | "archived"));
           e.target.value = "";
         }}
-        className="rounded-sm border border-white/10 bg-warm-black px-3 py-1.5 text-xs text-ivory"
+        className="rounded-sm border border-beige-fonce bg-creme px-3 py-1.5 text-xs text-noir-profond"
         defaultValue=""
       >
         <option value="" disabled>Changer le statut...</option>
@@ -64,7 +64,7 @@ export function ProductsBulkToolbar({ selectedIds, categories, onDone }: Product
           run(() => bulkUpdateCategoryAction(selectedIds, e.target.value || null));
           e.target.value = "";
         }}
-        className="rounded-sm border border-white/10 bg-warm-black px-3 py-1.5 text-xs text-ivory"
+        className="rounded-sm border border-beige-fonce bg-creme px-3 py-1.5 text-xs text-noir-profond"
         defaultValue=""
       >
         <option value="" disabled>Changer de catégorie...</option>
@@ -78,7 +78,7 @@ export function ProductsBulkToolbar({ selectedIds, categories, onDone }: Product
           type="button"
           disabled={pending}
           onClick={() => run(() => bulkAdjustPriceAction(selectedIds, -10))}
-          className="rounded-sm border border-white/10 px-3 py-1.5 text-xs text-ivory/80 hover:border-champagne/40 disabled:opacity-50"
+          className="rounded-sm border border-beige-fonce px-3 py-1.5 text-xs text-noir-profond/80 hover:border-or-principal/40 disabled:opacity-50"
         >
           -10% prix
         </button>
@@ -86,13 +86,13 @@ export function ProductsBulkToolbar({ selectedIds, categories, onDone }: Product
           type="button"
           disabled={pending}
           onClick={() => run(() => bulkAdjustPriceAction(selectedIds, 10))}
-          className="rounded-sm border border-white/10 px-3 py-1.5 text-xs text-ivory/80 hover:border-champagne/40 disabled:opacity-50"
+          className="rounded-sm border border-beige-fonce px-3 py-1.5 text-xs text-noir-profond/80 hover:border-or-principal/40 disabled:opacity-50"
         >
           +10% prix
         </button>
       </div>
 
-      {message && <span className="text-xs text-champagne">{message}</span>}
+      {message && <span className="text-xs text-or-principal">{message}</span>}
     </div>
   );
 }

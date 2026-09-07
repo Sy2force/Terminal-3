@@ -74,18 +74,18 @@ export default async function AdminUsersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl text-ivory">Utilisateurs admin</h1>
-          <p className="mt-1 text-sm text-muted-grey">Gestion des rôles, permissions et dernières connexions.</p>
+          <h1 className="font-serif text-2xl text-noir-profond">Utilisateurs admin</h1>
+          <p className="mt-1 text-sm text-gris-chaud">Gestion des rôles, permissions et dernières connexions.</p>
         </div>
       </div>
 
-      <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
-        <h2 className="mb-4 font-serif text-lg text-champagne">Session active</h2>
+      <div className="rounded-sm border border-beige-fonce bg-creme p-5">
+        <h2 className="mb-4 font-serif text-lg text-or-principal">Session active</h2>
         {currentSession ? (
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-medium text-ivory">{currentSession.user.email}</p>
-              <p className="text-xs text-muted-grey">
+              <p className="font-medium text-noir-profond">{currentSession.user.email}</p>
+              <p className="text-xs text-gris-chaud">
                 Expire le {" "}
                 {formatDate(
                   currentSession.expires_at
@@ -105,14 +105,14 @@ export default async function AdminUsersPage() {
             </form>
           </div>
         ) : (
-          <p className="text-sm text-muted-grey">Aucune session active.</p>
+          <p className="text-sm text-gris-chaud">Aucune session active.</p>
         )}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Users without admin roles */}
-        <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
-          <h2 className="font-serif text-lg text-champagne mb-4">Utilisateurs</h2>
+        <div className="rounded-sm border border-beige-fonce bg-creme p-5">
+          <h2 className="font-serif text-lg text-or-principal mb-4">Utilisateurs</h2>
           <div className="space-y-3">
             {users?.map((user: UserWithRoles) => (
               <UserRow
@@ -123,14 +123,14 @@ export default async function AdminUsersPage() {
               />
             ))}
             {users?.length === 0 && (
-              <p className="text-sm text-muted-grey">Aucun utilisateur.</p>
+              <p className="text-sm text-gris-chaud">Aucun utilisateur.</p>
             )}
           </div>
         </div>
 
         {/* Admin roles */}
-        <div className="rounded-sm border border-white/5 bg-graphite/30 p-5">
-          <h2 className="font-serif text-lg text-champagne mb-4">Rôles admin</h2>
+        <div className="rounded-sm border border-beige-fonce bg-creme p-5">
+          <h2 className="font-serif text-lg text-or-principal mb-4">Rôles admin</h2>
           <div className="space-y-3">
             {roles?.map((role: RoleWithProfile) => (
               <RoleRow
@@ -141,7 +141,7 @@ export default async function AdminUsersPage() {
               />
             ))}
             {roles?.length === 0 && (
-              <p className="text-sm text-muted-grey">Aucun rôle assigné.</p>
+              <p className="text-sm text-gris-chaud">Aucun rôle assigné.</p>
             )}
           </div>
         </div>
@@ -162,26 +162,26 @@ function UserRow({
   const hasRole = user.admin_roles && user.admin_roles.length > 0;
 
   return (
-    <div className="flex flex-col gap-2 rounded-sm border border-white/5 bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-2 rounded-sm border border-beige-fonce bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <div className="font-medium text-ivory">
+        <div className="font-medium text-noir-profond">
           {user.first_name || user.last_name
             ? `${user.first_name || ""} ${user.last_name || ""}`.trim()
             : "Utilisateur"}
         </div>
-        <div className="text-xs text-muted-grey">{user.email || "—"}</div>
-        <div className="mt-1 flex items-center gap-1 text-xs text-muted-grey">
+        <div className="text-xs text-gris-chaud">{user.email || "—"}</div>
+        <div className="mt-1 flex items-center gap-1 text-xs text-gris-chaud">
           <Clock className="h-3 w-3" />
           Dernière connexion : {formatDate(lastLogin)}
         </div>
       </div>
       <div className="flex items-center gap-2">
         {hasRole ? (
-          <span className="rounded-full border border-champagne/30 px-2 py-1 text-xs text-champagne">
+          <span className="rounded-full border border-champagne/30 px-2 py-1 text-xs text-or-principal">
             {user.admin_roles?.[0].role}
           </span>
         ) : (
-          <span className="rounded-full border border-white/10 px-2 py-1 text-xs text-muted-grey">Aucun rôle</span>
+          <span className="rounded-full border border-beige-fonce px-2 py-1 text-xs text-gris-chaud">Aucun rôle</span>
         )}
         <AssignRoleControl userId={user.id} isOwner={isOwner} />
       </div>
@@ -199,31 +199,31 @@ function RoleRow({
   lastLogin: string | null;
 }) {
   const roleColors: Record<string, string> = {
-    OWNER: "border-amber-400/30 text-amber-400 bg-amber-400/5",
-    MANAGER: "border-champagne/30 text-champagne bg-champagne/5",
+    OWNER: "border-amber-300 text-amber-700 bg-amber-50",
+    MANAGER: "border-champagne/30 text-or-principal bg-or-principal/5",
     CONTENT_EDITOR: "border-blue-400/30 text-blue-400 bg-blue-400/5",
     STAFF: "border-green-400/30 text-green-400 bg-green-400/5",
   };
 
   return (
-    <div className="flex flex-col gap-2 rounded-sm border border-white/5 bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-2 rounded-sm border border-beige-fonce bg-white/5 p-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-start gap-3">
-        <Shield className="mt-0.5 h-4 w-4 text-champagne" />
+        <Shield className="mt-0.5 h-4 w-4 text-or-principal" />
         <div>
-          <div className="font-medium text-ivory">
+          <div className="font-medium text-noir-profond">
             {role.profiles?.first_name || role.profiles?.last_name
               ? `${role.profiles.first_name || ""} ${role.profiles.last_name || ""}`.trim()
               : "Utilisateur"}
           </div>
-          <div className="text-xs text-muted-grey">{role.profiles?.email || "—"}</div>
-          <div className="mt-1 flex items-center gap-1 text-xs text-muted-grey">
+          <div className="text-xs text-gris-chaud">{role.profiles?.email || "—"}</div>
+          <div className="mt-1 flex items-center gap-1 text-xs text-gris-chaud">
             <Clock className="h-3 w-3" />
             Dernière connexion : {formatDate(lastLogin)}
           </div>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <span className={`rounded-full border px-2 py-1 text-xs ${roleColors[role.role] || "border-white/10 text-muted-grey"}`}>
+        <span className={`rounded-full border px-2 py-1 text-xs ${roleColors[role.role] || "border-beige-fonce text-gris-chaud"}`}>
           {role.role}
         </span>
         <RevokeRoleButton roleId={role.id} isOwner={isOwner} />

@@ -43,14 +43,14 @@ export function AdminEditModeProvider({
             onClick={() => setIsEditing(!isEditing)}
             className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
               isEditing
-                ? "bg-champagne text-obsidian"
+                ? "bg-or-principal text-noir-profond"
                 : "bg-or-principal/10 text-or-principal hover:bg-or-principal/20"
             }`}
           >
             {isEditing ? "Quitter le mode édition" : "Administrer le site"}
           </button>
           {isEditing && (
-            <span className="text-xs text-ivory/70">
+            <span className="text-xs text-noir-profond/70">
               Survolez un texte ou une image pour les modifier.
             </span>
           )}

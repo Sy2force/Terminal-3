@@ -35,16 +35,16 @@ export default async function AdminAgeVerificationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">
+        <h1 className="font-serif text-2xl text-noir-profond">
           Vérifications d&apos;âge en attente
         </h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <p className="mt-1 text-sm text-gris-chaud">
           {verifications.length} vérification{verifications.length > 1 ? "s" : ""} en attente
         </p>
       </div>
 
       {verifications.length === 0 && (
-        <div className="rounded-sm border border-white/5 bg-graphite p-12 text-center text-sm text-muted-grey">
+        <div className="rounded-sm border border-beige-fonce bg-white p-12 text-center text-sm text-gris-chaud">
           Aucune vérification d&apos;âge en attente.
         </div>
       )}
@@ -60,50 +60,50 @@ export default async function AdminAgeVerificationsPage() {
           return (
             <div
               key={v.id}
-              className="flex flex-col gap-4 rounded-sm border border-amber-400/20 bg-graphite/30 p-5 sm:flex-row sm:items-start sm:justify-between"
+              className="flex flex-col gap-4 rounded-sm border border-amber-400/20 bg-creme p-5 sm:flex-row sm:items-start sm:justify-between"
             >
               <div className="flex-1 space-y-3">
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-amber-400" />
+                  <AlertTriangle className="h-4 w-4 text-amber-700" />
                   <Link
                     href={`/admin/orders/${v.order_id}`}
-                    className="text-sm font-medium text-champagne hover:text-soft-gold"
+                    className="text-sm font-medium text-or-principal hover:text-soft-gold"
                   >
                     Commande {v.order_id.slice(0, 8).toUpperCase()}
                   </Link>
                 </div>
 
-                <div className="flex flex-wrap gap-4 text-sm text-ivory/70">
+                <div className="flex flex-wrap gap-4 text-sm text-noir-profond/70">
                   <span>{order?.customer_name || "Client anonyme"}</span>
                   {order?.customer_phone && (
                     <span className="flex items-center gap-1">
-                      <Phone className="h-3.5 w-3.5 text-muted-grey" />
+                      <Phone className="h-3.5 w-3.5 text-gris-chaud" />
                       {order.customer_phone}
                     </span>
                   )}
                   {order?.fulfillment_type === "delivery" && order?.delivery_address && (
                     <span className="flex items-center gap-1">
-                      <MapPin className="h-3.5 w-3.5 text-muted-grey" />
+                      <MapPin className="h-3.5 w-3.5 text-gris-chaud" />
                       {order.delivery_address}
                     </span>
                   )}
                 </div>
 
                 {restrictedItems.length > 0 && (
-                  <div className="rounded-sm border border-amber-400/20 bg-amber-400/5 p-3">
-                    <span className="text-xs uppercase tracking-widest text-amber-400">
+                  <div className="rounded-sm border border-amber-400/20 bg-amber-50 p-3">
+                    <span className="text-xs uppercase tracking-widest text-amber-700">
                       Produits 18+
                     </span>
                     <ul className="mt-2 space-y-1">
                       {restrictedItems.map((item) => (
-                        <li key={item.id} className="flex justify-between text-sm text-ivory/80">
+                        <li key={item.id} className="flex justify-between text-sm text-noir-profond/80">
                           <span>
                             {item.quantity}× {item.product_name_snapshot}
                             {item.variant_label_snapshot && (
-                              <span className="text-muted-grey"> ({item.variant_label_snapshot})</span>
+                              <span className="text-gris-chaud"> ({item.variant_label_snapshot})</span>
                             )}
                           </span>
-                          <span className="text-ivory/60">
+                          <span className="text-noir-profond/60">
                             {formatAgorot(item.final_price_agorot_snapshot)}
                           </span>
                         </li>
@@ -112,7 +112,7 @@ export default async function AdminAgeVerificationsPage() {
                   </div>
                 )}
 
-                <p className="text-xs text-muted-grey">
+                <p className="text-xs text-gris-chaud">
                   Créée le{" "}
                   {new Date(v.created_at).toLocaleString("fr-FR", {
                     dateStyle: "short",

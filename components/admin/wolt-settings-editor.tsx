@@ -34,12 +34,12 @@ export function WoltSettingsEditor({
 
   return (
     <div className="space-y-3">
-      <label className="flex items-center gap-2 text-sm text-ivory/80">
+      <label className="flex items-center gap-2 text-sm text-noir-profond/80">
         <input
           type="checkbox"
           checked={isEnabled}
           onChange={(e) => setIsEnabled(e.target.checked)}
-          className="h-4 w-4 accent-champagne"
+          className="h-4 w-4 accent-or-principal"
         />
         Activer les boutons Wolt
       </label>
@@ -51,7 +51,7 @@ export function WoltSettingsEditor({
           onChange={(e) => setUrl(e.target.value)}
           disabled={!isEnabled}
           placeholder="https://wolt.com/en/isr/store/... (repli facultatif)"
-          className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none disabled:opacity-40"
+          className="w-full rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2.5 text-sm text-noir-profond placeholder:text-noir-profond/40 focus:border-or-principal focus:outline-none disabled:opacity-40"
         />
         <a
           href={isValidWoltUrl(url) ? url : "#"}
@@ -60,12 +60,12 @@ export function WoltSettingsEditor({
           onClick={(e) => {
             if (!isValidWoltUrl(url)) e.preventDefault();
           }}
-          className={`whitespace-nowrap rounded-sm px-3 py-2 text-xs ${isValidWoltUrl(url) ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-ivory/40"}`}
+          className={`whitespace-nowrap rounded-sm px-3 py-2 text-xs ${isValidWoltUrl(url) ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-noir-profond/40"}`}
         >
           Tester
         </a>
       </div>
-      <p className="text-xs text-ivory/50">
+      <p className="text-xs text-noir-profond/50">
         URL de repli facultative. Les fiches par format peuvent être renseignées directement sur chaque variante.
       </p>
 
@@ -73,11 +73,11 @@ export function WoltSettingsEditor({
         type="button"
         onClick={handleSave}
         disabled={status === "saving"}
-        className="rounded-sm bg-champagne px-4 py-2 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-60"
+        className="rounded-sm bg-or-principal px-4 py-2 text-sm font-semibold text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-60"
       >
         {status === "saving" ? "Enregistrement…" : "Enregistrer"}
       </button>
-      {status === "saved" && <p className="text-xs text-champagne">Réglages enregistrés.</p>}
+      {status === "saved" && <p className="text-xs text-or-principal">Réglages enregistrés.</p>}
       {error && <p className="text-xs text-bordeaux-principal">{error}</p>}
     </div>
   );

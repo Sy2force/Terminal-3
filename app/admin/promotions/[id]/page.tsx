@@ -20,7 +20,7 @@ export default async function EditPromotionPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Modifier la promotion</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Modifier la promotion</h1>
       <PromotionForm initial={promotion} products={products} />
     </div>
   );

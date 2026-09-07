@@ -9,8 +9,8 @@ export default async function AdminVerificationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Vérifications d&rsquo;identité</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Vérifications d&rsquo;identité</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           {requests.length} demande{requests.length > 1 ? "s" : ""} à traiter
         </p>
       </div>

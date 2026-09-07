@@ -8,7 +8,7 @@ export default async function NewProductPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Nouveau produit</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Nouveau produit</h1>
       <ProductForm categories={categories} />
     </div>
   );

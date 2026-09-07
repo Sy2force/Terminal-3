@@ -22,7 +22,7 @@ export function ContentRowActions({ postId }: { postId: string }) {
       <button
         onClick={() => router.push(`/admin/content/${postId}`)}
         disabled={pending}
-        className="rounded p-1.5 text-ivory/60 hover:bg-graphite hover:text-champagne"
+        className="rounded p-1.5 text-noir-profond/60 hover:bg-white hover:text-or-principal"
         aria-label="Modifier"
       >
         <Pencil className="h-4 w-4" />
@@ -30,7 +30,7 @@ export function ContentRowActions({ postId }: { postId: string }) {
       <button
         onClick={handleDelete}
         disabled={pending}
-        className="rounded p-1.5 text-red-400/60 hover:bg-graphite hover:text-red-400"
+        className="rounded p-1.5 text-red-400/60 hover:bg-white hover:text-red-400"
         aria-label="Supprimer"
       >
         <Trash2 className="h-4 w-4" />

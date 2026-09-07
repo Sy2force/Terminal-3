@@ -77,6 +77,12 @@ export function LoginPanel({ redirectTo }: { redirectTo: string }) {
         >
           {loading ? "Connexion..." : "Se connecter"}
         </button>
+        <p className="text-center text-sm text-ivory/60">
+          Pas encore de compte ?{" "}
+          <Link href="/inscription" className="text-champagne hover:underline">
+            Créer un compte
+          </Link>
+        </p>
       </form>
     </div>
   );

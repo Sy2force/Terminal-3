@@ -58,14 +58,14 @@ export default async function AdminClientsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Clients</h1>
-        <p className="mt-1 text-sm text-muted-grey">{rows.length} client{rows.length > 1 ? "s" : ""}</p>
+        <h1 className="font-serif text-2xl text-noir-profond">Clients</h1>
+        <p className="mt-1 text-sm text-gris-chaud">{rows.length} client{rows.length > 1 ? "s" : ""}</p>
       </div>
 
-      <div className="overflow-x-auto rounded-sm border border-white/5">
+      <div className="overflow-x-auto rounded-sm border border-beige-fonce">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/5 text-xs uppercase tracking-wide text-muted-grey">
+            <tr className="border-b border-beige-fonce text-xs uppercase tracking-wide text-gris-chaud">
               <th className="px-4 py-3">Client</th>
               <th className="px-4 py-3">Contact</th>
               <th className="px-4 py-3">Statut</th>
@@ -77,26 +77,26 @@ export default async function AdminClientsPage() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="border-b border-white/5 last:border-0 hover:bg-graphite/40">
+              <tr key={row.id} className="border-b border-beige-fonce last:border-0 hover:bg-creme">
                 <td className="px-4 py-3">
-                  <Link href={`/admin/clients/${row.id}`} className="text-champagne hover:underline">
+                  <Link href={`/admin/clients/${row.id}`} className="text-or-principal hover:underline">
                     {row.name}
                   </Link>
-                  <p className="text-xs text-muted-grey">{row.clientNumber ?? "—"}</p>
+                  <p className="text-xs text-gris-chaud">{row.clientNumber ?? "—"}</p>
                 </td>
-                <td className="px-4 py-3 text-ivory/70">
+                <td className="px-4 py-3 text-noir-profond/70">
                   <p>{row.email}</p>
-                  <p className="text-xs text-muted-grey">{row.phone}</p>
+                  <p className="text-xs text-gris-chaud">{row.phone}</p>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-ivory/80">
+                  <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-noir-profond/80">
                     {STATUS_LABELS[row.status] ?? row.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-ivory/70">{row.ordersCount}</td>
-                <td className="px-4 py-3 text-champagne">{formatAgorot(row.totalSpent)}</td>
-                <td className="px-4 py-3 text-ivory/70">{row.points}</td>
-                <td className="px-4 py-3 text-xs text-muted-grey">
+                <td className="px-4 py-3 text-noir-profond/70">{row.ordersCount}</td>
+                <td className="px-4 py-3 text-or-principal">{formatAgorot(row.totalSpent)}</td>
+                <td className="px-4 py-3 text-noir-profond/70">{row.points}</td>
+                <td className="px-4 py-3 text-xs text-gris-chaud">
                   {new Date(row.createdAt).toLocaleDateString("fr-FR")}
                 </td>
               </tr>

@@ -3,6 +3,12 @@
 import { useActionState, useState } from "react";
 import { quickAddProductAction } from "@/app/admin/products/quick-add/actions";
 import { isValidWoltUrl } from "@/lib/wolt";
+import {
+  AdminField,
+  AdminSelect,
+  AdminCheckbox,
+  InlineAlert,
+} from "@/components/admin/form-controls";
 import type { CategoryRow } from "@/types/database";
 
 export function QuickAddProductForm({ categories }: { categories: CategoryRow[] }) {
@@ -10,145 +16,73 @@ export function QuickAddProductForm({ categories }: { categories: CategoryRow[] 
   const [woltUrl, setWoltUrl] = useState("");
   const [woltEnabled, setWoltEnabled] = useState(false);
 
+  const fieldInvalid = (field: string) =>
+    state != null && !state.ok && state.field === field;
+
   return (
-    <form action={submit} className="space-y-5 rounded-sm border border-white/5 bg-graphite p-6">
+    <form action={submit} className="space-y-5 rounded-[12px] border border-[var(--admin-border)] bg-white p-6 shadow-sm">
       {state && !state.ok && (
-        <div className="rounded-sm border border-bordeaux-principal/30 bg-bordeaux-principal/10 p-3 text-sm text-bordeaux-principal">
+        <InlineAlert kind="error" title="Création impossible">
           {state.error}
-        </div>
+        </InlineAlert>
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="name_fr" className="mb-1 block text-sm text-ivory/80">
-            Nom du produit (FR) *
-          </label>
-          <input
-            id="name_fr"
-            name="name_fr"
-            required
-            className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="name_he" className="mb-1 block text-sm text-ivory/80">
-            Nom en hébreu
-          </label>
-          <input
-            id="name_he"
-            name="name_he"
-            dir="rtl"
-            className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="brand" className="mb-1 block text-sm text-ivory/80">
-            Marque
-          </label>
-          <input
-            id="brand"
-            name="brand"
-            className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="category_id" className="mb-1 block text-sm text-ivory/80">
-            Catégorie *
-          </label>
-          <select
-            id="category_id"
-            name="category_id"
-            required
-            className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
-          >
-            <option value="">Sélectionner…</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name_fr || c.name_he}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="sku" className="mb-1 block text-sm text-ivory/80">
-            Code / SKU *
-          </label>
-          <input
-            id="sku"
-            name="sku"
-            required
-            className={`w-full rounded-sm border bg-obsidian px-3 py-2.5 text-sm text-ivory focus:outline-none ${
-              state && !state.ok && state.field === "sku"
-                ? "border-bordeaux-principal"
-                : "border-white/10 focus:border-champagne"
-            }`}
-          />
-          <p className="mt-1 text-xs text-ivory/50">Vérification d’unicité automatique.</p>
-        </div>
-
-        <div>
-          <label htmlFor="barcode" className="mb-1 block text-sm text-ivory/80">
-            Code-barres (EAN/UPC)
-          </label>
-          <input
-            id="barcode"
-            name="barcode"
-            inputMode="numeric"
-            maxLength={40}
-            className={`w-full rounded-sm border bg-obsidian px-3 py-2.5 text-sm text-ivory focus:outline-none ${
-              state && !state.ok && state.field === "barcode"
-                ? "border-bordeaux-principal"
-                : "border-white/10 focus:border-champagne"
-            }`}
-          />
-          <p className="mt-1 text-xs text-ivory/50">Optionnel. Distinct du SKU. Les zéros initiaux sont conservés.</p>
-        </div>
-
-        <div>
-          <label htmlFor="price_agorot" className="mb-1 block text-sm text-ivory/80">
-            Prix (agorot) *
-          </label>
-          <input
-            id="price_agorot"
-            name="price_agorot"
-            type="number"
-            min={1}
-            required
-            className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory focus:border-champagne focus:outline-none"
-          />
-          <p className="mt-1 text-xs text-ivory/50">1 ₪ = 100 agorot. Ex: 9900 pour 99 ₪.</p>
-        </div>
+        <AdminField name="name_fr" label="Nom du produit (FR)" required />
+        <AdminField name="name_he" label="Nom en hébreu" inputProps={{ dir: "rtl" }} />
+        <AdminField name="brand" label="Marque" />
+        <AdminSelect
+          name="category_id"
+          label="Catégorie"
+          required
+          options={[
+            { value: "", label: "Sélectionner…" },
+            ...categories.map((c) => ({ value: c.id, label: c.name_fr || c.name_he })),
+          ]}
+        />
+        <AdminField
+          name="sku"
+          label="Code / SKU"
+          required
+          invalid={fieldInvalid("sku")}
+          hint="Vérification d'unicité automatique."
+        />
+        <AdminField
+          name="barcode"
+          label="Code-barres (EAN/UPC)"
+          inputMode="numeric"
+          invalid={fieldInvalid("barcode")}
+          hint="Optionnel. Distinct du SKU. Les zéros initiaux sont conservés."
+          inputProps={{ maxLength: 40 }}
+        />
+        <AdminField
+          name="price_agorot"
+          label="Prix (agorot)"
+          type="number"
+          required
+          hint="1 ₪ = 100 agorot. Ex : 9900 pour 99 ₪."
+          inputProps={{ min: 1 }}
+        />
 
         <div className="sm:col-span-2">
-          <label className="mb-2 flex items-center gap-2 text-sm text-ivory/80">
-            <input
-              type="checkbox"
-              name="wolt_enabled"
-              checked={woltEnabled}
-              onChange={(e) => setWoltEnabled(e.target.checked)}
-              className="h-4 w-4 accent-champagne"
-            />
-            Afficher le bouton Wolt
-          </label>
-          <div className="flex gap-2">
-            <input
-              id="wolt_url"
-              name="wolt_url"
-              type="url"
-              value={woltUrl}
-              onChange={(e) => setWoltUrl(e.target.value)}
-              disabled={!woltEnabled}
-              placeholder="https://wolt.com/en/isr/product/..."
-              className={`w-full rounded-sm border bg-obsidian px-3 py-2.5 text-sm text-ivory focus:outline-none disabled:opacity-40 ${
-                state && !state.ok && state.field === "wolt_url"
-                  ? "border-bordeaux-principal"
-                  : "border-white/10 focus:border-champagne"
-              }`}
-            />
+          <AdminCheckbox
+            name="wolt_enabled"
+            label="Afficher le bouton Wolt"
+            description="Ajoute un lien « Commander sur Wolt » sur la fiche produit publique."
+            inputProps={{ checked: woltEnabled, onChange: (e) => setWoltEnabled(e.target.checked) }}
+          />
+          <div className="mt-2 flex gap-2">
+            <div className="flex-1">
+              <AdminField
+                name="wolt_url"
+                label="Lien Wolt du produit"
+                type="url"
+                placeholder="https://wolt.com/en/isr/product/..."
+                disabled={!woltEnabled}
+                invalid={fieldInvalid("wolt_url")}
+                inputProps={{ value: woltUrl, onChange: (e) => setWoltUrl(e.target.value) }}
+              />
+            </div>
             <a
               href={isValidWoltUrl(woltUrl) ? woltUrl : "#"}
               target="_blank"
@@ -156,46 +90,45 @@ export function QuickAddProductForm({ categories }: { categories: CategoryRow[] 
               onClick={(e) => {
                 if (!isValidWoltUrl(woltUrl)) e.preventDefault();
               }}
-              className={`whitespace-nowrap rounded-sm px-3 py-2 text-xs ${isValidWoltUrl(woltUrl) ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-ivory/40"}`}
+              aria-disabled={!isValidWoltUrl(woltUrl)}
+              className={`mt-6 flex min-h-[44px] items-center whitespace-nowrap rounded-[10px] border-[1.5px] px-4 text-xs font-medium ${
+                isValidWoltUrl(woltUrl)
+                  ? "border-[#009DE0]/40 bg-[#009DE0]/10 text-[#009DE0]"
+                  : "border-[var(--admin-border)] text-[var(--admin-text-muted)]/40"
+              }`}
             >
-              Tester
+              Tester le lien
             </a>
           </div>
-          <p className="mt-1 text-xs text-ivory/50">
+          <p className="mt-1 text-xs text-[var(--admin-text-muted)]">
             URL directe vers cette bouteille / ce format sur Wolt.
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-6 pt-2">
-        <label className="flex items-center gap-2 text-sm text-ivory/80">
-          <input
-            type="checkbox"
-            name="age_restricted"
-            className="h-4 w-4 rounded-sm border-white/10 bg-obsidian text-bordeaux-principal"
+      <div className="flex flex-wrap items-center gap-6 border-t border-[var(--admin-border)] pt-4">
+        <AdminCheckbox
+          name="age_restricted"
+          label="Réservé aux 18+"
+          description="La vérification d'âge sera demandée lors du retrait en magasin."
+        />
+        <div className="min-w-[220px]">
+          <AdminSelect
+            name="status"
+            label="Statut"
+            options={[
+              { value: "draft", label: "Brouillon" },
+              { value: "published", label: "Publié" },
+            ]}
           />
-          Réservé aux 18+
-        </label>
-
-        <label htmlFor="status" className="text-sm text-ivory/80">
-          Statut
-        </label>
-        <select
-          id="status"
-          name="status"
-          defaultValue="draft"
-          className="rounded-sm border border-white/10 bg-obsidian px-3 py-2 text-sm text-ivory"
-        >
-          <option value="draft">Brouillon</option>
-          <option value="published">Publié</option>
-        </select>
+        </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4">
+      <div className="flex justify-end gap-3 pt-2">
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-sm bg-champagne px-6 py-2.5 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-60"
+          className="min-h-[44px] rounded-[10px] bg-[var(--admin-burgundy)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--admin-burgundy-hover)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? "Création…" : "Créer le produit"}
         </button>

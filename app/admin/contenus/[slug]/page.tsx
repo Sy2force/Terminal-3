@@ -2,6 +2,7 @@ import { requireAdminPermission } from "@/lib/admin/auth";
 import { getPageContentForAdmin } from "@/lib/data/page-contents";
 import { isDemoMode } from "@/lib/demo-mode";
 import { PageContentEditor } from "@/components/admin/page-content-editor";
+import { publicPathForSlug } from "@/lib/admin/page-slugs";
 
 const PAGE_LABELS: Record<string, string> = {
   home: "Accueil",
@@ -42,7 +43,13 @@ export default async function ContenuDetailPage({
       </div>
 
       <div className="rounded-sm border border-[#E7DECE] bg-white p-6 shadow-sm">
-        <PageContentEditor slug={slug} pageType="generic" page={page} demoMode={demoMode} />
+        <PageContentEditor
+          slug={slug}
+          pageType="generic"
+          page={page}
+          demoMode={demoMode}
+          publicPath={publicPathForSlug(slug)}
+        />
       </div>
     </div>
   );

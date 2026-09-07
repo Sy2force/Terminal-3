@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
@@ -16,7 +17,7 @@ function isNew(product: ProductWithMedia): boolean {
   return new Date(product.new_until).getTime() > Date.now();
 }
 
-export function ProductCard({
+function ProductCardInner({
   product,
   isFavorited = false,
 }: {
@@ -24,12 +25,22 @@ export function ProductCard({
   isFavorited?: boolean;
 }) {
   const { enabled: woltEnabled, storeUrl } = useWoltSettings();
-  const cover = product.media?.[0];
-  const defaultVariant =
-    product.variants?.find((v) => v.is_default) ?? product.variants?.[0];
-  const name = product.name_fr || product.name_he;
-  const imageFit = getMediaFit(cover?.kind, product.category?.slug ?? null);
-  const hasCover = Boolean(cover?.url);
+
+  const cover = useMemo(() => product.media?.[0], [product.media]);
+  const defaultVariant = useMemo(
+    () => product.variants?.find((v) => v.is_default) ?? product.variants?.[0],
+    [product.variants],
+  );
+  const name = useMemo(
+    () => product.name_fr || product.name_he || "Produit",
+    [product.name_fr, product.name_he],
+  );
+  const imageFit = useMemo(
+    () => getMediaFit(cover?.kind, product.category?.slug ?? null),
+    [cover?.kind, product.category?.slug],
+  );
+  const hasCover = useMemo(() => Boolean(cover?.url), [cover?.url]);
+  const isNewProduct = useMemo(() => isNew(product), [product]);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-sm border border-white/5 bg-graphite transition-colors hover:border-champagne/30">
@@ -44,6 +55,8 @@ export function ProductCard({
             alt={cover.alt ?? name}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+            loading="lazy"
+            decoding="async"
             className={`${imageFit === "contain" ? "object-contain p-4" : "object-cover"} transition-transform duration-500 ease-out group-hover:scale-[1.025]`}
           />
         ) : (
@@ -53,7 +66,7 @@ export function ProductCard({
         )}
 
         <div className="absolute left-3 top-3 flex flex-col gap-2">
-          {isNew(product) && <Badge>Nouveau</Badge>}
+          {isNewProduct && <Badge>Nouveau</Badge>}
           {product.age_restricted && (
             <Badge variant="amber">
               <AlertTriangle className="mr-1 h-3 w-3" aria-hidden />
@@ -90,18 +103,13 @@ export function ProductCard({
               : "Prix en magasin"}
           </span>
           {defaultVariant?.label && (
-            <span className="text-xs text-muted-grey">
-              {defaultVariant.label}
-            </span>
+            <span className="text-xs text-muted-grey">{defaultVariant.label}</span>
           )}
         </div>
 
         {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
           <div className="mt-3 space-y-1.5">
-            <WoltButton
-              url={defaultVariant.wolt_url}
-              storeUrl={storeUrl}
-            />
+            <WoltButton url={defaultVariant.wolt_url} storeUrl={storeUrl} />
             <WoltDisclaimer />
           </div>
         )}
@@ -109,3 +117,5 @@ export function ProductCard({
     </article>
   );
 }
+
+export const ProductCard = memo(ProductCardInner);

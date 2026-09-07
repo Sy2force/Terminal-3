@@ -30,11 +30,13 @@ export function PageContentEditor({
   pageType,
   page,
   demoMode,
+  publicPath,
 }: {
   slug: string;
   pageType: string;
   page: PageContentRow | null;
   demoMode: boolean;
+  publicPath: string | null;
 }) {
   const [title, setTitle] = useState(page?.title ?? "");
   const [subtitle, setSubtitle] = useState(page?.subtitle ?? "");
@@ -52,12 +54,26 @@ export function PageContentEditor({
   const [scheduling, setScheduling] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [publishedAt, setPublishedAt] = useState<string | null>(page?.published_at ?? null);
   const [dirty, setDirty] = useState(false);
 
   const hasUnpublished =
+    dirty ||
     page?.status === "draft" ||
     page?.status === "scheduled" ||
     (page ? JSON.stringify(page.draft_blocks) !== JSON.stringify(page.blocks) : false);
+
+  const pendingCount =
+    (page && title !== (page.title ?? "") ? 1 : 0) +
+    (page && subtitle !== (page.subtitle ?? "") ? 1 : 0) +
+    (page && description !== (page.description ?? "") ? 1 : 0) +
+    (page && metaTitle !== (page.meta_title ?? "") ? 1 : 0) +
+    (page && metaDescription !== (page.meta_description ?? "") ? 1 : 0) +
+    (page && ogImageUrl !== (page.og_image_url ?? "") ? 1 : 0) +
+    (JSON.stringify(blocks) !==
+    JSON.stringify((page?.draft_blocks as PageBlock[]) ?? (page?.blocks as PageBlock[]) ?? [])
+      ? 1
+      : 0);
 
   function markDirty() {
     setDirty(true);
@@ -108,11 +124,13 @@ export function PageContentEditor({
     setMessage(null);
     const result = await publishPageContentAction(slug);
     setPublishing(false);
-    setMessage(
-      result.success
-        ? "Publié. Actualisez la page publique pour voir le résultat."
-        : "Échec de la publication.",
-    );
+    if (result.success) {
+      setPublishedAt(new Date().toISOString());
+      setDirty(false);
+      setMessage("Publié.");
+    } else {
+      setMessage("Échec de la publication — la version publique précédente est conservée.");
+    }
   }
 
   async function handleRevert() {
@@ -160,8 +178,34 @@ export function PageContentEditor({
 
       <div className="flex flex-wrap items-center gap-2 text-xs text-[#71695F]">
         <span>Statut : <strong className="text-[#151411]">{page?.status ?? "non créé"}</strong></span>
-        {page?.published_at && <span>· Dernière publication : {new Date(page.published_at).toLocaleString("fr-FR")}</span>}
-        {hasUnpublished && <span className="text-[#B97832]">· Modifications non publiées</span>}
+        {publishedAt && (
+          <span>
+            · Publié à{" "}
+            {new Date(publishedAt).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+              timeZone: "Asia/Jerusalem",
+            })}
+          </span>
+        )}
+        {hasUnpublished && (
+          <span className="text-[#B97832]">
+            · Modifications non publiées{pendingCount > 0 ? ` (${pendingCount})` : ""}
+          </span>
+        )}
+        {!hasUnpublished && page?.status === "published" && (
+          <span className="text-[#56705A]">· Enregistré</span>
+        )}
+        {publicPath && (
+          <a
+            href={publicPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#692031] underline underline-offset-2"
+          >
+            Voir la page
+          </a>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -258,7 +302,7 @@ export function PageContentEditor({
           Annuler les changements
         </Button>
         <Button onClick={handlePublish} disabled={publishing || demoMode} icon={UploadCloud}>
-          {publishing ? "Publication..." : "Mettre à jour le site"}
+          {publishing ? "Publication..." : "Publier les modifications"}
         </Button>
         <Button onClick={handleSchedule} disabled={scheduling || demoMode || !scheduledAt} icon={CalendarClock} variant="ghost">
           {scheduling ? "Programmation..." : "Programmer"}

@@ -42,18 +42,18 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
 
   return (
     <div className="flex items-center justify-end gap-3">
-      {error && <span className="text-xs text-amber-400">{error}</span>}
-      <Link href={`/products/${slug}`} target="_blank" className="text-xs text-ivory/60 hover:text-ivory">
+      {error && <span className="text-xs text-amber-700">{error}</span>}
+      <Link href={`/products/${slug}`} target="_blank" className="text-xs text-noir-profond/60 hover:text-noir-profond">
         Voir
       </Link>
-      <Link href={`/admin/products/${productId}`} className="text-xs text-champagne hover:text-soft-gold">
+      <Link href={`/admin/products/${productId}`} className="text-xs text-or-principal hover:text-soft-gold">
         Modifier
       </Link>
       <button
         type="button"
         onClick={handleDuplicate}
         disabled={isPending}
-        className="text-xs text-ivory/60 hover:text-ivory disabled:opacity-50"
+        className="text-xs text-noir-profond/60 hover:text-noir-profond disabled:opacity-50"
       >
         Dupliquer
       </button>
@@ -61,7 +61,7 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
         type="button"
         onClick={handleArchive}
         disabled={isPending}
-        className="text-xs text-ivory/60 hover:text-ivory disabled:opacity-50"
+        className="text-xs text-noir-profond/60 hover:text-noir-profond disabled:opacity-50"
       >
         Archiver
       </button>
@@ -69,7 +69,7 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
         type="button"
         onClick={handleDelete}
         disabled={isPending}
-        className="text-xs text-amber-400 hover:text-amber-300 disabled:opacity-50"
+        className="text-xs text-amber-700 hover:text-amber-300 disabled:opacity-50"
       >
         Supprimer
       </button>

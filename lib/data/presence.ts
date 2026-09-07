@@ -1,10 +1,25 @@
 import "server-only";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { summarizePresenceRows } from "@/lib/presence-summary";
+
+export interface PresenceOnlineUser {
+  userId: string;
+  displayName: string;
+  email: string | null;
+  accountType: string | null;
+  lastSeenAt: string;
+}
 
 export interface PresenceStats {
   total: number;
   anonymousSessions: number;
   authenticatedUsers: number;
+  /**
+   * Authenticated users currently online. Anonymous visitors are never
+   * listed — only counted. Admin-only data: this helper is only called
+   * from admin-guarded server code.
+   */
+  onlineUsers: PresenceOnlineUser[];
   refreshedAt: string;
 }
 
@@ -23,16 +38,34 @@ export async function getPresenceStats(): Promise<PresenceStats> {
     throw new Error(error?.message ?? "presence_stats_failed");
   }
 
-  const total = data.length;
-  const anonymousSessions = data.filter((r) => r.anonymous).length;
-  const authenticatedUserIds = new Set(
-    data.filter((r) => !r.anonymous && r.user_id).map((r) => r.user_id),
-  );
+  const summary = summarizePresenceRows(data);
+  const userIds = [...summary.lastSeenByUser.keys()];
+
+  const onlineUsers: PresenceOnlineUser[] = [];
+  if (userIds.length > 0) {
+    const { data: profiles } = await service
+      .from("profiles")
+      .select("id, first_name, last_name, email, account_type")
+      .in("id", userIds);
+
+    for (const profile of profiles ?? []) {
+      const name = [profile.first_name, profile.last_name].filter(Boolean).join(" ").trim();
+      onlineUsers.push({
+        userId: profile.id,
+        displayName: name || profile.email || "Utilisateur",
+        email: profile.email,
+        accountType: (profile as { account_type?: string | null }).account_type ?? null,
+        lastSeenAt: summary.lastSeenByUser.get(profile.id) ?? since,
+      });
+    }
+    onlineUsers.sort((a, b) => (a.lastSeenAt < b.lastSeenAt ? 1 : -1));
+  }
 
   return {
-    total,
-    anonymousSessions,
-    authenticatedUsers: authenticatedUserIds.size,
+    total: summary.total,
+    anonymousSessions: summary.anonymousSessions,
+    authenticatedUsers: summary.authenticatedUsers,
+    onlineUsers,
     refreshedAt: new Date().toISOString(),
   };
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
@@ -15,8 +17,8 @@ import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { AdminEditModeProvider } from "@/components/admin/admin-edit-mode";
 import { PresenceHeartbeat } from "@/components/presence/presence-heartbeat";
 import { WoltSettingsProvider } from "@/components/commerce/wolt-settings-provider";
-import { IntroSplash } from "@/components/intro/intro-splash";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 
 const editorialSerif = Cormorant_Garamond({
   variable: "--font-editorial-serif",
@@ -29,10 +31,6 @@ const editorialSans = Manrope({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
-// NOTE: Hebrew is not in Inter's Google Fonts subsets. When Hebrew/RTL
-// locale support is implemented (see spec section 37), load a Hebrew-
-// capable sans (e.g. Noto Sans Hebrew) as a second `--font-editorial-sans`
-// value applied only under `[dir="rtl"]`, rather than faking RTL with CSS.
 
 export const metadata: Metadata = {
   manifest: "/site.webmanifest",
@@ -55,8 +53,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [settings, user, adminSession, theme, mainMenu, footerMenu] = await Promise.all([
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const [requestHeaders, settings, user, adminSession, theme, mainMenu, footerMenu] = await Promise.all([
+    headers(),
     getSiteSettings(),
     getCurrentUser(),
     getAdminSession(),
@@ -65,6 +68,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     getPublishedMenu("footer"),
   ]);
 
+  const isAdmin = requestHeaders.get("x-is-admin") === "1";
   const cssVars = themeToCssVars(theme);
 
   return (
@@ -75,27 +79,35 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${editorialSerif.variable} ${editorialSans.variable} h-full antialiased`}
       style={cssVars}
     >
-      <body className="min-h-full flex flex-col bg-noir-profond text-texte-clair">
-        <CartProvider>
-          <RegisterServiceWorker />
-          <IntroSplash />
-          <AdminEditModeProvider session={adminSession}>
-            <WoltSettingsProvider enabled={settings.WOLT_ENABLED} storeUrl={settings.WOLT_STORE_URL}>
-              {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
-              <AnnouncementBar />
-              <Navbar
-                settings={settings}
-                user={user}
-                isAdmin={!!adminSession}
-                mainMenu={mainMenu}
-              />
-              <main className="flex-1 pb-16 md:pb-0">{children}</main>
-              <Footer settings={settings} footerMenu={footerMenu} />
-              <ScrollToTop />
-              <BottomNav isAdmin={!!adminSession} />
-            </WoltSettingsProvider>
-          </AdminEditModeProvider>
-        </CartProvider>
+      <body
+        className={`min-h-full flex flex-col ${
+          isAdmin ? "admin-ui bg-fond-papier text-noir-profond" : "bg-noir-profond text-texte-clair"
+        }`}
+      >
+        {isAdmin ? (
+          <>{children}</>
+        ) : (
+          <CartProvider>
+            <RegisterServiceWorker />
+            <AdminEditModeProvider session={adminSession}>
+              <WoltSettingsProvider enabled={settings.WOLT_ENABLED} storeUrl={settings.WOLT_STORE_URL}>
+                {settings.PRESENCE_TRACKING_ENABLED && <PresenceHeartbeat />}
+                <AnnouncementBar />
+                <Navbar
+                  settings={settings}
+                  user={user}
+                  isAdmin={!!adminSession}
+                  mainMenu={mainMenu}
+                />
+                <main className="flex-1 pb-16 md:pb-0">{children}</main>
+                <Footer settings={settings} footerMenu={footerMenu} />
+                <ScrollToTop />
+                <BottomNav isAdmin={!!adminSession} />
+                <InstallPrompt />
+              </WoltSettingsProvider>
+            </AdminEditModeProvider>
+          </CartProvider>
+        )}
       </body>
     </html>
   );

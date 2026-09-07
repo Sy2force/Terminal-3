@@ -15,6 +15,14 @@ const DAY_LABELS: Record<OpeningHoursEntry["day"], string> = {
   saturday: "Samedi",
 };
 
+function isPlaceholderPhone(value: string | null | undefined): boolean {
+  if (!value) return true;
+  const digits = value.replace(/\D/g, "");
+  if (digits.length === 0) return true;
+  if (/0{5,}/.test(digits)) return true;
+  return false;
+}
+
 function footerGroups(menu: NavMenu | null) {
   if (!menu || menu.items.length === 0) return null;
   const groups: Record<string, typeof menu.items> = {};
@@ -38,10 +46,12 @@ export function Footer({
   footerMenu: NavMenu | null;
 }) {
   const hasHours = settings.OPENING_HOURS.some((h) => h.open && h.close);
+  const showPhone = !isPlaceholderPhone(settings.STORE_PHONE);
+  const showWhatsapp = !isPlaceholderPhone(settings.STORE_WHATSAPP);
 
   return (
     <footer className="border-t border-or-principal/10 bg-noir-profond">
-      <div className="mx-auto grid max-w-[1440px] gap-12 px-6 py-20 sm:grid-cols-2 lg:grid-cols-5 sm:px-8 lg:px-12">
+      <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-5 sm:px-8 lg:px-12">
         <div className="lg:col-span-2">
           <div className="relative">
             <div className="absolute inset-0 bg-or-principal/10 blur-xl" />
@@ -131,7 +141,7 @@ export function Footer({
           </h3>
           <address className="not-italic text-sm leading-relaxed text-texte-clair/70">
             {settings.STORE_ADDRESS}
-            {settings.STORE_PHONE && (
+            {showPhone && (
               <>
                 <br />
                 <a href={`tel:${settings.STORE_PHONE}`} className="hover:text-or-principal transition-colors">
@@ -139,10 +149,10 @@ export function Footer({
                 </a>
               </>
             )}
-            {settings.STORE_WHATSAPP && (
+            {showWhatsapp && (
               <>
                 <br />
-                <a href={`https://wa.me/${settings.STORE_WHATSAPP.replace(/\D/g, '')}`} className="hover:text-or-principal transition-colors">
+                <a href={`https://wa.me/${settings.STORE_WHATSAPP?.replace(/\D/g, '')}`} className="hover:text-or-principal transition-colors">
                   WhatsApp
                 </a>
               </>

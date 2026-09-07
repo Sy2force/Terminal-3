@@ -60,10 +60,13 @@ export async function savePageContentFieldAction(input: SaveFieldInput) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const db = supabase as any;
     await db.from("content_revisions").insert({
-      page_content_id: pageContentId,
-      user_id: session.userId,
-      change_summary: `Mise à jour du champ ${input.field}`,
-      snapshot: { [input.field]: input.value },
+      entity_type: "page_content",
+      entity_id: pageContentId,
+      author_id: session.userId,
+      action: "field_updated",
+      previous_value: null,
+      new_value: { [input.field]: input.value },
+      is_published: true,
       created_at: now,
     });
   } catch {

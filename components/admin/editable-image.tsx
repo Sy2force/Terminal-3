@@ -74,8 +74,8 @@ export function EditableImage({
       />
     )
   ) : (
-    <div className={`flex items-center justify-center bg-warm-black ${className ?? ""}`}>
-      <span className="text-xs text-muted-grey">Image à définir</span>
+    <div className={`flex items-center justify-center bg-creme ${className ?? ""}`}>
+      <span className="text-xs text-gris-chaud">Image à définir</span>
     </div>
   );
 
@@ -96,13 +96,13 @@ export function EditableImage({
         </button>
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-noir-profond/90 p-4 text-center">
-          <p className="mb-2 text-xs text-ivory/70">URL de l&apos;image</p>
+          <p className="mb-2 text-xs text-noir-profond/70">URL de l&apos;image</p>
           <input
             type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={saving}
-            className="w-full max-w-md rounded-sm border border-or-principal bg-noir-profond px-2 py-1 text-sm text-ivory focus:border-champagne focus:outline-none"
+            className="w-full max-w-md rounded-sm border border-or-principal bg-noir-profond px-2 py-1 text-sm text-noir-profond focus:border-or-principal focus:outline-none"
           />
           {error && <p className="mt-1 text-xs text-red-300">{error}</p>}
           <div className="mt-2 flex gap-2">
@@ -110,7 +110,7 @@ export function EditableImage({
               type="button"
               onClick={save}
               disabled={saving}
-              className="rounded-sm bg-green-800 px-3 py-1 text-xs text-ivory hover:bg-green-700"
+              className="rounded-sm bg-green-800 px-3 py-1 text-xs text-noir-profond hover:bg-green-700"
             >
               <Check className="h-3 w-3" />
             </button>
@@ -122,7 +122,7 @@ export function EditableImage({
                 setError(null);
               }}
               disabled={saving}
-              className="rounded-sm bg-red-900 px-3 py-1 text-xs text-ivory hover:bg-red-800"
+              className="rounded-sm bg-red-900 px-3 py-1 text-xs text-noir-profond hover:bg-red-800"
             >
               <X className="h-3 w-3" />
             </button>

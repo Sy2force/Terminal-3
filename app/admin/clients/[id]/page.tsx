@@ -34,41 +34,41 @@ export default async function AdminClientDetailPage({
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/admin/clients" className="text-xs text-champagne hover:underline">
+        <Link href="/admin/clients" className="text-xs text-or-principal hover:underline">
           ← Clients
         </Link>
-        <h1 className="mt-2 font-serif text-2xl text-ivory">
+        <h1 className="mt-2 font-serif text-2xl text-noir-profond">
           {p.first_name} {p.last_name}
         </h1>
-        <p className="text-sm text-muted-grey">{p.client_number ?? "—"} · {p.email} · {p.phone}</p>
+        <p className="text-sm text-gris-chaud">{p.client_number ?? "—"} · {p.email} · {p.phone}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-sm border border-white/5 bg-graphite p-5">
-          <p className="text-xs uppercase tracking-widest text-muted-grey">Statut</p>
-          <p className="mt-2 text-ivory">{p.verification_status}</p>
+        <div className="rounded-sm border border-beige-fonce bg-white p-5">
+          <p className="text-xs uppercase tracking-widest text-gris-chaud">Statut</p>
+          <p className="mt-2 text-noir-profond">{p.verification_status}</p>
         </div>
-        <div className="rounded-sm border border-white/5 bg-graphite p-5">
-          <p className="text-xs uppercase tracking-widest text-muted-grey">Total dépensé</p>
-          <p className="mt-2 font-serif text-xl text-champagne">{formatAgorot(totalSpent)}</p>
+        <div className="rounded-sm border border-beige-fonce bg-white p-5">
+          <p className="text-xs uppercase tracking-widest text-gris-chaud">Total dépensé</p>
+          <p className="mt-2 font-serif text-xl text-or-principal">{formatAgorot(totalSpent)}</p>
         </div>
-        <div className="rounded-sm border border-white/5 bg-graphite p-5">
-          <p className="text-xs uppercase tracking-widest text-muted-grey">Points fidélité</p>
-          <p className="mt-2 font-serif text-xl text-ivory">{loyaltyAccount?.points_balance ?? 0}</p>
+        <div className="rounded-sm border border-beige-fonce bg-white p-5">
+          <p className="text-xs uppercase tracking-widest text-gris-chaud">Points fidélité</p>
+          <p className="mt-2 font-serif text-xl text-noir-profond">{loyaltyAccount?.points_balance ?? 0}</p>
         </div>
       </div>
 
       <div>
-        <h2 className="font-serif text-lg text-ivory">Adresses</h2>
+        <h2 className="font-serif text-lg text-noir-profond">Adresses</h2>
         {!addresses || addresses.length === 0 ? (
-          <p className="mt-2 text-sm text-muted-grey">Aucune adresse enregistrée.</p>
+          <p className="mt-2 text-sm text-gris-chaud">Aucune adresse enregistrée.</p>
         ) : (
           <ul className="mt-3 flex flex-col gap-2">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(addresses as any[]).map((a) => (
-              <li key={a.id} className="rounded-sm border border-white/5 bg-graphite p-4 text-sm text-ivory/80">
+              <li key={a.id} className="rounded-sm border border-beige-fonce bg-white p-4 text-sm text-noir-profond/80">
                 {a.street} {a.building_number}, {a.city} {a.postal_code ?? ""}
-                {a.is_default && <span className="ml-2 text-xs text-champagne">Par défaut</span>}
+                {a.is_default && <span className="ml-2 text-xs text-or-principal">Par défaut</span>}
               </li>
             ))}
           </ul>
@@ -76,14 +76,14 @@ export default async function AdminClientDetailPage({
       </div>
 
       <div>
-        <h2 className="font-serif text-lg text-ivory">Commandes</h2>
+        <h2 className="font-serif text-lg text-noir-profond">Commandes</h2>
         {!orders || orders.length === 0 ? (
-          <p className="mt-2 text-sm text-muted-grey">Aucune commande.</p>
+          <p className="mt-2 text-sm text-gris-chaud">Aucune commande.</p>
         ) : (
-          <div className="mt-3 overflow-x-auto rounded-sm border border-white/5">
+          <div className="mt-3 overflow-x-auto rounded-sm border border-beige-fonce">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-xs uppercase tracking-wide text-muted-grey">
+                <tr className="border-b border-beige-fonce text-xs uppercase tracking-wide text-gris-chaud">
                   <th className="px-4 py-3">Référence</th>
                   <th className="px-4 py-3">Statut</th>
                   <th className="px-4 py-3">Total</th>
@@ -92,15 +92,15 @@ export default async function AdminClientDetailPage({
               </thead>
               <tbody>
                 {orders.map((o) => (
-                  <tr key={o.id} className="border-b border-white/5 last:border-0 hover:bg-graphite/40">
+                  <tr key={o.id} className="border-b border-beige-fonce last:border-0 hover:bg-creme">
                     <td className="px-4 py-3">
-                      <Link href={`/admin/orders/${o.id}`} className="text-champagne hover:underline">
+                      <Link href={`/admin/orders/${o.id}`} className="text-or-principal hover:underline">
                         {o.id.slice(0, 8).toUpperCase()}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-ivory/70">{ORDER_STATUS_LABELS[o.status]}</td>
-                    <td className="px-4 py-3 text-champagne">{formatAgorot(o.total_agorot)}</td>
-                    <td className="px-4 py-3 text-xs text-muted-grey">
+                    <td className="px-4 py-3 text-noir-profond/70">{ORDER_STATUS_LABELS[o.status]}</td>
+                    <td className="px-4 py-3 text-or-principal">{formatAgorot(o.total_agorot)}</td>
+                    <td className="px-4 py-3 text-xs text-gris-chaud">
                       {new Date(o.created_at).toLocaleDateString("fr-FR")}
                     </td>
                   </tr>

@@ -14,8 +14,8 @@ export default async function AdminHomepagePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif text-2xl text-ivory">Page d&apos;accueil</h1>
-        <p className="mt-1 text-sm text-muted-grey">
+        <h1 className="font-serif text-2xl text-noir-profond">Page d&apos;accueil</h1>
+        <p className="mt-1 text-sm text-gris-chaud">
           Activez, réorganisez et modifiez les sections de la page d&apos;accueil.
           Les changements sont appliqués immédiatement.
         </p>

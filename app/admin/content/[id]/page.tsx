@@ -15,7 +15,7 @@ export default async function EditContentPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-ivory">Modifier l&apos;article</h1>
+      <h1 className="font-serif text-2xl text-noir-profond">Modifier l&apos;article</h1>
       <ContentForm initial={post} />
     </div>
   );

@@ -3,6 +3,7 @@ import type { SiteSettings } from "@/lib/settings";
 import type { OpeningHoursEntry } from "@/lib/config";
 import type { PageContentRow } from "@/types/database";
 import { PageContentRenderer } from "@/components/public/page-content-renderer";
+import { ContactForm } from "@/components/contact/contact-form";
 
 const DAY_LABELS: Record<OpeningHoursEntry["day"], string> = {
   sunday: "Dimanche",
@@ -33,7 +34,7 @@ export function ContactPageContent({ settings, pageContent }: ContactPageProps) 
               {pageContent?.title ?? "Contact"}
             </h1>
             <p className="text-lg text-texte-clair/70 max-w-2xl mx-auto">
-              {pageContent?.subtitle ?? "Nous sommes à votre écoute pour toute question ou suggestion."}
+              {pageContent?.subtitle ?? "Une question, une commande sur mesure ou une suggestion ? Nous vous répondons sous 24 heures."}
             </p>
           </div>
         </div>
@@ -134,67 +135,8 @@ export function ContactPageContent({ settings, pageContent }: ContactPageProps) 
 
           {/* Contact form */}
           <div>
-            <h2 className="font-serif text-3xl text-texte-clair mb-6">Envoyez-nous un message</h2>
-            <form className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm uppercase tracking-wider text-or-principal mb-2">
-                  Nom
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-full px-4 py-3 bg-noir-chaud border border-or-principal/20 rounded-sm text-texte-clair placeholder:text-texte-clair/40 focus:outline-none focus:border-or-principal"
-                  placeholder="Votre nom"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm uppercase tracking-wider text-or-principal mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full px-4 py-3 bg-noir-chaud border border-or-principal/20 rounded-sm text-texte-clair placeholder:text-texte-clair/40 focus:outline-none focus:border-or-principal"
-                  placeholder="votre@email.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm uppercase tracking-wider text-or-principal mb-2">
-                  Sujet
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  className="w-full px-4 py-3 bg-noir-chaud border border-or-principal/20 rounded-sm text-texte-clair placeholder:text-texte-clair/40 focus:outline-none focus:border-or-principal"
-                  placeholder="Sujet de votre message"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm uppercase tracking-wider text-or-principal mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  className="w-full px-4 py-3 bg-noir-chaud border border-or-principal/20 rounded-sm text-texte-clair placeholder:text-texte-clair/40 focus:outline-none focus:border-or-principal resize-none"
-                  placeholder="Votre message..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full px-8 py-[46px] bg-or-principal text-noir-profond font-medium tracking-wide transition-all hover:bg-or-clair hover:shadow-lg hover:shadow-or-principal/20"
-              >
-                Envoyer le message
-              </button>
-            </form>
+            <h2 className="font-serif text-3xl text-texte-clair mb-6">Écrivez-nous</h2>
+            <ContactForm />
           </div>
         </div>
 

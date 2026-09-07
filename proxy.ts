@@ -2,7 +2,10 @@ import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
-  return updateSession(request);
+  const isAdmin = request.nextUrl.pathname.startsWith("/admin");
+  const res = await updateSession(request);
+  res.headers.set("x-is-admin", isAdmin ? "1" : "0");
+  return res;
 }
 
 export const config = {

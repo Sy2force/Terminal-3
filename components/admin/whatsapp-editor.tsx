@@ -27,7 +27,7 @@ export function WhatsAppEditor({ initial }: { initial: string }) {
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm text-ivory/80" htmlFor="store-whatsapp">
+      <label className="block text-sm text-noir-profond/80" htmlFor="store-whatsapp">
         Numéro WhatsApp de la boutique
       </label>
       <input
@@ -36,20 +36,20 @@ export function WhatsAppEditor({ initial }: { initial: string }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="+972 50-123-4567"
-        className="w-full rounded-sm border border-white/10 bg-obsidian px-3 py-2.5 text-sm text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none"
+        className="w-full rounded-sm border border-beige-fonce bg-fond-papier px-3 py-2.5 text-sm text-noir-profond placeholder:text-noir-profond/40 focus:border-or-principal focus:outline-none"
       />
-      <p className="text-xs text-ivory/50">
+      <p className="text-xs text-noir-profond/50">
         Format international requis. S’il est vide, les boutons WhatsApp publics sont masqués.
       </p>
       <button
         type="button"
         onClick={handleSave}
         disabled={status === "saving"}
-        className="rounded-sm bg-champagne px-4 py-2 text-sm font-semibold text-obsidian transition-colors hover:bg-soft-gold disabled:opacity-60"
+        className="rounded-sm bg-or-principal px-4 py-2 text-sm font-semibold text-noir-profond transition-colors hover:bg-or-clair disabled:opacity-60"
       >
         {status === "saving" ? "Enregistrement…" : "Enregistrer"}
       </button>
-      {status === "saved" && <p className="text-xs text-champagne">Numéro enregistré.</p>}
+      {status === "saved" && <p className="text-xs text-or-principal">Numéro enregistré.</p>}
       {error && <p className="text-xs text-bordeaux-principal">{error}</p>}
     </div>
   );

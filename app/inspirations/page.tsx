@@ -31,7 +31,7 @@ export default async function InspirationsPage() {
       </header>
 
       {posts.length === 0 ? (
-        <EmptyState message="De nouvelles sélections arrivent bientôt." />
+        <EmptyState message="Le Terminal Journal arrive bientôt — accords, dégustations et coups de cœur." />
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (

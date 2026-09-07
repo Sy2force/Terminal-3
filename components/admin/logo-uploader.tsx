@@ -24,17 +24,17 @@ export function LogoUploader({ initialUrl }: { initialUrl: string }) {
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-      <div className="relative h-20 w-40 shrink-0 overflow-hidden rounded-sm border border-white/10 bg-warm-black">
+      <div className="relative h-20 w-40 shrink-0 overflow-hidden rounded-sm border border-beige-fonce bg-creme">
         {url ? (
           <Image src={url} alt="Logo Terminal 3" fill sizes="160px" className="object-contain p-2" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-[10px] text-muted-grey">Logo</div>
+          <div className="flex h-full w-full items-center justify-center text-[10px] text-gris-chaud">Logo</div>
         )}
       </div>
       <div className="flex flex-col gap-2">
         <ImageUploader bucket="brand-assets" onUploaded={handleUploaded} label="Remplacer le logo" />
-        {pending && <span className="text-xs text-muted-grey">Enregistrement...</span>}
-        {message && !pending && <span className="text-xs text-champagne">{message}</span>}
+        {pending && <span className="text-xs text-gris-chaud">Enregistrement...</span>}
+        {message && !pending && <span className="text-xs text-or-principal">{message}</span>}
       </div>
     </div>
   );
