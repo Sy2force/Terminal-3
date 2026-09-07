@@ -16,25 +16,64 @@ import {
   AdminCheckbox,
   FormSection as Section,
 } from "@/components/admin/form-controls";
-import { formatAgorot } from "@/lib/money";
+import { formatAgorot, formatUnitPrice } from "@/lib/money";
 import { isValidWoltUrl } from "@/lib/wolt";
-import type {
-  CategoryRow,
-  ProductRow,
-  ProductVariantRow,
-  ProductMediaRow,
-  ProductMediaKind,
-} from "@/types/database";
+import type { ProductWithDetails } from "@/lib/data/products";
+import type { CategoryRow, ProductMediaKind, ProductMediaRow } from "@/types/database";
 
 interface ProductFormProps {
   categories: CategoryRow[];
-  initial?: ProductRow & { variants: ProductVariantRow[]; media: ProductMediaRow[] };
+  initial?: ProductWithDetails;
 }
 
-interface ProductPreview extends ProductRow {
-  category: { name_fr: string | null; name_he: string; slug: string } | null;
-  variants: ProductVariantRow[];
-  media: ProductMediaRow[];
+type VariantFormData = {
+  id?: string;
+  label: string;
+  sku?: string | null;
+  barcode?: string | null;
+  weight_g?: number | null;
+  volume_ml?: number | null;
+  abv?: number | null;
+  vintage?: number | null;
+  regular_price_agorot?: number | null;
+  is_default?: boolean;
+  limited_stock?: boolean;
+  availability_status?:
+    | "IN_STOCK"
+    | "LOW_STOCK"
+    | "OUT_OF_STOCK"
+    | "PREORDER"
+    | "ON_REQUEST";
+  display_order?: number;
+  status?: "draft" | "published" | "archived";
+  pricing_unit?: "FIXED" | "PACKAGE" | "PER_100G" | "PER_KG" | "FROM" | null;
+  packaging?: string | null;
+  wolt_enabled?: boolean;
+  wolt_url?: string | null;
+  quantity?: number | null;
+  low_stock_threshold?: number | null;
+};
+
+function agorotFromShekelsInput(value: FormDataEntryValue | null): number | null {
+  if (!value) return null;
+  const n = Number(value);
+  if (Number.isNaN(n)) return null;
+  return Math.round(n * 100);
+}
+
+function shekelsFromAgorot(agorot: number | null | undefined): string {
+  if (agorot == null) return "";
+  return (agorot / 100).toFixed(2);
+}
+
+function defaultVariantFromInitial(
+  v: ProductWithDetails["variants"][number],
+): VariantFormData {
+  return {
+    ...v,
+    quantity: v.quantity ?? null,
+    low_stock_threshold: v.low_stock_threshold ?? 3,
+  };
 }
 
 export function ProductForm({ categories, initial }: ProductFormProps) {
@@ -42,11 +81,13 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [preview, setPreview] = useState<ProductPreview | null>(null);
+  const [preview, setPreview] = useState<ProductWithDetails | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [variants, setVariants] = useState<Partial<ProductVariantRow>[]>(
-    initial?.variants.length ? initial.variants : [{ label: "Défaut" }],
+  const [variants, setVariants] = useState<VariantFormData[]>(
+    initial?.variants.length
+      ? initial.variants.map(defaultVariantFromInitial)
+      : [{ label: "Défaut", quantity: null, low_stock_threshold: 3 }],
   );
   const [media, setMedia] = useState<Partial<ProductMediaRow>[]>(
     initial?.media.length ? initial.media : [],
@@ -54,43 +95,43 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
 
   function getFormProduct(formData: FormData): ProductFormData {
     return {
-      slug: String(formData.get("slug")),
+      slug: (formData.get("slug") as string)?.trim() || null,
       category_id: (formData.get("category_id") as string) || null,
       product_type: (formData.get("product_type") as "STANDARD" | "PLATTER") ?? "STANDARD",
-      brand: String(formData.get("brand") || "") || null,
-      name_he: String(formData.get("name_he")),
-      name_fr: String(formData.get("name_fr") || "") || null,
-      name_en: String(formData.get("name_en") || "") || null,
-      description_he: String(formData.get("description_he") || "") || null,
-      description_fr: String(formData.get("description_fr") || "") || null,
-      description_en: String(formData.get("description_en") || "") || null,
-      origin: String(formData.get("origin") || "") || null,
-      tasting_notes: String(formData.get("tasting_notes") || "") || null,
-      pairing_notes: String(formData.get("pairing_notes") || "") || null,
-      how_to_serve: String(formData.get("how_to_serve") || "") || null,
-      storage_info: String(formData.get("storage_info") || "") || null,
-      kosher_status: String(formData.get("kosher_status") || "") || null,
-      allergen_info: String(formData.get("allergen_info") || "") || null,
+      brand: String(formData.get("brand") || "").trim() || null,
+      name_he: String(formData.get("name_he") || "").trim() || null,
+      name_fr: String(formData.get("name_fr")).trim(),
+      name_en: String(formData.get("name_en") || "").trim() || null,
+      description_he: String(formData.get("description_he") || "").trim() || null,
+      description_fr: String(formData.get("description_fr") || "").trim() || null,
+      description_en: String(formData.get("description_en") || "").trim() || null,
+      origin: String(formData.get("origin") || "").trim() || null,
+      tasting_notes: String(formData.get("tasting_notes") || "").trim() || null,
+      pairing_notes: String(formData.get("pairing_notes") || "").trim() || null,
+      how_to_serve: String(formData.get("how_to_serve") || "").trim() || null,
+      storage_info: String(formData.get("storage_info") || "").trim() || null,
+      kosher_status: String(formData.get("kosher_status") || "").trim() || null,
+      allergen_info: String(formData.get("allergen_info") || "").trim() || null,
       age_restricted: formData.get("age_restricted") === "on",
       status: (formData.get("status") as "draft" | "published" | "archived") ?? "draft",
       is_featured: formData.get("is_featured") === "on",
       availability_status:
         (formData.get("availability_status") as ProductFormData["availability_status"]) ??
         "IN_STOCK",
-      base_price_agorot: parseOptionalInt(formData.get("base_price_agorot")),
-      compare_at_price_agorot: parseOptionalInt(formData.get("compare_at_price_agorot")),
-      meta_title: String(formData.get("meta_title") || "") || null,
-      meta_description: String(formData.get("meta_description") || "") || null,
+      base_price_agorot: agorotFromShekelsInput(formData.get("base_price")),
+      compare_at_price_agorot: agorotFromShekelsInput(formData.get("compare_at_price")),
+      meta_title: String(formData.get("meta_title") || "").trim() || null,
+      meta_description: String(formData.get("meta_description") || "").trim() || null,
       serves_min: parseOptionalInt(formData.get("serves_min")),
       serves_max: parseOptionalInt(formData.get("serves_max")),
-      composition_text: String(formData.get("composition_text") || "") || null,
+      composition_text: String(formData.get("composition_text") || "").trim() || null,
       advance_order_hours: Number(formData.get("advance_order_hours") || 0),
       customizable: formData.get("customizable") === "on",
       preparation_time_minutes: parseOptionalInt(formData.get("preparation_time_minutes")),
       new_until: (formData.get("new_until") as string) || null,
       wine_type: (formData.get("wine_type") as ProductFormData["wine_type"]) || null,
-      region: String(formData.get("region") || "") || null,
-      country: String(formData.get("country") || "") || null,
+      region: String(formData.get("region") || "").trim() || null,
+      country: String(formData.get("country") || "").trim() || null,
       grape_varieties: String(formData.get("grape_varieties") || "")
         .split(",")
         .map((g) => g.trim())
@@ -98,24 +139,24 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       rating: parseOptionalFloat(formData.get("rating")),
       review_count: Number(formData.get("review_count") || 0),
       is_best_seller: formData.get("is_best_seller") === "on",
-      badge: String(formData.get("badge") || "") || null,
-      serving_temperature: String(formData.get("serving_temperature") || "") || null,
-      aging_potential: String(formData.get("aging_potential") || "") || null,
-      vinification_method: String(formData.get("production_method") || "") || null,
-      subcategory: String(formData.get("subcategory") || "") || null,
+      badge: String(formData.get("badge") || "").trim() || null,
+      serving_temperature: String(formData.get("serving_temperature") || "").trim() || null,
+      aging_potential: String(formData.get("aging_potential") || "").trim() || null,
+      vinification_method: String(formData.get("production_method") || "").trim() || null,
+      subcategory: String(formData.get("subcategory") || "").trim() || null,
       age_years: parseOptionalInt(formData.get("age_years")),
-      nose_notes: String(formData.get("nose_notes") || "") || null,
-      palate_notes: String(formData.get("palate_notes") || "") || null,
-      finish_notes: String(formData.get("finish_notes") || "") || null,
-      cask_type: String(formData.get("cask_type") || "") || null,
-      edition: String(formData.get("edition") || "") || null,
-      production_method: String(formData.get("production_method") || "") || null,
-      meat_type: String(formData.get("meat_type") || "") || null,
+      nose_notes: String(formData.get("nose_notes") || "").trim() || null,
+      palate_notes: String(formData.get("palate_notes") || "").trim() || null,
+      finish_notes: String(formData.get("finish_notes") || "").trim() || null,
+      cask_type: String(formData.get("cask_type") || "").trim() || null,
+      edition: String(formData.get("edition") || "").trim() || null,
+      production_method: String(formData.get("production_method") || "").trim() || null,
+      meat_type: String(formData.get("meat_type") || "").trim() || null,
       is_available_for_platter: formData.get("is_available_for_platter") === "on",
-      nutrition_info: String(formData.get("nutrition_info") || "") || null,
-      expiration_info: String(formData.get("expiration_info") || "") || null,
-      fish_type: String(formData.get("fish_type") || "") || null,
-      preparation_method: String(formData.get("preparation_method") || "") || null,
+      nutrition_info: String(formData.get("nutrition_info") || "").trim() || null,
+      expiration_info: String(formData.get("expiration_info") || "").trim() || null,
+      fish_type: String(formData.get("fish_type") || "").trim() || null,
+      preparation_method: String(formData.get("preparation_method") || "").trim() || null,
       smoked: formData.get("smoked") === "on",
     };
   }
@@ -123,10 +164,11 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
   function buildPreviewProduct() {
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
+    formData.set("status", "published");
     const input = getFormProduct(formData);
     const categoryRow = categories.find((c) => c.id === input.category_id);
-    const previewProduct: ProductPreview = {
-      ...input,
+    const previewProduct: ProductWithDetails = {
+      ...(input as unknown as ProductWithDetails),
       id: initial?.id ?? "preview",
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -134,9 +176,20 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       category: categoryRow
         ? { name_fr: categoryRow.name_fr, name_he: categoryRow.name_he, slug: categoryRow.slug }
         : null,
-      variants: variants as ProductVariantRow[],
-      media: media as ProductMediaRow[],
-    } as unknown as ProductPreview;
+      variants: variants.map((v) => ({
+        ...(v as unknown as ProductWithDetails["variants"][number]),
+        id: v.id ?? "preview-variant",
+        product_id: "preview",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })),
+      media: media.map((m, i) => ({
+        ...(m as ProductWithDetails["media"][number]),
+        id: `preview-${i}`,
+        product_id: "preview",
+        created_at: new Date().toISOString(),
+      })),
+    };
     setPreview(previewProduct);
     setShowPreview(true);
   }
@@ -147,11 +200,16 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+    const intent = submitter?.value || "draft";
+    formData.set("status", intent === "publish" ? "published" : "draft");
+
     const product = getFormProduct(formData);
 
     const payload = {
       product,
       variants: variants.map((v, index) => ({
+        id: v.id,
         label: v.label || `Variante ${index + 1}`,
         sku: v.sku ?? null,
         barcode: v.barcode ?? null,
@@ -159,7 +217,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         volume_ml: v.volume_ml ?? null,
         abv: v.abv ?? null,
         vintage: v.vintage ?? null,
-        regular_price_agorot: v.regular_price_agorot ?? null,
+        regular_price_agorot: v.regular_price_agorot ?? product.base_price_agorot ?? null,
         is_default: v.is_default ?? index === 0,
         limited_stock: v.limited_stock ?? false,
         availability_status: v.availability_status ?? "IN_STOCK",
@@ -169,6 +227,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
         packaging: v.packaging ?? null,
         wolt_enabled: v.wolt_enabled ?? false,
         wolt_url: v.wolt_url ?? null,
+        quantity: v.quantity ?? null,
+        low_stock_threshold: v.low_stock_threshold ?? null,
       })),
       media: media.map((m, index) => ({
         url: m.url || "",
@@ -189,7 +249,8 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       return;
     }
 
-    router.push("/admin/products");
+    const successParam = initial ? "updated" : "created";
+    router.push(`/admin/products?success=${successParam}`);
     router.refresh();
   }
 
@@ -219,7 +280,9 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
             </div>
             <div>
               <p className="text-sm font-medium text-noir-profond">Couverture actuelle</p>
-              <p className="text-xs text-gris-chaud">L&apos;étoile dans la galerie choisit la nouvelle couverture.</p>
+              <p className="text-xs text-gris-chaud">
+                L&apos;étoile dans la galerie choisit la nouvelle couverture.
+              </p>
             </div>
           </div>
         ) : null}
@@ -229,13 +292,26 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       {/* NOM + CATÉGORIE */}
       <Section title="Informations principales">
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field name="name_fr" label="Nom (français)" defaultValue={initial?.name_fr ?? ""} />
-          <Field name="name_he" label="Nom (hébreu)" defaultValue={initial?.name_he} required />
+          <Field
+            name="name_fr"
+            label="Nom (français)"
+            defaultValue={initial?.name_fr ?? ""}
+            required
+          />
+          <Field
+            name="name_he"
+            label="Nom (hébreu)"
+            defaultValue={initial?.name_he ?? ""}
+            hint="Si vide, recopie le nom français."
+          />
           <Select
             name="category_id"
             label="Catégorie"
             defaultValue={initial?.category_id ?? ""}
-            options={[{ value: "", label: "Aucune" }, ...categories.map((c) => ({ value: c.id, label: c.name_fr || c.name_he }))]}
+            options={[
+              { value: "", label: "Aucune" },
+              ...categories.map((c) => ({ value: c.id, label: c.name_fr || c.name_he })),
+            ]}
           />
           <Field name="brand" label="Marque" defaultValue={initial?.brand ?? ""} />
         </div>
@@ -244,11 +320,25 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       {/* PRIX */}
       <Section title="Prix">
         <div className="grid gap-5 sm:grid-cols-3">
-          <Field name="base_price_agorot" label="Prix de base (agorot)" type="number" defaultValue={initial?.base_price_agorot ?? ""} />
-          <Field name="compare_at_price_agorot" label="Prix comparé (agorot)" type="number" defaultValue={initial?.compare_at_price_agorot ?? ""} />
+          <Field
+            name="base_price"
+            label="Prix boutique (₪)"
+            type="number"
+            defaultValue={shekelsFromAgorot(initial?.base_price_agorot)}
+            inputProps={{ step: "0.01" }}
+            hint="Exemple : 40.00"
+          />
+          <Field
+            name="compare_at_price"
+            label="Ancien prix (₪)"
+            type="number"
+            defaultValue={shekelsFromAgorot(initial?.compare_at_price_agorot)}
+            inputProps={{ step: "0.01" }}
+            hint="Pour afficher une promotion."
+          />
           <Select
             name="availability_status"
-            label="Disponibilité"
+            label="Disponibilité par défaut"
             defaultValue={initial?.availability_status ?? "IN_STOCK"}
             options={[
               { value: "IN_STOCK", label: "En stock" },
@@ -263,24 +353,36 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
 
       {/* DESCRIPTION */}
       <Section title="Description">
-        <TextArea name="description_fr" label="Description (français)" defaultValue={initial?.description_fr ?? ""} />
-        <TextArea name="description_he" label="Description (hébreu)" defaultValue={initial?.description_he ?? ""} />
+        <TextArea
+          name="description_fr"
+          label="Description (français)"
+          defaultValue={initial?.description_fr ?? ""}
+        />
+        <TextArea
+          name="description_he"
+          label="Description (hébreu)"
+          defaultValue={initial?.description_he ?? ""}
+        />
       </Section>
 
       {/* PUBLICATION */}
       <Section title="Publication">
         <div className="grid gap-5 sm:grid-cols-2">
           <Select
-            name="status"
-            label="Statut"
-            defaultValue={initial?.status ?? "draft"}
+            name="product_type"
+            label="Type de produit"
+            defaultValue={initial?.product_type ?? "STANDARD"}
             options={[
-              { value: "draft", label: "Brouillon" },
-              { value: "published", label: "Publié" },
-              { value: "archived", label: "Archivé" },
+              { value: "STANDARD", label: "Standard" },
+              { value: "PLATTER", label: "Plateau" },
             ]}
           />
-          <Field name="new_until" label="Nouveau jusqu'à" type="datetime-local" defaultValue={initial?.new_until ? initial.new_until.slice(0, 16) : ""} />
+          <Field
+            name="new_until"
+            label="Nouveau jusqu'à"
+            type="datetime-local"
+            defaultValue={initial?.new_until ? initial.new_until.slice(0, 16) : ""}
+          />
         </div>
         <div className="mt-4 flex flex-wrap gap-6">
           <AdminCheckbox
@@ -288,6 +390,12 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
             label="Mis en avant"
             description="Affiche ce produit dans les mises en avant du site."
             defaultChecked={initial?.is_featured ?? false}
+          />
+          <AdminCheckbox
+            name="is_best_seller"
+            label="Best-seller"
+            description="Marque ce produit comme best-seller."
+            defaultChecked={initial?.is_best_seller ?? false}
           />
           <AdminCheckbox
             name="age_restricted"
@@ -299,25 +407,36 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
       </Section>
 
       {/* VARIANTES */}
-      <Section title="Variantes (poids, formats)">
+      <Section title="Variantes (poids, formats, stock)">
         <VariantEditor variants={variants} onChange={setVariants} />
       </Section>
 
       {/* ACTIONS PRINCIPALES */}
-      <div className="flex flex-wrap items-center gap-3 border-t border-[var(--admin-border)] pt-4">
+      <div className="sticky bottom-0 z-30 -mx-4 flex flex-wrap items-center gap-3 border-t border-[var(--admin-border)] bg-[var(--admin-bg)]/95 px-4 py-4 backdrop-blur sm:-mx-0 sm:px-0">
         <button
           type="submit"
+          value="publish"
           disabled={saving}
           className="min-h-[44px] rounded-[10px] bg-[var(--admin-burgundy)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--admin-burgundy-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {saving ? "Enregistrement…" : initial ? "Enregistrer" : "Créer"}
+          {saving ? "Publication…" : initial ? "Enregistrer les modifications" : "Publier le produit"}
         </button>
+        {!initial && (
+          <button
+            type="submit"
+            value="draft"
+            disabled={saving}
+            className="min-h-[44px] rounded-[10px] border-[1.5px] border-[var(--admin-border-strong)] bg-white px-6 py-2.5 text-sm font-medium text-[var(--admin-text)] transition-colors hover:border-[var(--admin-gold)] disabled:opacity-50"
+          >
+            {saving ? "Enregistrement…" : "Enregistrer le brouillon"}
+          </button>
+        )}
         <button
           type="button"
           onClick={buildPreviewProduct}
           className="min-h-[44px] rounded-[10px] border-[1.5px] border-[var(--admin-border-strong)] bg-white px-6 py-2.5 text-sm font-medium text-[var(--admin-text)] transition-colors hover:border-[var(--admin-gold)]"
         >
-          Aperçu
+          Prévisualiser
         </button>
         <button
           type="button"
@@ -341,21 +460,16 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
           <div className="mt-4 flex flex-col gap-6">
             <Section title="Détails produit">
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field name="slug" label="Slug (URL)" defaultValue={initial?.slug} required />
-                <Select
-                  name="product_type"
-                  label="Type"
-                  defaultValue={initial?.product_type ?? "STANDARD"}
-                  options={[
-                    { value: "STANDARD", label: "Standard" },
-                    { value: "PLATTER", label: "Plateau" },
-                  ]}
-                />
+                <Field name="slug" label="Slug (URL)" defaultValue={initial?.slug ?? ""} />
                 <Field name="origin" label="Origine" defaultValue={initial?.origin ?? ""} />
                 <Field name="kosher_status" label="Cacherout" defaultValue={initial?.kosher_status ?? ""} />
+                <Field name="name_en" label="Nom (anglais)" defaultValue={initial?.name_en ?? ""} />
               </div>
-              <TextArea name="description_en" label="Description (anglais)" defaultValue={initial?.description_en ?? ""} />
-              <Field name="name_en" label="Nom (anglais)" defaultValue={initial?.name_en ?? ""} />
+              <TextArea
+                name="description_en"
+                label="Description (anglais)"
+                defaultValue={initial?.description_en ?? ""}
+              />
             </Section>
 
             <Section title="Notes de dégustation & service">
@@ -426,11 +540,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
                 <Field name="badge" label="Badge personnalisé" defaultValue={initial?.badge ?? ""} />
                 <Field name="cask_type" label="Type de fût" defaultValue={initial?.cask_type ?? ""} />
                 <Field name="edition" label="Édition" defaultValue={initial?.edition ?? ""} />
-                <Field
-                  name="serving_temperature"
-                  label="Température de service"
-                  defaultValue={initial?.serving_temperature ?? ""}
-                />
+                <Field name="serving_temperature" label="Température de service" defaultValue={initial?.serving_temperature ?? ""} />
               </div>
               <label className="flex items-center gap-2 text-sm text-noir-profond/80">
                 <input
@@ -471,12 +581,7 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
                 <Field name="preparation_method" label="Méthode de préparation" defaultValue={initial?.preparation_method ?? ""} />
               </div>
               <label className="flex items-center gap-2 text-sm text-noir-profond/80">
-                <input
-                  type="checkbox"
-                  name="smoked"
-                  defaultChecked={initial?.smoked ?? false}
-                  className="h-4 w-4 accent-or-principal"
-                />
+                <input type="checkbox" name="smoked" defaultChecked={initial?.smoked ?? false} className="h-4 w-4 accent-or-principal" />
                 Fumé
               </label>
             </Section>
@@ -509,30 +614,24 @@ export function ProductForm({ categories, initial }: ProductFormProps) {
   );
 }
 
-function ProductPreviewCard({ product }: { product: ProductPreview }) {
+function ProductPreviewCard({ product }: { product: ProductWithDetails }) {
   const cover =
-    product.media?.find((m) => m.kind === "COVER")?.url ??
-    product.media?.[0]?.url;
+    product.media?.find((m) => m.kind === "COVER")?.url ?? product.media?.[0]?.url;
+  const defaultVariant = product.variants?.[0];
+  const displayPrice =
+    defaultVariant?.regular_price_agorot ?? product.base_price_agorot ?? 0;
+  const comparePrice = product.compare_at_price_agorot;
   const savingPercent =
-    product.compare_at_price_agorot && product.base_price_agorot
-      ? Math.round(
-          ((product.compare_at_price_agorot - product.base_price_agorot) /
-            product.compare_at_price_agorot) *
-            100,
-        )
+    comparePrice && comparePrice > displayPrice
+      ? Math.floor(((comparePrice - displayPrice) / comparePrice) * 100)
       : 0;
+  const name = product.name_fr || product.name_he;
 
   return (
     <div className="space-y-4">
       {cover ? (
         <div className="relative h-64 w-full overflow-hidden rounded-sm bg-creme">
-          <Image
-            src={cover}
-            alt={product.name_fr ?? product.name_he ?? ""}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 640px"
-          />
+          <Image src={cover} alt={product.name_fr ?? product.name_he ?? ""} fill className="object-contain" sizes="(max-width: 768px) 100vw, 640px" />
         </div>
       ) : (
         <div className="flex h-64 w-full items-center justify-center rounded-sm border border-beige-fonce bg-creme text-sm text-gris-chaud">
@@ -544,14 +643,13 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
         <p className="text-xs uppercase tracking-wider text-gris-chaud">
           {product.category?.name_fr ?? "—"}
         </p>
-        <h3 className="font-serif text-2xl text-noir-profond">
-          {product.name_fr ?? product.name_he}
-        </h3>
+        <h3 className="font-serif text-2xl text-noir-profond">{name}</h3>
         {product.name_he && (
           <p className="text-right text-sm text-gris-chaud" dir="rtl">
             {product.name_he}
           </p>
         )}
+        {product.brand && <p className="text-sm text-gris-chaud">{product.brand}</p>}
         {product.age_restricted && (
           <span className="mt-2 inline-block rounded-sm bg-red-100 px-2 py-0.5 text-xs text-red-800">
             18+
@@ -561,12 +659,12 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
 
       <div className="flex flex-wrap items-baseline gap-3">
         <span className="font-serif text-2xl text-or-principal">
-          {formatAgorot(product.base_price_agorot ?? 0)}
+          {formatUnitPrice(displayPrice, defaultVariant?.pricing_unit)}
         </span>
-        {product.compare_at_price_agorot ? (
+        {comparePrice && comparePrice > displayPrice ? (
           <>
             <span className="text-sm text-gris-chaud line-through">
-              {formatAgorot(product.compare_at_price_agorot)}
+              {formatAgorot(comparePrice)}
             </span>
             <span className="rounded-sm bg-green-100 px-2 py-0.5 text-xs text-green-800">
               -{savingPercent}%
@@ -584,16 +682,9 @@ function ProductPreviewCard({ product }: { product: ProductPreview }) {
           <p className="text-sm font-medium text-or-principal">Variantes</p>
           <ul className="divide-y divide-beige-fonce rounded-sm border border-beige-fonce">
             {product.variants.map((v, i) => (
-              <li
-                key={i}
-                className="flex justify-between px-3 py-2 text-sm text-noir-profond/80"
-              >
+              <li key={i} className="flex justify-between px-3 py-2 text-sm text-noir-profond/80">
                 <span>{v.label}</span>
-                <span>
-                  {v.regular_price_agorot != null
-                    ? formatAgorot(v.regular_price_agorot)
-                    : "—"}
-                </span>
+                <span>{v.regular_price_agorot != null ? formatAgorot(v.regular_price_agorot) : "—"}</span>
               </li>
             ))}
           </ul>
@@ -634,15 +725,18 @@ function VariantEditor({
   variants,
   onChange,
 }: {
-  variants: Partial<ProductVariantRow>[];
-  onChange: (v: Partial<ProductVariantRow>[]) => void;
+  variants: VariantFormData[];
+  onChange: (v: VariantFormData[]) => void;
 }) {
-  function update(index: number, patch: Partial<ProductVariantRow>) {
+  function update(index: number, patch: Partial<VariantFormData>) {
     onChange(variants.map((v, i) => (i === index ? { ...v, ...patch } : v)));
   }
 
   function add() {
-    onChange([...variants, { label: "" }]);
+    onChange([
+      ...variants,
+      { label: "", quantity: null, low_stock_threshold: 3 },
+    ]);
   }
 
   function remove(index: number) {
@@ -652,82 +746,163 @@ function VariantEditor({
   return (
     <div className="flex flex-col gap-4">
       {variants.map((v, i) => (
-        <div key={i} className="grid gap-3 rounded-sm border border-beige-fonce p-3 sm:grid-cols-7">
-          <input value={v.label} onChange={(e) => update(i, { label: e.target.value })} placeholder="Label (ex: 200g, Entier)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <input value={v.sku ?? ""} onChange={(e) => update(i, { sku: e.target.value })} placeholder="SKU" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <input value={v.barcode ?? ""} onChange={(e) => update(i, { barcode: e.target.value })} placeholder="Code-barres" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <input type="number" value={v.weight_g ?? ""} onChange={(e) => update(i, { weight_g: e.target.value ? Number(e.target.value) : null })} placeholder="Poids (g)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <input type="number" value={v.regular_price_agorot ?? ""} onChange={(e) => update(i, { regular_price_agorot: e.target.value ? Number(e.target.value) : null })} placeholder="Prix (agorot)" className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond" />
-          <select
-            value={v.pricing_unit ?? "FIXED"}
-            onChange={(e) => update(i, { pricing_unit: e.target.value as ProductVariantRow["pricing_unit"] })}
-            className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
-          >
-            <option value="FIXED">Prix fixe</option>
-            <option value="PACKAGE">Le paquet</option>
-            <option value="PER_100G">Pour 100 g</option>
-            <option value="PER_KG">Au kg</option>
-            <option value="FROM">À partir de</option>
-          </select>
-          <select
-            value={v.packaging ?? ""}
-            onChange={(e) => update(i, { packaging: e.target.value || null })}
-            className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
-          >
-            <option value="">Conditionnement</option>
-            <option value="GLASS">Verre</option>
-            <option value="CAN">Conserve</option>
-            <option value="VACUUM">Sous vide</option>
-            <option value="BULK">Format professionnel</option>
-            <option value="PLASTIC">Plastique</option>
-          </select>
-          <div className="flex items-center gap-2">
-            <label className="flex items-center gap-1 text-xs text-noir-profond/70">
-              <input type="checkbox" checked={!!v.is_default} onChange={(e) => update(i, { is_default: e.target.checked })} className="accent-or-principal" />
-              Défaut
-            </label>
-            <button type="button" onClick={() => remove(i)} className="ml-auto text-xs text-amber-700 hover:text-amber-300">
-              Supprimer
-            </button>
+        <div key={i} className="grid gap-3 rounded-sm border border-beige-fonce p-3 sm:grid-cols-12">
+          <div className="sm:col-span-3">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Label</label>
+            <input
+              aria-label={`Variante ${i + 1} - Label`}
+              value={v.label}
+              onChange={(e) => update(i, { label: e.target.value })}
+              placeholder="ex: 100 g, 200 g"
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">SKU</label>
+            <input
+              aria-label={`Variante ${i + 1} - SKU`}
+              value={v.sku ?? ""}
+              onChange={(e) => update(i, { sku: e.target.value || null })}
+              placeholder="Référence"
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Code-barres</label>
+            <input
+              aria-label={`Variante ${i + 1} - Code-barres`}
+              value={v.barcode ?? ""}
+              onChange={(e) => update(i, { barcode: e.target.value || null })}
+              placeholder="EAN/UPC"
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Poids (g)</label>
+            <input
+              aria-label={`Variante ${i + 1} - Poids (g)`}
+              type="number"
+              value={v.weight_g ?? ""}
+              onChange={(e) =>
+                update(i, { weight_g: e.target.value ? Number(e.target.value) : null })
+              }
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Prix (₪)</label>
+            <input
+              aria-label={`Variante ${i + 1} - Prix`}
+              type="number"
+              step="0.01"
+              value={v.regular_price_agorot != null ? (v.regular_price_agorot / 100).toFixed(2) : ""}
+              onChange={(e) =>
+                update(i, {
+                  regular_price_agorot: e.target.value
+                    ? Math.round(Number(e.target.value) * 100)
+                    : null,
+                })
+              }
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Stock</label>
+            <input
+              aria-label={`Variante ${i + 1} - Stock`}
+              type="number"
+              min={0}
+              value={v.quantity ?? ""}
+              onChange={(e) =>
+                update(i, { quantity: e.target.value ? Number(e.target.value) : null })
+              }
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label className="mb-1 block text-xs font-medium text-noir-profond/80">Seuil</label>
+            <input
+              aria-label={`Variante ${i + 1} - Seuil de stock faible`}
+              type="number"
+              min={0}
+              value={v.low_stock_threshold ?? 3}
+              onChange={(e) =>
+                update(i, { low_stock_threshold: e.target.value ? Number(e.target.value) : null })
+              }
+              className="w-full rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            />
           </div>
 
-          <div className="col-span-full grid gap-3 border-t border-beige-fonce pt-3 sm:grid-cols-12">
-            <label className="flex items-center gap-2 text-sm text-noir-profond/80 sm:col-span-3">
+          <div className="col-span-full flex flex-wrap items-center gap-3 border-t border-beige-fonce pt-3">
+            <select
+              value={v.pricing_unit ?? "FIXED"}
+              onChange={(e) => update(i, { pricing_unit: e.target.value as VariantFormData["pricing_unit"] })}
+              className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            >
+              <option value="FIXED">Prix fixe</option>
+              <option value="PACKAGE">Le paquet</option>
+              <option value="PER_100G">Pour 100 g</option>
+              <option value="PER_KG">Au kg</option>
+              <option value="FROM">À partir de</option>
+            </select>
+            <select
+              value={v.packaging ?? ""}
+              onChange={(e) => update(i, { packaging: e.target.value || null })}
+              className="rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+            >
+              <option value="">Conditionnement</option>
+              <option value="GLASS">Verre</option>
+              <option value="CAN">Conserve</option>
+              <option value="VACUUM">Sous vide</option>
+              <option value="BULK">Format professionnel</option>
+              <option value="PLASTIC">Plastique</option>
+            </select>
+            <label className="flex items-center gap-1 text-xs text-noir-profond/70">
+              <input
+                type="checkbox"
+                checked={!!v.is_default}
+                onChange={(e) => update(i, { is_default: e.target.checked })}
+                className="accent-or-principal"
+              />
+              Défaut
+            </label>
+            <label className="flex items-center gap-1 text-xs text-noir-profond/70">
               <input
                 type="checkbox"
                 checked={!!v.wolt_enabled}
                 onChange={(e) => update(i, { wolt_enabled: e.target.checked })}
                 className="accent-or-principal"
               />
-              Afficher le bouton Wolt
+              Wolt
             </label>
-            <input
-              value={v.wolt_url ?? ""}
-              onChange={(e) => update(i, { wolt_url: e.target.value })}
-              placeholder="https://wolt.com/en/isr/product/..."
-              disabled={!v.wolt_enabled}
-              className="sm:col-span-6 rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond disabled:opacity-40"
-            />
-            <a
-              href={isValidWoltUrl(v.wolt_url ?? "") ? v.wolt_url! : "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                if (!isValidWoltUrl(v.wolt_url ?? "")) e.preventDefault();
-              }}
-              className={`sm:col-span-3 rounded-sm px-3 py-2 text-center text-xs ${isValidWoltUrl(v.wolt_url ?? "") ? "bg-[#009DE0]/10 text-[#009DE0]" : "text-noir-profond/40"}`}
-            >
-              Tester le lien
-            </a>
-            {v.wolt_enabled && v.wolt_url && !isValidWoltUrl(v.wolt_url) && (
-              <p className="col-span-full text-xs text-amber-700">
-                Lien invalide. Utilisez une URL https://wolt.com ou https://wolt.co.il.
-              </p>
+            {v.wolt_enabled && (
+              <input
+                value={v.wolt_url ?? ""}
+                onChange={(e) => update(i, { wolt_url: e.target.value })}
+                placeholder="https://wolt.com/..."
+                className="flex-1 rounded-sm border border-beige-fonce bg-white px-3 py-2 text-sm text-noir-profond"
+              />
             )}
+            <button
+              type="button"
+              onClick={() => remove(i)}
+              className="ml-auto text-xs text-bordeaux-principal hover:text-bordeaux-principal/70"
+            >
+              Supprimer
+            </button>
           </div>
+          {v.wolt_enabled && v.wolt_url && !isValidWoltUrl(v.wolt_url) && (
+            <p className="col-span-full text-xs text-amber-700">
+              Lien invalide. Utilisez une URL https://wolt.com ou https://wolt.co.il.
+            </p>
+          )}
         </div>
       ))}
-      <button type="button" onClick={add} className="w-fit rounded-full border border-or-principal/40 px-4 py-2 text-xs font-medium text-or-principal hover:bg-or-principal hover:text-noir-profond">
+      <button
+        type="button"
+        onClick={add}
+        className="w-fit rounded-full border border-or-principal/40 px-4 py-2 text-xs font-medium text-or-principal hover:bg-or-principal hover:text-noir-profond"
+      >
         + Ajouter une variante
       </button>
     </div>

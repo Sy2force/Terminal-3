@@ -2,19 +2,18 @@ import Link from "next/link";
 import { requireAdminPermission } from "@/lib/admin/auth";
 import { getAllProducts } from "@/lib/data/products";
 import { getAllCategories } from "@/lib/data/categories";
-import { ProductsFilterBar } from "@/components/admin/products-filter-bar";
 import { ProductsTableClient } from "@/components/admin/products-table-client";
 import { ProductsClassificationClient } from "@/components/admin/products-classification-client";
-import { PlusCircle, Upload, Download, Search } from "lucide-react";
+import { PlusCircle, Upload, Download } from "lucide-react";
 import { clsx } from "clsx";
 
 interface AdminProductsPageProps {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{ tab?: string; success?: string }>;
 }
 
 export default async function AdminProductsPage({ searchParams }: AdminProductsPageProps) {
   await requireAdminPermission("catalog.products");
-  const { tab } = await searchParams;
+  const { tab, success } = await searchParams;
   const isClassification = tab === "classification";
 
   const [products, categories] = isClassification
@@ -25,7 +24,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
     total: products?.length ?? 0,
     published: products?.filter((p) => p.status === "published").length ?? 0,
     draft: products?.filter((p) => p.status === "draft").length ?? 0,
-    noPhoto: products?.filter((p) => !p.media.find((m) => m.kind === "COVER") && !p.media[0]).length ?? 0,
+    noPhoto: products?.filter((p) => !p.media.some((m) => m.url)).length ?? 0,
     promotions: products?.filter((p) => p.compare_at_price_agorot).length ?? 0,
   };
 
@@ -111,26 +110,12 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             Règles de classement
           </Link>
         </div>
-
-        {!isClassification && (
-          <div className="hidden items-center rounded-xl border border-beige-fonce bg-white px-3 py-2 lg:flex">
-            <Search className="h-4 w-4 text-gris-chaud" />
-            <input
-              type="text"
-              placeholder="Rechercher par nom, SKU, code-barres..."
-              className="ml-2 bg-transparent text-sm text-noir-profond placeholder:text-gris-chaud focus:outline-none"
-            />
-          </div>
-        )}
       </div>
 
       {isClassification ? (
         <ProductsClassificationClient />
       ) : (
-        <>
-          <ProductsFilterBar products={products!} />
-          <ProductsTableClient products={products!} categories={categories!} />
-        </>
+        <ProductsTableClient products={products!} categories={categories!} success={success} />
       )}
     </div>
   );

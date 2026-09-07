@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Minus, Plus, ShoppingBag, Check } from "lucide-react";
 import { useCart } from "@/lib/cart/cart-context";
+import type { ProductAvailabilityStatus } from "@/types/database";
 
 export function AddToCartButton({
   variantId,
@@ -14,6 +15,7 @@ export function AddToCartButton({
   imageUrl,
   ageRestricted,
   storeOnline,
+  availabilityStatus,
   className,
 }: {
   variantId: string;
@@ -25,6 +27,7 @@ export function AddToCartButton({
   imageUrl: string | null;
   ageRestricted: boolean;
   storeOnline: boolean;
+  availabilityStatus?: ProductAvailabilityStatus | null;
   className?: string;
 }) {
   const { addItem } = useCart();
@@ -37,6 +40,16 @@ export function AddToCartButton({
         className={`rounded-sm border border-white/10 bg-graphite px-4 py-3 text-center text-sm text-muted-grey ${className ?? ""}`}
       >
         Commandes en ligne momentanément fermées — appelez-nous.
+      </div>
+    );
+  }
+
+  if (availabilityStatus === "OUT_OF_STOCK") {
+    return (
+      <div
+        className={`rounded-sm border border-red-400/20 bg-red-900/10 px-4 py-3 text-center text-sm text-red-200 ${className ?? ""}`}
+      >
+        Rupture de stock
       </div>
     );
   }

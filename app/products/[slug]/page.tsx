@@ -107,10 +107,11 @@ export default async function ProductPage({
           "@type": "Offer",
           url: productUrl,
           priceCurrency: "ILS",
-          price: ((defaultVariant.regular_price_agorot ?? 0) / 100).toFixed(2),
+          price: ((defaultVariant.regular_price_agorot ?? product.base_price_agorot ?? 0) / 100).toFixed(2),
           availability:
             defaultVariant.availability_status === "IN_STOCK" ||
-            defaultVariant.availability_status === "LOW_STOCK"
+            defaultVariant.availability_status === "LOW_STOCK" ||
+            defaultVariant.availability_status === "PREORDER"
               ? "https://schema.org/InStock"
               : "https://schema.org/OutOfStock",
           itemCondition: "https://schema.org/NewCondition",
@@ -236,6 +237,8 @@ export default async function ProductPage({
             imageUrl={cover?.url ?? null}
             ageRestricted={product.age_restricted}
             variants={product.variants}
+            basePriceAgorot={product.base_price_agorot ?? null}
+            compareAtPriceAgorot={product.compare_at_price_agorot ?? null}
             storeOnline={storeOnline}
           />
 
