@@ -135,6 +135,7 @@ export function AdminShell({
                 src="/images/terminal-3/brand/logo/terminal-3-logo-sombre-01.png"
                 alt="Terminal 3"
                 fill
+                sizes="40px"
                 className="object-contain"
               />
             </div>
@@ -210,7 +211,7 @@ export function AdminShell({
                 className="flex w-full items-center gap-3 rounded-sm px-3 py-2 text-left text-sm text-gris-chaud hover:bg-beige hover:text-bordeaux-principal"
               >
                 <LogOut className="h-4 w-4" />
-                Se déconnecter
+                Déconnexion
               </button>
             </form>
           </div>
