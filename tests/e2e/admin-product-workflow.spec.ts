@@ -62,7 +62,7 @@ test.describe("admin product workflow", () => {
 
     // Edit from admin
     await page.goto("/admin/products");
-    await page.locator('input[placeholder*="Rechercher"]').first().fill(productName);
+    await page.locator('input[placeholder*="Rechercher par nom"]').first().fill(productName);
     await expect(page.locator(`text=${productName}`).first()).toBeVisible();
     await page.locator("a:has-text('Modifier')").first().click();
 
@@ -79,7 +79,7 @@ test.describe("admin product workflow", () => {
 
     // Delete
     await page.goto("/admin/products");
-    await page.locator('input[placeholder*="Rechercher"]').first().fill(productName);
+    await page.locator('input[placeholder*="Rechercher par nom"]').first().fill(productName);
     await expect(page.locator(`text=${productName}`).first()).toBeVisible();
 
     page.on("dialog", (dialog) => dialog.accept());
@@ -116,7 +116,7 @@ test.describe("admin product workflow", () => {
 
     // Cleanup
     await page.goto("/admin/products");
-    await page.locator('input[placeholder*="Rechercher"]').first().fill(oosName);
+    await page.locator('input[placeholder*="Rechercher par nom"]').first().fill(oosName);
     await expect(page.locator(`text=${oosName}`).first()).toBeVisible({ timeout: 10000 });
     page.on("dialog", (dialog) => dialog.accept());
     await page.locator("button:has-text('Supprimer')").first().click();
