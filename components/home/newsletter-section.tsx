@@ -1,32 +1,42 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Check, X } from "lucide-react";
+import { useState, useTransition } from "react";
+import { ArrowRight, Check, X, Loader2 } from "lucide-react";
+import { subscribeToNewsletter } from "@/lib/actions/newsletter";
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [pending, startTransition] = useTransition();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!email || !email.includes("@")) {
-      setStatus("error");
-      setMessage("Veuillez entrer une adresse email valide.");
-      return;
-    }
 
-    // Simulate API call
-    setStatus("success");
-    setMessage("Merci pour votre inscription !");
-    setEmail("");
-    
-    setTimeout(() => {
-      setStatus("idle");
-      setMessage("");
-    }, 3000);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    startTransition(async () => {
+      const result = await subscribeToNewsletter(formData);
+
+      if (result.success) {
+        setStatus("success");
+        setMessage("Merci pour votre inscription !");
+        setEmail("");
+        form.reset();
+      } else {
+        setStatus("error");
+        setMessage(result.error ?? "Une erreur est survenue.");
+      }
+
+      setTimeout(() => {
+        setStatus("idle");
+        setMessage("");
+      }, 5000);
+    });
   };
+
+  const disabled = pending || status !== "idle";
 
   return (
     <section className="py-24 bg-creme">
@@ -44,26 +54,30 @@ export function NewsletterSection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
+                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Votre adresse email"
+                required
                 className="flex-1 px-6 py-[46px] bg-white border border-or-principal/20 rounded-sm text-noir-profond placeholder:text-gris-chaud focus:outline-none focus:border-or-principal"
-                disabled={status !== "idle"}
+                disabled={disabled}
               />
               <button
                 type="submit"
-                disabled={status !== "idle"}
+                disabled={disabled}
                 className="inline-flex items-center justify-center gap-2 px-8 py-[46px] bg-bordeaux-principal text-texte-clair font-medium tracking-wide transition-all hover:bg-bordeaux-clair disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === "idle" ? (
+                {pending ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : status === "success" ? (
+                  <Check className="h-5 w-5" />
+                ) : status === "error" ? (
+                  <X className="h-5 w-5" />
+                ) : (
                   <>
                     S&apos;inscrire
                     <ArrowRight className="h-4 w-4" />
                   </>
-                ) : status === "success" ? (
-                  <Check className="h-5 w-5" />
-                ) : (
-                  <X className="h-5 w-5" />
                 )}
               </button>
             </div>
