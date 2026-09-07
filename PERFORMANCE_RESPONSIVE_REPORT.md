@@ -96,6 +96,8 @@ npm run test:unit             # 51 passed
 | 2026-09-02 | Correction convention middleware (`proxy.ts`) | Build sans warning, 112 routes OK |
 | 2026-09-02 | Formulaire newsletter branché sur `leads` (source `newsletter`) | Inscription persistante, anti-duplicat email/source |
 | 2026-09-02 | Formulaire contact branché sur `leads` (source `contact`) | Messages persistants, accessibles dans `/admin/leads` |
+| 2026-09-07 | Push, PR #1 et merge dans `main` | Branche fusionnée sur GitHub |
+| 2026-09-07 | Déploiement production Vercel | `https://terminal3-r5md6x6ej-projet-607a8e5b.vercel.app` (alias `terminal3-beta.vercel.app`) ; protégé par SSO Vercel |
 
 Commandes validées :
 
