@@ -20,13 +20,18 @@ const nullableString = z
   .transform((v) => v.trim() || null)
   .nullable();
 
+const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 const productSchema = z.object({
-  slug: z.string().min(1).max(160).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  slug: z.preprocess(
+    (val) => (typeof val === "string" ? val.trim() || null : val),
+    z.string().max(160).regex(slugRegex).nullable().optional(),
+  ),
   category_id: z.string().uuid().nullable().optional(),
   product_type: z.enum(["STANDARD", "PLATTER"]).default("STANDARD"),
   brand: z.string().max(200).nullable().optional(),
-  name_he: z.string().min(1).max(200),
-  name_fr: z.string().max(200).nullable().optional(),
+  name_he: z.string().max(200).nullable().optional(),
+  name_fr: z.string().min(1).max(200),
   name_en: z.string().max(200).nullable().optional(),
   description_he: nullableString,
   description_fr: nullableString,
@@ -54,7 +59,7 @@ const productSchema = z.object({
   advance_order_hours: z.number().int().min(0).default(0),
   customizable: z.boolean().default(false),
   preparation_time_minutes: z.number().int().min(0).nullable().optional(),
-  new_until: z.string().datetime().nullable().optional(),
+  new_until: z.string().max(30).nullable().optional(),
   wine_type: z.enum(["ROUGE", "BLANC", "ROSE", "EFFERVESCENT", "DOUX"]).nullable().optional(),
   region: z.string().max(200).nullable().optional(),
   country: z.string().max(200).nullable().optional(),
@@ -87,6 +92,7 @@ const variantSchema = z.object({
   id: z.string().uuid().optional(),
   label: z.string().min(1).max(200),
   sku: z.string().max(200).nullable().optional(),
+  barcode: z.string().max(200).nullable().optional(),
   weight_g: z.number().int().min(0).nullable().optional(),
   volume_ml: z.number().int().min(0).nullable().optional(),
   abv: z.number().min(0).max(100).nullable().optional(),
@@ -103,6 +109,8 @@ const variantSchema = z.object({
   packaging: z.string().max(100).nullable().optional(),
   wolt_enabled: z.boolean().default(false),
   wolt_url: z.string().url().max(2000).nullable().optional(),
+  quantity: z.number().int().min(0).nullable().optional(),
+  low_stock_threshold: z.number().int().min(0).nullable().optional(),
 });
 
 const mediaSchema = z.object({
@@ -121,7 +129,35 @@ export interface ProductActionResult {
 
 function formDataToProduct(input: unknown): ProductInput {
   const parsed = productSchema.parse(input);
-  return parsed;
+  return parsed as ProductInput;
+}
+
+function friendlyError(err: unknown): string {
+  if (err instanceof z.ZodError) {
+    return "Vérifiez les informations saisies.";
+  }
+  const message = err instanceof Error ? err.message : "";
+  if (message.includes("wolt_url_invalide")) {
+    return "Lien Wolt invalide.";
+  }
+  if (message.includes("duplicate key")) {
+    return "Ce slug ou SKU existe déjà.";
+  }
+  if (message.includes("product_has_orders")) {
+    return "Ce produit est lié à des commandes. Archivez-le plutôt.";
+  }
+  if (message.includes("default_branch_failed")) {
+    return "Impossible de déterminer la succursale par défaut.";
+  }
+  return "Impossible d’enregistrer le produit. Vérifiez les informations et réessayez.";
+}
+
+function revalidateCatalog() {
+  revalidatePath("/admin/products");
+  revalidatePath("/categories");
+  revalidatePath("/new");
+  revalidatePath("/promotions");
+  revalidatePath("/", "layout");
 }
 
 export async function createProductAction(input: {
@@ -146,12 +182,10 @@ export async function createProductAction(input: {
       metadata: { slug: created.slug, status: created.status },
     });
 
-    revalidatePath("/admin/products");
-    revalidatePath("/categories");
+    revalidateCatalog();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "create_failed";
-    return { success: false, error: message };
+    return { success: false, error: friendlyError(err) };
   }
 }
 
@@ -183,12 +217,10 @@ export async function updateProductAction(
     revalidatePath("/admin/products");
     revalidatePath(`/admin/products/${id}`);
     revalidatePath(`/products/${updated.slug}`);
-    revalidatePath("/categories");
-    revalidatePath("/new");
+    revalidateCatalog();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "update_failed";
-    return { success: false, error: message };
+    return { success: false, error: friendlyError(err) };
   }
 }
 
@@ -206,11 +238,10 @@ export async function duplicateProductAction(
       entityId: duplicated.id,
       metadata: { slug: duplicated.slug, duplicated_from: id },
     });
-    revalidatePath("/admin/products");
+    revalidateCatalog();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "duplicate_failed";
-    return { success: false, error: message };
+    return { success: false, error: friendlyError(err) };
   }
 }
 
@@ -227,12 +258,10 @@ export async function archiveProductAction(
       entityType: "product",
       entityId: id,
     });
-    revalidatePath("/admin/products");
-    revalidatePath("/categories");
+    revalidateCatalog();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "archive_failed";
-    return { success: false, error: message };
+    return { success: false, error: friendlyError(err) };
   }
 }
 
@@ -249,12 +278,10 @@ export async function deleteProductAction(
       entityType: "product",
       entityId: id,
     });
-    revalidatePath("/admin/products");
-    revalidatePath("/categories");
+    revalidateCatalog();
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "delete_failed";
-    return { success: false, error: message };
+    return { success: false, error: friendlyError(err) };
   }
 }
 
@@ -266,11 +293,6 @@ export interface BulkActionResult {
 
 const bulkIdsSchema = z.array(z.string().uuid()).min(1).max(500);
 
-/**
- * Bulk status change (draft / published / archived) across selected
- * products, one at a time through the existing single-product update
- * path so validation and audit logging stay consistent.
- */
 export async function bulkUpdateStatusAction(
   ids: unknown,
   status: "draft" | "published" | "archived",
@@ -290,17 +312,13 @@ export async function bulkUpdateStatusAction(
       entityId: parsedIds[0],
       metadata: { status, count: updated },
     });
-    revalidatePath("/admin/products");
-    revalidatePath("/categories");
+    revalidateCatalog();
     return { success: true, updated };
   } catch (err) {
-    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_status_failed" };
+    return { success: false, updated: 0, error: friendlyError(err) };
   }
 }
 
-/**
- * Bulk category reassignment across selected products.
- */
 export async function bulkUpdateCategoryAction(
   ids: unknown,
   categoryId: string | null,
@@ -320,19 +338,13 @@ export async function bulkUpdateCategoryAction(
       entityId: parsedIds[0],
       metadata: { category_id: categoryId, count: updated },
     });
-    revalidatePath("/admin/products");
-    revalidatePath("/categories");
+    revalidateCatalog();
     return { success: true, updated };
   } catch (err) {
-    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_category_failed" };
+    return { success: false, updated: 0, error: friendlyError(err) };
   }
 }
 
-/**
- * Bulk price adjustment by percentage (e.g. -10 for a 10% discount, or
- * +5 for a 5% increase) applied to `base_price_agorot`. Only affects
- * products that have a base price set; variant pricing is untouched.
- */
 export async function bulkAdjustPriceAction(
   ids: unknown,
   percent: number,
@@ -356,9 +368,9 @@ export async function bulkAdjustPriceAction(
       entityId: parsedIds[0],
       metadata: { percent: clampedPercent, count: updated },
     });
-    revalidatePath("/admin/products");
+    revalidateCatalog();
     return { success: true, updated };
   } catch (err) {
-    return { success: false, updated: 0, error: err instanceof Error ? err.message : "bulk_price_failed" };
+    return { success: false, updated: 0, error: friendlyError(err) };
   }
 }

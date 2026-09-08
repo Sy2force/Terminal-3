@@ -92,7 +92,7 @@ export async function importProductsCsvAction(csvText: string): Promise<CsvImpor
       const product: ProductInput = {
         slug: row.slug,
         name_he: row.name_he,
-        name_fr: row.name_fr || null,
+        name_fr: row.name_fr || row.name_he,
         category_id: categoryId,
         brand: row.brand || null,
         description_fr: row.description_fr || null,

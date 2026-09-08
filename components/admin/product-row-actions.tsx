@@ -19,6 +19,7 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
     startTransition(async () => {
       const result = await archiveProductAction(productId);
       if (!result.success) setError(result.error ?? "Échec");
+      else router.refresh();
     });
   }
 
@@ -32,11 +33,12 @@ export function ProductRowActions({ productId, slug }: { productId: string; slug
   }
 
   function handleDelete() {
-    if (!confirm("Supprimer définitivement ce produit ?")) return;
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
     setError(null);
     startTransition(async () => {
       const result = await deleteProductAction(productId);
       if (!result.success) setError(result.error ?? "Échec");
+      else router.push("/admin/products?success=deleted");
     });
   }
 

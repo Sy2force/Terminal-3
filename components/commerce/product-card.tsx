@@ -8,7 +8,7 @@ import { Badge } from "@/components/commerce/badge";
 import { FavoriteButton } from "@/components/commerce/favorite-button";
 import { WoltButton, WoltDisclaimer } from "@/components/commerce/wolt-button";
 import { useWoltSettings } from "@/components/commerce/wolt-settings-provider";
-import { formatAgorot } from "@/lib/money";
+import { formatAgorot, formatUnitPrice, savingPercent } from "@/lib/money";
 import { getMediaFit } from "@/lib/catalog-visual-config";
 import type { ProductWithMedia } from "@/lib/data/catalog";
 
@@ -16,6 +16,14 @@ function isNew(product: ProductWithMedia): boolean {
   if (!product.new_until) return Boolean(product.published_at);
   return new Date(product.new_until).getTime() > Date.now();
 }
+
+const availabilityLabels: Record<string, string> = {
+  IN_STOCK: "En stock",
+  LOW_STOCK: "Stock faible",
+  OUT_OF_STOCK: "Rupture",
+  PREORDER: "Précommande",
+  ON_REQUEST: "Sur commande",
+};
 
 function ProductCardInner({
   product,
@@ -42,6 +50,13 @@ function ProductCardInner({
   const hasCover = useMemo(() => Boolean(cover?.url), [cover?.url]);
   const isNewProduct = useMemo(() => isNew(product), [product]);
 
+  const displayPrice =
+    defaultVariant?.regular_price_agorot ?? product.base_price_agorot ?? null;
+  const comparePrice = product.compare_at_price_agorot;
+  const hasPromo = comparePrice != null && displayPrice != null && comparePrice > displayPrice;
+  const discount = hasPromo ? savingPercent(comparePrice, displayPrice) : 0;
+  const availability = defaultVariant?.availability_status ?? "IN_STOCK";
+
   return (
     <article className="group flex flex-col overflow-hidden rounded-sm border border-white/5 bg-graphite transition-colors hover:border-champagne/30">
       <Link
@@ -67,6 +82,11 @@ function ProductCardInner({
 
         <div className="absolute left-3 top-3 flex flex-col gap-2">
           {isNewProduct && <Badge>Nouveau</Badge>}
+          {hasPromo && (
+            <Badge variant="ivory" className="border-amber-400/60 text-amber-300">
+              -{discount}%
+            </Badge>
+          )}
           {product.age_restricted && (
             <Badge variant="amber">
               <AlertTriangle className="mr-1 h-3 w-3" aria-hidden />
@@ -96,20 +116,42 @@ function ProductCardInner({
             {name}
           </Link>
         </h3>
-        <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="text-sm font-medium text-champagne">
-            {defaultVariant?.regular_price_agorot != null
-              ? formatAgorot(defaultVariant.regular_price_agorot)
-              : "Prix en magasin"}
-          </span>
+
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-3">
+          <div className="flex flex-wrap items-baseline gap-2">
+            <span className="text-sm font-medium text-champagne">
+              {displayPrice != null
+                ? formatUnitPrice(displayPrice, defaultVariant?.pricing_unit)
+                : "Prix en magasin"}
+            </span>
+            {hasPromo && (
+              <span className="text-xs text-muted-grey line-through">
+                {formatAgorot(comparePrice)}
+              </span>
+            )}
+          </div>
           {defaultVariant?.label && (
             <span className="text-xs text-muted-grey">{defaultVariant.label}</span>
           )}
         </div>
 
+        {availability !== "IN_STOCK" && (
+          <span
+            className={`mt-2 w-fit rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest ${
+              availability === "OUT_OF_STOCK"
+                ? "border-red-400/60 text-red-300"
+                : availability === "LOW_STOCK"
+                  ? "border-amber-400/60 text-amber-300"
+                  : "border-champagne/30 text-champagne/80"
+            }`}
+          >
+            {availabilityLabels[availability] ?? availability}
+          </span>
+        )}
+
         {woltEnabled && (defaultVariant?.wolt_url || storeUrl) && (
           <div className="mt-3 space-y-1.5">
-            <WoltButton url={defaultVariant.wolt_url} storeUrl={storeUrl} />
+            <WoltButton url={defaultVariant?.wolt_url} storeUrl={storeUrl} />
             <WoltDisclaimer />
           </div>
         )}

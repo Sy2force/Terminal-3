@@ -87,7 +87,7 @@ export function ProductMediaEditor({ media, onChange }: ProductMediaEditorProps)
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-creme">
                 {m.url ? (
-                  <Image src={m.url} alt={m.alt ?? "Image produit"} fill className="object-contain" sizes="160px" />
+                  <Image src={m.url} alt={m.alt || "Image produit"} fill className="object-contain" sizes="160px" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-gris-chaud">
                     <ImageIcon className="h-8 w-8" />
