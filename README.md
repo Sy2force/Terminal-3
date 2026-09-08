@@ -185,13 +185,14 @@ Implemented and tested:
 
 Current deployments:
 
-- Vercel production: `https://terminal3-5cw43dpqm-projet-607a8e5b.vercel.app`
+- Vercel production: `https://terminal3-2e0kj1hr0-projet-607a8e5b.vercel.app`
 - Alias: `https://terminal3-beta.vercel.app`
 - Inspect: `https://vercel.com/projet-607a8e5b/terminal3`
 
-> The deployment is currently protected by Vercel SSO. To open it to the public,
-> disable **Deployment Protection** in the Vercel dashboard and/or add a custom
-> domain under **Domains**.
+> The site is publicly reachable (no Vercel SSO wall on the production alias).
+> `/admin` redirects to `/admin/login`; product CRUD is under `/admin/products`
+> and the full create → upload → publish → public-catalog flow is covered by
+> `tests/e2e/admin-product-workflow.spec.ts`.
 
 What remains for production:
 
